@@ -119,7 +119,7 @@ html.nojank .aeH .G-atb {
 	height: 64px;
 }
 
-/* Hide extra drop shadow on action bar - it bleads through on the filter pop-up */
+/* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
 html.nojank .aeH .G-atb::before {
 	box-shadow: none;
 	-webkit-box-shadow: none;
@@ -364,6 +364,11 @@ html.nojank .AO .aeF > .nH {
 html.nojank .brC-dA-I-Jw,
 html.nojank .bAw {
 	display: none;
+}
+
+/* Add extra padding between inbox groups */
+html.nojank div[role="tabpanel"] {
+	padding-bottom:1em;
 }
 
 /* TODO: Support Tasks being shown */
