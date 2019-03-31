@@ -178,7 +178,7 @@ html.nojank #gb form {
 	float: right;
 	width: 35%;
 	margin-right: 8px;
-	background-color: #fff;
+	/* background-color: #fff; */
 }
 
 /* Minimize search to an icon when hidden */

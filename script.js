@@ -6,6 +6,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 */
 
 
+// == NO JANK =====================================================
 // Add nojank style to html tag
 var htmlEl = document.getElementsByTagName('html')[0];
 htmlEl.classList.add('nojank');
@@ -32,6 +33,7 @@ window.addEventListener('load', function() {
 htmlEl.classList.add('hideSearch');
 
 
+// == URL HISTORY =====================================================
 // Set up urlHashes to track and update for closing Search and leaving Settings
 var closeSearchUrlHash = location.hash.substring(1, 7) == "search" ? "#inbox" : location.hash;
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
@@ -67,6 +69,7 @@ function toggleSearchFocus() {
 */
 
 
+// == INIT =====================================================
 // Setup search event listeners
 function initSearch() {
 	// See if Search form has be added to the dom yet
@@ -91,18 +94,34 @@ function initSearch() {
 		// Add functionality to search close button to close search and go back
 		var searchCloseButton = document.getElementsByClassName('gb_Xe')[0];
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
-		searchCloseIcon.addEventListener('click', function() {
+		
+		/* THIS IS JANKY -- clicking on the close search input 
+		 * gives it focus which keeps it open b/c of the event listener
+		 * to keep it open in case it gets focus via keyboard shortcut
+		 */
+		var ignoreSearchFocus = false; 
+		
+		searchCloseIcon.addEventListener('click', function(e) {
+			ignoreSearchFocus = true;
+			searchForm.getElementsByTagName('input')[0].blur();
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.add('gb_vd');
+			searchForm.classList.remove('gb_oe');
 			location.hash = closeSearchUrlHash;
+			setTimeout(function() { ignoreSearchFocus = false; }, 200);
 			// toggleSearchFocus();
 		}, false);
 
 		// If the search field gets focus and hideSearch hasn't been applied, add it
 		var searchInput = document.querySelectorAll('input[aria-label="Search mail"]')[0];
 		searchInput.addEventListener('focus', function() { 
-			htmlEl.classList.remove('hideSearch');
+			if (!ignoreSearchFocus) {
+				htmlEl.classList.remove('hideSearch');
+			}
 		}, false );
+
+		// TODO: If initial page loaded is a search, show search box
+
 	} else {
 		// Call init function again if the search field wasn't loaded yet
 		setTimeout(initSearch, 200);
