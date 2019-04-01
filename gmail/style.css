@@ -371,7 +371,17 @@ html.simpl div[role="tabpanel"] {
 	padding-bottom:1em;
 }
 
-/* TODO: Support Tasks being shown */
+/* TODO: Support Tasks being toggled */
+
+/* Change The right sidebar's drop shadow to a stroke */ 
+
+.bq9,
+.bq9 div {
+	box-shadow:none;
+}
+.bq9 {
+	border-left:1px solid rgba(0,0,0,0.1);
+}
 
 /* Hide footer */
 html.simpl .aeG {
