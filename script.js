@@ -6,26 +6,26 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 */
 
 
-// == NO JANK =====================================================
-// Add nojank style to html tag
+// == SIMPL =====================================================
+// Add simpl style to html tag
 var htmlEl = document.getElementsByTagName('html')[0];
-htmlEl.classList.add('nojank');
+htmlEl.classList.add('simpl');
 
 // Add keyboard shortcut for toggling on/off custom style
-function toggleNoJank(event) {
-	// If Cmd+J was pressed, toggle nojank
+function toggleSimpl(event) {
+	// If Cmd+J was pressed, toggle simpl
 	if (event.metaKey && event.which == 74) {
-		htmlEl.classList.toggle('nojank');
+		htmlEl.classList.toggle('simpl');
 		event.preventDefault();		
 	}
 }
-window.addEventListener('keydown', toggleNoJank, false);
+window.addEventListener('keydown', toggleSimpl, false);
 
-// Add noJank Toggle button
+// Add simpl Toggle button
 window.addEventListener('load', function() {
 	var elem = document.createElement("div");
-	elem.id = 'nojankToggle';
-	elem.addEventListener('click', toggleNoJank, false);
+	elem.id = 'simplToggle';
+	elem.addEventListener('click', toggleSimpl, false);
 	document.body.insertBefore(elem, document.body.childNodes[0]);
 }, false);
 

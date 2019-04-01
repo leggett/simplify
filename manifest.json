@@ -1,7 +1,7 @@
 {
-	"name": "No Jank Gmail",
+	"name": "Simplify Gmail",
 	"version": "1.0",
-	"description": "Reduces Gmail interfaces to the bare minimum",
+	"description": "Simplifies Gmail interface to the bare minimum",
 	"manifest_version": 2,
 	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'",
 	"content_scripts": [{

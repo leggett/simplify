@@ -11,40 +11,40 @@
 /* APP BAR (menu and account switcher + container for search) */
 
 /* Hide Gmail logo and name */
-html.nojank a[title="Gmail"] { /* .gb_Vd - changes */
+html.simpl a[title="Gmail"] { /* .gb_Vd - changes */
 	display: none;
 }
-html.nojank .gb_qc {
+html.simpl .gb_qc {
 	min-width: 58px !important;
 	padding-right: 0px;
 }
 
 /* Hide App Switcher */
-html.nojank #gbwa {
+html.simpl #gbwa {
 	display: none !important;
 }
 
 /* Give more space for Settings icon to live to left of profile photo */
-html.nojank .gb_mc {
+html.simpl .gb_mc {
 	padding-left: 52px;
 }
 
 /* Hiding company logo from identy */
-html.nojank header#gb .gb_fa {
+html.simpl header#gb .gb_fa {
 	width: 48px !important;
 	border: none !important;
 }
-html.nojank .gb_ga {
+html.simpl .gb_ga {
 	display: none !important;
 }
 
 /* Hide Google One color ring */
-html.nojank .gb_Oa {
+html.simpl .gb_Oa {
 	display: none;
 }
 
 /* Add drop shadow when scrolled -- NEVER SETUP SCROLL LISTENER */
-html.nojank.scrolled .w-asV {
+html.simpl.scrolled .w-asV {
 	box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 2px -2px rgba(0,0,0,.1);	
 }
 
@@ -54,38 +54,38 @@ html.nojank.scrolled .w-asV {
 /* SETTINGS */
 
 /* Show back button when in settings */
-html.nojank.inSettings header#gb div[aria-label="Main menu"] {
+html.simpl.inSettings header#gb div[aria-label="Main menu"] {
 	display: none !important;
 }
-html.nojank.inSettings header#gb div[aria-label="Go back"] {
+html.simpl.inSettings header#gb div[aria-label="Go back"] {
 	display: block !important;
 }
 
 /* Hide app bar and action bar when in Settings */
-html.nojank.inSettings .aeH {
+html.simpl.inSettings .aeH {
 	width: calc(100vw - 128px) !important;
 }
-html.nojank.inSettings .aeH .G-atb {
+html.simpl.inSettings .aeH .G-atb {
 	display: none;
 }
-html.nojank.inSettings .aeH .nH {
+html.simpl.inSettings .aeH .nH {
 	box-shadow: none;
 	-webkit-box-shadow: none;
 }
-html.nojank.inSettings .aeH .nH > div {
+html.simpl.inSettings .aeH .nH > div {
 	padding: 12px 8px !important;
 }
-html.nojank.inSettings header#gb form {
+html.simpl.inSettings header#gb form {
 	display: none;
 }
 
 /* Add a little padding above Settings content */
-html.nojank.inSettings .nH > table {
+html.simpl.inSettings .nH > table {
 	margin-top: 24px;
 }
 
 /* Move Save buttons to top right of Settings -- a bit janky
-html.nojank.inSettings tr[guidedhelpid="save_changes_row"] div {
+html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div {
 	position: fixed;
 	top: 64px;
 	background-color: #fff;
@@ -93,7 +93,7 @@ html.nojank.inSettings tr[guidedhelpid="save_changes_row"] div {
 	text-align: right;
 	padding: 12px 0px;
 }
-html.nojank.inSettings tr[guidedhelpid="save_changes_row"] div button {
+html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div button {
 	padding: 8px 12px;
 	border-radius: 4px;
 	font-weight: bold;
@@ -108,63 +108,63 @@ html.nojank.inSettings tr[guidedhelpid="save_changes_row"] div button {
 /* ACTION BAR (actions, pagination, and settings) */
 
 /* Move action bar on top of app bar and to right of menu button */
-html.nojank .aeH {
+html.simpl .aeH {
 	position: absolute !important;
 	z-index: 987;
 	top: 0px !important;
 	left: 60px !important;
 	width: calc(65% - 112px);
 }
-html.nojank .aeH .G-atb {
+html.simpl .aeH .G-atb {
 	height: 64px;
 }
 
 /* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
-html.nojank .aeH .G-atb::before {
+html.simpl .aeH .G-atb::before {
 	box-shadow: none;
 	-webkit-box-shadow: none;
 }
 
 /* Make bar wider when search is hidden */
-html.nojank.hideSearch .aeH {
+html.simpl.hideSearch .aeH {
 	width: calc(100vw - 215px) !important;
 }
 
 /* Move Settings to far right */
-html.nojank .aeH .G-atb .aqJ .G-Ni.J-J5-Ji,
-html.nojank .aeH .G-atb .adF .G-Ni.J-J5-Ji {
+html.simpl .aeH .G-atb .aqJ .G-Ni.J-J5-Ji,
+html.simpl .aeH .G-atb .adF .G-Ni.J-J5-Ji {
 	position: absolute;
 	left: calc(100vw - 182px);
 	top: 0px;
 }
 
 /* Dim pagination controls unless hovered over */
-html.nojank .aeH .G-atb .aqJ > div:first-child,
-html.nojank .aeH .G-atb .adF > div:first-child {
+html.simpl .aeH .G-atb .aqJ > div:first-child,
+html.simpl .aeH .G-atb .adF > div:first-child {
 	display: flex;
 	opacity: 0.3;
 	transition: opacity 0.2s ease-in 0s;
 }
-html.nojank .aeH .G-atb .aqJ > div:first-child:hover,
-html.nojank .aeH .G-atb .adF > div:first-child:hover {
+html.simpl .aeH .G-atb .aqJ > div:first-child:hover,
+html.simpl .aeH .G-atb .adF > div:first-child:hover {
 	opacity: 1;
 }
 
 /* Below 1100px wide, when search is expanded, hide pagination controls */
 @media only screen and (max-width: 1100px) {
-	html.nojank:not(.hideSearch) .aeH .G-atb .aqJ > div:first-child,
-	html.nojank:not(.hideSearch) .aeH .G-atb .adF > div:first-child {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:first-child,
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:first-child {
 		display: none;
 	}
 }
 
 /* Put drop down menus on top of everything */
-html.nojank .J-M {
+html.simpl .J-M {
 	z-index: 995;
 }
 
 /* Remove drop shadow from action bar */
-html.nojank .aeI .G-atb {
+html.simpl .aeI .G-atb {
 	box-shadow: none;
 	-webkit-box-shadow: none;
 }
@@ -174,7 +174,7 @@ html.nojank .aeI .G-atb {
 /* SEARCH */
 
 /* Push search to the right */
-html.nojank #gb form {
+html.simpl #gb form {
 	float: right;
 	width: 35%;
 	margin-right: 8px;
@@ -182,28 +182,28 @@ html.nojank #gb form {
 }
 
 /* Minimize search to an icon when hidden */
-html.nojank.hideSearch #gb form:not(.gb_oe) {
+html.simpl.hideSearch #gb form:not(.gb_oe) {
 	width: 58px;
 	margin-right: 0px;
 }
 
 /* Make search box white when hidden */
-html.nojank.hideSearch #gb form:not(.gb_oe) {
+html.simpl.hideSearch #gb form:not(.gb_oe) {
 	background-color: #fff;
 }
 
 /* Hide all search form buttons except search button when search is hidden */
-html.nojank.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]) {
+html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]) {
 	display: none;
 }
 
 /* Move filter form to be under search box? */
-html.nojank .ZF-Av {
+html.simpl .ZF-Av {
 	left: auto !important;
 	right: 121px !important;
 	width: 500px !important;
 }
-html.nojank .ZF-Av > div {
+html.simpl .ZF-Av > div {
 	border: 0px;
 }
 
@@ -213,8 +213,8 @@ html.nojank .ZF-Av > div {
 /* NAV */
 
 /* Hide nav when minimized or in Settings */
-html.nojank .bhZ:not(.bym),
-html.nojank.inSettings .aeN {
+html.simpl .bhZ:not(.bym),
+html.simpl.inSettings .aeN {
 	max-width:0px !important;
 	min-width:0px !important;
 	position: relative;
@@ -222,7 +222,7 @@ html.nojank.inSettings .aeN {
 }
 
 /* No shadow or label on compose button */
-html.nojank .z0 > .L3 {
+html.simpl .z0 > .L3 {
 	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.15) !important;
 	border-radius: 28px;
     font-size: 0;
@@ -232,7 +232,7 @@ html.nojank .z0 > .L3 {
 }
 
 /* Move compose button out of menu */
-html.nojank .z0 {
+html.simpl .z0 {
     position: absolute;
     left: calc(100vw - 92px);
     top: calc(100vh - 140px);
@@ -243,7 +243,7 @@ html.nojank .z0 {
 }
 
 /* Don't show the nav when hovering over the compose button */
-html.nojank .bym {
+html.simpl .bym {
 	max-width:0px !important;
 	min-width:0px !important;
 	box-shadow: none !important;
@@ -251,12 +251,12 @@ html.nojank .bym {
 }
 
 /* Add some padding above the nav that the compose button used to provide */
-html.nojank .wT {
+html.simpl .wT {
 	padding-top: 20px;
 }
 
 /* Hide bottom Hangouts tabs in nav -- BETTER TO JUST DISABLE CHAT IN SETTINGS
-html.nojank .akc {
+html.simpl .akc {
 	display: none;
 }
 */
@@ -267,26 +267,26 @@ html.nojank .akc {
 /* COMPOSER */
 
 /* Raise the z-index of the compose window so it can go on top of the app bar */
-html.nojank .dw {
+html.simpl .dw {
 	z-index: 988;
 }
-html.nojank .ah {
+html.simpl .ah {
 	z-index: 989;
 }
-html.nojank .aSs {
+html.simpl .aSs {
 	z-index: 990;
 }
 
 /* Make it shorter by default */
-html.nojank .dw > div > .nH > .nH > .no > 
+html.simpl .dw > div > .nH > .nH > .no > 
 .nH.nn:not(:first-child):not(:last-child):not(.aJl) .LW-avf.Am {
 	min-height: 220px !important;
 }
-html.nojank .dw > div > .nH > .nH > .no > 
+html.simpl .dw > div > .nH > .nH > .no > 
 .nH.nn:not(:first-child):not(:last-child):not(.aJl) .qz {
 	max-height: 540px !important;
 }
-html.nojank .dw > div > .nH > .nH > .no > 
+html.simpl .dw > div > .nH > .nH > .no > 
 .nH.nn:not(:first-child):not(:last-child):not(.aJl) .GP {
 	height: 33vh !important;
 	min-height: 240px !important;
@@ -294,47 +294,47 @@ html.nojank .dw > div > .nH > .nH > .no >
 }
 
 /* A touch more padding above the from field and subject */
-html.nojank .dw form.bAs,
-html.nojank .aSs .aSt .I5 > form.bAs {
+html.simpl .dw form.bAs,
+html.simpl .aSs .aSt .I5 > form.bAs {
 	padding-top: 6px;
 }
 
 /* Make full screen composer less wide */
-html.nojank .aSs > .aSt {
+html.simpl .aSs > .aSt {
 	width: 900px !important;
 	left: calc(50vw - 450px) !important;
 }
-html.nojank .aSs .aDg > .aDj {
+html.simpl .aSs .aDg > .aDj {
 	width: 865px !important;
 	left: calc(50vw - 435px) !important;
 }
 
 /* Make scrim behind full screen composer darker */
-html.nojank .aSs {
+html.simpl .aSs {
 	background-color: rgba(0,0,0,.7);
 }
 
 /* Move extended compose buttons inline  */
-html.nojank .aSs .aDl > .Ur, 
-html.nojank .aSs .aDn > .aDl > .Ur, 
-html.nojank .aSs .aDi > .aDl > .Ur {
+html.simpl .aSs .aDl > .Ur, 
+html.simpl .aSs .aDn > .aDl > .Ur, 
+html.simpl .aSs .aDi > .aDl > .Ur {
 	left: 205px !important;
 	bottom: -54px !important;
 }
-html.nojank .aSs .aZ > .J-Z {
+html.simpl .aSs .aZ > .J-Z {
 	box-shadow: none !important;
 	-webkit-box-shadow: none !important;
 }
 
 /* Hide useless buttons in full screen compose and move bar inline */
-html.nojank .aSs .aZ .J-Z-I[command^="+undo"],
-html.nojank .aSs .aZ .J-Z-I[command^="+redo"],
-html.nojank .aSs .aZ .J-Z-I[command^="+bold"],
-html.nojank .aSs .aZ .J-Z-I[command^="+italic"],
-html.nojank .aSs .aZ .J-Z-I[command^="+underline"],
-html.nojank .aSs .btC .oc.gU,
-html.nojank .aSs .a8X .wG[command^="docs"],
-html.nojank .aSs .a8X .wG[command^="op.money"] {
+html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
+html.simpl .aSs .aZ .J-Z-I[command^="+italic"],
+html.simpl .aSs .aZ .J-Z-I[command^="+underline"],
+html.simpl .aSs .btC .oc.gU,
+html.simpl .aSs .a8X .wG[command^="docs"],
+html.simpl .aSs .a8X .wG[command^="op.money"] {
 	display: none !important;
 }
 
@@ -344,42 +344,42 @@ html.nojank .aSs .a8X .wG[command^="op.money"] {
 /* MISC / MAIN VIEW (LIST AND CONVERSATION) */
 
 /* Right and bottom padding on inbox and messages */
-html.nojank .aeF {
+html.simpl .aeF {
 	padding-right: 56px !important;
 	margin-bottom: 150px;
 }
 
 /* Not sure why, but sometimes this div below the conversation gets 440px bottom padding */
-html.nojank .pfiaof {
+html.simpl .pfiaof {
 	padding-bottom: 0px !important;
 }
 
 /* Max width conversation */
-html.nojank .AO .aeF > .nH {
+html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
 	max-width: 900px; 
 }
 
 /* Hide right panel & toggle */
-html.nojank .brC-dA-I-Jw,
-html.nojank .bAw {
+html.simpl .brC-dA-I-Jw,
+html.simpl .bAw {
 	display: none;
 }
 
 /* Add extra padding between inbox groups */
-html.nojank div[role="tabpanel"] {
+html.simpl div[role="tabpanel"] {
 	padding-bottom:1em;
 }
 
 /* TODO: Support Tasks being shown */
 
 /* Hide footer */
-html.nojank .aeG {
+html.simpl .aeG {
 	display: none;
 }
 
 /* Different treatment of read items in inbox */
-html.nojank .yO {
+html.simpl .yO {
 	/* Gray bg with medium grey text
 	background-color: rgba(242,245,245,0.4);
 	color: #333;
@@ -390,47 +390,47 @@ html.nojank .yO {
 	color: #555;
 }
 /* Back to defaults for selected items */
-html.nojank .yO.x7 {
+html.simpl .yO.x7 {
 	background-color: #c2dbff;
 	color: #202124;
 }
 
 /* Dim print and pop-out icons in conversation view */
-html.nojank .bAn .ade span.hk {
+html.simpl .bAn .ade span.hk {
 	opacity: 0.2;
 	transition: opacity 0.4s ease-in 0s;
 }
-html.nojank .bAn .ade span.hk {
+html.simpl .bAn .ade span.hk {
 	opacity: 1;
 }
 
 /* Less shadow on items on hover */
-html.nojank .zA:hover {
+html.simpl .zA:hover {
 	box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
 }
 
 /* Dim inbox tabs */
-html.nojank .aKh {
+html.simpl .aKh {
 	opacity: 0.3;
 	transition: opacity 0.4s ease-in 0s;
 }
-html.nojank .aKh:hover {
+html.simpl .aKh:hover {
 	opacity: 1;
 }
 
 /* Hide ads in top of inbox tabs */
-html.nojank .aKB {
+html.simpl .aKB {
 	display: none;
 }
 
 /* Increase z-index of loading butter bar */
-html.nojank .ata-asE {
+html.simpl .ata-asE {
 	z-index: 999 !important;
 	/* TODO: make it less ugly too */
 }
 
 /* Put dialogs on top */
-html.nojank div[role="alertdialog"] {
+html.simpl div[role="alertdialog"] {
 	z-index: 998 !important;
 }
 
@@ -438,11 +438,11 @@ html.nojank div[role="alertdialog"] {
 
 
 /* ================================================== */
-/* NO JANK */
+/* SIMPL */
 
-/* noJank Toggle button in bottom left corner */
-#nojankToggle {
-	/* Hide nojankToggle*/
+/* simpl Toggle button in bottom left corner */
+#simplToggle {
+	/* Hide simplToggle*/
 	display: none;
 
 	position: fixed;
@@ -460,9 +460,9 @@ html.nojank div[role="alertdialog"] {
 	cursor: pointer;
 	opacity: .5;
 }
-#nojankToggle:before {
+#simplToggle:before {
 	content: "π";
 }
-html.nojank #nojankToggle {
+html.simpl #simplToggle {
 	opacity: 1;
 }
