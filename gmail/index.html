@@ -3,11 +3,14 @@
 <head>
 	<title>Simplify Gmail</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900" rel="stylesheet">
+	<link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" sizes="48x48">
+	<link rel="icon" href="../img/favicon_192.png" sizes="192x192">
+
 	<style type="text/css">
 		html, body {
 			font-family: 'Source Sans Pro', sans-serif;
 			font-size: 1.2em;
-			padding: 100px;
+			padding: 50px;
 		}
 		.button {
 			font-family: 'Source Sans Pro', sans-serif;
@@ -19,16 +22,35 @@
 			background: linear-gradient(155deg, rgba(26,35,126,1) 0%, rgba(0,150,136,1) 100%);
 			border-radius: 8px;
 			text-decoration: none;
+			box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 4px -2px rgba(0,0,0,.3);	
 		}
 		p {
 			line-height: 1.5em;
 			padding-bottom: 2em;
 		}
+		img {
+			float: right;
+			box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 4px -2px rgba(0,0,0,.3);
+			border-radius: 8px;
+			max-width: 600px;
+			margin: 20px 0 50px 50px;
+		}
 	</style>
+	<script type="text/javascript">
+		function toggleImg(img) {
+			console.log(img.src);
+			if (img.src.indexOf("inbox_simplify.png") > 0) {
+				img.src = "img/inbox.png";
+			} else {
+				img.src = "img/inbox_simplify.png";
+			}
+		}
+	</script>
 </head>
 <body>
+<img src="img/inbox_simplify.png" onclick="toggleImg(this);">
 <h1>Simplify | Gmail</h1>
-<p>A Chrome extention that brings the simplicity of Google Inbox to Gmail.</p>
-<a class="button" href="#">View on Chrome Store</a>
+<p>A Chrome extension that brings the simplicity of Google Inbox to Gmail.</p>
+<a class="button" href="http://gmail.simpl.fyi">View on Chrome Store</a>
 </body>
 </html>
