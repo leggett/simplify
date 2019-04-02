@@ -423,6 +423,8 @@ html.simpl .yO.x7 {
 	background-color: #c2dbff;
 	color: #202124;
 }
+/* TODO: Provide better support for dark themes */
+
 
 /* Round corners of conversation for themes */
 html.simpl .bAn {
