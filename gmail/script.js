@@ -1,11 +1,4 @@
 
-/* Add event listener to toggle the extension
-chrome.browserAction.onClicked.addListener(function (tab) {
-
-});
-*/
-
-
 // == SIMPL =====================================================
 // Add simpl style to html tag
 var htmlEl = document.getElementsByTagName('html')[0];

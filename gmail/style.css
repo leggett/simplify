@@ -62,22 +62,38 @@ html.simpl.inSettings header#gb div[aria-label="Go back"] {
 }
 
 /* Hide app bar and action bar when in Settings */
-html.simpl.inSettings .aeH {
-	width: calc(100vw - 128px) !important;
+html.simpl.inSettings .aeH,
+html.simpl.inSettings.hideSearch .aeH {
+	width: calc(100vw - 138px) !important;
+	left: 70px !important;
 }
-html.simpl.inSettings .aeH .G-atb {
+html.simpl.inSettings .aeH .G-atb,
+html.simpl.inSettings.hideSearch .aeH .G-atb {
 	display: none;
 }
-html.simpl.inSettings .aeH .nH {
+html.simpl.inSettings .aeH .nH,
+html.simpl.inSettings.hideSearch .aeH .nH {
 	box-shadow: none;
 	-webkit-box-shadow: none;
 }
-html.simpl.inSettings .aeH .nH > div {
-	padding: 12px 8px !important;
+html.simpl.inSettings .aeH .nH > div,
+html.simpl.inSettings.hideSearch .aeH .nH > div {
+	padding: 4px 8px !important;
 }
-html.simpl.inSettings header#gb form {
+html.simpl.inSettings header#gb form,
+html.simpl.inSettings.hideSearch header#gb form {
 	display: none;
 }
+html.simpl.inSettings .aeH .f2 .fY {
+	margin: 16px 0 0 0 !important;
+	padding: 0 8px !important;
+	border-radius: 8px;
+}
+/* I'm not sure what this is for but it is ugly when using themes */
+html.simpl.inSettings .aeH .f2 .dJ {
+	display: none;
+}
+
 
 /* Add a little padding above Settings content */
 html.simpl.inSettings .nH > table {
@@ -178,7 +194,6 @@ html.simpl #gb form {
 	float: right;
 	width: 35%;
 	margin-right: 8px;
-	/* background-color: #fff; */
 }
 
 /* Minimize search to an icon when hidden */
@@ -189,7 +204,7 @@ html.simpl.hideSearch #gb form:not(.gb_oe) {
 
 /* Make search box white when hidden */
 html.simpl.hideSearch #gb form:not(.gb_oe) {
-	background-color: #fff;
+	background-color: transparent;
 }
 
 /* Hide all search form buttons except search button when search is hidden */
@@ -379,7 +394,6 @@ html.simpl div[role="tabpanel"] h3 img {
 /* TODO: Support Tasks being toggled */
 
 /* Change The right sidebar's drop shadow to a stroke */ 
-
 html.simpl .bq9,
 html.simpl .bq9 div {
 	box-shadow:none;
@@ -401,13 +415,18 @@ html.simpl .yO {
 	*/
 
 	/* White with lighter text */
-	background-color: #fff;
+	background-color: rgba(255,255,255,0.8);
 	color: #555;
 }
 /* Back to defaults for selected items */
 html.simpl .yO.x7 {
 	background-color: #c2dbff;
 	color: #202124;
+}
+
+/* Round corners of conversation for themes */
+html.simpl .bAn {
+	border-radius: 8px;
 }
 
 /* Dim print and pop-out icons in conversation view */
@@ -426,11 +445,17 @@ html.simpl .zA:hover {
 
 /* Dim inbox tabs */
 html.simpl .aKh {
-	opacity: 0.3;
-	transition: opacity 0.4s ease-in 0s;
+	opacity: 0.5;
+	transition: opacity 0.2s ease-in 0s;
+	border-radius: 8px 8px 0 0;
 }
 html.simpl .aKh:hover {
 	opacity: 1;
+}
+
+/* Make "new" badges on tabs grayscale */
+html.simpl .aKh .aDG {
+	filter: grayscale(100%);
 }
 
 /* Hide ads in top of inbox tabs */
