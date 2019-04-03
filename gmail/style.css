@@ -208,9 +208,12 @@ html.simpl.hideSearch #gb form:not(.gb_oe) {
 }
 
 /* Hide all search form buttons except search button when search is hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]) {
+html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]),
+/* For non-english interfaces, may break as this class name gets changed often */
+html.simpl.hideSearch #gb form:not(.gb_oe) button:not(.gb_Ue) { 
 	display: none;
 }
+
 
 /* Move filter form to be under search box? */
 html.simpl .ZF-Av {
