@@ -1,12 +1,14 @@
 {
 	"name": "Simplify Gmail",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Simplifies Gmail interface to the bare minimum",
 	"homepage_url": "https://simpl.fyi/gmail",
 	"icons": {
 		"16": "img/icon16.png",
 		"24": "img/icon24.png",
-		"32": "img/icon32.png"
+		"32": "img/icon32.png",
+		"48": "img/icon48.png",
+		"128": "img/icon128.png"
 	},
 
 	"content_scripts": [{

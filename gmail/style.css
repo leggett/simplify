@@ -282,12 +282,6 @@ html.simpl .akc {
 }
 */
 
-/* Hide Support button / menu -- Help is available under Settings gear 
-	I don't have this menu but some users have reported seeing it
-*/
-html.simpl div[data-tooltip="Support"] {
-	display: none;
-}
 
 
 /* ================================================== */
@@ -304,7 +298,8 @@ html.simpl .aSs {
 	z-index: 990;
 }
 
-/* Make it shorter by default */
+/* Make it shorter by default 
+ * BUG: causing scrolling issues on longer emails
 html.simpl .dw > div > .nH > .nH > .no > 
 .nH.nn:not(:first-child):not(:last-child):not(.aJl) .LW-avf.Am {
 	min-height: 220px !important;
@@ -319,6 +314,7 @@ html.simpl .dw > div > .nH > .nH > .no >
 	min-height: 240px !important;
 	max-height: 540px !important; 
 }
+*/
 
 /* A touch more padding above the from field and subject */
 html.simpl .dw form.bAs,
@@ -501,6 +497,12 @@ html.simpl div[role="alertdialog"] {
 	z-index: 998 !important;
 }
 
+/* Hide Support button / menu -- Help is available under Settings gear 
+	I don't have this menu but some users have reported seeing it
+*/
+html.simpl div[data-tooltip="Support"] {
+	display: none;
+}
 
 
 
