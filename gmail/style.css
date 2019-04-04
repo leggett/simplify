@@ -1,10 +1,5 @@
 
-
-/* Last updated March 29, 2019 
- * Show tasks for Nicholas
- * Tell people to turn off chat and use icon actions
- * Search for TODO
- */
+/* Search for TODO and BUG */
 
 
 /* ================================================== */
@@ -54,10 +49,13 @@ html.simpl.scrolled .w-asV {
 /* SETTINGS */
 
 /* Show back button when in settings */
-html.simpl.inSettings header#gb div[aria-label="Main menu"] {
+/* TODO: support in non-english */
+html.simpl.inSettings header#gb div[aria-label="Main menu"],
+html.simpl.inSettings header#gb div.gb_qc > div:first-child {
 	display: none !important;
 }
-html.simpl.inSettings header#gb div[aria-label="Go back"] {
+html.simpl.inSettings header#gb div[aria-label="Go back"],
+html.simpl.inSettings header#gb div.gb_qc > div:nth-child(2) {
 	display: block !important;
 }
 
@@ -158,7 +156,7 @@ html.simpl .aeH .G-atb .adF .G-Ni.J-J5-Ji {
 html.simpl .aeH .G-atb .aqJ > div:first-child,
 html.simpl .aeH .G-atb .adF > div:first-child {
 	display: flex;
-	opacity: 0.3;
+	opacity: 0.4;
 	transition: opacity 0.2s ease-in 0s;
 }
 html.simpl .aeH .G-atb .aqJ > div:first-child:hover,
@@ -208,9 +206,8 @@ html.simpl.hideSearch #gb form:not(.gb_oe) {
 }
 
 /* Hide all search form buttons except search button when search is hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]),
 /* For non-english interfaces, may break as this class name gets changed often */
-html.simpl.hideSearch #gb form:not(.gb_oe) button:not(.gb_Ue) { 
+html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]):not(.gb_Ue) {
 	display: none;
 }
 
@@ -279,6 +276,12 @@ html.simpl .akc {
 }
 */
 
+/* Hide Support button / menu -- Help is available under Settings gear 
+	I don't have this menu but some users have reported seeing it
+*/
+html.simpl div[data-tooltip="Support"] {
+	display: none;
+}
 
 
 /* ================================================== */
@@ -375,8 +378,14 @@ html.simpl .pfiaof {
 /* Max width conversation */
 html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
-	max-width: 900px; 
+	max-width: 960px; 
 }
+@media only screen and (min-width: 1450px) {
+	html.simpl .AO .aeF > .nH {
+		max-width: 1100px;
+	}
+}
+
 
 /* Hide right panel & toggle */
 html.simpl .brC-dA-I-Jw,

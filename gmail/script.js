@@ -61,6 +61,8 @@ function toggleSearchFocus() {
 }
 */
 
+// Global variable to track if we should ignore focus (temp fix)
+var ignoreSearchFocus = false; 
 
 // == INIT =====================================================
 // Setup search event listeners
@@ -91,9 +93,7 @@ function initSearch() {
 		/* THIS IS JANKY -- clicking on the close search input 
 		 * gives it focus which keeps it open b/c of the event listener
 		 * to keep it open in case it gets focus via keyboard shortcut
-		 */
-		var ignoreSearchFocus = false; 
-		
+		 */		
 		searchCloseIcon.addEventListener('click', function(e) {
 			ignoreSearchFocus = true;
 			searchForm.getElementsByTagName('input')[0].blur();
@@ -105,15 +105,8 @@ function initSearch() {
 			// toggleSearchFocus();
 		}, false);
 
-		// If the search field gets focus and hideSearch hasn't been applied, add it
-		var searchInput = document.querySelectorAll('input[aria-label="Search mail"]')[0];
-		searchInput.addEventListener('focus', function() { 
-			if (!ignoreSearchFocus) {
-				htmlEl.classList.remove('hideSearch');
-			}
-		}, false );
-
 		// TODO: If initial page loaded is a search, show search box
+		// ...
 
 	} else {
 		// Call init function again if the search field wasn't loaded yet
@@ -121,14 +114,35 @@ function initSearch() {
 	}
 }
 
+function initSearchFocus() {
+	// If the search field gets focus and hideSearch hasn't been applied, add it
+	var searchInput = document.querySelectorAll('header input[name="q"]')[0];
+	if (!searchInput) {
+		// aria-label doesn't work with non-english interfaces but .gb_Ie changes often
+		searchInput = document.getElementsByClassName('gb_Ie')[0];
+	} 
+
+	if (searchInput) {
+		searchInput.addEventListener('focus', function() { 
+			if (!ignoreSearchFocus) {
+				htmlEl.classList.remove('hideSearch');
+			}
+		}, false );
+	} else {
+		setTimeout(initSearchFocus, 500);
+	}
+}
+
 // Setup settigs event listeners
 function initSettings() {
 	// See if settings gear has be added to the dom yet
 	var backButton = document.querySelector('header#gb div[aria-label="Go back"] svg');
+	if (!backButton) {
+		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
+		backButton = document.querySelector('header#gb div.gb_1b svg');
+	}
 
 	if (backButton) {
-		// Add eventListener to Back button (conditional on urlHash = settings)
-		var backButton = document.querySelector('header#gb div[aria-label="Go back"] svg');
 		backButton.addEventListener('click', function() {		
 			if (location.hash.substring(1, 9) == "settings") {
 				location.hash = closeSettingsUrlHash;
@@ -145,6 +159,7 @@ function initSettings() {
 function init() {
 	initSearch();
 	initSettings();
+	initSearchFocus();
 }
 window.addEventListener('DOMContentLoaded', init, false);
 
