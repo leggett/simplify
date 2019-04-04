@@ -133,6 +133,12 @@ html.simpl .aeH .G-atb {
 	height: 64px;
 }
 
+/* Remove extra right margin from action bar so it is spaced correctly */
+html.simpl .aeH .G-atb[gh="tm"] {
+	margin-right: 0px !important;
+}
+
+
 /* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
 html.simpl .aeH .G-atb::before {
 	box-shadow: none;
@@ -141,7 +147,7 @@ html.simpl .aeH .G-atb::before {
 
 /* Make bar wider when search is hidden */
 html.simpl.hideSearch .aeH {
-	width: calc(100vw - 215px) !important;
+	width: calc(100vw - 230px) !important;
 }
 
 /* Move Settings to far right */
@@ -429,6 +435,13 @@ html.simpl .yO {
 	/* White with lighter text */
 	background-color: rgba(255,255,255,0.8);
 	color: #555;
+
+	/* TODO Figure out how to better 
+	 * support dark themes as light gray
+	 * bg looks bad in them
+	opacity: 0.6;
+	filter: contrast(120%);
+	*/
 }
 /* Back to defaults for selected items */
 html.simpl .yO.x7 {

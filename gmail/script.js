@@ -28,10 +28,10 @@ htmlEl.classList.add('hideSearch');
 
 // == URL HISTORY =====================================================
 // Set up urlHashes to track and update for closing Search and leaving Settings
-var closeSearchUrlHash = location.hash.substring(1, 7) == "search" ? "#inbox" : location.hash;
+var closeSearchUrlHash = location.hash.substring(1, 7) == "search" || "label/" ? "#inbox" : location.hash;
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 window.onhashchange = function() {
-	if (location.hash.substring(1, 7) != "search") {
+	if (location.hash.substring(1, 7) != "search" && location.hash.substring(1, 6) != "label") {
 		closeSearchUrlHash = location.hash;
 	}
 	if (location.hash.substring(1, 9) != "settings")  {
@@ -123,6 +123,9 @@ function initSearchFocus() {
 	} 
 
 	if (searchInput) {
+		if (location.hash.substring(1, 7) == "search" || "label/") {
+			htmlEl.classList.remove('hideSearch');
+		}
 		searchInput.addEventListener('focus', function() { 
 			if (!ignoreSearchFocus) {
 				htmlEl.classList.remove('hideSearch');
