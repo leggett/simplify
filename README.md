@@ -1,1 +1,1 @@
-# simplify.github.io
+# simpl.fyi
