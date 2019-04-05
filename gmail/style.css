@@ -287,15 +287,17 @@ html.simpl .akc {
 /* ================================================== */
 /* COMPOSER */
 
-/* Raise the z-index of the compose window so it can go on top of the app bar */
+/* Raise the z-index of the compose MOLE so it can go on top of the app bar */
 html.simpl .dw {
+	z-index: 987;
+}
+/* Raise the z-index of the compose WINDOW so it can go on top of the app bar */
+html.simpl .aSs {
 	z-index: 988;
 }
+/* Raise the list box (to-field auto-complete) above both */
 html.simpl .ah {
 	z-index: 989;
-}
-html.simpl .aSs {
-	z-index: 990;
 }
 
 /* Make it shorter by default 
