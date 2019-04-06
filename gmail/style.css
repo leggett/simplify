@@ -377,7 +377,6 @@ html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div button {
 
 
 
-
 /* ================================================== */
 /* MISC / MAIN VIEW (LIST AND CONVERSATION) */
 
@@ -409,7 +408,7 @@ html.simpl .bAw {
 	display: none;
 }
 
-/*
+/* TODO: support for keeping the right panel
 html.simpl.addOnsVisible .aeH {
     width: calc(100vw - 468px) !important;
 }
