@@ -1,7 +1,7 @@
 
 // == SIMPL =====================================================
 // Add simpl style to html tag
-var htmlEl = document.getElementsByTagName('html')[0];
+var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Add keyboard shortcut for toggling on/off custom style
