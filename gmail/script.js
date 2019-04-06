@@ -4,6 +4,9 @@
 var htmlEl = document.getElementsByTagName('html')[0];
 htmlEl.classList.add('simpl');
 
+// Turn debug loggings on/off
+var simplifyDebug = false;
+
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {
 	// If Cmd+J was pressed, toggle simpl
@@ -14,16 +17,37 @@ function toggleSimpl(event) {
 }
 window.addEventListener('keydown', toggleSimpl, false);
 
-// Add simpl Toggle button
+/* Add simpl Toggle button
 window.addEventListener('load', function() {
 	var elem = document.createElement("div");
 	elem.id = 'simplToggle';
 	elem.addEventListener('click', toggleSimpl, false);
 	document.body.insertBefore(elem, document.body.childNodes[0]);
 }, false);
+*/
+
+// Initialize saved states
+if (window.localStorage.simplifyPreviewPane == "true") {
+	if (simplifyDebug) console.log('Loading with split view');
+	htmlEl.classList.add('splitView');
+}
+if (window.localStorage.simplifyLightTheme == "true") {
+	if (simplifyDebug) console.log('Loading with light theme');
+	htmlEl.classList.add('lightTheme');	
+} else if (window.localStorage.simplifyDarkTheme == "true") {
+	if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
+	htmlEl.classList.add('darkTheme');
+}
 
 // Hide Search box by default
-htmlEl.classList.add('hideSearch');
+if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
+	window.localStorage.simplifyHideSearch = true;
+}
+if (window.localStorage.simplifyHideSearch == "true") {
+	if (simplifyDebug) console.log('Loading with search hidden');
+	htmlEl.classList.add('hideSearch');
+}
+
 
 
 
@@ -61,10 +85,7 @@ if (location.hash.substring(1, 9) == "settings") {
 
 
 
-// == INIT =====================================================
-
-// Turn debug loggings on/off
-var simplifyDebug = true;
+// == INIT FUNCTIONS =====================================================
 
 // Global variable to track if we should ignore focus (temp fix)
 var ignoreSearchFocus = false; 
@@ -88,6 +109,7 @@ function initSearch() {
 		searchIcon.addEventListener('click', function() {
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.toggle('gb_vd');
+			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
 			// toggleSearchFocus();
 		}, false);
 
@@ -106,6 +128,7 @@ function initSearch() {
 			searchForm.classList.add('gb_vd');
 			searchForm.classList.remove('gb_oe');
 			location.hash = closeSearchUrlHash;
+			window.localStorage.simplifyHideSearch = true;
 			setTimeout(function() { ignoreSearchFocus = false; }, 200);
 			// toggleSearchFocus();
 		}, false);
@@ -118,9 +141,7 @@ function initSearch() {
 
 	} else {
 		initSearchLoops++;
-		if (simplifyDebug) { 
-			console.log('initSearch loop #' + initSearchLoops);
-		}
+		if (simplifyDebug) console.log('initSearch loop #' + initSearchLoops);
 		
 		// only try 20 times and then asume something is wrong
 		if (initSearchLoops < 21) {
@@ -130,17 +151,16 @@ function initSearch() {
 	}
 }
 
+
+/* BUG: This is opening search when it shouldn't */
+// Detect if search is focused and needs to be expanded
 var initSearchFocusLoops = 0;
 function initSearchFocus() {
 	// If the search field gets focus and hideSearch hasn't been applied, add it
 	var searchInput = document.querySelectorAll('header input[name="q"]')[0];
-	if (!searchInput) {
-		// aria-label doesn't work with non-english interfaces but .gb_Ie changes often
-		searchInput = document.getElementsByClassName('gb_Ie')[0];
-	} 
 
 	if (searchInput) {
-		if (location.hash.substring(1, 7) == "search" || "label/") {
+		if (location.hash.substring(1, 7) == "search") {
 			htmlEl.classList.remove('hideSearch');
 		}
 		searchInput.addEventListener('focus', function() { 
@@ -149,10 +169,9 @@ function initSearchFocus() {
 			}
 		}, false );
 	} else {
+		// If the search field can't be found, wait and try again
 		initSearchFocusLoops++;
-		if (simplifyDebug) { 
-			console.log('initSearchFocus loop #' + initSearchFocusLoops); 
-		}
+		if (simplifyDebug) console.log('initSearchFocus loop #' + initSearchFocusLoops); 
 
 		// only try 20 times and then asume something is wrong
 		if (initSearchFocusLoops < 21) {
@@ -162,6 +181,9 @@ function initSearchFocus() {
 	}
 }
 
+
+
+// Detect if a dark theme is being used and change styles accordingly
 var detectThemeLoops = 0;
 var checkThemeLater = false;
 function detectTheme() {
@@ -171,16 +193,20 @@ function detectTheme() {
 		var itemBg = window.getComputedStyle(threadlistItem, null).getPropertyValue("background-color");
 		if (parseInt(itemBg.substr(5,3)) < 100) {
 			htmlEl.classList.add('darkTheme');
+			htmlEl.classList.remove('lightTheme');
+			window.localStorage.simplifyDarkTheme = true;
+			window.localStorage.simplifyLightTheme = false;
 		} else {
 			htmlEl.classList.add('lightTheme');
+			htmlEl.classList.remove('darkTheme');
+			window.localStorage.simplifyLightTheme = true;
+			window.localStorage.simplifyDarkTheme = false;
 		}
 		checkThemeLater = false;
 	} else if (conversation.length == 0) {
 		// if we're not looking at a conversation, maybe the threadlist just hasn't loaded yet
 		detectThemeLoops++;
-		if (simplifyDebug) { 
-			console.log('detectTheme loop #' + detectThemeLoops);
-		}
+		if (simplifyDebug) console.log('detectTheme loop #' + detectThemeLoops);
 
 		// only try 10 times and then asume you're in a thread
 		if (detectThemeLoops < 11) {
@@ -212,9 +238,7 @@ function initSettings() {
 		}, false);
 	} else {
 		initSettingsLoops++;
-		if (simplifyDebug) { 
-			console.log('initSettings loop #' + initSettingsLoops);
-		}
+		if (simplifyDebug) console.log('initSettings loop #' + initSettingsLoops);
 
 		// only try 20 times and then asume something is wrong
 		if (detectThemeLoops < 21) {
@@ -224,15 +248,64 @@ function initSettings() {
 	}
 }
 
-// Initialize everything
-function init() {
-	initSearch();
-	initSettings();
-	initSearchFocus();
-	detectTheme();
-}
-window.addEventListener('DOMContentLoaded', init, false);
+var detectSplitViewLoops = 0;
+function detectSplitView() {
+	var splitViewMenuLoaded = document.querySelectorAll('div[selector="nosplit"]');
+	if (splitViewMenuLoaded) {
+		var splitViewActive = document.querySelectorAll('div[role="main"] div[selector="nosplit"]').length
+		if (splitViewActive > 0) {
+			if (simplifyDebug) console.log('Split view detected and active');
+			htmlEl.classList.add('splitView');
+			window.localStorage.simplifyPreviewPane = true;
 
+			/* Add event listeners on split view menu to toggle splitView 
+			// BUG: Not working
+			document.querySelectorAll('div[selector="nosplit"] > div')[0].addEventListener('click', function() {
+				console.log('No split clicked');
+				htmlEl.classList.remove('splitView');
+			}, false);
+			document.querySelectorAll('div[selector="horizontal"] > div')[0].addEventListener('click', function() {
+				htmlEl.classList.add('splitView');
+			}, false);
+			document.querySelectorAll('div[selector="vertical"] > div')[0].addEventListener('click', function() {
+				htmlEl.classList.add('splitView');
+			}, false);
+			// on .asa (quick toggle) -- common class name, not going to work
+			// ...
+			*/
+		} else {
+			if (simplifyDebug) console.log('No split view');
+			htmlEl.classList.remove('splitView');
+			window.localStorage.simplifyPreviewPane = false;
+		}
+	} else {
+		detectSplitViewLoops++;
+		if (simplifyDebug) console.log('initSettings loop #' + detectSplitViewLoops);
+
+		// only try 10 times and then assume no split view
+		if (detectSplitViewLoops < 11) {
+			// Call init function again if the gear button field wasn't loaded yet
+			setTimeout(detectSplitView, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting split view');
+		}
+	}
+}
+
+
+// Initialize everything
+function initEarly() {
+	initSearch();
+	initSearchFocus();
+	initSettings();
+}
+window.addEventListener('DOMContentLoaded', initEarly, false);
+
+function initLate() {
+	detectTheme();
+	detectSplitView();
+}
+window.addEventListener('load', initLate, false);
 
 
 

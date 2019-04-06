@@ -6,7 +6,7 @@
 /* APP BAR (menu and account switcher + container for search) */
 
 /* Hide Gmail logo and name */
-html.simpl a[title="Gmail"] { /* .gb_Vd - changes */
+html.simpl header a[href="#inbox"] { 
 	display: none;
 }
 html.simpl .gb_qc {
@@ -38,9 +38,259 @@ html.simpl .gb_Oa {
 	display: none;
 }
 
-/* Add drop shadow when scrolled -- NEVER SETUP SCROLL LISTENER */
-html.simpl.scrolled .w-asV {
-	box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 2px -2px rgba(0,0,0,.1);	
+
+
+
+/* ================================================== */
+/* ACTION BAR (actions, pagination, and settings) */
+
+/* Move action bar on top of app bar and to right of menu button */
+html.simpl .aeH {
+	position: absolute !important;
+	top: 0px !important;
+	left: 60px !important;
+	width: calc(65% - 72px);
+
+	/* Reduce z-index from 986 so action bar can live on top of it */
+	z-index: 6; 
+}
+html.simpl .aeH .G-atb {
+	height: 64px;
+}
+
+/* Remove extra right margin from action bar so it is spaced correctly */
+html.simpl .aeH .G-atb[gh="tm"] {
+	margin-right: 0px !important;
+	top: 0px;
+}
+
+/* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
+html.simpl .aeH .G-atb::before {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Make bar wider when search is hidden */
+html.simpl.hideSearch .aeH {
+	width: calc(100vw - 180px) !important;
+}
+
+/* Dim pagination controls unless hovered over */
+/* BUG: the pagination controls are on each section in Priority Inbox */
+html.simpl .aeH .G-atb .aqJ,
+html.simpl .aeF .G-atb .aqJ,
+html.simpl .aeH .G-atb .adF {
+	opacity: 0.4;
+	transition: opacity 0.2s ease-in 0s;
+}
+html.simpl .aeH .G-atb .aqJ:hover,
+html.simpl .aeF .G-atb .aqJ:hover,
+html.simpl .aeH .G-atb .adF:hover {
+	opacity: 1;
+}
+
+
+/* Below 1100px wide, when search is expanded, hide pagination controls */
+@media only screen and (max-width: 1100px) {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:first-child,
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:first-child {
+		display: none;
+	}
+}
+
+/* Put drop down menus on top of everything */
+html.simpl .J-M {
+	/* ZINDEX clean up
+	z-index: 995;
+	*/
+}
+
+/* Remove drop shadow from action bar */
+html.simpl .aeI .G-atb {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+
+/* ================================================== */
+/* SEARCH */
+
+/* Push search to the right */
+html.simpl #gb form {
+	float: right;
+	width: 35%;
+	margin-right: 8px;
+	position: relative;
+	right: -58px;
+}
+
+/* Minimize search to an icon when hidden */
+html.simpl.hideSearch #gb form:not(.gb_oe) {
+	width: 58px;
+	margin-right: 0px;
+}
+
+/* Make search box white when hidden */
+html.simpl.hideSearch #gb form:not(.gb_oe) {
+	background-color: transparent;
+}
+
+/* Hide all search form buttons except search button when search is hidden */
+/* For non-english interfaces, may break as this class name gets changed often */
+html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]):not(.gb_Ue) {
+	display: none;
+}
+
+
+/* Move filter form to be under search box? */
+html.simpl .ZF-Av {
+	left: auto !important;
+	right: 121px !important;
+	width: 500px !important;
+}
+html.simpl .ZF-Av > div {
+	border: 0px;
+}
+
+
+
+/* ================================================== */
+/* NAV */
+
+/* Hide nav when minimized or in Settings */
+html.simpl .bhZ:not(.bym),
+html.simpl.inSettings .aeN {
+	max-width:0px !important;
+	min-width:0px !important;
+	position: relative;
+	z-index: 3 !important;
+}
+
+/* No shadow or label on compose button */
+html.simpl .z0 > .L3 {
+	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	border-radius: 28px;
+    font-size: 0;
+    height: 56px;
+    padding: 0;
+    width: 56px;
+}
+
+/* Move compose button out of menu */
+html.simpl .z0 {
+    position: absolute;
+    left: calc(100vw - 92px);
+    top: calc(100vh - 140px);
+    z-index: 3 !important;
+	width: 54px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Don't show the nav when hovering over the compose button */
+html.simpl .bym {
+	max-width:0px !important;
+	min-width:0px !important;
+	box-shadow: none !important;
+    z-index: 3 !important;
+}
+
+/* Add some padding above the nav that the compose button used to provide */
+html.simpl .wT {
+	padding-top: 20px;
+}
+
+/* Hide bottom Hangouts tabs in nav -- BETTER TO JUST DISABLE CHAT IN SETTINGS
+html.simpl .akc {
+	display: none;
+}
+*/
+
+
+
+/* ================================================== */
+/* COMPOSER */
+
+/* Raise the z-index of the compose MOLE so it can go on top of the app bar */
+html.simpl .dw {
+	/* ZINDEX CLEAN UP
+	z-index: 987;
+	*/
+}
+/* Raise the z-index of the compose WINDOW so it can go on top of the app bar */
+html.simpl .aSs {
+	/* ZINDEX CLEAN UP
+	z-index: 988;
+	*/
+}
+/* Raise the list box (to-field auto-complete) above both */
+html.simpl .ah {
+	/* ZINDEX CLEAN UP
+	z-index: 989;
+	*/
+}
+
+/* Make it shorter by default 
+ * BUG: causing scrolling issues on longer emails
+html.simpl .dw > div > .nH > .nH > .no > 
+.nH.nn:not(:first-child):not(:last-child):not(.aJl) .LW-avf.Am {
+	min-height: 220px !important;
+}
+html.simpl .dw > div > .nH > .nH > .no > 
+.nH.nn:not(:first-child):not(:last-child):not(.aJl) .qz {
+	max-height: 540px !important;
+}
+html.simpl .dw > div > .nH > .nH > .no > 
+.nH.nn:not(:first-child):not(:last-child):not(.aJl) .GP {
+	height: 33vh !important;
+	min-height: 240px !important;
+	max-height: 540px !important; 
+}
+*/
+
+/* A touch more padding above the from field and subject */
+html.simpl .dw form.bAs,
+html.simpl .aSs .aSt .I5 > form.bAs {
+	padding-top: 6px;
+}
+
+/* Make full screen composer less wide */
+html.simpl .aSs > .aSt {
+	width: 900px !important;
+	left: calc(50vw - 450px) !important;
+}
+html.simpl .aSs .aDg > .aDj {
+	width: 865px !important;
+	left: calc(50vw - 435px) !important;
+}
+
+/* Make scrim behind full screen composer darker */
+html.simpl .aSs {
+	background-color: rgba(0,0,0,.7);
+}
+
+/* Move extended compose buttons inline  */
+html.simpl .aSs .aDl > .Ur, 
+html.simpl .aSs .aDn > .aDl > .Ur, 
+html.simpl .aSs .aDi > .aDl > .Ur {
+	left: 205px !important;
+	bottom: -54px !important;
+}
+html.simpl .aSs .aZ > .J-Z {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+/* Hide useless buttons in full screen compose and move bar inline */
+html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
+html.simpl .aSs .aZ .J-Z-I[command^="+italic"],
+html.simpl .aSs .aZ .J-Z-I[command^="+underline"],
+html.simpl .aSs .btC .oc.gU,
+html.simpl .aSs .a8X .wG[command^="docs"],
+html.simpl .aSs .a8X .wG[command^="op.money"] {
+	display: none !important;
 }
 
 
@@ -118,252 +368,7 @@ html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div button {
    Settings bar flashes before leaving b/c urlHash changes before view */
 
 
-/* ================================================== */
-/* ACTION BAR (actions, pagination, and settings) */
 
-/* Move action bar on top of app bar and to right of menu button */
-html.simpl .aeH {
-	position: absolute !important;
-	z-index: 987;
-	top: 0px !important;
-	left: 60px !important;
-	width: calc(65% - 112px);
-}
-html.simpl .aeH .G-atb {
-	height: 64px;
-}
-
-/* Remove extra right margin from action bar so it is spaced correctly */
-html.simpl .aeH .G-atb[gh="tm"] {
-	margin-right: 0px !important;
-}
-
-
-/* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
-html.simpl .aeH .G-atb::before {
-	box-shadow: none;
-	-webkit-box-shadow: none;
-}
-
-/* Make bar wider when search is hidden */
-html.simpl.hideSearch .aeH {
-	width: calc(100vw - 230px) !important;
-}
-
-/* Move Settings to far right */
-html.simpl .aeH .G-atb .aqJ .G-Ni.J-J5-Ji,
-html.simpl .aeH .G-atb .adF .G-Ni.J-J5-Ji {
-	position: absolute;
-	left: calc(100vw - 182px);
-	top: 0px;
-}
-
-/* Dim pagination controls unless hovered over */
-/* BUG: the pagination controls are on each section in Priority Inbox 
-html.simpl .aeH .G-atb .aqJ > div:first-child,
-html.simpl .aeH .G-atb .adF > div:first-child {
-	display: flex;
-	opacity: 0.4;
-	transition: opacity 0.2s ease-in 0s;
-}
-html.simpl .aeH .G-atb .aqJ > div:first-child:hover,
-html.simpl .aeH .G-atb .adF > div:first-child:hover {
-	opacity: 1;
-}
-*/
-
-/* Below 1100px wide, when search is expanded, hide pagination controls */
-@media only screen and (max-width: 1100px) {
-	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:first-child,
-	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:first-child {
-		display: none;
-	}
-}
-
-/* Put drop down menus on top of everything */
-html.simpl .J-M {
-	z-index: 995;
-}
-
-/* Remove drop shadow from action bar */
-html.simpl .aeI .G-atb {
-	box-shadow: none;
-	-webkit-box-shadow: none;
-}
-
-
-/* ================================================== */
-/* SEARCH */
-
-/* Push search to the right */
-html.simpl #gb form {
-	float: right;
-	width: 35%;
-	margin-right: 8px;
-}
-
-/* Minimize search to an icon when hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) {
-	width: 58px;
-	margin-right: 0px;
-}
-
-/* Make search box white when hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) {
-	background-color: transparent;
-}
-
-/* Hide all search form buttons except search button when search is hidden */
-/* For non-english interfaces, may break as this class name gets changed often */
-html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]):not(.gb_Ue) {
-	display: none;
-}
-
-
-/* Move filter form to be under search box? */
-html.simpl .ZF-Av {
-	left: auto !important;
-	right: 121px !important;
-	width: 500px !important;
-}
-html.simpl .ZF-Av > div {
-	border: 0px;
-}
-
-
-
-/* ================================================== */
-/* NAV */
-
-/* Hide nav when minimized or in Settings */
-html.simpl .bhZ:not(.bym),
-html.simpl.inSettings .aeN {
-	max-width:0px !important;
-	min-width:0px !important;
-	position: relative;
-	z-index: 3 !important;
-}
-
-/* No shadow or label on compose button */
-html.simpl .z0 > .L3 {
-	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.15) !important;
-	border-radius: 28px;
-    font-size: 0;
-    height: 56px;
-    padding: 0;
-    width: 56px;
-}
-
-/* Move compose button out of menu */
-html.simpl .z0 {
-    position: absolute;
-    left: calc(100vw - 92px);
-    top: calc(100vh - 140px);
-    z-index: 3 !important;
-	width: 54px;
-    margin: 0;
-    padding: 0;
-}
-
-/* Don't show the nav when hovering over the compose button */
-html.simpl .bym {
-	max-width:0px !important;
-	min-width:0px !important;
-	box-shadow: none !important;
-    z-index: 3 !important;
-}
-
-/* Add some padding above the nav that the compose button used to provide */
-html.simpl .wT {
-	padding-top: 20px;
-}
-
-/* Hide bottom Hangouts tabs in nav -- BETTER TO JUST DISABLE CHAT IN SETTINGS
-html.simpl .akc {
-	display: none;
-}
-*/
-
-
-
-/* ================================================== */
-/* COMPOSER */
-
-/* Raise the z-index of the compose MOLE so it can go on top of the app bar */
-html.simpl .dw {
-	z-index: 987;
-}
-/* Raise the z-index of the compose WINDOW so it can go on top of the app bar */
-html.simpl .aSs {
-	z-index: 988;
-}
-/* Raise the list box (to-field auto-complete) above both */
-html.simpl .ah {
-	z-index: 989;
-}
-
-/* Make it shorter by default 
- * BUG: causing scrolling issues on longer emails
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .LW-avf.Am {
-	min-height: 220px !important;
-}
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .qz {
-	max-height: 540px !important;
-}
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .GP {
-	height: 33vh !important;
-	min-height: 240px !important;
-	max-height: 540px !important; 
-}
-*/
-
-/* A touch more padding above the from field and subject */
-html.simpl .dw form.bAs,
-html.simpl .aSs .aSt .I5 > form.bAs {
-	padding-top: 6px;
-}
-
-/* Make full screen composer less wide */
-html.simpl .aSs > .aSt {
-	width: 900px !important;
-	left: calc(50vw - 450px) !important;
-}
-html.simpl .aSs .aDg > .aDj {
-	width: 865px !important;
-	left: calc(50vw - 435px) !important;
-}
-
-/* Make scrim behind full screen composer darker */
-html.simpl .aSs {
-	background-color: rgba(0,0,0,.7);
-}
-
-/* Move extended compose buttons inline  */
-html.simpl .aSs .aDl > .Ur, 
-html.simpl .aSs .aDn > .aDl > .Ur, 
-html.simpl .aSs .aDi > .aDl > .Ur {
-	left: 205px !important;
-	bottom: -54px !important;
-}
-html.simpl .aSs .aZ > .J-Z {
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-}
-
-/* Hide useless buttons in full screen compose and move bar inline */
-html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
-html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
-html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
-html.simpl .aSs .aZ .J-Z-I[command^="+italic"],
-html.simpl .aSs .aZ .J-Z-I[command^="+underline"],
-html.simpl .aSs .btC .oc.gU,
-html.simpl .aSs .a8X .wG[command^="docs"],
-html.simpl .aSs .a8X .wG[command^="op.money"] {
-	display: none !important;
-}
 
 
 
@@ -392,7 +397,6 @@ html.simpl .AO .aeF > .nH {
 	}
 }
 
-
 /* Hide right panel & toggle */
 html.simpl .brC-dA-I-Jw,
 html.simpl .bAw {
@@ -401,7 +405,7 @@ html.simpl .bAw {
 
 /* Add extra padding between inbox groups */
 html.simpl div[role="tabpanel"] {
-	padding-bottom:1em;
+	padding-bottom: 1em;
 }
 
 /* Hide toggle next to inbox groups */
@@ -490,13 +494,17 @@ html.simpl .aKB {
 
 /* Increase z-index of loading butter bar */
 html.simpl .ata-asE {
+	/* ZINDEX CLEAN UP
 	z-index: 999 !important;
+	*/
 	/* TODO: make it less ugly too */
 }
 
 /* Put dialogs on top */
 html.simpl div[role="alertdialog"] {
+	/* ZINDEX CLEAN UP
 	z-index: 998 !important;
+	*/
 }
 
 /* Hide Support button / menu -- Help is available under Settings gear 
@@ -505,6 +513,78 @@ html.simpl div[role="alertdialog"] {
 html.simpl div[data-tooltip="Support"] {
 	display: none;
 }
+
+
+
+/* ================================================== */
+/* SPLIT PANE VIEW */
+
+/* Move action bar over app bar */
+html.simpl.splitView .G-atb[gh="tm"] {
+	position: fixed;
+	top: 8px;
+	left: 54px;
+	z-index: 7;
+}
+html.simpl.splitView .G-atb[gh="tm"]:before {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Expand action bar when search is hidden */
+html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
+	width: calc(100vw - 200px);
+	transition: width 0.2s ease-in 0s;
+}
+
+html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
+	width: calc(65% - 100px);
+}
+
+
+/* Hide footer & space usage in preview pane */
+html.simpl.splitView .apc,
+html.simpl.splitView .apO {
+	display: none;
+}
+
+/* Reduce left margin on main view */
+html.simpl.splitView .bhZ+.bkK {
+	margin-left: 12px !important;
+}
+
+/* Override padding around main view */
+html.simpl.splitView .aeF {
+	padding-right: 0px !important;
+	margin-bottom: 0px !important;
+}
+/* Max width conversation */
+html.simpl.splitView .AO .aeF > .nH {
+	margin: 0px; /*40px auto 0 auto;*/
+	max-width: 100%;
+}
+@media only screen and (min-width: 1450px) {
+	html.simpl.splitView .AO .aeF > .nH {
+		max-width: 1100px;
+	}
+}
+
+/* Add right margin to inbox tabs */
+html.simpl.splitView .aeF .aKh {
+	margin-right: 16px;
+}
+
+/* No bottom border on app bar */
+html.simpl.splitView .aiw {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Give view full height */
+html.simpl.splitView .apg .age {
+	height: calc(100vh - 64px);
+}
+
 
 
 
