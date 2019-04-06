@@ -159,6 +159,7 @@ html.simpl .aeH .G-atb .adF .G-Ni.J-J5-Ji {
 }
 
 /* Dim pagination controls unless hovered over */
+/* BUG: the pagination controls are on each section in Priority Inbox 
 html.simpl .aeH .G-atb .aqJ > div:first-child,
 html.simpl .aeH .G-atb .adF > div:first-child {
 	display: flex;
@@ -169,6 +170,7 @@ html.simpl .aeH .G-atb .aqJ > div:first-child:hover,
 html.simpl .aeH .G-atb .adF > div:first-child:hover {
 	opacity: 1;
 }
+*/
 
 /* Below 1100px wide, when search is expanded, hide pagination controls */
 @media only screen and (max-width: 1100px) {
@@ -424,29 +426,27 @@ html.simpl .aeG {
 }
 
 /* Different treatment of read items in inbox */
-html.simpl .yO {
-	/* Gray bg with medium grey text
-	background-color: rgba(242,245,245,0.4);
-	color: #333;
-	*/
-
+html.simpl.lightTheme .yO {
 	/* White with lighter text */
 	background-color: rgba(255,255,255,0.8);
-	color: #555;
-
-	/* TODO Figure out how to better 
-	 * support dark themes as light gray
-	 * bg looks bad in them
-	opacity: 0.6;
-	filter: contrast(120%);
-	*/
+	color: #444;
 }
 /* Back to defaults for selected items */
-html.simpl .yO.x7 {
+html.simpl.lightTheme .yO.x7 {
 	background-color: #c2dbff;
 	color: #202124;
 }
-/* TODO: Provide better support for dark themes */
+
+
+/* Different background colors for dark themes */
+html.simpl.darkTheme .yO {
+	background: rgba(0,0,0,0.8);
+    color: rgba(255,255,255,0.70);
+}
+html.simpl.darkTheme .yO.x7 {
+	color: rgba(255,255,255,1);
+    background: #174ea6;
+}
 
 
 /* Round corners of conversation for themes */
