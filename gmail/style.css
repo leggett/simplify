@@ -28,6 +28,8 @@ html.simpl .gb_mc {
 html.simpl header#gb .gb_fa {
 	width: 48px !important;
 	border: none !important;
+	background-color: transparent;
+	margin-left: 0px;
 }
 html.simpl .gb_ga {
 	display: none !important;
@@ -72,7 +74,7 @@ html.simpl .aeH .G-atb::before {
 
 /* Make bar wider when search is hidden */
 html.simpl.hideSearch .aeH {
-	width: calc(100vw - 180px) !important;
+	width: calc(100vw - 172px) !important;
 }
 
 /* Dim pagination controls unless hovered over */
@@ -141,7 +143,6 @@ html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]
 	display: none;
 }
 
-
 /* Move filter form to be under search box? */
 html.simpl .ZF-Av {
 	left: auto !important;
@@ -151,6 +152,8 @@ html.simpl .ZF-Av {
 html.simpl .ZF-Av > div {
 	border: 0px;
 }
+
+/* TODO: Show search by default on wide screens */
 
 
 
@@ -186,6 +189,9 @@ html.simpl .z0 {
     margin: 0;
     padding: 0;
 }
+html.simpl.rhsChat .z0 {
+	left: calc(100vw - 262px);
+}
 
 /* Don't show the nav when hovering over the compose button */
 html.simpl .bym {
@@ -200,11 +206,11 @@ html.simpl .wT {
 	padding-top: 20px;
 }
 
-/* Hide bottom Hangouts tabs in nav -- BETTER TO JUST DISABLE CHAT IN SETTINGS
-html.simpl .akc {
-	display: none;
+/* Hide top shadow when you scroll long label list */
+html.simpl .aeN .ajj:before {
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
-*/
 
 
 
@@ -403,6 +409,13 @@ html.simpl .bAw {
 	display: none;
 }
 
+/*
+html.simpl.addOnsVisible .aeH {
+    width: calc(100vw - 468px) !important;
+}
+*/
+
+
 /* Add extra padding between inbox groups */
 html.simpl div[role="tabpanel"] {
 	padding-bottom: 1em;
@@ -452,6 +465,14 @@ html.simpl.darkTheme .yO.x7 {
     background: #174ea6;
 }
 
+/* Dim the Snoozed N days ago text in the inbox */
+html.simpl .zA .cL {
+	font-weight: normal;
+	opacity: 0.8;
+}
+html.simpl .zA.yO .cL {
+	opacity: 0.4;
+}
 
 /* Round corners of conversation for themes */
 html.simpl .bAn {

@@ -182,8 +182,39 @@ function initSearchFocus() {
 }
 
 
+// Setup settigs event listeners
+var initSettingsLoops = 0;
+function initSettings() {
+	// See if settings gear has be added to the dom yet
+	var backButton = document.querySelector('header#gb div[aria-label="Go back"] svg');
+	if (!backButton) {
+		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
+		backButton = document.querySelector('header#gb div.gb_1b svg');
+	}
+
+	if (backButton) {
+		backButton.addEventListener('click', function() {		
+			if (location.hash.substring(1, 9) == "settings") {
+				location.hash = closeSettingsUrlHash;
+				htmlEl.classList.remove('inSettings');
+			}
+		}, false);
+	} else {
+		initSettingsLoops++;
+		if (simplifyDebug) console.log('initSettings loop #' + initSettingsLoops);
+
+		// only try 20 times and then asume something is wrong
+		if (detectThemeLoops < 21) {
+			// Call init function again if the gear button field wasn't loaded yet
+			setTimeout(initSettings, 500);
+		}
+	}
+}
+
+
 
 // Detect if a dark theme is being used and change styles accordingly
+// TODO: detect when they change themes
 var detectThemeLoops = 0;
 var checkThemeLater = false;
 function detectTheme() {
@@ -219,34 +250,6 @@ function detectTheme() {
 }
 
 
-// Setup settigs event listeners
-var initSettingsLoops = 0;
-function initSettings() {
-	// See if settings gear has be added to the dom yet
-	var backButton = document.querySelector('header#gb div[aria-label="Go back"] svg');
-	if (!backButton) {
-		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
-		backButton = document.querySelector('header#gb div.gb_1b svg');
-	}
-
-	if (backButton) {
-		backButton.addEventListener('click', function() {		
-			if (location.hash.substring(1, 9) == "settings") {
-				location.hash = closeSettingsUrlHash;
-				htmlEl.classList.remove('inSettings');
-			}
-		}, false);
-	} else {
-		initSettingsLoops++;
-		if (simplifyDebug) console.log('initSettings loop #' + initSettingsLoops);
-
-		// only try 20 times and then asume something is wrong
-		if (detectThemeLoops < 21) {
-			// Call init function again if the gear button field wasn't loaded yet
-			setTimeout(initSettings, 500);
-		}
-	}
-}
 
 var detectSplitViewLoops = 0;
 function detectSplitView() {
@@ -292,6 +295,20 @@ function detectSplitView() {
 	}
 }
 
+// Detect Right Side Chat (why hasn't Gmail killed this already?)
+function detectRightSideChat() {
+	var rightSideChat = document.getElementsByClassName('aCl')[0]
+	if (rightSideChat) {
+		console.log('Right side chat found');
+		htmlEl.classList.add('rhsChat');
+	} else {
+		console.log('No right side chat found');
+		htmlEl.classList.remove('rhsChat');
+	}
+
+}
+
+
 
 // Initialize everything
 function initEarly() {
@@ -304,6 +321,7 @@ window.addEventListener('DOMContentLoaded', initEarly, false);
 function initLate() {
 	detectTheme();
 	detectSplitView();
+	detectRightSideChat();
 }
 window.addEventListener('load', initLate, false);
 
