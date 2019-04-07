@@ -74,7 +74,7 @@ html.simpl .aeH .G-atb::before {
 
 /* Make bar wider when search is hidden */
 html.simpl.hideSearch .aeH {
-	width: calc(100vw - 172px) !important;
+	width: calc(100vw - 172px);
 }
 
 /* Dim pagination controls unless hovered over */
@@ -121,6 +121,7 @@ html.simpl .aeI .G-atb {
 html.simpl #gb form {
 	float: right;
 	width: 35%;
+	max-width: none;
 	margin-right: 8px;
 	position: relative;
 	right: -58px;
@@ -179,6 +180,11 @@ html.simpl .z0 > .L3 {
     width: 56px;
 }
 
+/* Make FAB dark in dark themes */
+html.simpl.darkTheme .z0 > .L3 {
+	background-color: rgba(51,51,51,.9);
+}
+
 /* Move compose button out of menu */
 html.simpl .z0 {
     position: absolute;
@@ -189,6 +195,8 @@ html.simpl .z0 {
     margin: 0;
     padding: 0;
 }
+
+/* Move it over futher if RHS Chat is enabled */
 html.simpl.rhsChat .z0 {
 	left: calc(100vw - 262px);
 }
@@ -216,43 +224,6 @@ html.simpl .aeN .ajj:before {
 
 /* ================================================== */
 /* COMPOSER */
-
-/* Raise the z-index of the compose MOLE so it can go on top of the app bar */
-html.simpl .dw {
-	/* ZINDEX CLEAN UP
-	z-index: 987;
-	*/
-}
-/* Raise the z-index of the compose WINDOW so it can go on top of the app bar */
-html.simpl .aSs {
-	/* ZINDEX CLEAN UP
-	z-index: 988;
-	*/
-}
-/* Raise the list box (to-field auto-complete) above both */
-html.simpl .ah {
-	/* ZINDEX CLEAN UP
-	z-index: 989;
-	*/
-}
-
-/* Make it shorter by default 
- * BUG: causing scrolling issues on longer emails
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .LW-avf.Am {
-	min-height: 220px !important;
-}
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .qz {
-	max-height: 540px !important;
-}
-html.simpl .dw > div > .nH > .nH > .no > 
-.nH.nn:not(:first-child):not(:last-child):not(.aJl) .GP {
-	height: 33vh !important;
-	min-height: 240px !important;
-	max-height: 540px !important; 
-}
-*/
 
 /* A touch more padding above the from field and subject */
 html.simpl .dw form.bAs,
@@ -316,10 +287,18 @@ html.simpl.inSettings header#gb div.gb_qc > div:nth-child(2) {
 }
 
 /* Hide app bar and action bar when in Settings */
+html.simpl.inSettings header {
+	height: 0px !important;
+}
 html.simpl.inSettings .aeH,
 html.simpl.inSettings.hideSearch .aeH {
+	position: relative !important;
+	left: initial !important;
 	width: calc(100vw - 138px) !important;
-	left: 70px !important;
+	margin-top: -8px;
+}
+html.simpl.inSettings.hideSearch.splitPane .aeH {
+	left: 72px !important;
 }
 html.simpl.inSettings .aeH .G-atb,
 html.simpl.inSettings.hideSearch .aeH .G-atb {
@@ -348,30 +327,11 @@ html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
 }
 
-
 /* Add a little padding above Settings content */
 html.simpl.inSettings .nH > table {
-	margin-top: 24px;
+	/*margin-top: 24px;*/
 }
 
-/* Move Save buttons to top right of Settings -- a bit janky
-html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div {
-	position: fixed;
-	top: 64px;
-	background-color: #fff;
-	width: 62%;
-	text-align: right;
-	padding: 12px 0px;
-}
-html.simpl.inSettings tr[guidedhelpid="save_changes_row"] div button {
-	padding: 8px 12px;
-	border-radius: 4px;
-	font-weight: bold;
-}
-*/
-
-/* TODO: Leaving Settings is a bit janky 
-   Settings bar flashes before leaving b/c urlHash changes before view */
 
 
 
@@ -401,18 +361,6 @@ html.simpl .AO .aeF > .nH {
 		max-width: 1100px;
 	}
 }
-
-/* Hide right panel & toggle */
-html.simpl .brC-dA-I-Jw,
-html.simpl .bAw {
-	display: none;
-}
-
-/* TODO: support for keeping the right panel
-html.simpl.addOnsVisible .aeH {
-    width: calc(100vw - 468px) !important;
-}
-*/
 
 
 /* Add extra padding between inbox groups */
@@ -479,11 +427,11 @@ html.simpl .bAn {
 }
 
 /* Dim print and pop-out icons in conversation view */
-html.simpl .bAn .ade span.hk {
+html.simpl .bAn .ade {
 	opacity: 0.2;
 	transition: opacity 0.4s ease-in 0s;
 }
-html.simpl .bAn .ade span.hk {
+html.simpl .bAn .ade:hover {
 	opacity: 1;
 }
 
@@ -530,7 +478,8 @@ html.simpl div[role="alertdialog"] {
 /* Hide Support button / menu -- Help is available under Settings gear 
 	I don't have this menu but some users have reported seeing it
 */
-html.simpl div[data-tooltip="Support"] {
+html.simpl div[data-tooltip="Support"],
+html.simpl div.zo {
 	display: none;
 }
 
@@ -543,7 +492,7 @@ html.simpl div[data-tooltip="Support"] {
 html.simpl.splitView .G-atb[gh="tm"] {
 	position: fixed;
 	top: 8px;
-	left: 54px;
+	left: 60px;
 	z-index: 7;
 }
 html.simpl.splitView .G-atb[gh="tm"]:before {
@@ -560,7 +509,6 @@ html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
 html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
 	width: calc(65% - 100px);
 }
-
 
 /* Hide footer & space usage in preview pane */
 html.simpl.splitView .apc,
@@ -603,6 +551,127 @@ html.simpl.splitView .aiw {
 /* Give view full height */
 html.simpl.splitView .apg .age {
 	height: calc(100vh - 64px);
+}
+
+
+
+
+
+/* ================================================== */
+/* ADD-ONS RIGHT SIDE PANE */
+
+/* Shrink the add-on chooser to a small FAB when not hovered on */
+html.simpl .bAw {
+	position: fixed;
+	right: 47px !important;
+	bottom: 100px !important;
+	height: 36px !important; 
+	width: 36px !important;
+	min-width: 36px !important;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	border-radius: 27px;
+	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	transition: height 0s ease-out 0s;
+	transition: width 0s ease-out 0s;
+	transition: right 0s ease-out 0s;
+}
+html.simpl .bAw:hover {
+	right: 38px !important;
+	width: 54px !important;
+	height: 226px !important;
+}
+html.simpl .bAw div[role="navigation"] {
+	border-left: 0px;
+	border-radius: 16px;
+	/* gray fab
+	background-color: rgba(0,0,0,.04);
+	*/
+	background-color: #fff;
+}
+html.simpl.darkTheme .bAw div[role="navigation"] {
+	background-color: rgba(51,51,51,.9);
+}
+html.simpl .bAw:hover div[role="navigation"] {
+	background-color: #fff;
+}
+html.simpl .bAw div[role="navigation"] > div:not(:first-child) {
+	display: none;
+}
+html.simpl .bAw div[role="navigation"] > div:first-child {
+	margin: -122px 0px 0px -10px;
+}
+html.simpl .bAw div[role="navigation"]:hover > div {
+	display: block;
+	margin: 0px;
+}
+
+/* Hide add-on labels which cause add-on chooser to hide */
+html.simpl .brC-ays {
+	display: none;
+}
+
+/* Set the active add-on icon to still have a white background */
+html.simpl .aT5-aOt-I-JX-Jw {
+	background-color: #fff !important;
+}
+
+/* Move Add-ons chooser over when Add-ons pane is open */
+html.simpl.addOnsPane .bAw {
+	right: 347px !important;
+}
+html.simpl.addOnsPane .bAw:hover {
+	right: 338px !important;
+}
+
+/* Move Add-ons chooser over when Right side chat is enabled */
+html.simpl.rhsChat:not(.addOnsPane) .bAw {
+	right: 216px !important;
+}
+html.simpl.rhsChat:not(.addOnsPane) .bAw:hover {
+	right: 205px !important;
+}
+
+/* Move the compose button over when the add on pane is open */
+html.simpl.addOnsPane .z0 {
+	left: calc(100vw - 392px);
+}
+
+/* Hide the hide button in the add-on chooser */
+html.simpl .bAw .brC-dA-I-Jw {
+	display: none !important;
+}
+
+/* Hide the about button in the add-on chooser */
+html.simpl .bAw .brC-by0-P6-I {
+	display: none;
+}
+
+/* Hide the separator */
+html.simpl .bAw div[role="separator"] {
+	display: none;
+}
+
+/* Less shadow on the button to show the add-ons pane */
+html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw { 
+	box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
+}
+
+/* Shrink the action bar when the AddOnsPane AND Search are open */
+html.simpl.addOnsPane:not(.hideSearch) .aeH {
+    width: calc(65% - 72px) !important;
+}
+html.simpl.addOnsPane.splitView:not(.hideSearch) .G-atb[gh="tm"] {
+    width: calc(65% - 300px) !important;
+}
+
+/* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
+html.simpl.addOnsPane.hideSearch .aeH {
+	width: calc(100vw - 470px) !important;
+}
+html.simpl.addOnsPane.hideSearch.splitView .G-atb[gh="tm"] {
+	width: calc(100vw - 506px) !important;
 }
 
 

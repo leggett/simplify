@@ -5,7 +5,7 @@ var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
 
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {
@@ -48,6 +48,14 @@ if (window.localStorage.simplifyHideSearch == "true") {
 	htmlEl.classList.add('hideSearch');
 }
 
+// Make space for add-ons pane if the add-ons pane was open last time
+if (typeof window.localStorage.simplifyAddOnPane === 'undefined') {
+	window.localStorage.simplifyAddOnPane = false;
+}
+if (window.localStorage.simplifyAddOnPane == "true") {
+	if (simplifyDebug) console.log('Loading with add-ons pane');
+	htmlEl.classList.add('addOnsPane');
+}
 
 
 
@@ -58,8 +66,6 @@ var closeSearchUrlHash = location.hash.substring(1, 7) == "search" || "label/" ?
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
-	// togglePagination();
-
 	if (location.hash.substring(1, 7) != "search" && location.hash.substring(1, 6) != "label") {
 		closeSearchUrlHash = location.hash;
 	}
@@ -250,7 +256,7 @@ function detectTheme() {
 }
 
 
-
+// Detect if preview panes are enabled and being used
 var detectSplitViewLoops = 0;
 function detectSplitView() {
 	var splitViewMenuLoaded = document.querySelectorAll('div[selector="nosplit"]');
@@ -299,13 +305,72 @@ function detectSplitView() {
 function detectRightSideChat() {
 	var rightSideChat = document.getElementsByClassName('aCl')[0]
 	if (rightSideChat) {
-		console.log('Right side chat found');
+		if (simplifyDebug) console.log('Right side chat found');
 		htmlEl.classList.add('rhsChat');
 	} else {
-		console.log('No right side chat found');
+		if (simplifyDebug) console.log('No right side chat found');
 		htmlEl.classList.remove('rhsChat');
 	}
+}
 
+
+// Detect Add-ons Pane
+var detectAddOnsPaneLoops = 0;
+function detectAddOns() {
+	var addOnsPane = document.getElementsByClassName('brC-brG')[0];
+	if (addOnsPane) {
+		var paneVisible = window.getComputedStyle( document.getElementsByClassName('bq9')[0], null).getPropertyValue('width');
+		if (simplifyDebug) console.log('Add-on pane width loaded as ' + paneVisible);
+		if (paneVisible == "auto") {
+			if (simplifyDebug) console.log('No add-on pane detected on load');
+			htmlEl.classList.remove('addOnsPane');
+			window.localStorage.simplifyAddOnPane = false;
+		} else {
+			if (simplifyDebug) console.log('Add-on pane detected on load');
+			htmlEl.classList.add('addOnsPane');
+			window.localStorage.simplifyAddOnPane = true;
+		}
+
+		// Options for the observer (which mutations to observe)
+		var observerConfig = { attributes: true, childList: false, subtree: false };
+
+		// Callback function to execute when mutations are observed
+		var observerCallback = function(mutationsList, observer) {
+		    for (var mutation of mutationsList) {
+		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
+		        	if (simplifyDebug) console.log('Add-on pane style set to: ' + mutation.target.attributes.style.value);
+		        	if (mutation.target.attributes.style.value.indexOf("display: none") > -1) {
+		        		htmlEl.classList.remove('addOnsPane');
+		        		window.localStorage.simplifyAddOnPane = false;
+		        	} else {
+		        		htmlEl.classList.add('addOnsPane');
+		        		window.localStorage.simplifyAddOnPane = true;
+		        	}
+		        }
+		    }
+		};
+
+		// Create an observer instance linked to the callback function
+		var observer = new MutationObserver(observerCallback);
+
+		// Start observing the target node for configured mutations
+		if (simplifyDebug) console.log('Adding mutation observer for');
+		observer.observe(addOnsPane, observerConfig);
+
+		// Later, you can stop observing
+		// observer.disconnect();
+	} else {
+		detectAddOnsPaneLoops++;
+		if (simplifyDebug) console.log('detectAddOns loop #' + detectAddOnsPaneLoops);
+
+		// only try 10 times and then assume no add-on pane
+		if (detectAddOnsPaneLoops < 11) {
+			// Call init function again if the add-on pane wasn't loaded yet
+			setTimeout(detectAddOns, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting add-ons pane');
+		}
+	}
 }
 
 
@@ -322,6 +387,7 @@ function initLate() {
 	detectTheme();
 	detectSplitView();
 	detectRightSideChat();
+	detectAddOns();
 }
 window.addEventListener('load', initLate, false);
 
