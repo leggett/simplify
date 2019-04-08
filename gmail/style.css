@@ -170,6 +170,11 @@ html.simpl.inSettings .aeN {
 	z-index: 3 !important;
 }
 
+/* Don't show Hangouts icon when you hover over compose */
+html.simpl .bhZ.bym div[role="complementary"] {
+	display: none !important;
+}
+
 /* No shadow or label on compose button */
 html.simpl .z0 > .L3 {
 	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
@@ -360,20 +365,16 @@ html.simpl .AO .aeF > .nH {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
 	}
-	html.simpl.splitView .AO .aeF > .nH {
-		max-width: 1600px;
-		margin: 0 auto;
-	}
 }
 
 
 /* Add extra padding between inbox groups */
-html.simpl div[role="tabpanel"] {
+html.simpl div[gh="tl"] div[role="tabpanel"] {
 	padding-bottom: 1em;
 }
 
 /* Hide toggle next to inbox groups */
-html.simpl div[role="tabpanel"] h3 img {
+html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
 	display: none;
 }
 
@@ -537,7 +538,8 @@ html.simpl.splitView .AO .aeF > .nH {
 }
 @media only screen and (min-width: 1450px) {
 	html.simpl.splitView .AO .aeF > .nH {
-		max-width: 1100px;
+		max-width: 1600px;
+		margin: 0 auto;
 	}
 }
 
