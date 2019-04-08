@@ -444,6 +444,15 @@ html.simpl .zA:hover {
 	box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
 }
 
+/* Increased line height */
+html.simpl .xY {
+    height: 30px;
+}
+
+html.simpl .zA>.xY {
+	line-height: 30px;
+}
+
 /* Dim inbox tabs */
 html.simpl .aKh {
 	opacity: 0.5;
