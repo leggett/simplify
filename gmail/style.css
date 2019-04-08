@@ -370,6 +370,7 @@ html.simpl .AO .aeF > .nH {
 /* Add extra padding between inbox groups */
 html.simpl div[role="tabpanel"] {
 	padding-bottom: 1em;
+	box-sizing: border-box;
 }
 
 /* Hide toggle next to inbox groups */
