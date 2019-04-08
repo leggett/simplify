@@ -357,8 +357,12 @@ html.simpl .AO .aeF > .nH {
 	max-width: 960px; 
 }
 @media only screen and (min-width: 1450px) {
-	html.simpl .AO .aeF > .nH {
+	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
+	}
+	html.simpl.splitView .AO .aeF > .nH {
+		max-width: 1600px;
+		margin: 0 auto;
 	}
 }
 
@@ -553,7 +557,13 @@ html.simpl.splitView .apg .age {
 	height: calc(100vh - 64px);
 }
 
-
+/* Drop the double border between panes to a single border */
+html.simpl.splitView .apj {
+	border-right: none;
+}
+html.simpl.splitView .aph {
+	border-bottom: none;
+}
 
 
 
