@@ -162,7 +162,7 @@ html.simpl .ZF-Av > div {
 /* NAV */
 
 /* Hide nav when minimized or in Settings */
-html.simpl .bhZ:not(.bym),
+html.simpl .bhZ,
 html.simpl.inSettings .aeN {
 	max-width:0px !important;
 	min-width:0px !important;
@@ -170,8 +170,15 @@ html.simpl.inSettings .aeN {
 	z-index: 3 !important;
 }
 
-/* Don't show Hangouts icon when you hover over compose */
-html.simpl .bhZ.bym div[role="complementary"] {
+/* Don't show the nav when hovering over the compose button */
+html.simpl .bym {
+/*	max-width: 0px !important;
+	min-width: 0px !important;
+    z-index: 3 !important;
+*/	box-shadow: none !important;
+}
+html.simpl .bhZ div[role="complementary"],
+html.simpl .bhZ div[gh="ns"] {
 	display: none !important;
 }
 
@@ -206,14 +213,6 @@ html.simpl.rhsChat .z0 {
 	left: calc(100vw - 262px);
 }
 
-/* Don't show the nav when hovering over the compose button */
-html.simpl .bym {
-	max-width:0px !important;
-	min-width:0px !important;
-	box-shadow: none !important;
-    z-index: 3 !important;
-}
-
 /* Add some padding above the nav that the compose button used to provide */
 html.simpl .wT {
 	padding-top: 20px;
@@ -223,6 +222,11 @@ html.simpl .wT {
 html.simpl .aeN .ajj:before {
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+/* Hide the compose and add-ons button when in Settings */
+html.simpl.inSettings .z0 {
+	margin-top: 64px;
 }
 
 
@@ -299,10 +303,10 @@ html.simpl.inSettings .aeH,
 html.simpl.inSettings.hideSearch .aeH {
 	position: relative !important;
 	left: initial !important;
-	width: calc(100vw - 138px) !important;
+	width: calc(100vw - 144px) !important;
 	margin-top: -8px;
 }
-html.simpl.inSettings.hideSearch.splitPane .aeH {
+html.simpl.inSettings.splitView .aeH {
 	left: 72px !important;
 }
 html.simpl.inSettings .aeH .G-atb,
@@ -596,26 +600,32 @@ html.simpl .bAw:hover {
 html.simpl .bAw div[role="navigation"] {
 	border-left: 0px;
 	border-radius: 16px;
-	/* gray fab
-	background-color: rgba(0,0,0,.04);
-	*/
 	background-color: #fff;
+	opacity: 0.6;
 }
 html.simpl.darkTheme .bAw div[role="navigation"] {
 	background-color: rgba(51,51,51,.9);
 }
 html.simpl .bAw:hover div[role="navigation"] {
 	background-color: #fff;
+	opacity: 1;
 }
 html.simpl .bAw div[role="navigation"] > div:not(:first-child) {
 	display: none;
 }
 html.simpl .bAw div[role="navigation"] > div:first-child {
-	margin: -122px 0px 0px -10px;
+	margin: -178px 0px 0px -10px;
+	/*opacity: 0.5;*/
 }
 html.simpl .bAw div[role="navigation"]:hover > div {
 	display: block;
 	margin: 0px;
+	opacity: 1;
+}
+
+/* Force the Add-ons overflow button to always be black */
+html.simpl .brC-bsf-aT5-aOt > div:last-child .aT5-aOt-I-JX-Jw {
+	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_black_24dp.png") !important;
 }
 
 /* Hide add-on labels which cause add-on chooser to hide */
@@ -685,7 +695,6 @@ html.simpl.addOnsPane.hideSearch .aeH {
 html.simpl.addOnsPane.hideSearch.splitView .G-atb[gh="tm"] {
 	width: calc(100vw - 506px) !important;
 }
-
 
 
 
