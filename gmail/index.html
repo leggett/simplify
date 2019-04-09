@@ -87,8 +87,8 @@
 
 	<div id="screens" class="box">
 		<p>Click to compare</p>
-		<img src="img/inbox_simplify.png" onclick="toggleImg(this, 'inbox')">
-		<img src="img/cv_simplify.png" onclick="toggleImg(this, 'cv')">
+		<img src="screens/inbox_simplify.png" onclick="toggleImg(this, 'inbox')">
+		<img src="screens/cv_simplify.png" onclick="toggleImg(this, 'cv')">
 	</div>
 
 	<div id="who" class="box gray">
@@ -107,15 +107,15 @@
 	function toggleImg(img, which) {
 		if (which == "inbox") {
 			if (img.src.indexOf("inbox_simplify.png") > 0) {
-				img.src = "img/inbox.png";
+				img.src = "screens/inbox.png";
 			} else {
-				img.src = "img/inbox_simplify.png";
+				img.src = "screens/inbox_simplify.png";
 			}
 		} else {
 			if (img.src.indexOf("cv_simplify.png") > 0) {
-				img.src = "img/cv.png";
+				img.src = "screens/cv.png";
 			} else {
-				img.src = "img/cv_simplify.png";
+				img.src = "screens/cv_simplify.png";
 			}
 		}
 	}
