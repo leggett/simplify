@@ -567,11 +567,18 @@ html.simpl .bAw:hover {
 	width: 54px !important;
 	height: 226px !important;
 }
-html.simpl .bAw div[role="navigation"] {
+html.simpl .bAw div[role="navigation"]:first-child {
+	display: block !important;
 	border-left: 0px;
 	border-radius: 16px;
 	background-color: #fff;
 	opacity: 0.6;
+}
+html.simpl .bAw > div[role="navigation"]:not(:first-child) {
+	display: none;
+}
+html.simpl .bAw div[role="navigation"] > div:not(:first-child) {
+	display: none;
 }
 html.simpl.darkTheme .bAw div[role="navigation"] {
 	background-color: rgba(51,51,51,.9);
@@ -579,9 +586,6 @@ html.simpl.darkTheme .bAw div[role="navigation"] {
 html.simpl .bAw:hover div[role="navigation"] {
 	background-color: #fff;
 	opacity: 1;
-}
-html.simpl .bAw div[role="navigation"] > div:not(:first-child) {
-	display: none;
 }
 html.simpl .bAw div[role="navigation"] > div:first-child {
 	margin: -178px 0px 0px -10px;
