@@ -336,11 +336,6 @@ html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
 }
 
-/* Add a little padding above Settings content */
-html.simpl.inSettings .nH > table {
-	/*margin-top: 24px;*/
-}
-
 
 
 
@@ -348,6 +343,12 @@ html.simpl.inSettings .nH > table {
 
 /* ================================================== */
 /* MISC / MAIN VIEW (LIST AND CONVERSATION) */
+
+/* Bump up the line height a little in the inbox */
+html.simpl .zA {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
 
 /* Right and bottom padding on inbox and messages */
 html.simpl .aeF {
