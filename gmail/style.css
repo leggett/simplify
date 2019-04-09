@@ -493,6 +493,13 @@ html.simpl div.zo {
 	display: none;
 }
 
+/* Make the bottom Hangouts tabs a little less ugly */
+html.simpl div[gh="gt"] {
+	text-align: left;
+	border-top: 0px;
+	padding-left: 18px;
+}
+
 
 
 /* ================================================== */
