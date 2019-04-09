@@ -5,7 +5,7 @@ var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
 
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {
@@ -38,10 +38,22 @@ if (window.localStorage.simplifyLightTheme == "true") {
 	if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
 	htmlEl.classList.add('darkTheme');
 }
+if (window.localStorage.simplifyDensity == "low") {
+	if (simplifyDebug) console.log('Loading with low density inbox');
+	htmlEl.classList.add('lowDensityInbox');
+} else if (window.localStorage.simplifyDensity == "high") {
+	if (simplifyDebug) console.log('Loading with high density inbox');
+	htmlEl.classList.add('highDensityInbox');
+}
 
 // Hide Search box by default
 if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
-	window.localStorage.simplifyHideSearch = true;
+	// Only default to hiding search if the window is smaller than 1441px wide
+	if (window.innerWidth < 1441) {
+		window.localStorage.simplifyHideSearch = true;
+	} else {
+		window.localStorage.simplifyHideSearch = false;
+	}
 }
 if (window.localStorage.simplifyHideSearch == "true") {
 	if (simplifyDebug) console.log('Loading with search hidden');
@@ -56,6 +68,7 @@ if (window.localStorage.simplifyAddOnPane == "true") {
 	if (simplifyDebug) console.log('Loading with add-ons pane');
 	htmlEl.classList.add('addOnsPane');
 }
+
 
 
 
@@ -219,6 +232,7 @@ function initSettings() {
 
 
 
+
 // Detect if a dark theme is being used and change styles accordingly
 // TODO: detect when they change themes
 var detectThemeLoops = 0;
@@ -252,6 +266,39 @@ function detectTheme() {
 	} else {
 		// We are looking at a conversation, check the theme when the view changes
 		checkThemeLater = true;
+	}
+}
+
+
+// Detect the interface density so we can adjust the line height on items
+var detectDensityLoops = 0;
+function detectDensity() {
+	var navItem = document.querySelectorAll('div[role="navigation"] .TN')[0]
+	if (navItem) {
+		var navItemHeight = parseInt(window.getComputedStyle(navItem, null).getPropertyValue("height"));
+		if (simplifyDebug) console.log('Detecting inbox density via nav item. Height is ' + navItemHeight + 'px');
+		if (navItemHeight == 24) {
+			if (simplifyDebug) console.log('Detected high density');
+			htmlEl.classList.remove('lowDensityInbox');
+			htmlEl.classList.add('highDensityInbox');
+			window.localStorage.simplifyDensity = "high";
+		} else {
+			if (simplifyDebug) console.log('Detected low density');
+			htmlEl.classList.add('lowDensityInbox');
+			htmlEl.classList.remove('highDensityInbox');
+			window.localStorage.simplifyDensity = "low";
+		}
+	} else {
+		detectDensityLoops++;
+		if (simplifyDebug) console.log('detectDensity loop #' + detectDensityLoops);
+
+		// only try 10 times and then assume no split view
+		if (detectDensityLoops < 11) {
+			// Call init function again if nav item wasn't loaded yet
+			setTimeout(detectDensity, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting interface density');
+		}
 	}
 }
 
@@ -300,6 +347,8 @@ function detectSplitView() {
 		}
 	}
 }
+
+
 
 // Detect Right Side Chat (why hasn't Gmail killed this already?)
 function detectRightSideChat() {
@@ -354,7 +403,7 @@ function detectAddOns() {
 		var observer = new MutationObserver(observerCallback);
 
 		// Start observing the target node for configured mutations
-		if (simplifyDebug) console.log('Adding mutation observer for');
+		if (simplifyDebug) console.log('Adding mutation observer for Add-ons Pane');
 		observer.observe(addOnsPane, observerConfig);
 
 		// Later, you can stop observing
@@ -385,6 +434,7 @@ window.addEventListener('DOMContentLoaded', initEarly, false);
 
 function initLate() {
 	detectTheme();
+	detectDensity();
 	detectSplitView();
 	detectRightSideChat();
 	detectAddOns();
