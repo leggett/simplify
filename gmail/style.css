@@ -703,12 +703,15 @@ html.simpl.inSettings header {
 html.simpl.inSettings .aeH,
 html.simpl.inSettings.hideSearch .aeH {
 	position: relative !important;
-	left: initial !important;
+	left: 0px !important;
 	width: calc(100vw - 144px) !important;
 	margin-top: -8px;
 }
 html.simpl.inSettings.splitView .aeH {
 	left: 72px !important;
+}
+html.simpl.inSettings .bkK {
+	margin-left: 72px !important;
 }
 html.simpl.inSettings .aeH .G-atb,
 html.simpl.inSettings.hideSearch .aeH .G-atb {

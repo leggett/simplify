@@ -238,20 +238,20 @@ function initSettings() {
 var detectThemeLoops = 0;
 var checkThemeLater = false;
 function detectTheme() {
-	var threadlistItem = document.querySelectorAll('div[gh="tl"] tr')[0];
+	var msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
 	var conversation = document.querySelectorAll('table[role="presentation"]');
-	if (threadlistItem) {
-		var itemBg = window.getComputedStyle(threadlistItem, null).getPropertyValue("background-color");
-		if (parseInt(itemBg.substr(5,3)) < 100) {
-			htmlEl.classList.add('darkTheme');
-			htmlEl.classList.remove('lightTheme');
-			window.localStorage.simplifyDarkTheme = true;
-			window.localStorage.simplifyLightTheme = false;
-		} else {
+	if (msgCheckbox) {
+		var checkboxBg = window.getComputedStyle(msgCheckbox, null).getPropertyValue("background-image");
+		if (checkboxBg.indexOf('black') > -1) {
 			htmlEl.classList.add('lightTheme');
 			htmlEl.classList.remove('darkTheme');
 			window.localStorage.simplifyLightTheme = true;
 			window.localStorage.simplifyDarkTheme = false;
+		} else {
+			htmlEl.classList.add('darkTheme');
+			htmlEl.classList.remove('lightTheme');
+			window.localStorage.simplifyDarkTheme = true;
+			window.localStorage.simplifyLightTheme = false;
 		}
 		checkThemeLater = false;
 	} else if (conversation.length == 0) {
