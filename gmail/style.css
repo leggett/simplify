@@ -568,7 +568,7 @@ html.simpl .bAw:hover {
 	height: 226px !important;
 }
 html.simpl .bAw div[role="navigation"]:first-child {
-	display: block !important;
+	display: flex !important;
 	border-left: 0px;
 	border-radius: 16px;
 	background-color: #fff;
@@ -598,6 +598,7 @@ html.simpl .bAw div[role="navigation"]:hover > div {
 }
 
 /* Force the Add-ons overflow button to always be black */
+/* BUG: This element isn't always there when the bar is hidden */
 html.simpl .brC-bsf-aT5-aOt > div:last-child .aT5-aOt-I-JX-Jw {
 	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_black_24dp.png") !important;
 }
