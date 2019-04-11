@@ -5,7 +5,7 @@ var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
 
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {

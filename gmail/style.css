@@ -34,15 +34,15 @@ html.simpl .gb_qc {
 	min-width: 58px !important;
 	padding-right: 0px;
 }
-
-/* Hide App Switcher */
+/* 
+Hide App Switcher */
 html.simpl #gbwa {
 	display: none !important;
 }
 
 /* Give more space for Settings icon to live to left of profile photo */
 html.simpl .gb_mc {
-	padding-left: 52px;
+	padding-left: 0px !important;
 }
 
 /* Hiding company logo from identy */
@@ -74,7 +74,7 @@ html.simpl .aeH {
 	position: absolute !important;
 	top: 0px !important;
 	left: 60px !important;
-	width: calc(65% - 72px);
+	width: calc(65% - 92px);
 
 	/* Reduce z-index from 986 so action bar can live on top of it */
 	z-index: 6; 
@@ -105,7 +105,7 @@ html.simpl.hideSearch .aeH {
 html.simpl .aeH .G-atb .aqJ,
 html.simpl .aeF .G-atb .aqJ,
 html.simpl .aeH .G-atb .adF {
-	opacity: 0.4;
+	opacity: 0.5;
 	transition: opacity 0.2s ease-in 0s;
 }
 html.simpl .aeH .G-atb .aqJ:hover,
@@ -117,8 +117,8 @@ html.simpl .aeH .G-atb .adF:hover {
 
 /* Below 1100px wide, when search is expanded, hide pagination controls */
 @media only screen and (max-width: 1100px) {
-	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:first-child,
-	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:first-child {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
 		display: none;
 	}
 }
@@ -129,14 +129,17 @@ html.simpl .aeI .G-atb {
 	-webkit-box-shadow: none;
 }
 
-/* Hide Support button / menu -- Help is available under Settings gear 
-	I don't have this menu but some users have reported seeing it
-*/
-html.simpl div[data-tooltip="Support"],
-html.simpl div.zo {
-	display: none;
+/* Hide Support button / menu -- Help is available under Settings gear */
+/* html.simpl div[data-tooltip="Support"], html.simpl div.zo { display: none; } */
+/* Hide any buttons after the Search input including the support button (a bit risky) */
+html.simpl #gb .gb_td ~ div { 
+	display: none; 
 }
 
+/* Remove right padding from action bar so search is always correctly placed */
+html.simpl #gb .gb_td {
+	padding-right: 0px !important;
+}
 
 
 
@@ -152,12 +155,12 @@ html.simpl #gb form {
 	max-width: none;
 	margin-right: 8px;
 	position: relative;
-	right: -58px;
+	right: 0px;
 }
 
 /* Minimize search to an icon when hidden */
 html.simpl.hideSearch #gb form:not(.gb_oe) {
-	width: 58px;
+	width: 54px;
 	margin-right: 0px;
 }
 
@@ -278,7 +281,6 @@ html.simpl.highDensityInbox:not(.splitView) .zA {
     padding-bottom: 4px !important;
 }
 
-
 /* Right and bottom padding on inbox and messages */
 html.simpl .aeF {
 	padding-right: 56px !important;
@@ -324,12 +326,16 @@ html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
 html.simpl.lightTheme .yO {
 	/* White with lighter text */
 	background-color: rgba(255,255,255,0.8);
-	color: #444;
+	color: #333;
 }
 /* Back to defaults for selected items */
 html.simpl.lightTheme .yO.x7 {
 	background-color: #c2dbff;
 	color: #202124;
+}
+/* Dim snippets for read messages a little more */
+html.simpl.lightTheme .yO .y2 {
+	opacity: 0.7;
 }
 
 /* Different background colors for dark themes */
@@ -376,9 +382,10 @@ html.simpl .aKB {
 	display: none;
 }
 
-/* Gray out attachment type icons on read messages */
+/* Dim attachment type icons on read messages */
 html.simpl div[gh="tl"] tr.yO img.brf {
-	filter: grayscale(100%) brightness(135%);
+	/* filter: grayscale(100%) brightness(135%); */
+	opacity: 0.6;
 }
 
 
@@ -394,6 +401,7 @@ html.simpl.splitView .G-atb[gh="tm"] {
 	top: 8px;
 	left: 60px;
 	z-index: 7;
+	padding-right: 0px !important;
 }
 html.simpl.splitView .G-atb[gh="tm"]:before {
 	box-shadow: none;
@@ -402,12 +410,12 @@ html.simpl.splitView .G-atb[gh="tm"]:before {
 
 /* Expand action bar when search is hidden */
 html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
-	width: calc(100vw - 200px);
+	width: calc(100vw - 210px);
 	transition: width 0.2s ease-in 0s;
 }
 
 html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
-	width: calc(65% - 100px);
+	width: calc(65% - 126px);
 }
 
 /* Hide footer & space usage in preview pane */
@@ -454,6 +462,11 @@ html.simpl.splitView .apg .age {
 	height: calc(100vh - 64px);
 }
 
+/* Add padding to bottom of conversation view */
+html.simpl.splitView .aNW td.Bu:not(.y3) {
+	padding-bottom: 200px;
+}
+
 /* Drop the double border between panes to a single border */
 html.simpl.splitView .apj {
 	border-right: none;
@@ -462,6 +475,12 @@ html.simpl.splitView .aph {
 	border-bottom: none;
 }
 
+/* Below 1250px, hide the pagination controls */
+@media only screen and (max-width: 1250px) {
+	html.simpl.splitView:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh="s"]) {
+		display: none;
+	}
+}
 
 
 
@@ -488,6 +507,14 @@ html.simpl .bAn .ade:hover {
 	opacity: 1;
 }
 
+/* TODO: Style to hint that clicking outside the message goes back to the inbox 
+html.simpl .aeF:hover {
+	cursor: w-resize;
+}
+html.simpl .aeF > div:hover {
+	cursor: initial;
+}
+*/
 
 
 
