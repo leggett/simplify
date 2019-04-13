@@ -104,10 +104,22 @@ if (location.hash.substring(1, 9) == "settings") {
 
 
 
-// == INIT FUNCTIONS =====================================================
+// == SEARCH FUNCTIONS =====================================================
 
 // Global variable to track if we should ignore focus (temp fix)
 var ignoreSearchFocus = false; 
+
+/* Focus search input */
+function toggleSearchFocus() {
+	// We are about to show Search if hideSearch is still on the html tag
+	if (htmlEl.classList.contains('hideSearch')) {
+		document.querySelectorAll('div.gb_td form input')[0].blur();
+		document.querySelectorAll('div.gb_td form')[0].classList.remove('gb_oe');
+	} else {
+		document.querySelectorAll('div.gb_td form')[0].classList.add('gb_oe');
+		document.querySelectorAll('div.gb_td form input')[0].focus();
+	}
+}
 
 // Setup search event listeners
 var initSearchLoops = 0;
@@ -125,39 +137,31 @@ function initSearch() {
 		// Add function to search button to toggle search open/closed
 		var searchButton = document.getElementsByClassName('gb_Ue')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
-		searchIcon.addEventListener('click', function() {
+		searchIcon.addEventListener('click', function(event) {
+			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.toggle('gb_vd');
 			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
-			// toggleSearchFocus();
+			toggleSearchFocus();
 		}, false);
 
 		// Add functionality to search close button to close search and go back
 		var searchCloseButton = document.getElementsByClassName('gb_Xe')[0];
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
 		
-		/* THIS IS JANKY -- clicking on the close search input 
-		 * gives it focus which keeps it open b/c of the event listener
-		 * to keep it open in case it gets focus via keyboard shortcut
-		 */		
-		searchCloseIcon.addEventListener('click', function(e) {
-			ignoreSearchFocus = true;
-			searchForm.getElementsByTagName('input')[0].blur();
-			htmlEl.classList.toggle('hideSearch');
+		// Hide search when you clear the search if it was previously hidden		
+		searchCloseIcon.addEventListener('click', function(event) {
+			event.stopPropagation();
+			toggleSearchFocus();
 			searchForm.classList.add('gb_vd');
-			searchForm.classList.remove('gb_oe');
 			location.hash = closeSearchUrlHash;
+			htmlEl.classList.toggle('hideSearch');
 			window.localStorage.simplifyHideSearch = true;
-			setTimeout(function() { ignoreSearchFocus = false; }, 200);
-			// toggleSearchFocus();
 		}, false);
 
 		// Unrelated to search but hide the pagination controls if there are fewer than 50 items
+		// Probably need a mutation observer on the contents of the pagination element
 		// togglePagination();
-
-		// TODO: If initial page loaded is a search, show search box
-		// ...
-
 	} else {
 		initSearchLoops++;
 		if (simplifyDebug) console.log('initSearch loop #' + initSearchLoops);
@@ -171,7 +175,6 @@ function initSearch() {
 }
 
 
-/* BUG: This is opening search when it shouldn't */
 // Detect if search is focused and needs to be expanded
 var initSearchFocusLoops = 0;
 function initSearchFocus() {
@@ -179,12 +182,20 @@ function initSearchFocus() {
 	var searchInput = document.querySelectorAll('header input[name="q"]')[0];
 
 	if (searchInput) {
+		// Show search if the page is loaded is a search view
 		if (location.hash.substring(1, 7) == "search") {
 			htmlEl.classList.remove('hideSearch');
 		}
+
+		// Show search if it is focused and hidden
 		searchInput.addEventListener('focus', function() { 
-			if (!ignoreSearchFocus) {
-				htmlEl.classList.remove('hideSearch');
+			htmlEl.classList.remove('hideSearch');
+		}, false );
+
+		// Hide search box if it loses focus, is empty, and was previously hidden
+		searchInput.addEventListener('blur', function() { 
+			if (this.value == "" && window.localStorage.simplifyHideSearch == "true") {
+				htmlEl.classList.add('hideSearch');
 			}
 		}, false );
 	} else {
@@ -192,16 +203,17 @@ function initSearchFocus() {
 		initSearchFocusLoops++;
 		if (simplifyDebug) console.log('initSearchFocus loop #' + initSearchFocusLoops); 
 
-		// only try 20 times and then asume something is wrong
-		if (initSearchFocusLoops < 21) {
+		// Only try 10 times and then asume something is wrong
+		if (initSearchFocusLoops < 11) {
 			// Call init function again if the search input wasn't loaded yet
 			setTimeout(initSearchFocus, 500);
 		}
 	}
 }
 
+// == SETTINGS FUNCTIONS =====================================================
 
-// Setup settigs event listeners
+// Setup settings event listeners
 var initSettingsLoops = 0;
 function initSettings() {
 	// See if settings gear has be added to the dom yet
@@ -231,7 +243,7 @@ function initSettings() {
 }
 
 
-
+// == DETECTION FUNCTIONS =====================================================
 
 // Detect if a dark theme is being used and change styles accordingly
 // TODO: detect when they change themes
@@ -445,19 +457,6 @@ window.addEventListener('load', initLate, false);
 
 
 // == SCRAPS =====================================================
-
-/* Focus search input – NOT WORKING
-function toggleSearchFocus() {
-	var searchInput = document.querySelectorAll('input[aria-label="Search mail"]')[0];
-
-	// We are about to show Search if hideSearch is still on the html tag
-	if (htmlEl.classList.contains('hideSearch')) {
-		searchInput.blur();
-	} else {
-		searchInput.focus();
-	}
-}
-*/
 
 
 /* Toggle pagination controls to only show when you need them
