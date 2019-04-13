@@ -141,7 +141,30 @@ html.simpl #gb .gb_td {
 	padding-right: 0px !important;
 }
 
+/* Move action bar for Multiple Inboxes */
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
+	position: fixed;
+	top: 8px;
+	left: 60px;
+	z-index: 5;
+	width: calc(65% - 92px);
+	transition: width 0.15s ease-in 0s;
+}
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"]::before {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+html.simpl.multiBoxHorz.hideSearch .aeF .G-atb[gh="tm"] {
+	width: calc(100vw - 172px) !important;
+}
 
+/* Further adjustments for side-by-side multiple inboxes */
+html.simpl.multiBoxHorz div[role="main"] .byR {
+	margin-top: 0px;
+}
+html.simpl.multiBoxHorz .aeF > div.nH {
+	max-width: 1200px !important;
+}
 
 
 /* ==================================================

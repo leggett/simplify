@@ -45,6 +45,18 @@ if (window.localStorage.simplifyDensity == "low") {
 	if (simplifyDebug) console.log('Loading with high density inbox');
 	htmlEl.classList.add('highDensityInbox');
 }
+if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
+	if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
+	htmlEl.classList.add('multiBoxHorz');
+} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
+	if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
+	htmlEl.classList.add('multiBoxVert');
+}
+if (window.localStorage.simplifyRightSideChat == "true") {
+	if (simplifyDebug) console.log('Loading with right hand side chat');
+	htmlEl.classList.add('rhsChat');
+}
+
 
 // Hide Search box by default
 if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
@@ -362,19 +374,6 @@ function detectSplitView() {
 
 
 
-// Detect Right Side Chat (why hasn't Gmail killed this already?)
-function detectRightSideChat() {
-	var rightSideChat = document.getElementsByClassName('aCl')[0]
-	if (rightSideChat) {
-		if (simplifyDebug) console.log('Right side chat found');
-		htmlEl.classList.add('rhsChat');
-	} else {
-		if (simplifyDebug) console.log('No right side chat found');
-		htmlEl.classList.remove('rhsChat');
-	}
-}
-
-
 // Detect Add-ons Pane
 var detectAddOnsPaneLoops = 0;
 function detectAddOns() {
@@ -436,6 +435,42 @@ function detectAddOns() {
 
 
 
+// Detect Right Side Chat (why hasn't Gmail killed this already?)
+function detectRightSideChat() {
+	var rightSideChat = document.getElementsByClassName('aCl')[0]
+	if (rightSideChat) {
+		if (simplifyDebug) console.log('Right side chat found');
+		htmlEl.classList.add('rhsChat');
+		window.localStorage.simplifyRightSideChat = true;
+	} else {
+		window.localStorage.simplifyRightSideChat = false;
+	}
+}
+
+
+
+// Detect Multiple Inboxes
+function detectMultipleInboxes() {
+	var inboxesPanes = document.querySelectorAll('div[role="main"]').length;
+	if (inboxesPanes > 1) {
+		if (simplifyDebug) console.log('Multiple inboxes found');
+		var actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
+		if (actionBars > 1) {
+			htmlEl.classList.add('multiBoxVert');
+			htmlEl.classList.remove('multiBoxHorz');
+			window.localStorage.simplifyMultipleInboxes = "vertical";
+		} else {
+			htmlEl.classList.add('multiBoxHorz');
+			htmlEl.classList.remove('multiBoxVert');
+			window.localStorage.simplifyMultipleInboxes = "horizontal";
+		}
+	} else {
+		window.localStorage.simplifyMultipleInboxes = "none";
+	}
+}
+
+
+
 // Initialize everything
 function initEarly() {
 	initSearch();
@@ -449,15 +484,14 @@ function initLate() {
 	detectDensity();
 	detectSplitView();
 	detectRightSideChat();
+	detectMultipleInboxes();
 	detectAddOns();
 }
 window.addEventListener('load', initLate, false);
 
 
 
-
 // == SCRAPS =====================================================
-
 
 /* Toggle pagination controls to only show when you need them
  * BUG: doesn't catch when you switch between inbox tabs
