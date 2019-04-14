@@ -5,7 +5,7 @@ var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Turn debug loggings on/off
-var simplifyDebug = true;
+var simplifyDebug = false;
 
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {
@@ -374,6 +374,32 @@ function detectSplitView() {
 
 
 
+// Determine number of add-ons and set the height of the add-ons pane accordingly
+var detectNumberOfAddOnsLoops = 0;
+function detectNumberOfAddOns() {
+	// Detect how many add-ons there are
+	var numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
+	if (numberOfAddOns > 0) {
+		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
+		if (numberOfAddOns != 3) {
+			document.documentElement.style.setProperty('--add-on-height', numberOfAddOns*56 + 'px');
+		}		
+	} else {
+		detectNumberOfAddOnsLoops++;
+		if (simplifyDebug) console.log('detectNumberOfAddOns loop #' + detectNumberOfAddOnsLoops);
+
+		// only try 10 times and then assume no add-on pane
+		if (detectNumberOfAddOnsLoops < 11) {
+			// Call init function again if the add-on pane wasn't loaded yet
+			setTimeout(detectNumberOfAddOns, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting number of add-ons pane');
+		}
+	}
+}
+
+
+
 // Detect Add-ons Pane
 var detectAddOnsPaneLoops = 0;
 function detectAddOns() {
@@ -390,6 +416,9 @@ function detectAddOns() {
 			htmlEl.classList.add('addOnsPane');
 			window.localStorage.simplifyAddOnPane = true;
 		}
+
+		// Set the height of the add-ons tray based on number of add-ons
+		detectNumberOfAddOns();
 
 		// Options for the observer (which mutations to observe)
 		var observerConfig = { attributes: true, childList: false, subtree: false };
@@ -416,9 +445,6 @@ function detectAddOns() {
 		// Start observing the target node for configured mutations
 		if (simplifyDebug) console.log('Adding mutation observer for Add-ons Pane');
 		observer.observe(addOnsPane, observerConfig);
-
-		// Later, you can stop observing
-		// observer.disconnect();
 	} else {
 		detectAddOnsPaneLoops++;
 		if (simplifyDebug) console.log('detectAddOns loop #' + detectAddOnsPaneLoops);

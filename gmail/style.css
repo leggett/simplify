@@ -345,8 +345,8 @@ html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
 	display: none;
 }
 
-/* Different treatment of read items in inbox */
-html.simpl.lightTheme .yO {
+/* Different treatment of read items in inbox except highlighted items in splitpane view*/
+html.simpl.lightTheme .yO:not(.aps) {
 	/* White with lighter text */
 	background-color: rgba(255,255,255,0.8);
 	color: #333;
@@ -362,7 +362,7 @@ html.simpl.lightTheme .yO .y2 {
 }
 
 /* Different background colors for dark themes */
-html.simpl.darkTheme .yO {
+html.simpl.darkTheme .yO:not(.aps) {
 	background: rgba(0,0,0,0.8);
     color: rgba(255,255,255,0.70);
 }
@@ -611,35 +611,52 @@ html.simpl .bAw {
 	transition: height 0s ease-out 0s;
 	transition: width 0s ease-out 0s;
 	transition: right 0s ease-out 0s;
+	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
+	background-repeat: no-repeat;
+	background-position: 6px 7px;
+	background-size: 24px;
 }
-html.simpl .bAw:hover {
+
+/* Hide everything inside the add-ons menu until you hover on it */
+html.simpl .bAw div[role="navigation"]:first-child {
+	display: none;
+}
+
+/* Hide buttons other than add-ons */
+html.simpl .bAw div[role="tablist"] > div[role="tab"] {
+	display: block !important;
+}
+html.simpl .bAw div[role="tablist"] > div[role="tab"]:nth-last-child(-n+2),
+html.simpl .bAw div[role="separator"],
+html.simpl .bAw div[role="presentation"] {
+	display: none !important;
+}
+
+/* Hide the add-on minimize button in the add-on chooser */
+html.simpl .bAw .brC-dA-I-Jw {
+	display: none !important;
+}
+
+/* Hide the about button in the add-on chooser */
+html.simpl .bAw .brC-by0-P6-I {
+	display: none;
+}
+
+/* Show add-ons when you hover over the menu */
+:root { 
+	--add-on-height: 168px;
+}
+html.simpl .bAw:hover { 
+	background: initial;
 	right: 38px !important;
 	width: 54px !important;
-	height: 226px !important;
+	height: var(--add-on-height) !important;
 }
-html.simpl .bAw div[role="navigation"]:first-child {
+html.simpl .bAw:hover div[role="navigation"]:first-child {
 	display: flex !important;
 	border-left: 0px;
 	border-radius: 16px;
 	background-color: #fff;
-	opacity: 0.6;
-}
-html.simpl .bAw > div[role="navigation"]:not(:first-child) {
-	display: none;
-}
-html.simpl .bAw div[role="navigation"] > div:not(:first-child) {
-	display: none;
-}
-html.simpl.darkTheme .bAw div[role="navigation"] {
-	background-color: rgba(51,51,51,.9);
-}
-html.simpl .bAw:hover div[role="navigation"] {
-	background-color: #fff;
-	opacity: 1;
-}
-html.simpl .bAw div[role="navigation"] > div:first-child {
-	margin: -178px 0px 0px -10px;
-	/*opacity: 0.5;*/
 }
 html.simpl .bAw div[role="navigation"]:hover > div {
 	display: block;
@@ -647,11 +664,19 @@ html.simpl .bAw div[role="navigation"]:hover > div {
 	opacity: 1;
 }
 
-/* Force the Add-ons overflow button to always be black */
-/* BUG: This element isn't always there when the bar is hidden */
-html.simpl .brC-bsf-aT5-aOt > div:last-child .aT5-aOt-I-JX-Jw {
-	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_black_24dp.png") !important;
+/* Style the add-ons pane */
+html.simpl.darkTheme .bAw div[role="navigation"] {
+	background-color: rgba(51,51,51,.9);
 }
+html.simpl .bAw div[role="navigation"] > div:first-child {
+	margin: -var(--add-on-height) 0px 0px -10px;
+}
+/*
+html.simpl .bAw:hover div[role="navigation"] {
+	background-color: #fff;
+	opacity: 1;
+}
+*/
 
 /* Hide add-on chooser labels which cause add-on chooser to hide */
 html.simpl .brC-ays {
@@ -682,21 +707,6 @@ html.simpl.rhsChat:not(.addOnsPane) .bAw:hover {
 /* Move the compose button over when the add on pane is open */
 html.simpl.addOnsPane .z0 {
 	left: calc(100vw - 392px);
-}
-
-/* Hide the hide button in the add-on chooser */
-html.simpl .bAw .brC-dA-I-Jw {
-	display: none !important;
-}
-
-/* Hide the about button in the add-on chooser */
-html.simpl .bAw .brC-by0-P6-I {
-	display: none;
-}
-
-/* Hide the separator */
-html.simpl .bAw div[role="separator"] {
-	display: none;
 }
 
 /* Less shadow on the button to show the add-ons pane */
