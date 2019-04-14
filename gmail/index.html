@@ -35,7 +35,7 @@
 		}
 		.box {
 			width: 100vw;
-			padding: 8vw 10vw;
+			padding: 6vw 10vw 10vw 10vw;
 		}
 		.gray {
 			background-color: rgba(0,0,0,.04);
@@ -56,12 +56,19 @@
 			font-weight: 600;
 			color: white;
 			padding: 16px 24px;
-			background: rgb(26,35,126);
-			background: linear-gradient(155deg, rgba(26,35,126,1) 0%, rgba(0,150,136,1) 100%);
+			background: #0A6CDD;
+			/* background: linear-gradient(155deg, rgba(26,35,126,1) 0%, rgba(0,150,136,1) 100%); */
 			border-radius: 8px;
+			border: 2px solid #0A6CDD;
 			text-decoration: none;
 			text-shadow: 0 1px 1px rgba(0,0,0,.5);
 			box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 4px -2px rgba(0,0,0,.3);	
+			margin-right: 16px;
+		}
+		.button.secondary {
+			color: #0A6CDD;
+			background: #fff;
+			border: 2px solid rgba(10,108,221,0.7);
 		}
 		p {
 			line-height: 1.5em;
@@ -69,11 +76,13 @@
 		}
 		img {
 			width: 100%;
-			max-width: 1200px;
+			max-width: 1400px;
 			margin: 0 auto 10vh auto;
+			/*
 			box-shadow: 0 0 12px rgba(0,0,0,0.1), 0 3px 4px -2px rgba(0,0,0,.3);
 			border-radius: 8px;
 			cursor: pointer;
+			*/
 		}
 	</style>
 </head>
@@ -83,14 +92,28 @@
 		<h1>Simplify <em>/</em> Gmail</h1>
 		<p>A Chrome extension that brings the simplicity of Google Inbox to Gmail.</p>
 		<a class="button" href="https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj">View on Chrome Store</a>
+		<a class="button secondary" href="#about">About</a>
 	</div>
 
 	<div id="screens" class="box">
-		<p>Click to compare</p>
+		<!-- 
+		<p>Click to compare</p> 
 		<img src="screens/inbox_simplify.png" onclick="toggleImg(this, 'inbox')">
 		<img src="screens/cv_simplify.png" onclick="toggleImg(this, 'cv')">
+		-->
+		<img src="screens/01.png"><br>
+		<img src="screens/02.png"><br>
+		<img src="screens/03.png"><br>
+		<img src="screens/04.png"><br>
+		<img src="screens/05.png"><br>
+		<img src="screens/06.png"><br>
+		<img src="screens/07.png"><br>
+		<img src="screens/08.png"><br>
+		<img src="screens/09.png"><br>
+		<img src="screens/10.png">
 	</div>
 
+	<a name="about"></a>
 	<div id="who" class="box gray">
 		<h2>Who made this?</h2>
 		<p>Simplify was made by me, <a href="https://leggett.org">Michael Leggett</a>, with some help from friends. I was Gmail's lead designer from 2008 to 2012 and co-founded Google Inbox. I've been writing Chrome extensions for years to simplify the apps I use but have only ever shared them with friends. With the unfortunate demise of Google Inbox, I wanted to bring the simplified email experience to Gmail.</p>

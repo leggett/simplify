@@ -81,6 +81,11 @@ if (window.localStorage.simplifyAddOnPane == "true") {
 	htmlEl.classList.add('addOnsPane');
 }
 
+// Set default size of add-ons tray
+if (typeof window.localStorage.simplifyNumberOfAddOns === 'undefined') {
+	window.localStorage.simplifyNumberOfAddOns = 3;
+}
+htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplifyNumberOfAddOns)*56 + 'px');
 
 
 
@@ -381,9 +386,12 @@ function detectNumberOfAddOns() {
 	var numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
-		if (numberOfAddOns != 3) {
+		if (numberOfAddOns > 3) {
 			document.documentElement.style.setProperty('--add-on-height', numberOfAddOns*56 + 'px');
-		}		
+			window.localStorage.simplifyNumberOfAddOns = numberOfAddOns;
+		} else {
+			window.localStorage.simplifyNumberOfAddOns = 3;
+		}
 	} else {
 		detectNumberOfAddOnsLoops++;
 		if (simplifyDebug) console.log('detectNumberOfAddOns loop #' + detectNumberOfAddOnsLoops);

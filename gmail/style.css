@@ -611,10 +611,15 @@ html.simpl .bAw {
 	transition: height 0s ease-out 0s;
 	transition: width 0s ease-out 0s;
 	transition: right 0s ease-out 0s;
+	background-color: rgba(255,255,255,.9);
 	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
 	background-repeat: no-repeat;
 	background-position: 6px 7px;
 	background-size: 24px;
+}
+html.simpl.darkTheme .bAw {
+	background-color: rgba(51,51,51,.9);
+	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
 }
 
 /* Hide everything inside the add-ons menu until you hover on it */
@@ -726,7 +731,7 @@ html.simpl .bq9 {
 
 /* Shrink the action bar when the AddOnsPane AND Search are open */
 html.simpl.addOnsPane:not(.hideSearch) .aeH {
-    width: calc(65% - 72px) !important;
+    width: calc(65% - 92px) !important;
 }
 html.simpl.addOnsPane.splitView:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(65% - 300px) !important;
