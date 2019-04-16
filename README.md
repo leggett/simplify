@@ -2,7 +2,7 @@
 
 A Chrome extension that brings the simplicity of Google Inbox to Gmail.
 
-## How do I use it
+## How do I use it?
 Add the extension and refresh Gmail: <https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj>
 
 
