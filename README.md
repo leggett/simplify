@@ -2,19 +2,19 @@
 
 A Chrome extension that brings the simplicity of Google Inbox to Gmail.
 
-## How do I use it?
+## How to use Simplify
 Add the extension and refresh Gmail: <https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj>
 
 
-## Who made this?
+## Who made Simplify
 Simplify was made by me, [Michael Leggett](https://leggett.org). I was Gmail's lead designer from 2008 to 2012 and co-founded Google Inbox. I've been writing Chrome extensions for years to simplify the apps I use but have only ever shared them with friends. With the unfortunate demise of Google Inbox, I wanted to bring the simplified email experience to Gmail.
 
 
-## Is it safe?
+## Is Simplify safe?
 I'm glad you asked. You should always be super careful what extensions or apps you use, especially with your email. Simplify is mostly some CSS plus a little Javascript to apply the CSS. There are no trackers. No data is sent or shared. And no ads ever. Promise. All of the code can be inspected here on Github.
 
 
-## I love feedback
+## Send feedback
 Gmail has a lot of features and even more 3rd party plug-ins. I've done my best to support all these things but it still may not work for your setup and that's ok. I'll do my best to update the extension as Gmail's code changes and hope to simplify other apps in the future. The best way to send feedback is here on GitHub but you can also [email me](mailto:hi.simplify@gmail.com) or [send me a tweet](https://twitter.com/leggett), and I'll do my best to respond.
 
 
