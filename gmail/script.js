@@ -1,4 +1,14 @@
 
+/* ==================================================
+ * SIMPLIFY GMAIL
+ * By Michael Leggett: leggett.org
+ * Copyright (c) 2019 Michael Hart Leggett
+ * More info: simpl.fyi/gmail
+ * Code base: github.com/leggett/simplify/blob/master/gmail/
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
+ */
+
+
 // == SIMPL =====================================================
 // Add simpl style to html tag
 var htmlEl = document.documentElement;

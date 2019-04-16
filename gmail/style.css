@@ -1,12 +1,13 @@
 
 /* ==================================================
  * SIMPLIFY GMAIL
- * More info: simpl.fyi/gmail
- * Code base: github.com/leggett/simplify/
  * By Michael Leggett: leggett.org
+ * Copyright (c) 2019 Michael Hart Leggett
+ * More info: simpl.fyi/gmail
+ * Code base: github.com/leggett/simplify/blob/master/gmail/
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
  * Search for TODO and BUG 
  */
-
 
 
 
@@ -339,6 +340,12 @@ html.simpl .AO .aeF > .nH {
 html.simpl div[gh="tl"] div[role="tabpanel"] {
 	padding-bottom: 1em;
 }
+/* TODO: Remove that extra padding if the section is hidden 
+ * This doesn't work
+html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
+	margin-bottom: -2em; 
+}
+*/
 
 /* Hide toggle next to inbox groups */
 html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
