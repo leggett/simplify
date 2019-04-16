@@ -14,7 +14,7 @@ Simplify was made by me, [Michael Leggett](https://leggett.org). I was Gmail's l
 I'm glad you asked. You should always be super careful what extensions or apps you use, especially with your email. Simplify is mostly some CSS plus a little Javascript to apply the CSS. There are no trackers. No data is sent or shared. And no ads ever. Promise. All of the code can be inspected here on Github.
 
 
-## I've got feedback
+## I love feedback
 Gmail has a lot of features and even more 3rd party plug-ins. I've done my best to support all these things but it still may not work for your setup and that's ok. I'll do my best to update the extension as Gmail's code changes and hope to simplify other apps in the future. The best way to send feedback is here on GitHub but you can also [email me](mailto:hi.simplify@gmail.com) or [send me a tweet](https://twitter.com/leggett), and I'll do my best to respond.
 
 
