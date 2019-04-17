@@ -10,12 +10,12 @@
 
 
 // == SIMPL =====================================================
+// Turn debug loggings on/off
+var simplifyDebug = true;
+
 // Add simpl style to html tag
 var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
-
-// Turn debug loggings on/off
-var simplifyDebug = false;
 
 // Add keyboard shortcut for toggling on/off custom style
 function toggleSimpl(event) {
@@ -165,7 +165,6 @@ function initSearch() {
 		var searchButton = document.getElementsByClassName('gb_Ue')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
 		searchIcon.addEventListener('click', function(event) {
-			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.toggle('gb_vd');
 			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
