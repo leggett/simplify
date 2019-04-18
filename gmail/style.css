@@ -115,7 +115,6 @@ html.simpl .aeH .G-atb .adF:hover {
 	opacity: 1;
 }
 
-
 /* Below 1100px wide, when search is expanded, hide pagination controls */
 @media only screen and (max-width: 1100px) {
 	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
@@ -166,6 +165,9 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 html.simpl.multiBoxHorz .aeF > div.nH {
 	max-width: 1200px !important;
 }
+
+
+
 
 
 /* ==================================================
@@ -347,6 +349,11 @@ html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
 	margin-bottom: -2em; 
 }
 */
+
+/* Add spacing between vertically stacked Multiple Inboxes */
+html.simpl.multiBoxVert .nH > .nK {
+	margin-top: 1em;
+}
 
 /* Hide toggle next to inbox groups */
 html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {

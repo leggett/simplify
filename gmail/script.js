@@ -99,6 +99,7 @@ htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplif
 
 
 
+
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
@@ -186,10 +187,6 @@ function initSearch() {
 			htmlEl.classList.toggle('hideSearch');
 			window.localStorage.simplifyHideSearch = true;
 		}, false);
-
-		// Unrelated to search but hide the pagination controls if there are fewer than 50 items
-		// Probably need a mutation observer on the contents of the pagination element
-		// togglePagination();
 	} else {
 		initSearchLoops++;
 		if (simplifyDebug) console.log('initSearch loop #' + initSearchLoops);
@@ -201,7 +198,6 @@ function initSearch() {
 		}
 	}
 }
-
 
 // Detect if search is focused and needs to be expanded
 var initSearchFocusLoops = 0;
@@ -239,6 +235,9 @@ function initSearchFocus() {
 	}
 }
 
+
+
+
 // == SETTINGS FUNCTIONS =====================================================
 
 // Setup settings event listeners
@@ -269,6 +268,8 @@ function initSettings() {
 		}
 	}
 }
+
+
 
 
 // == DETECTION FUNCTIONS =====================================================
@@ -342,7 +343,6 @@ function detectDensity() {
 	}
 }
 
-
 // Detect if preview panes are enabled and being used
 var detectSplitViewLoops = 0;
 function detectSplitView() {
@@ -354,8 +354,7 @@ function detectSplitView() {
 			htmlEl.classList.add('splitView');
 			window.localStorage.simplifyPreviewPane = true;
 
-			/* Add event listeners on split view menu to toggle splitView 
-			// BUG: Not working
+			/* TODO: Listen for splitview mode toggle via mutation observer
 			document.querySelectorAll('div[selector="nosplit"] > div')[0].addEventListener('click', function() {
 				console.log('No split clicked');
 				htmlEl.classList.remove('splitView');
@@ -511,43 +510,57 @@ function detectMultipleInboxes() {
 		}
 	} else {
 		window.localStorage.simplifyMultipleInboxes = "none";
+		htmlEl.classList.remove('multiBoxVert');
+		htmlEl.classList.remove('multiBoxHorz');
 	}
 }
 
 
 
-// Observer to toggle pagination controls when they are disabled
-/* 
-.aeH > div[gh=tm] > .ar5
+/* Observer to toggle pagination controls
+ * Hide pagination controls if buttons are disabled in the default inbox:
+ * Default inbox 	.aeH > div[gh=tm] > .ar5
+ * 
+ * Ignore these cases:
+ * Priority Inbox 	.aeF > .Wm
+ * Split pane 		.aeF > div[gh=tm] > .ar5
+ * MultiboxHorz		.aeF > div[gh=tm] > .ar5
+ * MultiboxVert		.aeF > div[gh=tm] > .ar5
+ */
+function testPagination() {
+	var actionBar = document.querySelector('div.aeH');
 
-*/
-function observePagination() {
-	// Options for the observer (which mutations to observe)
-	var paginationObserverConfig = { attributes: false, childList: true, subtree: true };
-
-	// Callback function to execute when mutations are observed
-	var paginationObserverCallback = function(mutationsList, observer) {
-		// Iterate over pagination divs (.ar5 in list view)
-		var paginationDivs = document.querySelectorAll('div.ar5');
+	if (actionBar) {
+		var paginationDivs = document.querySelectorAll('.aeH div.ar5');
 		paginationDivs.forEach(function(pagination) {
 			// How many messages in the list?
-			var count = pagination.querySelectorAll('.ts')[2];
+			var pageButtons = pagination.querySelectorAll('div[role="button"][aria-disabled="true"]');
 
 			// Hide pagination control if the total count is less than 100
-			if (count <= 100) {
+			if (pageButtons.length >= 2) {
+				if (simplifyDebug) console.log('Hiding pagination controls');
 				pagination.style.display = "none";
 			} else {
+				if (simplifyDebug) console.log('Showing pagination controls');
 				pagination.style.display = "inline-block";
 			}
 		});
-	};
+	}
+}
+function observePagination() {
+	var actionBar = document.querySelector('div.aeH');
 
-	// Create an observer instance linked to the callback function
-	var paginationObserver = new MutationObserver(paginationObserverCallback);
+	if (actionBar) {
+		// Options for the observer (which mutations to observe)
+		var paginationObserverConfig = { attributes: true, childList: true, subtree: true };
 
-	// Start observing the target node for configured mutations
-	if (simplifyDebug) console.log('Adding mutation observer for Pagination controls');
-	paginationObserver.observe(document, paginationObserverConfig);
+		// Create an observer instance linked to the callback function
+		var paginationObserver = new MutationObserver(testPagination);
+
+		// Start observing the target node for configured mutations
+		if (simplifyDebug) console.log('Adding mutation observer for Pagination controls');
+		paginationObserver.observe(actionBar, paginationObserverConfig);
+	}
 }
 
 
@@ -558,7 +571,6 @@ function initEarly() {
 	initSearch();
 	initSearchFocus();
 	initSettings();
-	observePagination();
 }
 window.addEventListener('DOMContentLoaded', initEarly, false);
 
@@ -569,6 +581,7 @@ function initLate() {
 	detectRightSideChat();
 	detectMultipleInboxes();
 	detectAddOns();
+	testPagination();
+	observePagination(); 
 }
 window.addEventListener('load', initLate, false);
-
