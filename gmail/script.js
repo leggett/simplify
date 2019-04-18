@@ -102,12 +102,14 @@ htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplif
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
-var closeSearchUrlHash = location.hash.substring(1, 7) == "search" || "label/" ? "#inbox" : location.hash;
+var closeSearchUrlHash = location.hash.substring(1, 7) == "search" || "label/" || "advanc" ? "#inbox" : location.hash;
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
-	if (location.hash.substring(1, 7) != "search" && location.hash.substring(1, 6) != "label") {
-		closeSearchUrlHash = location.hash;
+	if (location.hash.substring(1, 7) != "search" 
+		&& location.hash.substring(1, 6) != "label"
+		&& location.hash.substring(1, 16) != "advanced-search") {
+			closeSearchUrlHash = location.hash;
 	}
 	if (location.hash.substring(1, 9) != "settings")  {
 		closeSettingsUrlHash = location.hash;
@@ -438,10 +440,10 @@ function detectAddOns() {
 		detectNumberOfAddOns();
 
 		// Options for the observer (which mutations to observe)
-		var observerConfig = { attributes: true, childList: false, subtree: false };
+		var addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
 
 		// Callback function to execute when mutations are observed
-		var observerCallback = function(mutationsList, observer) {
+		var addOnsObserverCallback = function(mutationsList, observer) {
 		    for (var mutation of mutationsList) {
 		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
 		        	if (simplifyDebug) console.log('Add-on pane style set to: ' + mutation.target.attributes.style.value);
@@ -457,11 +459,11 @@ function detectAddOns() {
 		};
 
 		// Create an observer instance linked to the callback function
-		var observer = new MutationObserver(observerCallback);
+		var addOnsObserver = new MutationObserver(addOnsObserverCallback);
 
 		// Start observing the target node for configured mutations
 		if (simplifyDebug) console.log('Adding mutation observer for Add-ons Pane');
-		observer.observe(addOnsPane, observerConfig);
+		addOnsObserver.observe(addOnsPane, addOnsObserverConfig);
 	} else {
 		detectAddOnsPaneLoops++;
 		if (simplifyDebug) console.log('detectAddOns loop #' + detectAddOnsPaneLoops);
@@ -514,11 +516,49 @@ function detectMultipleInboxes() {
 
 
 
+// Observer to toggle pagination controls when they are disabled
+/* 
+.aeH > div[gh=tm] > .ar5
+
+*/
+function observePagination() {
+	// Options for the observer (which mutations to observe)
+	var paginationObserverConfig = { attributes: false, childList: true, subtree: true };
+
+	// Callback function to execute when mutations are observed
+	var paginationObserverCallback = function(mutationsList, observer) {
+		// Iterate over pagination divs (.ar5 in list view)
+		var paginationDivs = document.querySelectorAll('div.ar5');
+		paginationDivs.forEach(function(pagination) {
+			// How many messages in the list?
+			var count = pagination.querySelectorAll('.ts')[2];
+
+			// Hide pagination control if the total count is less than 100
+			if (count <= 100) {
+				pagination.style.display = "none";
+			} else {
+				pagination.style.display = "inline-block";
+			}
+		});
+	};
+
+	// Create an observer instance linked to the callback function
+	var paginationObserver = new MutationObserver(paginationObserverCallback);
+
+	// Start observing the target node for configured mutations
+	if (simplifyDebug) console.log('Adding mutation observer for Pagination controls');
+	paginationObserver.observe(document, paginationObserverConfig);
+}
+
+
+
+
 // Initialize everything
 function initEarly() {
 	initSearch();
 	initSearchFocus();
 	initSettings();
+	observePagination();
 }
 window.addEventListener('DOMContentLoaded', initEarly, false);
 
@@ -532,24 +572,3 @@ function initLate() {
 }
 window.addEventListener('load', initLate, false);
 
-
-
-// == SCRAPS =====================================================
-
-/* Toggle pagination controls to only show when you need them
- * BUG: doesn't catch when you switch between inbox tabs
-function togglePagination() {
-	// If in list view, and pagination conrols exist, and fewer 
-	// than 50 items, hide controls 
-	var paginationControl = document.querySelectorAll('.aeH .Dj .ts')[2];
-	if (paginationControl) {
-		if (paginationControl.innerText < 50) { 
-			console.log('hide pagination'); 
-		} else { 
-			console.log('show pagination'); 
-		}	
-	} else {
-		console.log('no pagination control');
-	}
-}
-*/

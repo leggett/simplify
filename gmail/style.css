@@ -202,8 +202,9 @@ html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]
 /* Move filter form to be under search box? */
 html.simpl .ZF-Av {
 	left: auto !important;
-	right: 121px !important;
-	width: 500px !important;
+	right: 71px !important;
+	width: 31% !important;
+	min-width: 450px;
 }
 html.simpl .ZF-Av > div {
 	border: 0px;
@@ -630,8 +631,30 @@ html.simpl.darkTheme .bAw {
 }
 
 /* Hide everything inside the add-ons menu until you hover on it */
-html.simpl .bAw div[role="navigation"]:first-child {
+html.simpl .bAw > div:first-child {
 	display: none;
+}
+
+/* Show add-ons when you hover over the menu */
+:root { 
+	--add-on-height: 168px;
+}
+html.simpl .bAw:hover { 
+	background: initial;
+	right: 38px !important;
+	width: 54px !important;
+	height: var(--add-on-height) !important;
+}
+html.simpl .bAw:hover > div:first-child {
+	display: flex !important;
+	border-left: 0px;
+	border-radius: 16px;
+	background-color: #fff;
+}
+html.simpl .bAw > div:first-child:hover > div {
+	display: block;
+	margin: 0px;
+	opacity: 1;
 }
 
 /* Hide buttons other than add-ons */
@@ -654,28 +677,6 @@ html.simpl .bAw .brC-by0-P6-I {
 	display: none;
 }
 
-/* Show add-ons when you hover over the menu */
-:root { 
-	--add-on-height: 168px;
-}
-html.simpl .bAw:hover { 
-	background: initial;
-	right: 38px !important;
-	width: 54px !important;
-	height: var(--add-on-height) !important;
-}
-html.simpl .bAw:hover div[role="navigation"]:first-child {
-	display: flex !important;
-	border-left: 0px;
-	border-radius: 16px;
-	background-color: #fff;
-}
-html.simpl .bAw div[role="navigation"]:hover > div {
-	display: block;
-	margin: 0px;
-	opacity: 1;
-}
-
 /* Style the add-ons pane */
 html.simpl.darkTheme .bAw div[role="navigation"] {
 	background-color: rgba(51,51,51,.9);
@@ -683,16 +684,15 @@ html.simpl.darkTheme .bAw div[role="navigation"] {
 html.simpl .bAw div[role="navigation"] > div:first-child {
 	margin: -var(--add-on-height) 0px 0px -10px;
 }
-/*
-html.simpl .bAw:hover div[role="navigation"] {
-	background-color: #fff;
-	opacity: 1;
-}
-*/
 
-/* Hide add-on chooser labels which cause add-on chooser to hide */
+/* Move add-on chooser labels to left so they aren't easily 
+ * hovered on (which causes add-on chooser to hide) */
 html.simpl .brC-ays {
-	display: none;
+	margin: -41px 0 0 -60px;
+	max-width: 50px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 /* Set the active add-on icon to still have a white background */
