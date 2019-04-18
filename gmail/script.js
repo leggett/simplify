@@ -136,18 +136,17 @@ if (location.hash.substring(1, 9) == "settings") {
 
 // == SEARCH FUNCTIONS =====================================================
 
-// Global variable to track if we should ignore focus (temp fix)
-var ignoreSearchFocus = false; 
-
 /* Focus search input */
-function toggleSearchFocus() {
+function toggleSearchFocus() {	
 	// We are about to show Search if hideSearch is still on the html tag
 	if (htmlEl.classList.contains('hideSearch')) {
-		document.querySelectorAll('div.gb_td form input')[0].blur();
-		document.querySelectorAll('div.gb_td form')[0].classList.remove('gb_oe');
+		document.querySelector('div.gb_td form').classList.remove('gb_oe');
+
+		// Remove focus from search input or button 
+		document.activeElement.blur();
 	} else {
-		document.querySelectorAll('div.gb_td form')[0].classList.add('gb_oe');
-		document.querySelectorAll('div.gb_td form input')[0].focus();
+		document.querySelector('div.gb_td form').classList.add('gb_oe');
+		document.querySelector('div.gb_td form input').focus();
 	}
 }
 
@@ -168,6 +167,8 @@ function initSearch() {
 		var searchButton = document.getElementsByClassName('gb_Ue')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
 		searchIcon.addEventListener('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.toggle('gb_vd');
 			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
@@ -538,10 +539,8 @@ function testPagination() {
 
 			// Hide pagination control if the total count is less than 100
 			if (pageButtons.length >= 2) {
-				if (simplifyDebug) console.log('Hiding pagination controls');
 				pagination.style.display = "none";
 			} else {
-				if (simplifyDebug) console.log('Showing pagination controls');
 				pagination.style.display = "inline-block";
 			}
 		});
