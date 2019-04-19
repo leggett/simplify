@@ -96,9 +96,9 @@
 	</div>
 
 	<div id="screens" class="box">
-		<p>Click to compare</p> 
-		<img src="screens/inbox_simplify.png" onclick="toggleImg(this, 'inbox')">
-		<img src="screens/cv_simplify.png" onclick="toggleImg(this, 'cv')">
+		<p><b>Click below to compare before vs after</b></p> 
+		<img src="screens/inbox_simplify.png" onclick="toggleImg(this, 'inbox', true)" id="tl">
+		<img src="screens/cv_simplify.png" onclick="toggleImg(this, 'cv', true)" id="cv">
 	</div>
 
 	<a name="about"></a>
@@ -114,20 +114,35 @@
 	</div>
 </body>
 <script type="text/javascript">
-	function toggleImg(img, which) {
+	function toggleImg(img, which, shouldStop) {
 		if (which == "inbox") {
 			if (img.src.indexOf("inbox_simplify.png") > 0) {
 				img.src = "screens/inbox.png";
 			} else {
 				img.src = "screens/inbox_simplify.png";
 			}
+			if (shouldStop) clearInterval(autoCycleTL)
 		} else {
 			if (img.src.indexOf("cv_simplify.png") > 0) {
 				img.src = "screens/cv.png";
 			} else {
 				img.src = "screens/cv_simplify.png";
 			}
+			if (shouldStop) clearInterval(autoCycleCV)
 		}
 	}
+	
+	function autoCycleInbox() {
+		var img = document.getElementById('tl');
+		toggleImg(img, 'inbox', false);
+	}
+
+	function autoCycleCv() {
+		var img = document.getElementById('cv');
+		toggleImg(img, 'cv', false);
+	}
+
+	var autoCycleTL = setInterval(autoCycleInbox, 3000);
+	var autoCycleCV = setInterval(autoCycleCv, 3000);
 </script>
 </html>
