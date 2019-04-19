@@ -96,7 +96,7 @@
 	</div>
 
 	<div id="screens" class="box">
-		<p><b>Click below to compare before vs after</b></p> 
+		<p><b>Before vs after</b></p> 
 		<img src="screens/inbox_simplify.png" onclick="toggleImg(this, 'inbox', true)" id="tl">
 		<img src="screens/cv_simplify.png" onclick="toggleImg(this, 'cv', true)" id="cv">
 	</div>
@@ -131,7 +131,7 @@
 			if (shouldStop) clearInterval(autoCycleCV)
 		}
 	}
-	
+
 	function autoCycleInbox() {
 		var img = document.getElementById('tl');
 		toggleImg(img, 'inbox', false);
