@@ -10,6 +10,46 @@
  */
 
 
+/* ==================================================
+ * EXPERIMENTAL
+ */
+
+/* COMPOSER & CONVERSATION
+ * Slightly larger message body text */
+html.simpl div[role="textbox"],
+html.simpl div[role="listitem"] .a3s,
+html.simpl div[role="listitem"] .g6,
+html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
+	font-size: .875rem;
+}
+/* Dim from email address in conversation view */
+html.simpl div[role="listitem"] h3.iw .go {
+	opacity: 0.5;
+}
+
+/* INBOX
+ * Hide underlines on tabs
+ */
+html.simpl div[role="main"] .J-KU-KO.aAy:before {
+	background-color: transparent !important;
+}
+
+/* CONVERSATION
+ * TODO: Style to hint that clicking outside the message goes back to the inbox 
+html.simpl .aeF:hover {
+	cursor: w-resize;
+}
+html.simpl .aeF > div:hover {
+	cursor: initial;
+}
+*/
+
+/* COMPOSER 
+ * Make the compose mole smaller -- I tried this in an early version of Simplify and it messed things up
+ */
+
+
+
 
 /* ==================================================
  * GLOBAL 
@@ -400,13 +440,23 @@ html.simpl .zA:hover {
 	box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
 }
 
-/* Dim inbox tabs */
+/* Dim Default Inbox category tabs */
 html.simpl .aKh {
-	opacity: 0.5;
+	opacity: 0.7;
 	transition: opacity 0.2s ease-in 0s;
 	border-radius: 8px 8px 0 0;
 }
 html.simpl .aKh:hover {
+	opacity: 1;
+}
+
+/* Further dim the non-active category tab */
+html.simpl .aKh .aAy[aria-selected="false"] {
+	opacity: 0.5;
+	transition: opacity 0.2s ease-in 0s;	
+}
+html.simpl .aKh .aAy[aria-selected="false"]:hover,
+html.simpl .aKh .aAy[aria-selected="true"] {
 	opacity: 1;
 }
 
@@ -545,14 +595,6 @@ html.simpl .bAn .ade:hover {
 	opacity: 1;
 }
 
-/* TODO: Style to hint that clicking outside the message goes back to the inbox 
-html.simpl .aeF:hover {
-	cursor: w-resize;
-}
-html.simpl .aeF > div:hover {
-	cursor: initial;
-}
-*/
 
 
 

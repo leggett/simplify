@@ -11,7 +11,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = true;
+var simplifyDebug = false;
 
 // Add simpl style to html tag
 var htmlEl = document.documentElement;
@@ -315,11 +315,11 @@ function detectTheme() {
 // Detect the interface density so we can adjust the line height on items
 var detectDensityLoops = 0;
 function detectDensity() {
-	var navItem = document.querySelectorAll('div[role="navigation"] .TN')[0]
+	var navItem = document.querySelector('div[role="navigation"] .TN');
 	if (navItem) {
 		var navItemHeight = parseInt(window.getComputedStyle(navItem, null).getPropertyValue("height"));
 		if (simplifyDebug) console.log('Detecting inbox density via nav item. Height is ' + navItemHeight + 'px');
-		if (navItemHeight == 24) {
+		if (navItemHeight <= 26) {
 			if (simplifyDebug) console.log('Detected high density');
 			htmlEl.classList.remove('lowDensityInbox');
 			htmlEl.classList.add('highDensityInbox');
