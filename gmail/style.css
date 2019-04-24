@@ -14,28 +14,34 @@
  * EXPERIMENTAL
  */
 
-/* COMPOSER & CONVERSATION
- * Slightly larger message body text */
-html.simpl div[role="textbox"],
-html.simpl div[role="listitem"] .a3s,
-html.simpl div[role="listitem"] .g6,
-html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
-	font-size: .875rem;
-}
-/* Dim from email address in conversation view */
-html.simpl div[role="listitem"] h3.iw .go {
-	opacity: 0.5;
+
+/* INBOX */
+/* Change font in inbox */
+html.simpl div[role="main"] div.zt td, 
+html.simpl div[role="main"] div.zt td div {
+	font-family: 'Helvetica Neue', Helvetica, Roboto, RobotoDraft, Arial, sans-serif !important;
 }
 
-/* INBOX
- * Hide underlines on tabs
- */
-html.simpl div[role="main"] .J-KU-KO.aAy:before {
-	background-color: transparent !important;
+/* Move stars to right side * /
+.zA .apU {
+	order: 2 !important;
+	display: flex;
 }
+/* Show starred icons only when starred * /
+.zA .apU > span {
+	display: none !important;
+}
+.zA .apU > span[title="Starred"] {
+	display: flex !important;
+}
+/* Show all stars on hover * /
+.zA.aqw > .xY.apU > span {
+	display: flex !important;
+}
+*/
 
-/* CONVERSATION
- * TODO: Style to hint that clicking outside the message goes back to the inbox 
+/* CONVERSATION */
+/* TODO: Style to hint that clicking outside the message goes back to the inbox 
 html.simpl .aeF:hover {
 	cursor: w-resize;
 }
@@ -476,6 +482,10 @@ html.simpl div[gh="tl"] tr.yO img.brf {
 	opacity: 0.6;
 }
 
+/* Hide underlines on category tabs in default inbox */
+html.simpl div[role="main"] .J-KU-KO.aAy:before {
+	background-color: transparent !important;
+}
 
 
 
@@ -551,6 +561,7 @@ html.simpl.splitView .apg .age {
 }
 
 /* Add padding to bottom of conversation view */
+/* BUG: Somehow, this isn't working in horizontal split pane */
 html.simpl.splitView .aNW td.Bu:not(.y3) {
 	padding-bottom: 200px;
 }
@@ -593,6 +604,19 @@ html.simpl .bAn .ade {
 }
 html.simpl .bAn .ade:hover {
 	opacity: 1;
+}
+
+/* Slightly larger message body text in conversation view and composer */
+html.simpl div[role="textbox"],
+html.simpl div[role="listitem"] .a3s,
+html.simpl div[role="listitem"] .g6,
+html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
+	font-size: .875rem;
+}
+
+/* Dim from email address in conversation view */
+html.simpl div[role="listitem"] h3.iw .go {
+	opacity: 0.5;
 }
 
 

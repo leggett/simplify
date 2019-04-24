@@ -137,9 +137,9 @@ if (location.hash.substring(1, 9) == "settings") {
 // == SEARCH FUNCTIONS =====================================================
 
 /* Focus search input */
-function toggleSearchFocus() {	
+function toggleSearchFocus(onOff) {	
 	// We are about to show Search if hideSearch is still on the html tag
-	if (htmlEl.classList.contains('hideSearch')) {
+	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
 		document.querySelector('div.gb_td form').classList.remove('gb_oe');
 
 		// Remove focus from search input or button 
@@ -181,8 +181,10 @@ function initSearch() {
 		
 		// Hide search when you clear the search if it was previously hidden		
 		searchCloseIcon.addEventListener('click', function(event) {
+			event.preventDefault();
 			event.stopPropagation();
-			toggleSearchFocus();
+			toggleSearchFocus('off');
+			document.querySelector('header input[name="q"]').value = "";
 			searchForm.classList.add('gb_vd');
 			location.hash = closeSearchUrlHash;
 			htmlEl.classList.toggle('hideSearch');
@@ -443,6 +445,7 @@ function detectAddOns() {
 		var addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
 
 		// Callback function to execute when mutations are observed
+		// TODO: detect changes to width of bq9 instead of style attribute
 		var addOnsObserverCallback = function(mutationsList, observer) {
 		    for (var mutation of mutationsList) {
 		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
