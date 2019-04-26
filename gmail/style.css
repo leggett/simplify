@@ -155,6 +155,28 @@ html.simpl.hideSearch .aeH {
 	width: calc(100vw - 172px);
 }
 
+/* At >= 1100px wide, align action bar to Inbox */
+@media only screen and (min-width: 1000px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: 196px !important;
+	}
+}
+@media only screen and (min-width: 1287px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: calc((100vw - 960px + 64px) / 2) !important;
+	}
+}
+@media only screen and (min-width: 1450px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
+	}
+}
+@media only screen and (min-width: 1600px) {
+	html.simpl .aeH .G-atb {
+		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
+	}
+}
+
 /* Dim pagination controls unless hovered over */
 /* BUG: the pagination controls are on each section in Priority Inbox */
 html.simpl .aeH .G-atb .aqJ,
