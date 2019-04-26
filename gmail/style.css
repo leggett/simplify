@@ -155,8 +155,8 @@ html.simpl.hideSearch .aeH {
 	width: calc(100vw - 172px);
 }
 
-/* At >= 1100px wide, align action bar to Inbox */
-@media only screen and (min-width: 1000px) {
+/* At >= 1040px wide, align action bar to Inbox */
+@media only screen and (min-width: 1040px) {
 	html.simpl.hideSearch .aeH .G-atb {
 		margin-left: 196px !important;
 	}
