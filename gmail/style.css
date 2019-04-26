@@ -16,11 +16,12 @@
 
 
 /* INBOX */
-/* Change font in inbox */
+/* Change font in inbox 
 html.simpl div[role="main"] div.zt td, 
 html.simpl div[role="main"] div.zt td div {
 	font-family: 'Helvetica Neue', Helvetica, Roboto, RobotoDraft, Arial, sans-serif !important;
 }
+*/
 
 /* Move stars to right side * /
 .zA .apU {
@@ -108,8 +109,13 @@ html.simpl .gb_Oa {
 	display: none;
 }
 
-
-
+/* Clean up the butter bar (loading, etc) */
+html.simpl .vX vh {
+	border: none;
+    border-radius: 0 0 4px 4px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
 
 
 /* ==================================================
@@ -647,7 +653,8 @@ html.simpl .aSs {
 	background-color: rgba(0,0,0,.7);
 }
 
-/* Move extended compose buttons inline  */
+/* BUGS: moving stuff around here is causing problems */
+/* Move extended compose buttons inline  
 html.simpl .aSs .aDl > .Ur, 
 html.simpl .aSs .aDn > .aDl > .Ur, 
 html.simpl .aSs .aDi > .aDl > .Ur {
@@ -658,8 +665,9 @@ html.simpl .aSs .aZ > .J-Z {
 	box-shadow: none !important;
 	-webkit-box-shadow: none !important;
 }
+*/
 
-/* Hide useless buttons in full screen compose and move bar inline */
+/* Hide useless buttons in full screen compose and move bar inline 
 html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
@@ -670,7 +678,7 @@ html.simpl .aSs .a8X .wG[command^="docs"],
 html.simpl .aSs .a8X .wG[command^="op.money"] {
 	display: none !important;
 }
-
+*/
 
 
 
