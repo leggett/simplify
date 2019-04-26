@@ -103,7 +103,9 @@ htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplif
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
-var closeSearchUrlHash = location.hash.substring(1, 7) == "search" || "label/" || "advanc" ? "#inbox" : location.hash;
+var closeSearchUrlHash = (location.hash.substring(1, 7) == "search" 
+	|| location.hash.substring(1, 7) == "label/" 
+	|| location.hash.substring(1, 7) == "advanc") ? "#inbox" : location.hash;
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
