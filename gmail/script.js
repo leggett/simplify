@@ -11,7 +11,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
 
 // Add simpl style to html tag
 var htmlEl = document.documentElement;
@@ -351,43 +351,36 @@ function detectDensity() {
 // Detect if preview panes are enabled and being used
 var detectSplitViewLoops = 0;
 function detectSplitView() {
-	var splitViewMenuLoaded = document.querySelectorAll('div[selector="nosplit"]');
-	if (splitViewMenuLoaded) {
-		var splitViewActive = document.querySelectorAll('div[role="main"] div[selector="nosplit"]').length
-		if (splitViewActive > 0) {
-			if (simplifyDebug) console.log('Split view detected and active');
-			htmlEl.classList.add('splitView');
-			window.localStorage.simplifyPreviewPane = true;
-
-			/* TODO: Listen for splitview mode toggle via mutation observer
-			document.querySelectorAll('div[selector="nosplit"] > div')[0].addEventListener('click', function() {
-				console.log('No split clicked');
-				htmlEl.classList.remove('splitView');
-			}, false);
-			document.querySelectorAll('div[selector="horizontal"] > div')[0].addEventListener('click', function() {
-				htmlEl.classList.add('splitView');
-			}, false);
-			document.querySelectorAll('div[selector="vertical"] > div')[0].addEventListener('click', function() {
-				htmlEl.classList.add('splitView');
-			}, false);
-			// on .asa (quick toggle) -- common class name, not going to work
-			// ...
-			*/
-		} else {
-			if (simplifyDebug) console.log('No split view');
-			htmlEl.classList.remove('splitView');
-			window.localStorage.simplifyPreviewPane = false;
-		}
-	} else {
+	// Short term patch: Offline seems to mess with detecting splitPanes
+	var offlineActive = document.getElementsByClassName('bvE');
+	if (offlineActive && detectSplitViewLoops == 0) {
 		detectSplitViewLoops++;
-		if (simplifyDebug) console.log('initSettings loop #' + detectSplitViewLoops);
-
-		// only try 10 times and then assume no split view
-		if (detectSplitViewLoops < 11) {
-			// Call init function again if the gear button field wasn't loaded yet
-			setTimeout(detectSplitView, 500);
+		setTimeout(detectSplitView, 2000);
+	} else {
+		// Only the Preview Pane vertical or horizontal has the action bar 
+		var splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
+		if (splitViewActionBar ) {
+			if (splitViewActionBar.length > 0) {
+				if (simplifyDebug) console.log('Split view detected and active');
+				htmlEl.classList.add('splitView');
+				window.localStorage.simplifyPreviewPane = true;
+				/* TODO: Listen for splitview mode toggle via mutation observer */
+			} else {
+				if (simplifyDebug) console.log('No split view');
+				htmlEl.classList.remove('splitView');
+				window.localStorage.simplifyPreviewPane = false;
+			}
 		} else {
-			if (simplifyDebug) console.log('Giving up on detecting split view');
+			detectSplitViewLoops++;
+			if (simplifyDebug) console.log('initSettings loop #' + detectSplitViewLoops);
+
+			// only try 10 times and then assume no split view
+			if (detectSplitViewLoops < 11) {
+				// Call init function again if the gear button field wasn't loaded yet
+				setTimeout(detectSplitView, 500);
+			} else {
+				if (simplifyDebug) console.log('Giving up on detecting split view');
+			}
 		}
 	}
 }
@@ -486,8 +479,9 @@ function detectAddOns() {
 
 
 // Detect Right Side Chat (why hasn't Gmail killed this already?)
+// BUG: Not working?
 function detectRightSideChat() {
-	var rightSideChat = document.getElementsByClassName('aCl')[0]
+	var rightSideChat = document.getElementsByClassName('aCl')[0];
 	if (rightSideChat) {
 		if (simplifyDebug) console.log('Right side chat found');
 		htmlEl.classList.add('rhsChat');
@@ -580,8 +574,8 @@ window.addEventListener('DOMContentLoaded', initEarly, false);
 
 function initLate() {
 	detectTheme();
-	detectDensity();
 	detectSplitView();
+	detectDensity();
 	detectRightSideChat();
 	detectMultipleInboxes();
 	detectAddOns();

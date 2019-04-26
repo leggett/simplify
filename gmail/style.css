@@ -110,12 +110,14 @@ html.simpl .gb_Oa {
 }
 
 /* Clean up the butter bar (loading, etc) */
-html.simpl .vX vh {
+html.simpl .vX .vh {
 	border: none;
     border-radius: 0 0 4px 4px;
     padding: 8px 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
+
+
 
 
 /* ==================================================
@@ -218,7 +220,11 @@ html.simpl.multiBoxHorz .aeF > div.nH {
 	max-width: 1200px !important;
 }
 
-
+/* Nudge the offline button closer to the settings gear */
+html.simpl .aqJ .bvX, 
+html.simpl .adF .bvX {
+	margin-right: 16px !important;
+}
 
 
 
@@ -545,7 +551,7 @@ html.simpl.splitView .AO .aeF > .nH {
 }
 @media only screen and (min-width: 1450px) {
 	html.simpl.splitView .AO .aeF > .nH {
-		max-width: 1600px;
+		max-width: 1680px;
 		margin: 0 auto;
 	}
 }
@@ -623,6 +629,26 @@ html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
 /* Dim from email address in conversation view */
 html.simpl div[role="listitem"] h3.iw .go {
 	opacity: 0.5;
+}
+
+/* Clean up "New message from" banner */
+html.simpl .ata-asE {
+	right: auto;
+	left: 24px;
+	bottom: 24px;
+	font-size: .875rem;
+	color: #fff;
+	background-color: #202124;
+	padding: 18px;
+	border: none;
+	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+}
+html.simpl .ata-asE > span:first-child:not(.ata-asJ) {
+	padding-right: 12px;
+}
+html.simpl .ata-asE .ata-asJ {
+	color: #8ab4f8;
+	padding-left: 12px;
 }
 
 
