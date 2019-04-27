@@ -6,7 +6,7 @@
  * More info: simpl.fyi/gmail
  * Code base: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
- * Search for TODO and BUG 
+ * Search for TODO and BUG
  */
 
 
@@ -16,8 +16,8 @@
 
 
 /* INBOX */
-/* Change font in inbox 
-html.simpl div[role="main"] div.zt td, 
+/* Change font in inbox
+html.simpl div[role="main"] div.zt td,
 html.simpl div[role="main"] div.zt td div {
 	font-family: 'Helvetica Neue', Helvetica, Roboto, RobotoDraft, Arial, sans-serif !important;
 }
@@ -42,7 +42,7 @@ html.simpl div[role="main"] div.zt td div {
 */
 
 /* CONVERSATION */
-/* TODO: Style to hint that clicking outside the message goes back to the inbox 
+/* TODO: Style to hint that clicking outside the message goes back to the inbox
 html.simpl .aeF:hover {
 	cursor: w-resize;
 }
@@ -51,7 +51,7 @@ html.simpl .aeF > div:hover {
 }
 */
 
-/* COMPOSER 
+/* COMPOSER
  * Make the compose mole smaller -- I tried this in an early version of Simplify and it messed things up
  */
 
@@ -59,7 +59,7 @@ html.simpl .aeF > div:hover {
 
 
 /* ==================================================
- * GLOBAL 
+ * GLOBAL
  */
 
 /* Hide footer */
@@ -70,19 +70,19 @@ html.simpl .aeG {
 
 
 
-/* ================================================== 
- * APP BAR (menu and account switcher + container for search) 
+/* ==================================================
+ * APP BAR (menu and account switcher + container for search)
  */
 
 /* Hide Gmail logo and name */
-html.simpl header a[href="#inbox"] { 
+html.simpl header a[href="#inbox"] {
 	display: none;
 }
 html.simpl .gb_qc {
 	min-width: 58px !important;
 	padding-right: 0px;
 }
-/* 
+/*
 Hide App Switcher */
 html.simpl #gbwa {
 	display: none !important;
@@ -121,7 +121,7 @@ html.simpl .vX .vh {
 
 
 /* ==================================================
- * ACTION BAR (actions, pagination, and settings) 
+ * ACTION BAR (actions, pagination, and settings)
  */
 
 /* Move action bar on top of app bar and to right of menu button */
@@ -132,7 +132,7 @@ html.simpl .aeH {
 	width: calc(65% - 92px);
 
 	/* Reduce z-index from 986 so action bar can live on top of it */
-	z-index: 6; 
+	z-index: 6;
 }
 html.simpl .aeH .G-atb {
 	height: 64px;
@@ -186,8 +186,8 @@ html.simpl .aeI .G-atb {
 /* Hide Support button / menu -- Help is available under Settings gear */
 /* html.simpl div[data-tooltip="Support"], html.simpl div.zo { display: none; } */
 /* Hide any buttons after the Search input including the support button (a bit risky) */
-html.simpl #gb .gb_td ~ div { 
-	display: none; 
+html.simpl #gb .gb_td ~ div {
+	display: none;
 }
 
 /* Remove right padding from action bar so search is always correctly placed */
@@ -221,7 +221,7 @@ html.simpl.multiBoxHorz .aeF > div.nH {
 }
 
 /* Nudge the offline button closer to the settings gear */
-html.simpl .aqJ .bvX, 
+html.simpl .aqJ .bvX,
 html.simpl .adF .bvX {
 	margin-right: 16px !important;
 }
@@ -229,7 +229,7 @@ html.simpl .adF .bvX {
 
 
 /* ==================================================
- * SEARCH 
+ * SEARCH
  */
 
 /* Push search to the right */
@@ -352,8 +352,8 @@ html.simpl div[gh="gt"] {
 
 
 
-/* ================================================== 
- * INBOX 
+/* ==================================================
+ * INBOX
  */
 
 /* Bump up the line height a little in the inbox */
@@ -375,11 +375,11 @@ html.simpl .aeF {
 /* Max width inbox and conversation and add top padding */
 html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
-	max-width: 960px; 
+	max-width: 960px;
 }
 @media only screen and (min-width: 1450px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
-		max-width: 1100px;
+		max-width: none;
 	}
 }
 
@@ -401,10 +401,10 @@ html.simpl .AO .aeF > .nH {
 html.simpl div[gh="tl"] div[role="tabpanel"] {
 	padding-bottom: 1em;
 }
-/* TODO: Remove that extra padding if the section is hidden 
+/* TODO: Remove that extra padding if the section is hidden
  * This doesn't work
 html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
-	margin-bottom: -2em; 
+	margin-bottom: -2em;
 }
 */
 
@@ -471,7 +471,7 @@ html.simpl .aKh:hover {
 /* Further dim the non-active category tab */
 html.simpl .aKh .aAy[aria-selected="false"] {
 	opacity: 0.5;
-	transition: opacity 0.2s ease-in 0s;	
+	transition: opacity 0.2s ease-in 0s;
 }
 html.simpl .aKh .aAy[aria-selected="false"]:hover,
 html.simpl .aKh .aAy[aria-selected="true"] {
@@ -502,7 +502,7 @@ html.simpl div[role="main"] .J-KU-KO.aAy:before {
 
 
 /* ==================================================
- * SPLIT PANE VIEW 
+ * SPLIT PANE VIEW
  */
 
 /* Move action bar over app bar */
@@ -596,7 +596,7 @@ html.simpl.splitView .aph {
 
 
 /* ==================================================
- * CONVERSATION VIEW 
+ * CONVERSATION VIEW
  */
 
 /* Not sure why, but sometimes this div below the conversation gets 440px bottom padding */
@@ -655,7 +655,7 @@ html.simpl .ata-asE .ata-asJ {
 
 
 /* ==================================================
- * COMPOSER 
+ * COMPOSER
  */
 
 /* A touch more padding above the from field and subject */
@@ -680,9 +680,9 @@ html.simpl .aSs {
 }
 
 /* BUGS: moving stuff around here is causing problems */
-/* Move extended compose buttons inline  
-html.simpl .aSs .aDl > .Ur, 
-html.simpl .aSs .aDn > .aDl > .Ur, 
+/* Move extended compose buttons inline
+html.simpl .aSs .aDl > .Ur,
+html.simpl .aSs .aDn > .aDl > .Ur,
 html.simpl .aSs .aDi > .aDl > .Ur {
 	left: 205px !important;
 	bottom: -54px !important;
@@ -693,7 +693,7 @@ html.simpl .aSs .aZ > .J-Z {
 }
 */
 
-/* Hide useless buttons in full screen compose and move bar inline 
+/* Hide useless buttons in full screen compose and move bar inline
 html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
@@ -716,7 +716,7 @@ html.simpl .bAw {
 	position: fixed;
 	right: 47px !important;
 	bottom: 100px !important;
-	height: 36px !important; 
+	height: 36px !important;
 	width: 36px !important;
 	min-width: 36px !important;
 	overflow-y: hidden;
@@ -743,10 +743,10 @@ html.simpl .bAw > div:first-child {
 }
 
 /* Show add-ons when you hover over the menu */
-:root { 
+:root {
 	--add-on-height: 168px;
 }
-html.simpl .bAw:hover { 
+html.simpl .bAw:hover {
 	background: initial;
 	right: 38px !important;
 	width: 54px !important;
@@ -792,7 +792,7 @@ html.simpl .bAw div[role="navigation"] > div:first-child {
 	margin: -var(--add-on-height) 0px 0px -10px;
 }
 
-/* Move add-on chooser labels to left so they aren't easily 
+/* Move add-on chooser labels to left so they aren't easily
  * hovered on (which causes add-on chooser to hide) */
 html.simpl .brC-ays {
 	margin: -41px 0 0 -60px;
@@ -829,12 +829,12 @@ html.simpl.addOnsPane .z0 {
 }
 
 /* Less shadow on the button to show the add-ons pane */
-html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw { 
+html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw {
 	box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
 }
 
-/* Change the add-ons pane drop shadow to a stroke */ 
+/* Change the add-ons pane drop shadow to a stroke */
 html.simpl .bq9,
 html.simpl .bq9 div {
 	box-shadow: none;
@@ -863,7 +863,7 @@ html.simpl.addOnsPane.hideSearch.splitView .G-atb[gh="tm"] {
 
 
 /* ==================================================
- * SETTINGS 
+ * SETTINGS
  */
 
 /* Show back button when in settings */
@@ -923,7 +923,7 @@ html.simpl.inSettings .aeH .f2 .dJ {
 
 
 
-/* ================================================== 
+/* ==================================================
  * SIMPL TOGGLE -- Currencly hidden
  */
 
