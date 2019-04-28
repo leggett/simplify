@@ -82,8 +82,7 @@ html.simpl .gb_qc {
 	min-width: 58px !important;
 	padding-right: 0px;
 }
-/* 
-Hide App Switcher */
+/* Hide App Switcher */
 html.simpl #gbwa {
 	display: none !important;
 }
@@ -154,6 +153,32 @@ html.simpl .aeH .G-atb::before {
 html.simpl.hideSearch .aeH {
 	width: calc(100vw - 172px);
 }
+
+/* TODO: At >= 1040px wide, align action bar to Inbox */
+/* BUG: calculations aren't right and only moves left side 
+@media only screen and (min-width: 1040px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: 196px !important;
+	}
+}
+@media only screen and (min-width: 1287px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: calc((100vw - 960px + 64px) / 2) !important;
+	}
+}
+@media only screen and (min-width: 1450px) {
+	html.simpl.hideSearch .aeH .G-atb {
+		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
+	}
+}
+@media only screen and (min-width: 1600px) {
+	html.simpl .aeH .G-atb {
+		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
+	}
+}
+*/
+
+
 
 /* Dim pagination controls unless hovered over */
 /* BUG: the pagination controls are on each section in Priority Inbox */
