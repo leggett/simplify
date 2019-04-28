@@ -11,7 +11,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = true;
+var simplifyDebug = false;
 
 // Add simpl style to html tag
 var htmlEl = document.documentElement;

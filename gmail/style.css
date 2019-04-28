@@ -727,14 +727,14 @@ html.simpl .bAw {
 	transition: width 0s ease-out 0s;
 	transition: right 0s ease-out 0s;
 	background-color: rgba(255,255,255,.9);
-	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
 	background-repeat: no-repeat;
 	background-position: 6px 7px;
 	background-size: 24px;
 }
 html.simpl.darkTheme .bAw {
 	background-color: rgba(51,51,51,.9);
-	background-image: url("//www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
 }
 
 /* Hide everything inside the add-ons menu until you hover on it */
@@ -795,8 +795,8 @@ html.simpl .bAw div[role="navigation"] > div:first-child {
 /* Move add-on chooser labels to left so they aren't easily 
  * hovered on (which causes add-on chooser to hide) */
 html.simpl .brC-ays {
-	margin: -41px 0 0 -60px;
-	max-width: 50px;
+	margin: -41px 0 0 -65px;
+	max-width: 54px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
