@@ -1,11 +1,10 @@
-
 /* ==================================================
  * SIMPLIFY GMAIL
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
- * More info: simpl.fyi/gmail
- * Code base: github.com/leggett/simplify/blob/master/gmail/
+ * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
+ * More info: simpl.fyi
  */
 
 
@@ -18,7 +17,7 @@ var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Toggles custom style and returns latest state
-function toggleSimpl(){
+function toggleSimpl() {
 	return htmlEl.classList.toggle('simpl');
 }
 
@@ -30,12 +29,11 @@ function handleToggleShortcut(event) {
 		event.preventDefault();
 	}
 }
-
 window.addEventListener('keydown', handleToggleShortcut, false);
 
 // Handle messages from background script
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
-	if (message.action === 'toggle_simpl'){
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+	if (message.action === 'toggle_simpl') {
 		const isNowToggled = toggleSimpl();
 		sendResponse({toggled: isNowToggled});
 	}
@@ -44,16 +42,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
 // Activate page action button
 chrome.runtime.sendMessage({action: 'activate_page_action'});
 
-/* Add simpl Toggle button
-window.addEventListener('load', function() {
-	var elem = document.createElement("div");
-	elem.id = 'simplToggle';
-	elem.addEventListener('click', toggleSimpl, false);
-	document.body.insertBefore(elem, document.body.childNodes[0]);
-}, false);
-*/
 
-// Initialize saved states
+
+// == INIT SAVED STATES =================================================
+
 if (window.localStorage.simplifyPreviewPane == "true") {
 	if (simplifyDebug) console.log('Loading with split view');
 	htmlEl.classList.add('splitView');
@@ -83,7 +75,6 @@ if (window.localStorage.simplifyRightSideChat == "true") {
 	if (simplifyDebug) console.log('Loading with right hand side chat');
 	htmlEl.classList.add('rhsChat');
 }
-
 
 // Hide Search box by default
 if (typeof window.localStorage.simplifyHideSearch === 'undefined') {

@@ -10,7 +10,6 @@
 		"48": "img/icon48.png",
 		"128": "img/icon128.png"
 	},
-
 	"page_action": {
 		"default_icon": {
 			"16": "img/icon16.png",
@@ -20,12 +19,6 @@
 			"128": "img/icon128.png"
 		}
 	},
-
-	"background": {
-		"scripts": [ "pageActionHandler.js" ],
-		"persistent": false
-	},
-
 	"content_scripts": [{
       	"matches": ["*://mail.google.com/mail/*"],
       	"js": ["script.js"],
@@ -33,7 +26,10 @@
 		"run_at": "document_start",
 		"all_frames": false
 	}],
-
+	"background": {
+		"scripts": [ "pageActionHandler.js" ],
+		"persistent": false
+	},
 	"manifest_version": 2,
 	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'"
 }

@@ -1,13 +1,12 @@
-
 /* ==================================================
  * SIMPLIFY GMAIL
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
- * More info: simpl.fyi/gmail
- * Code base: github.com/leggett/simplify/blob/master/gmail/
+ * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
- * Search for TODO and BUG 
+ * More info: simpl.fyi
  */
+
 
 
 /* ==================================================
@@ -943,38 +942,4 @@ html.simpl.inSettings .aeH .f2 .fY {
 /* I'm not sure what element is for but it is ugly when using themes */
 html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
-}
-
-
-
-
-/* ================================================== 
- * SIMPL TOGGLE -- Currencly hidden
- */
-
-/* simpl Toggle button in bottom left corner */
-#simplToggle {
-	/* Hide simplToggle*/
-	display: none;
-
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	z-index: 9999999999;
-	border-radius: 8px 0 0 0;
-	font-family: sans-serif;
-	font-size: 14px;
-	font-weight: bold;
-	background-color: rgba(0,0,0,0.3);
-	color: #f5f5f5;
-	line-height: .5em;
-	padding: 10px 8px 8px 10px;
-	cursor: pointer;
-	opacity: .5;
-}
-#simplToggle:before {
-	content: "π";
-}
-html.simpl #simplToggle {
-	opacity: 1;
 }
