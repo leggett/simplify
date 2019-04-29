@@ -19,13 +19,13 @@ Gmail has a lot of features and even more 3rd party plug-ins. I've done my best 
 
 
 ## Screenshots
-![Screenshot 1](https://github.com/leggett/simplify/raw/master/gmail/screens/01.png)
-![Screenshot 2](https://github.com/leggett/simplify/raw/master/gmail/screens/02.png)
-![Screenshot 3](https://github.com/leggett/simplify/raw/master/gmail/screens/03.png)
-![Screenshot 4](https://github.com/leggett/simplify/raw/master/gmail/screens/04.png)
-![Screenshot 5](https://github.com/leggett/simplify/raw/master/gmail/screens/05.png)
-![Screenshot 6](https://github.com/leggett/simplify/raw/master/gmail/screens/06.png)
-![Screenshot 7](https://github.com/leggett/simplify/raw/master/gmail/screens/07.png)
-![Screenshot 8](https://github.com/leggett/simplify/raw/master/gmail/screens/08.png)
-![Screenshot 9](https://github.com/leggett/simplify/raw/master/gmail/screens/09.png)
-![Screenshot 10](https://github.com/leggett/simplify/raw/master/gmail/screens/10.png)
+![Screenshot 1](https://github.com/leggett/simplify/raw/master/screens/01.png)
+![Screenshot 2](https://github.com/leggett/simplify/raw/master/screens/02.png)
+![Screenshot 3](https://github.com/leggett/simplify/raw/master/screens/03.png)
+![Screenshot 4](https://github.com/leggett/simplify/raw/master/screens/04.png)
+![Screenshot 5](https://github.com/leggett/simplify/raw/master/screens/05.png)
+![Screenshot 6](https://github.com/leggett/simplify/raw/master/screens/06.png)
+![Screenshot 7](https://github.com/leggett/simplify/raw/master/screens/07.png)
+![Screenshot 8](https://github.com/leggett/simplify/raw/master/screens/08.png)
+![Screenshot 9](https://github.com/leggett/simplify/raw/master/screens/09.png)
+![Screenshot 10](https://github.com/leggett/simplify/raw/master/screens/10.png)
