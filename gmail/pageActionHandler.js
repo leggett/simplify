@@ -1,5 +1,5 @@
-const toggleOnTitle = 'Toggle simplify on';
-const toggleOffTitle = 'Toggle simplify off';
+const toggleOnTitle = 'Enable Simplify';
+const toggleOffTitle = 'Temporarily disable Simplify';
 
 function updateTitle(tabId, toggled) {
     chrome.pageAction.setTitle({
