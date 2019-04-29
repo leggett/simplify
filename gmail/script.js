@@ -17,15 +17,32 @@ var simplifyDebug = false;
 var htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
+// Toggles custom style and returns latest state
+function toggleSimpl(){
+	return htmlEl.classList.toggle('simpl');
+}
+
 // Add keyboard shortcut for toggling on/off custom style
-function toggleSimpl(event) {
+function handleToggleShortcut(event) {
 	// If Cmd+J was pressed, toggle simpl
 	if (event.metaKey && event.which == 74) {
-		htmlEl.classList.toggle('simpl');
+		toggleSimpl();
 		event.preventDefault();
 	}
 }
-window.addEventListener('keydown', toggleSimpl, false);
+
+window.addEventListener('keydown', handleToggleShortcut, false);
+
+// Handle messages from background script
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
+	if (message.action === 'toggle_simpl'){
+		const isNowToggled = toggleSimpl();
+		sendResponse({toggled: isNowToggled});
+	}
+});
+
+// Activate page action button
+chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 /* Add simpl Toggle button
 window.addEventListener('load', function() {
