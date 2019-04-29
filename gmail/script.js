@@ -49,6 +49,15 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 if (window.localStorage.simplifyPreviewPane == "true") {
 	if (simplifyDebug) console.log('Loading with split view');
 	htmlEl.classList.add('splitView');
+} else {
+	// Multiple Inboxes only works if Preview Pane is disabled
+	if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
+		if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
+		htmlEl.classList.add('multiBoxHorz');
+	} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
+		if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
+		htmlEl.classList.add('multiBoxVert');
+	}
 }
 if (window.localStorage.simplifyLightTheme == "true") {
 	if (simplifyDebug) console.log('Loading with light theme');
@@ -63,13 +72,6 @@ if (window.localStorage.simplifyDensity == "low") {
 } else if (window.localStorage.simplifyDensity == "high") {
 	if (simplifyDebug) console.log('Loading with high density inbox');
 	htmlEl.classList.add('highDensityInbox');
-}
-if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
-	if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
-	htmlEl.classList.add('multiBoxHorz');
-} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
-	if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
-	htmlEl.classList.add('multiBoxVert');
 }
 if (window.localStorage.simplifyRightSideChat == "true") {
 	if (simplifyDebug) console.log('Loading with right hand side chat');
@@ -373,10 +375,18 @@ function detectSplitView() {
 				htmlEl.classList.add('splitView');
 				window.localStorage.simplifyPreviewPane = true;
 				/* TODO: Listen for splitview mode toggle via mutation observer */
+
+				// Multiple Inboxes only works when Split view is disabled
+				window.localStorage.simplifyMultipleInboxes = "none";
+				htmlEl.classList.remove('multiBoxVert');
+				htmlEl.classList.remove('multiBoxHorz');
 			} else {
 				if (simplifyDebug) console.log('No split view');
 				htmlEl.classList.remove('splitView');
 				window.localStorage.simplifyPreviewPane = false;
+
+				// Multiple Inboxes only works when Split view is disabled
+				detectMultipleInboxes();
 			}
 		} else {
 			detectSplitViewLoops++;
@@ -585,7 +595,6 @@ function initLate() {
 	detectSplitView();
 	detectDensity();
 	detectRightSideChat();
-	detectMultipleInboxes();
 	detectAddOns();
 	testPagination();
 	observePagination(); 

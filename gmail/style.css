@@ -241,6 +241,12 @@ html.simpl .adF .bvX {
 	margin-right: 16px !important;
 }
 
+/* Hide the Offline icon */
+html.simpl .bvE {
+	display: none;
+}
+
+
 
 
 /* ==================================================
@@ -533,6 +539,15 @@ html.simpl.splitView .G-atb[gh="tm"]:before {
 	-webkit-box-shadow: none;
 }
 
+/* If Multiple Inboxes AND Preview Pane are enabled,
+ * there will be multiple action bars; Multiple Inboxes
+ * only works when Preview Pane is disabled. So hide
+ * the other action bars if there are multiple
+ */
+html.simpl.splitView .G-atb[gh="tm"]:not(:first-child) {
+	display: none;
+}
+
 /* Expand action bar when search is hidden */
 html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
 	width: calc(100vw - 210px);
@@ -583,8 +598,13 @@ html.simpl.splitView .aiw {
 }
 
 /* Give view full height */
+/* BUG #114: we should only apply this to vertical split pane */
 html.simpl.splitView .apg .age {
+	/* Normally... */
 	height: calc(100vh - 64px);
+	
+	/* In default inbox, there are tabs */
+	/*height: calc(100vh - 119px);*/
 }
 
 /* Add padding to bottom of conversation view */
