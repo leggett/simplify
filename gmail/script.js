@@ -359,6 +359,7 @@ function detectDensity() {
 }
 
 // Detect if preview panes are enabled and being used
+// TODO: I should rename SplitView PreviewPane as that is what Gmail calls the feature
 var detectSplitViewLoops = 0;
 function detectSplitView() {
 	// Short term patch: Offline seems to mess with detecting splitPanes
@@ -367,37 +368,42 @@ function detectSplitView() {
 		detectSplitViewLoops++;
 		setTimeout(detectSplitView, 2000);
 	} else {
-		// Only the Preview Pane vertical or horizontal has the action bar 
-		var splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
-		if (splitViewActionBar ) {
-			if (splitViewActionBar.length > 0) {
-				if (simplifyDebug) console.log('Split view detected and active');
-				htmlEl.classList.add('splitView');
-				window.localStorage.simplifyPreviewPane = true;
-				/* TODO: Listen for splitview mode toggle via mutation observer */
+		var splitViewToggle = document.querySelector('div[selector="nosplit"]');
+		if (splitViewToggle) {
+			// Only the Preview Pane vertical or horizontal has the action bar 
+			var splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
+			if (splitViewActionBar) {
+				if (splitViewActionBar.length > 0) {
+					if (simplifyDebug) console.log('Split view detected and active');
+					htmlEl.classList.add('splitView');
+					window.localStorage.simplifyPreviewPane = true;
+					/* TODO: Listen for splitview mode toggle via mutation observer */
 
-				// Multiple Inboxes only works when Split view is disabled
-				window.localStorage.simplifyMultipleInboxes = "none";
-				htmlEl.classList.remove('multiBoxVert');
-				htmlEl.classList.remove('multiBoxHorz');
+					// Multiple Inboxes only works when Split view is disabled
+					window.localStorage.simplifyMultipleInboxes = "none";
+					htmlEl.classList.remove('multiBoxVert');
+					htmlEl.classList.remove('multiBoxHorz');
+				} else {
+					if (simplifyDebug) console.log('No split view');
+					htmlEl.classList.remove('splitView');
+					window.localStorage.simplifyPreviewPane = false;
+				}
+			}
+		} else {
+			detectSplitViewLoops++;
+			if (simplifyDebug) console.log('Detect preview pane loop #' + detectSplitViewLoops);
+
+			// only try 10 times and then assume no split view
+			if (detectSplitViewLoops < 8) {
+				// Call init function again if the gear button field wasn't loaded yet
+				setTimeout(detectSplitView, 500);
 			} else {
-				if (simplifyDebug) console.log('No split view');
+				if (simplifyDebug) console.log('Giving up on detecting split view');
 				htmlEl.classList.remove('splitView');
 				window.localStorage.simplifyPreviewPane = false;
 
 				// Multiple Inboxes only works when Split view is disabled
 				detectMultipleInboxes();
-			}
-		} else {
-			detectSplitViewLoops++;
-			if (simplifyDebug) console.log('initSettings loop #' + detectSplitViewLoops);
-
-			// only try 10 times and then assume no split view
-			if (detectSplitViewLoops < 11) {
-				// Call init function again if the gear button field wasn't loaded yet
-				setTimeout(detectSplitView, 500);
-			} else {
-				if (simplifyDebug) console.log('Giving up on detecting split view');
 			}
 		}
 	}
@@ -513,8 +519,9 @@ function detectRightSideChat() {
 
 // Detect Multiple Inboxes
 function detectMultipleInboxes() {
-	var inboxesPanes = document.querySelectorAll('div[role="main"]').length;
-	if (inboxesPanes > 1) {
+	var viewAllButton = document.getElementsByClassName('p9').length;
+	// var inboxesPanes = document.querySelectorAll('div[role="main"]').length;
+	if (viewAllButton > 0) {
 		if (simplifyDebug) console.log('Multiple inboxes found');
 		var actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
 		if (actionBars > 1) {
