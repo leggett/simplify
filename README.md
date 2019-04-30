@@ -3,7 +3,10 @@
 A Chrome extension that brings the simplicity of Google Inbox to Gmail.
 
 ## How to use Simplify
-Add the extension and refresh Gmail: <https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj>
+Add the extension and refresh Gmail:
+
+- [Chrome](https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj)
+- [Firefox](https://addons.mozilla.org/pt-PT/firefox/addon/simplifygmail/)
 
 
 ## Who made Simplify
