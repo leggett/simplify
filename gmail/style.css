@@ -13,6 +13,41 @@
  * EXPERIMENTAL
  */
 
+/*
+Detect text buttons
+
+Preview pane
+	No split
+	Horizontal
+	Vertical
+
+Multiple inboxes
+	Vertical
+	Horizontal
+
+Resolution
+	< 960px
+	961 - 1449
+	> 1450
+
+Search
+	Expanded
+	Hidden
+
+Add-ons
+	Visible
+	Hidden
+
+Indent from the left
+	.simpl.splitView:not(textButtons) {
+		Indent a little
+	}
+
+	.simpl:not(splitView):not(textButtons) {
+		Indent a lot
+	}
+ */
+
 
 /* TODO: At >= 1040px wide, align action bar to Inbox */
 /* BUG: calculations aren't right and only moves left side 
@@ -83,6 +118,27 @@ html.simpl .aeG {
 	display: none;
 }
 
+/* Move and restyle the vacation auto-responder */
+html.simpl .w-MH {
+	position: fixed;
+	width: auto;
+    padding: 18px 24px;
+    bottom: 24px;
+    left: 24px;
+    font-size: .875rem;
+	font-weight: bold;
+	border: none;
+	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	border-radius: 2px;
+
+	/* Override the black on yellow default theme */
+	color: #fff;
+	background-color: #202124;
+}
+html.simpl .w-MH .e {
+	margin-left: 16px;
+	color: #8ab4f8;
+}
 
 
 
