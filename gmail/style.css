@@ -320,19 +320,21 @@ html.simpl #gb form {
 }
 
 /* Minimize search to an icon when hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) {
+html.simpl.hideSearch #gb form:not(.gb_pe) {
 	width: 54px;
 	margin-right: 0px;
 }
 
+/* UNSTABLE: gb_pe */
 /* Make search box transparent when hidden */
-html.simpl.hideSearch #gb form:not(.gb_oe) {
+html.simpl.hideSearch #gb form:not(.gb_pe) {
 	background-color: transparent;
 }
 
+/* UNSTABLE: gb_Ve */
 /* Hide all search form buttons except search button when search is hidden */
 /* For non-english interfaces, may break as this class name gets changed often */
-html.simpl.hideSearch #gb form:not(.gb_oe) button:not([aria-label="Search Mail"]):not(.gb_Ue) {
+html.simpl.hideSearch #gb form:not(.gb_pe) button:not([aria-label="Search Mail"]):not(.gb_Ve) {
 	display: none;
 }
 
@@ -415,8 +417,9 @@ html.simpl .aeN .ajj:before {
 }
 
 /* Hide the compose and add-ons button when in Settings */
-html.simpl.inSettings .z0 {
-	margin-top: 64px;
+html.simpl.inSettings .z0,
+html.simpl.inSettings .bAw {
+	display: none;
 }
 
 /* Make the bottom Hangouts tabs a little less ugly */
@@ -425,7 +428,14 @@ html.simpl div[gh="gt"] {
 	border-top: 0px;
 	padding-left: 18px;
 }
-
+html.simpl.rhsChat div[gh="gt"] {
+	text-align: right;
+	border-top: 0px;
+	padding-left: 0px;
+}
+html.simpl.rhsChat .akj {
+	margin-top: 12px;
+}
 
 
 

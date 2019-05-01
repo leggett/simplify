@@ -46,66 +46,94 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 // == INIT SAVED STATES =================================================
 
-if (window.localStorage.simplifyPreviewPane == "true") {
-	if (simplifyDebug) console.log('Loading with split view');
-	htmlEl.classList.add('splitView');
-} else {
-	// Multiple Inboxes only works if Preview Pane is disabled
-	if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
-		if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
-		htmlEl.classList.add('multiBoxHorz');
-	} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
-		if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
-		htmlEl.classList.add('multiBoxVert');
-	}
-}
-if (window.localStorage.simplifyLightTheme == "true") {
-	if (simplifyDebug) console.log('Loading with light theme');
-	htmlEl.classList.add('lightTheme');	
-} else if (window.localStorage.simplifyDarkTheme == "true") {
-	if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
-	htmlEl.classList.add('darkTheme');
-}
-if (window.localStorage.simplifyDensity == "low") {
-	if (simplifyDebug) console.log('Loading with low density inbox');
-	htmlEl.classList.add('lowDensityInbox');
-} else if (window.localStorage.simplifyDensity == "high") {
-	if (simplifyDebug) console.log('Loading with high density inbox');
-	htmlEl.classList.add('highDensityInbox');
-}
-if (window.localStorage.simplifyRightSideChat == "true") {
-	if (simplifyDebug) console.log('Loading with right hand side chat');
-	htmlEl.classList.add('rhsChat');
-}
 
-// Hide Search box by default
-if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
-	// Only default to hiding search if the window is smaller than 1441px wide
-	if (window.innerWidth < 1441) {
-		window.localStorage.simplifyHideSearch = true;
+if (simplifyDebug) console.log( 'Title = ' + document.title );
+
+// Get username
+var usernameLoop = 0;
+function getUsername() {
+	var username = document.querySelector('.gb_db');
+	if (username) {
+		if (simplifyDebug) console.log( 'Username = ' + username.innerText );
+		//initLocalVar();
 	} else {
-		window.localStorage.simplifyHideSearch = false;
+		usernameLoop++;
+		if (simplifyDebug) console.log('Username loop #' + usernameLoop);
+		
+		if (usernameLoop < 21) {
+			setTimeout(getUsername, 100);
+		}
 	}
 }
-if (window.localStorage.simplifyHideSearch == "true") {
-	if (simplifyDebug) console.log('Loading with search hidden');
-	htmlEl.classList.add('hideSearch');
-}
 
-// Make space for add-ons pane if the add-ons pane was open last time
-if (typeof window.localStorage.simplifyAddOnPane === 'undefined') {
-	window.localStorage.simplifyAddOnPane = false;
-}
-if (window.localStorage.simplifyAddOnPane == "true") {
-	if (simplifyDebug) console.log('Loading with add-ons pane');
-	htmlEl.classList.add('addOnsPane');
-}
+function initLocalVar() {
+	if (window.localStorage.simplifyPreviewPane == "true") {
+		if (simplifyDebug) console.log('Loading with split view');
+		htmlEl.classList.add('splitView');
 
-// Set default size of add-ons tray
-if (typeof window.localStorage.simplifyNumberOfAddOns === 'undefined') {
-	window.localStorage.simplifyNumberOfAddOns = 3;
+		// Multiple Inboxes doesn't work if you have Preview Pane enabled
+		window.localStorage.simplifyMultipleInboxes = "none";
+		htmlEl.classList.remove('multiBoxVert');
+		htmlEl.classList.remove('multiBoxHorz');
+	} else {
+		// Multiple Inboxes only works if Preview Pane is disabled
+		if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
+			if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
+			htmlEl.classList.add('multiBoxHorz');
+		} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
+			if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
+			htmlEl.classList.add('multiBoxVert');
+		}
+	}
+	if (window.localStorage.simplifyLightTheme == "true") {
+		if (simplifyDebug) console.log('Loading with light theme');
+		htmlEl.classList.add('lightTheme');	
+	} else if (window.localStorage.simplifyDarkTheme == "true") {
+		if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
+		htmlEl.classList.add('darkTheme');
+	}
+	if (window.localStorage.simplifyDensity == "low") {
+		if (simplifyDebug) console.log('Loading with low density inbox');
+		htmlEl.classList.add('lowDensityInbox');
+	} else if (window.localStorage.simplifyDensity == "high") {
+		if (simplifyDebug) console.log('Loading with high density inbox');
+		htmlEl.classList.add('highDensityInbox');
+	}
+	if (window.localStorage.simplifyRightSideChat == "true") {
+		if (simplifyDebug) console.log('Loading with right hand side chat');
+		htmlEl.classList.add('rhsChat');
+	}
+
+	// Hide Search box by default
+	if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
+		// Only default to hiding search if the window is smaller than 1441px wide
+		if (window.innerWidth < 1441) {
+			window.localStorage.simplifyHideSearch = true;
+		} else {
+			window.localStorage.simplifyHideSearch = false;
+		}
+	}
+	if (window.localStorage.simplifyHideSearch == "true") {
+		if (simplifyDebug) console.log('Loading with search hidden');
+		htmlEl.classList.add('hideSearch');
+	}
+
+	// Make space for add-ons pane if the add-ons pane was open last time
+	if (typeof window.localStorage.simplifyAddOnPane === 'undefined') {
+		window.localStorage.simplifyAddOnPane = false;
+	}
+	if (window.localStorage.simplifyAddOnPane == "true") {
+		if (simplifyDebug) console.log('Loading with add-ons pane');
+		htmlEl.classList.add('addOnsPane');
+	}
+
+	// Set default size of add-ons tray
+	if (typeof window.localStorage.simplifyNumberOfAddOns === 'undefined') {
+		window.localStorage.simplifyNumberOfAddOns = 3;
+	}
+	htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplifyNumberOfAddOns)*56 + 'px');
 }
-htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplifyNumberOfAddOns)*56 + 'px');
+initLocalVar();
 
 
 
@@ -152,12 +180,12 @@ if (location.hash.substring(1, 9) == "settings") {
 function toggleSearchFocus(onOff) {	
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
-		document.querySelector('div.gb_td form').classList.remove('gb_oe');
+		document.querySelector('div.gb_td form').classList.remove('gb_pe');
 
 		// Remove focus from search input or button 
 		document.activeElement.blur();
 	} else {
-		document.querySelector('div.gb_td form').classList.add('gb_oe');
+		document.querySelector('div.gb_td form').classList.add('gb_pe');
 		document.querySelector('div.gb_td form input').focus();
 	}
 }
@@ -176,7 +204,7 @@ function initSearch() {
 		searchForm.classList.toggle('gb_vd');
 		
 		// Add function to search button to toggle search open/closed
-		var searchButton = document.getElementsByClassName('gb_Ue')[0];
+		var searchButton = document.getElementsByClassName('gb_Ve')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
@@ -188,7 +216,7 @@ function initSearch() {
 		}, false);
 
 		// Add functionality to search close button to close search and go back
-		var searchCloseButton = document.getElementsByClassName('gb_Xe')[0];
+		var searchCloseButton = document.getElementsByClassName('gb_Ze')[0];
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
 		
 		// Hide search when you clear the search if it was previously hidden		
@@ -378,16 +406,15 @@ function detectSplitView() {
 					htmlEl.classList.add('splitView');
 					window.localStorage.simplifyPreviewPane = true;
 					/* TODO: Listen for splitview mode toggle via mutation observer */
-
-					// Multiple Inboxes only works when Split view is disabled
-					window.localStorage.simplifyMultipleInboxes = "none";
-					htmlEl.classList.remove('multiBoxVert');
-					htmlEl.classList.remove('multiBoxHorz');
 				} else {
-					if (simplifyDebug) console.log('No split view');
+					if (simplifyDebug) console.log('Split view enabled but set to No Split');
 					htmlEl.classList.remove('splitView');
 					window.localStorage.simplifyPreviewPane = false;
 				}
+				// Multiple Inboxes only works when Split view is disabled
+				window.localStorage.simplifyMultipleInboxes = "none";
+				htmlEl.classList.remove('multiBoxVert');
+				htmlEl.classList.remove('multiBoxHorz');
 			}
 		} else {
 			detectSplitViewLoops++;
@@ -503,15 +530,30 @@ function detectAddOns() {
 
 
 // Detect Right Side Chat (why hasn't Gmail killed this already?)
-// BUG: Not working?
+var detectRightSideChatLoops = 0;
 function detectRightSideChat() {
-	var rightSideChat = document.getElementsByClassName('aCl')[0];
-	if (rightSideChat) {
-		if (simplifyDebug) console.log('Right side chat found');
-		htmlEl.classList.add('rhsChat');
-		window.localStorage.simplifyRightSideChat = true;
+	var talkRoster = document.getElementById('talk_roster');
+	if (talkRoster) {
+		var rosterSide = talkRoster.getAttribute('guidedhelpid');
+		
+		if (rosterSide == "right_roster") {
+			if (simplifyDebug) console.log('Right side chat found');
+			htmlEl.classList.add('rhsChat');
+			window.localStorage.simplifyRightSideChat = true;
+		} else {
+			window.localStorage.simplifyRightSideChat = false;
+		}
 	} else {
-		window.localStorage.simplifyRightSideChat = false;
+		detectRightSideChatLoops++;
+		if (simplifyDebug) console.log('detectRhsChat loop #' + detectRightSideChatLoops);
+
+		// only try 10 times and then assume no add-on pane
+		if (detectRightSideChatLoops < 11) {
+			// Call init function again if the add-on pane wasn't loaded yet
+			setTimeout(detectRightSideChat, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting Talk roster');
+		}
 	}
 }
 
@@ -591,6 +633,7 @@ function observePagination() {
 
 // Initialize everything
 function initEarly() {
+	// getUsername();
 	initSearch();
 	initSearchFocus();
 	initSettings();
