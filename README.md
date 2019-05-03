@@ -1,9 +1,11 @@
 # simpl.fyi
 
-A Chrome extension that brings the simplicity of Google Inbox to Gmail.
+A browser extension that brings the simplicity of Google Inbox to Gmail.
 
 ## How to use Simplify
-Add the extension and refresh Gmail: <https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj>
+Add the extension to your browser and refresh Gmail. 
+For Chrome: <https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj> 
+For Firefox: <https://addons.mozilla.org/firefox/addon/simplifygmail/>
 
 
 ## Who made Simplify
@@ -16,6 +18,10 @@ I'm glad you asked. You should always be super careful what extensions or apps y
 
 ## Send feedback
 Gmail has a lot of features and even more 3rd party plug-ins. I've done my best to support all these things but it still may not work for your setup and that's ok. I'll do my best to update the extension as Gmail's code changes and hope to simplify other apps in the future. The best way to send feedback is here on GitHub but you can also [email me](mailto:hi.simplify@gmail.com) or [send me a tweet](https://twitter.com/leggett), and I'll do my best to respond.
+
+
+## More FAQ
+<https://simpl.fyi/#faq>
 
 
 ## Screenshots
