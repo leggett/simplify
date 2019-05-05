@@ -9,101 +9,9 @@
 
 
 
+
 /* ==================================================
  * EXPERIMENTAL
- */
-
-/*
-Detect text buttons
-
-Preview pane
-	No split
-	Horizontal
-	Vertical
-
-Multiple inboxes
-	Vertical
-	Horizontal
-
-Resolution
-	< 960px
-	961 - 1449
-	> 1450
-
-Search
-	Expanded
-	Hidden
-
-Add-ons
-	Visible
-	Hidden
-
-Indent from the left
-	.simpl.splitView:not(textButtons) {
-		Indent a little
-	}
-
-	.simpl:not(splitView):not(textButtons) {
-		Indent a lot
-	}
- */
-
-
-/* TODO: At >= 1040px wide, align action bar to Inbox */
-/* BUG: calculations aren't right and only moves left side 
-@media only screen and (min-width: 1040px) {
-	html.simpl.hideSearch .aeH .G-atb {
-		margin-left: 196px !important;
-	}
-}
-@media only screen and (min-width: 1287px) {
-	html.simpl.hideSearch .aeH .G-atb {
-		margin-left: calc((100vw - 960px + 64px) / 2) !important;
-	}
-}
-@media only screen and (min-width: 1450px) {
-	html.simpl.hideSearch .aeH .G-atb {
-		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
-	}
-}
-@media only screen and (min-width: 1600px) {
-	html.simpl .aeH .G-atb {
-		margin-left: calc((100vw - 1100px + 64px) / 2) !important;
-	}
-}
-*/
-
-
-/* Move stars to right side * /
-.zA .apU {
-	order: 2 !important;
-	display: flex;
-}
-/* Show starred icons only when starred * /
-.zA .apU > span {
-	display: none !important;
-}
-.zA .apU > span[title="Starred"] {
-	display: flex !important;
-}
-/* Show all stars on hover * /
-.zA.aqw > .xY.apU > span {
-	display: flex !important;
-}
-*/
-
-/* CONVERSATION */
-/* TODO: Style to hint that clicking outside the message goes back to the inbox 
-html.simpl .aeF:hover {
-	cursor: w-resize;
-}
-html.simpl .aeF > div:hover {
-	cursor: initial;
-}
-*/
-
-/* COMPOSER 
- * Make the compose mole smaller -- I tried this in an early version of Simplify and it messed things up
  */
 
 
@@ -142,6 +50,7 @@ html.simpl .w-MH .e {
 
 
 
+
 /* ================================================== 
  * APP BAR (menu and account switcher + container for search) 
  */
@@ -150,17 +59,20 @@ html.simpl .w-MH .e {
 html.simpl header a[href="#inbox"] { 
 	display: none;
 }
-html.simpl .gb_qc {
+
+/* Max width for comtainer around menu button & logo */
+html.simpl .gb_tc {
 	min-width: 58px !important;
 	padding-right: 0px;
 }
+
 /* Hide App Switcher */
 html.simpl #gbwa {
 	display: none !important;
 }
 
-/* Give more space for Settings icon to live to left of profile photo */
-html.simpl .gb_mc {
+/* Remove padding around profile photo so settings is better spaced */
+html.simpl .gb_pc {
 	padding-left: 0px !important;
 }
 
@@ -188,6 +100,11 @@ html.simpl .vX .vh {
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
+/* Reduce width of app bar when Addons are open */
+html.simpl.addOnsOpen header#gb {
+	width: calc(100vw - 300px);
+}
+
 
 
 
@@ -210,6 +127,7 @@ html.simpl .aeH .G-atb {
 }
 
 /* Remove extra right margin from action bar so it is spaced correctly */
+/* BUG: Added back 8px because something changed pushing settings too close to search */
 html.simpl .aeH .G-atb[gh="tm"] {
 	margin-right: 0px !important;
 	top: 0px;
@@ -224,6 +142,9 @@ html.simpl .aeH .G-atb::before {
 /* Make bar wider when search is hidden */
 html.simpl.hideSearch .aeH {
 	width: calc(100vw - 172px);
+}
+html.simpl.hideSearch.addOnsOpen .aeH {
+	width: calc(100vw - 172px - 300px);
 }
 
 /* Dim pagination controls unless hovered over */
@@ -255,14 +176,18 @@ html.simpl .aeI .G-atb {
 }
 
 /* Hide Support button / menu -- Help is available under Settings gear */
-/* html.simpl div[data-tooltip="Support"], html.simpl div.zo { display: none; } */
+/* html.simpl div[data-tooltip="Support"], this will always work in english but then I won't know when it breaks for other languages*/
+html.simpl div.zo {
+	display: none;
+}
+
 /* Hide any buttons after the Search input including the support button (a bit risky) */
-html.simpl #gb .gb_td ~ div { 
-	display: none; 
+html.simpl #gb .gb_ce ~ div { 
+	display: none;
 }
 
 /* Remove right padding from action bar so search is always correctly placed */
-html.simpl #gb .gb_td {
+html.simpl #gb .gb_ce {
 	padding-right: 0px !important;
 }
 
@@ -288,7 +213,18 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 	margin-top: 0px;
 }
 html.simpl.multiBoxHorz .aeF > div.nH {
-	max-width: 1200px !important;
+	max-width: 1100px !important;
+}
+
+@media only screen and (min-width: 1441px) {
+	html.simpl.multiBoxHorz .aeF > div.nH {
+		max-width: 2200px !important;
+	}
+	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
+		max-width: 1100px !important;
+		margin: 0 auto;
+	}
 }
 
 /* Nudge the offline button closer to the settings gear */
@@ -300,6 +236,133 @@ html.simpl .adF .bvX {
 /* Hide the Offline icon */
 html.simpl .bvE {
 	display: none;
+}
+
+
+
+
+/* ==================================================
+ * ALIGN ACTION BAR WITH CONTENT
+ */
+
+/*
+Resolutions
+	Low (< 960px)
+	Mid (961 - 1440)
+	x High (> 1441)
+
+Views
+	x Default inbox w/ tabs
+	x Search (including label)
+	Priority inbox
+	Preview pane vertical
+	Preview pane horizontal
+	Multiple inboxes vertical
+	Multiple inboxes horizontal
+
+States (icon buttons)
+	Menu closed
+	Menu closed, Right side chat
+	Menu closed, Right side chat, Search open
+	Menu closed, Add-ons open
+	Menu closed, Add-ons open, Search open
+	Menu open
+	Menu open, Right side chat
+	Menu open, Right side chat, Search open
+	Menu open, Add-ons open
+	Menu open, Add-ons open, Search open
+
+States (text button labels)
+	Menu closed
+	Menu closed, Right side chat
+	Menu closed, Right side chat, Search open
+	Menu closed, Add-ons open
+	Menu closed, Add-ons open, Search open
+	Menu open
+	Menu open, Right side chat
+	Menu open, Right side chat, Search open
+	Menu open, Add-ons open
+	Menu open, Add-ons open, Search open
+ */
+
+/* BUG: I had this turned on for > 1441px BUT it all breaks as 
+ * soon as opening things like the menu and add-ons forces the 
+ * content to be less than 1100px -- it is possible my whole
+ * approach is wrong and I should do this with mutation observers
+ * and computing the width/location of things.
+ * 
+ * For now, I'm just going to apply it when the screen is wide 
+ * enough that the menu, content, and add-ons can all fit so 
+ * I can push the update. 
+ */
+@media only screen and (min-width: 1641px) {
+	/* ----------------------------------------------
+	 * DEFAULT INBOX / VIEWS
+	 * Move actions to left edge of content 
+	 */
+	html.simpl { 
+		--content-width: 1100px;
+		--left-offset: 44px;
+	}
+	html.simpl.menuOpen {
+		--left-offset: -48px;
+	}
+	html.simpl.rhsChat {
+		--content-width: 1304px;
+	}
+	html.simpl.addOnsOpen,
+	html.simpl.addOnsOpen.rhsChat {
+		--content-width: 1400px;
+	}
+	html.simpl.addOnsOpen.rhsChat {
+		--left-offset: -4px;
+	}
+	html.simpl.addOnsOpen.menuOpen {
+		--left-offset: -48px;
+	}
+	html.simpl.addOnsOpen.rhsChat.menuOpen {
+		--left-offset: -98px;
+	}
+	/* Apply variables to align left edge */	
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
+		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
+	}
+
+	/* Move pagination controls to right edge of content 
+	 * while leaving settings to far right */
+	html.simpl.hideSearch {
+		--right-offset: 158px;
+	}
+	html.simpl.hideSearch.menuOpen {
+		--right-offset: 252px;
+	}
+	html.simpl.hideSearch.rhsChat {
+		--right-offset: -42px;
+	}
+	html.simpl.hideSearch.addOnsOpen.rhsChat {
+		--right-offset: 208px; 
+	}
+	html.simpl.hideSearch.menuOpen.addOnsOpen,
+	html.simpl.hideSearch.menuOpen.addOnsOpen.rhsChat {
+		--right-offset: 300px;
+	}
+	html.simpl.hideSearch.menuOpen.rhsChat {
+		--right-offset: 44px;
+	}
+	html.simpl.hideSearch.addOnsOpen.menuOpen {
+		--right-offset: 246px;
+	}
+	/* Apply variables to align right edge with content */
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .adF .iG {
+		padding-right: calc(((100vw - var(--content-width)) / 2) - var(--right-offset));
+	}
+
+	/* Keep pagination next to settings when search is open */
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .adF .iG {
+		padding-right: initial;
+	}
 }
 
 
@@ -437,6 +500,10 @@ html.simpl.rhsChat .akj {
 	margin-top: 12px;
 }
 
+/* Remove extra right padding from rhsChat */
+html.simpl.rhsChat .aCl .akj {
+	padding-right: 0px !important;
+}
 
 
 /* ================================================== 
@@ -464,7 +531,7 @@ html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
 	max-width: 960px; 
 }
-@media only screen and (min-width: 1450px) {
+@media only screen and (min-width: 1441px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
 	}
@@ -645,7 +712,7 @@ html.simpl.splitView .AO .aeF > .nH {
 	margin: 0px; /*40px auto 0 auto;*/
 	max-width: 100%;
 }
-@media only screen and (min-width: 1450px) {
+@media only screen and (min-width: 1441px) {
 	html.simpl.splitView .AO .aeF > .nH {
 		max-width: 1680px;
 		margin: 0 auto;
@@ -909,23 +976,23 @@ html.simpl .aT5-aOt-I-JX-Jw {
 }
 
 /* Move Add-ons chooser over when Add-ons pane is open */
-html.simpl.addOnsPane .bAw {
+html.simpl.addOnsOpen .bAw {
 	right: 347px !important;
 }
-html.simpl.addOnsPane .bAw:hover {
+html.simpl.addOnsOpen .bAw:hover {
 	right: 338px !important;
 }
 
 /* Move Add-ons chooser over when Right side chat is enabled */
-html.simpl.rhsChat:not(.addOnsPane) .bAw {
+html.simpl.rhsChat:not(.addOnsOpen) .bAw {
 	right: 216px !important;
 }
-html.simpl.rhsChat:not(.addOnsPane) .bAw:hover {
+html.simpl.rhsChat:not(.addOnsOpen) .bAw:hover {
 	right: 205px !important;
 }
 
 /* Move the compose button over when the add on pane is open */
-html.simpl.addOnsPane .z0 {
+html.simpl.addOnsOpen .z0 {
 	left: calc(100vw - 392px);
 }
 
@@ -945,18 +1012,18 @@ html.simpl .bq9 {
 }
 
 /* Shrink the action bar when the AddOnsPane AND Search are open */
-html.simpl.addOnsPane:not(.hideSearch) .aeH {
+html.simpl.addOnsOpen:not(.hideSearch) .aeH {
     width: calc(65% - 92px) !important;
 }
-html.simpl.addOnsPane.splitView:not(.hideSearch) .G-atb[gh="tm"] {
+html.simpl.addOnsOpen.splitView:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(65% - 300px) !important;
 }
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
-html.simpl.addOnsPane.hideSearch .aeH {
+html.simpl.addOnsOpen.hideSearch .aeH {
 	width: calc(100vw - 470px) !important;
 }
-html.simpl.addOnsPane.hideSearch.splitView .G-atb[gh="tm"] {
+html.simpl.addOnsOpen.hideSearch.splitView .G-atb[gh="tm"] {
 	width: calc(100vw - 506px) !important;
 }
 
@@ -1019,4 +1086,25 @@ html.simpl.inSettings .aeH .f2 .fY {
 /* I'm not sure what element is for but it is ugly when using themes */
 html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
+}
+
+
+
+/* ==================================================
+ * SIMPLIFY OPTIONS PAGE 
+ */
+
+#simplOptions {
+	padding: 50px; 
+	max-width: 800px;
+	margin: 20vh auto; 
+	text-align: center;
+	font-size: 1.3em;
+	line-height: 2em;
+}
+#simplOptions img {
+	margin-bottom: 2em;
+}
+#simplOptions a {
+	color: #555;
 }

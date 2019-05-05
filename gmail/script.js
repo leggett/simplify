@@ -10,7 +10,10 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
+
+// Print Simplify version number if debug is running 
+if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
 
 // Add simpl style to html tag
 var htmlEl = document.documentElement;
@@ -27,6 +30,13 @@ function handleToggleShortcut(event) {
 	if (event.metaKey && event.which == 74) {
 		toggleSimpl();
 		event.preventDefault();
+	}
+
+	// If Ctrl+M was pressed, toggle menu open/closed
+	if (event.ctrlKey && event.key == "m") {
+		document.querySelector('.aeN').classList.toggle('bhZ');
+		toggleMenu();
+		// TODO: if opening, focus the first element
 	}
 }
 window.addEventListener('keydown', handleToggleShortcut, false);
@@ -46,8 +56,8 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 // == INIT SAVED STATES =================================================
 
-
-if (simplifyDebug) console.log( 'Title = ' + document.title );
+if (simplifyDebug) console.log( 'URL path: ' + location.pathname );
+// /mail/u/0/
 
 // Get username
 var usernameLoop = 0;
@@ -67,6 +77,7 @@ function getUsername() {
 }
 
 function initLocalVar() {
+	// Init Preview Pane or Multiple Inboxes
 	if (window.localStorage.simplifyPreviewPane == "true") {
 		if (simplifyDebug) console.log('Loading with split view');
 		htmlEl.classList.add('splitView');
@@ -85,6 +96,8 @@ function initLocalVar() {
 			htmlEl.classList.add('multiBoxVert');
 		}
 	}
+
+	// Init themes
 	if (window.localStorage.simplifyLightTheme == "true") {
 		if (simplifyDebug) console.log('Loading with light theme');
 		htmlEl.classList.add('lightTheme');	
@@ -92,6 +105,17 @@ function initLocalVar() {
 		if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
 		htmlEl.classList.add('darkTheme');
 	}
+
+	// Init nav menu
+	if (window.localStorage.simplifyMenuOpen == "true") {
+		if (simplifyDebug) console.log('Loading with nav menu open');
+		document.documentElement.classList.add('menuOpen');
+	} else if (window.localStorage.simplifyMenuOpen == "false") {
+		if (simplifyDebug) console.log('Loading with nav menu closed');
+		window.localStorage.simplifyMenuOpen = "false";
+	}
+
+	// Init density
 	if (window.localStorage.simplifyDensity == "low") {
 		if (simplifyDebug) console.log('Loading with low density inbox');
 		htmlEl.classList.add('lowDensityInbox');
@@ -99,6 +123,14 @@ function initLocalVar() {
 		if (simplifyDebug) console.log('Loading with high density inbox');
 		htmlEl.classList.add('highDensityInbox');
 	}
+
+	// Init text button labels
+	if (window.localStorage.simplifyTextButtonLabels == "true") {
+		if (simplifyDebug) console.log('Loading with text buttons');
+		document.documentElement.classList.add('textButtons');
+	}
+
+	// Init right side chat
 	if (window.localStorage.simplifyRightSideChat == "true") {
 		if (simplifyDebug) console.log('Loading with right hand side chat');
 		htmlEl.classList.add('rhsChat');
@@ -124,7 +156,7 @@ function initLocalVar() {
 	}
 	if (window.localStorage.simplifyAddOnPane == "true") {
 		if (simplifyDebug) console.log('Loading with add-ons pane');
-		htmlEl.classList.add('addOnsPane');
+		htmlEl.classList.add('addOnsOpen');
 	}
 
 	// Set default size of add-ons tray
@@ -133,6 +165,8 @@ function initLocalVar() {
 	}
 	htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplifyNumberOfAddOns)*56 + 'px');
 }
+
+// Just calling this for now until I figure out how to programatically call it based on the user name
 initLocalVar();
 
 
@@ -180,13 +214,13 @@ if (location.hash.substring(1, 9) == "settings") {
 function toggleSearchFocus(onOff) {	
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
-		document.querySelector('div.gb_td form').classList.remove('gb_pe');
+		document.querySelector('div.gb_ce form').classList.remove('gb_pe');
 
 		// Remove focus from search input or button 
 		document.activeElement.blur();
 	} else {
-		document.querySelector('div.gb_td form').classList.add('gb_pe');
-		document.querySelector('div.gb_td form input').focus();
+		document.querySelector('div.gb_ce form').classList.add('gb_pe');
+		document.querySelector('div.gb_ce form input').focus();
 	}
 }
 
@@ -476,11 +510,11 @@ function detectAddOns() {
 		if (simplifyDebug) console.log('Add-on pane width loaded as ' + paneVisible);
 		if (paneVisible == "auto") {
 			if (simplifyDebug) console.log('No add-on pane detected on load');
-			htmlEl.classList.remove('addOnsPane');
+			htmlEl.classList.remove('addOnsOpen');
 			window.localStorage.simplifyAddOnPane = false;
 		} else {
 			if (simplifyDebug) console.log('Add-on pane detected on load');
-			htmlEl.classList.add('addOnsPane');
+			htmlEl.classList.add('addOnsOpen');
 			window.localStorage.simplifyAddOnPane = true;
 		}
 
@@ -497,10 +531,10 @@ function detectAddOns() {
 		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
 		        	if (simplifyDebug) console.log('Add-on pane style set to: ' + mutation.target.attributes.style.value);
 		        	if (mutation.target.attributes.style.value.indexOf("display: none") > -1) {
-		        		htmlEl.classList.remove('addOnsPane');
+		        		htmlEl.classList.remove('addOnsOpen');
 		        		window.localStorage.simplifyAddOnPane = false;
 		        	} else {
-		        		htmlEl.classList.add('addOnsPane');
+		        		htmlEl.classList.add('addOnsOpen');
 		        		window.localStorage.simplifyAddOnPane = true;
 		        	}
 		        }
@@ -554,6 +588,75 @@ function detectRightSideChat() {
 		} else {
 			if (simplifyDebug) console.log('Giving up on detecting Talk roster');
 		}
+	}
+}
+
+
+
+// Detect if using text or icon buttons
+var detectButtonLabelLoops = 0;
+function detectButtonLabel() {
+	var secondButton = document.querySelectorAll('div[gh="tm"] div[role="button"] > div')[2];
+	if (secondButton) {
+		var textButtonLabel = secondButton.innerText;
+		if (textButtonLabel == "") {
+			// Using icon buttons
+			if (simplifyDebug) console.log('Icon button labels detected');
+			window.localStorage.simplifyTextButtonLabels = "false";
+		} else {
+			// Using icon buttons
+			if (simplifyDebug) console.log('Text button labels detected');
+			window.localStorage.simplifyTextButtonLabels = "true";
+			document.documentElement.classList.add('textButtons');
+		}
+	} else {
+		detectButtonLabelLoops++;
+		if (detectButtonLabelLoops < 10) {
+			setTimeout(detectButtonLabel, 500);
+			if (simplifyDebug) console.log('Detect button labels loop #' + detectButtonLabelLoops);
+		}
+	}
+}
+
+
+
+// Detect nav menu state
+var detectMenuStateLoops = 0;
+function detectMenuState() {
+	var menuButton = document.querySelector('.gb_tc div:first-child');
+	var menuOpen = menuButton.getAttribute('aria-expanded');
+	if (menuButton) {
+		menuButton.addEventListener('click', toggleMenu, false);
+		if (menuOpen == "true") {
+			if (simplifyDebug) console.log('Nav menu is open');
+			htmlEl.classList.add('menuOpen');
+			window.localStorage.simplifyMenuOpen = "true";
+		} else {
+			if (simplifyDebug) console.log('Nav menu is closed');
+			window.localStorage.simplifyMenuOpen = "false";
+			htmlEl.classList.remove('menuOpen');
+		}
+	} else {
+		detectMenuStateLoops++;
+		if (detectMenuStateLoops < 10) {
+			setTimeout(detectMenuState, 500);
+			if (simplifyDebug) console.log('Detect menu state loop #' + detectMenuStateLoops);
+		}
+	}
+}
+// Helper function to toggle menu open/closed
+function toggleMenu() {
+	var menuButton = document.querySelector('.gb_tc div:first-child');
+	var menuOpen = window.localStorage.simplifyMenuOpen;
+	if (menuOpen == "true") {
+		htmlEl.classList.remove('menuOpen');
+		menuButton.setAttribute('aria-expanded', 'false');
+		window.localStorage.simplifyMenuOpen = "false";
+	}
+	else if (menuOpen == "false") {
+		htmlEl.classList.add('menuOpen');
+		menuButton.setAttribute('aria-expanded', 'true');
+		window.localStorage.simplifyMenuOpen = "true";
 	}
 }
 
@@ -630,6 +733,26 @@ function observePagination() {
 
 
 
+/* TODO: dynamic padding between pagination and actions
+ * Problem: Different settings like the inputs menu add extra buttons to the 
+ *   action bar and mis-align the pagination controls above 1441px screen resolution.
+ * 
+ * Solution: Detect how many buttons are in the action bar and figure out how much
+ *   padding there should be. Set a global css var
+ *
+ * A = Get width of wrapper around right side of action bar
+	window.getComputedStyle(document.querySelector('.aqJ')).getPropertyValue('width')
+ * B = Get width of pagination controls
+	window.getComputedStyle(document.querySelector('.ar5')).getPropertyValue('width')
+ * C = Get current right padding of pagination control
+ 	window.getComputedStyle(document.querySelector('.ar5')).getPropertyValue('padding-right')
+ * A - (B + C) is the width of just the right actions
+ * ---
+ * I could also possibly do a querySelectorAll on divs after the pagination control and loop 
+ * through and count up their computed width to determine the --right-offset 
+*/
+
+
 
 // Initialize everything
 function initEarly() {
@@ -646,6 +769,8 @@ function initLate() {
 	detectDensity();
 	detectRightSideChat();
 	detectAddOns();
+	detectMenuState();
+	detectButtonLabel();
 	testPagination();
 	observePagination(); 
 }
