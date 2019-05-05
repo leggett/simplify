@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = true;
+var simplifyDebug = false;
 
 // Print Simplify version number if debug is running 
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -58,23 +58,6 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 if (simplifyDebug) console.log( 'URL path: ' + location.pathname );
 // /mail/u/0/
-
-// Get username
-var usernameLoop = 0;
-function getUsername() {
-	var username = document.querySelector('.gb_db');
-	if (username) {
-		if (simplifyDebug) console.log( 'Username = ' + username.innerText );
-		//initLocalVar();
-	} else {
-		usernameLoop++;
-		if (simplifyDebug) console.log('Username loop #' + usernameLoop);
-		
-		if (usernameLoop < 21) {
-			setTimeout(getUsername, 100);
-		}
-	}
-}
 
 function initLocalVar() {
 	// Init Preview Pane or Multiple Inboxes
@@ -756,7 +739,6 @@ function observePagination() {
 
 // Initialize everything
 function initEarly() {
-	// getUsername();
 	initSearch();
 	initSearchFocus();
 	initSettings();
