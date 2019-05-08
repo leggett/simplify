@@ -197,13 +197,13 @@ if (location.hash.substring(1, 9) == "settings") {
 function toggleSearchFocus(onOff) {	
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
-		document.querySelector('div.gb_ce form').classList.remove('gb_pe');
+		document.querySelector('header#gb form').classList.remove('gb_pe');
 
 		// Remove focus from search input or button 
 		document.activeElement.blur();
 	} else {
-		document.querySelector('div.gb_ce form').classList.add('gb_pe');
-		document.querySelector('div.gb_ce form input').focus();
+		document.querySelector('header#gb form').classList.add('gb_pe');
+		document.querySelector('header#gb form input').focus();
 	}
 }
 
@@ -221,7 +221,7 @@ function initSearch() {
 		searchForm.classList.toggle('gb_vd');
 		
 		// Add function to search button to toggle search open/closed
-		var searchButton = document.getElementsByClassName('gb_Ve')[0];
+		var searchButton = document.querySelectorAll('#gb form button[aria-label="Search Mail"], #gb form .gb_Qe')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
@@ -233,7 +233,7 @@ function initSearch() {
 		}, false);
 
 		// Add functionality to search close button to close search and go back
-		var searchCloseButton = document.getElementsByClassName('gb_Ze')[0];
+		var searchCloseButton = document.querySelectorAll('#gb form button[aria-label="Clear search"], #gb form .gb_Te')[0];
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
 		
 		// Hide search when you clear the search if it was previously hidden		

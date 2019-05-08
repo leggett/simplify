@@ -232,18 +232,21 @@ html.simpl .aeI .G-atb {
 }
 
 /* Hide Support button / menu -- Help is available under Settings gear */
-/* html.simpl div[data-tooltip="Support"], this will always work in english but then I won't know when it breaks for other languages*/
+html.simpl div[data-tooltip="Support"],
 html.simpl div.zo {
 	display: none;
 }
 
 /* Hide any buttons after the Search input including the support button (a bit risky) */
-html.simpl #gb .gb_ce ~ div { 
+html.simpl #gb .gb_be ~ div,
+html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) ~ div { 
 	display: none;
 }
 
 /* Remove right padding from action bar so search is always correctly placed */
-html.simpl #gb .gb_ce {
+/* UNSTABLE: gb_be */
+html.simpl #gb .gb_be,
+html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) {
 	padding-right: 0px !important;
 }
 
