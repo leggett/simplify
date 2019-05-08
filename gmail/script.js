@@ -714,6 +714,35 @@ function observePagination() {
 	}
 }
 
+//  Detect if this is a delegated account
+function detectDelegate() {
+	if (location.pathname.substring(6,7) == "b" ) {
+		htmlEl.classList.add('delegate');
+	}
+}
+
+// Init App switcher event listeners
+var hideAppSwitcherTimer = 0;
+function initAppSwitcher() {
+	var profileButton = document.querySelector('#gb a.gb_x .gb_ya');
+	if (profileButton) {
+		profileButton.addEventListener('mouseover', function(event) {
+			htmlEl.classList.add('appSwitcher');
+		}, false);
+		profileButton.addEventListener('mouseout', function(event) {
+			hideAppSwitcherTimer = setTimeout(function(){ htmlEl.classList.remove('appSwitcher') }, 1000);
+		}, false);
+
+		var appSwitcherButton = document.querySelector('#gbwa a svg');
+		appSwitcherButton.addEventListener('mouseover', function(event) {
+			clearTimeout(hideAppSwitcherTimer);
+		}, false);
+		appSwitcherButton.addEventListener('mouseout', function(event) {
+			hideAppSwitcherTimer = setTimeout(function(){ htmlEl.classList.remove('appSwitcher') }, 1000);
+		}, false);
+	}
+}
+
 
 
 /* TODO: dynamic padding between pagination and actions
@@ -742,6 +771,7 @@ function initEarly() {
 	initSearch();
 	initSearchFocus();
 	initSettings();
+	detectDelegate();
 }
 window.addEventListener('DOMContentLoaded', initEarly, false);
 
@@ -753,6 +783,7 @@ function initLate() {
 	detectAddOns();
 	detectMenuState();
 	detectButtonLabel();
+	initAppSwitcher();
 	testPagination();
 	observePagination(); 
 }

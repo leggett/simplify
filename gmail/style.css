@@ -18,7 +18,7 @@
 
 
 /* ==================================================
- * GLOBAL 
+ * GLOBAL / APP-LEVEL
  */
 
 /* Hide footer */
@@ -26,10 +26,13 @@ html.simpl .aeG {
 	display: none;
 }
 
-/* Move and restyle the vacation auto-responder */
-html.simpl .w-MH {
+/* Move and restyle banners (vacation auto-responder, account delegation) */
+html.simpl .w-MH,
+html.simpl .ZY {
 	position: fixed;
 	width: auto;
+	max-width: 450px;
+	text-align: left;
     padding: 18px 24px;
     bottom: 24px;
     left: 24px;
@@ -43,9 +46,32 @@ html.simpl .w-MH {
 	color: #fff;
 	background-color: #202124;
 }
-html.simpl .w-MH .e {
+html.simpl .w-MH .e,
+html.simpl .ZY .e {
 	margin-left: 16px;
 	color: #8ab4f8;
+}
+
+/* Reduce deletated account username to one letter */
+html.simpl.delegate #gb a.gb_Da {
+    font-size: 0px;
+    width: 32px;
+    height: 32px;
+    margin: 4px 6px 0 6px;
+    line-height: 26px;
+    border-radius: 18px;    
+    background-color: rgba(0,0,0,0.85);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+html.simpl.delegate #gb a.gb_Da::first-letter {
+    font-size: initial;
+    color: white;
+}
+html.simpl.delegate #gb a.gb_Da span {
+    display: none;
 }
 
 
@@ -69,7 +95,13 @@ html.simpl .gb_tc {
 /* Hide App Switcher */
 html.simpl #gbwa {
 	display: none !important;
+	position: absolute;
+    right: 52px;
 }
+html.simpl.appSwitcher #gbwa {
+	display: block !important;
+}
+
 
 /* Remove padding around profile photo so settings is better spaced */
 html.simpl .gb_pc {
@@ -162,7 +194,7 @@ html.simpl .aeH .G-atb .adF:hover {
 }
 
 /* Below 1350px, hide pagination when search and addOns are both open */
-@media only screen and (max-width: 1350px) {
+@media only screen and (max-width: 1350.98px) {
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
 		display: none;
@@ -170,7 +202,7 @@ html.simpl .aeH .G-atb .adF:hover {
 }
 
 /* Below 1200px, hide pagination AND settings when search and addOns are both open */
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1200.98px) {
 	html.simpl.addOnsOpen:not(.hideSearch) .adF,
 	html.simpl.addOnsOpen:not(.hideSearch) .aqJ {
 		display: none;
@@ -178,14 +210,20 @@ html.simpl .aeH .G-atb .adF:hover {
 }
 
 /* Below 1100px wide, when search is expanded, hide pagination controls even if AddOns aren't open */
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1100.98px) {
 	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
 	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
 		display: none;
 	}
 }
 
-
+/* Below 850px wide, when search is expanded, pagination AND settings */
+@media only screen and (max-width: 850.98px) {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ,
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF {
+		display: none;
+	}
+}
 
 /* Remove drop shadow from action bar */
 html.simpl .aeI .G-atb {
@@ -209,7 +247,7 @@ html.simpl #gb .gb_ce {
 	padding-right: 0px !important;
 }
 
-/* Move action bar for Multiple Inboxes */
+/* Move action bar for Horizontal Multiple Inboxes */
 html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
 	position: fixed;
 	top: 8px;
@@ -230,11 +268,18 @@ html.simpl.multiBoxHorz.hideSearch .aeF .G-atb[gh="tm"] {
 html.simpl.multiBoxHorz div[role="main"] .byR {
 	margin-top: 0px;
 }
-html.simpl.multiBoxHorz .aeF > div.nH {
-	max-width: 1100px !important;
-}
 
-@media only screen and (min-width: 1441px) {
+@media only screen and (max-width: 1441px) {
+	html.simpl.multiBoxHorz .aeF > div.nH {
+		max-width: 1400px !important;
+	}
+	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
+		max-width: 960px !important;
+		margin: 0 auto;
+	}
+}
+@media only screen and (min-width: 1441.98px) {
 	html.simpl.multiBoxHorz .aeF > div.nH {
 		max-width: 2200px !important;
 	}
@@ -313,7 +358,7 @@ States (text button labels)
  * enough that the menu, content, and add-ons can all fit so 
  * I can push the update. 
  */
-@media only screen and (min-width: 1266px) {
+@media only screen and (min-width: 1266.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
 	html.simpl { 
 		--content-width: 960px;
@@ -386,7 +431,7 @@ States (text button labels)
 		padding-right: initial;
 	}
 }
-@media only screen and (min-width: 1441px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl { 
 		--content-width: 1100px;
 	}
@@ -398,7 +443,7 @@ States (text button labels)
 		--content-width: 1400px;
 	}
 }
-@media only screen and (min-width: 1641px) {
+@media only screen and (min-width: 1641.98px) {
 	/* ----------------------------------------------
 	 * DEFAULT INBOX / VIEWS
 	 * Move actions to left edge of content 
@@ -443,7 +488,7 @@ html.simpl #gb form {
 
 /* Minimize search to an icon when hidden */
 html.simpl.hideSearch #gb form:not(.gb_pe) {
-	width: 54px;
+	width: 52px;
 	margin-right: 0px;
 }
 
@@ -460,7 +505,7 @@ html.simpl.hideSearch #gb form:not(.gb_pe) button:not([aria-label="Search Mail"]
 	display: none;
 }
 
-/* Move filter form to be under search box? */
+/* Move filter form to be under search box */
 html.simpl .ZF-Av {
 	left: auto !important;
 	right: 71px !important;
@@ -469,6 +514,15 @@ html.simpl .ZF-Av {
 }
 html.simpl .ZF-Av > div {
 	border: 0px;
+}
+
+/* Hide  or shrink search when app switcher is shown */
+html.simpl.appSwitcher.hideSearch #gb form {
+	display: none;
+}
+html.simpl.appSwitcher:not(.hideSearch) #gb form {
+	width: calc(35% - 52px);
+	margin-right: 52px;
 }
 
 
@@ -590,14 +644,14 @@ html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
 	max-width: 960px; 
 }
-@media only screen and (min-width: 1441px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
 	}
 }
 
 /* Less padding on inbox and messages for low resolutions */
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 960.98px) {
 	html.simpl .bhZ+.bkK {
 		margin-left: 12px !important;
 	}
@@ -775,7 +829,7 @@ html.simpl.splitView .AO .aeF > .nH {
  * TODO: I shouldn't do this for horizontal preview pane
  * But I don't differentiate yet.
  */
-@media only screen and (min-width: 1441px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl.splitView .AO .aeF > .nH {
 		max-width: 2000px;
 		margin: 0 auto;
@@ -818,7 +872,7 @@ html.simpl.splitView .aph {
 }
 
 /* Below 1250px, hide the pagination controls */
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1250.98px) {
 	html.simpl.splitView:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh="s"]) {
 		display: none;
 	}
