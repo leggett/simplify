@@ -149,7 +149,7 @@ html.simpl .aeH {
 	position: absolute !important;
 	top: 0px !important;
 	left: 60px !important;
-	width: calc(65% - 92px);
+	width: calc(var(--action-bar-width) - 92px);
 
 	/* Reduce z-index from 986 so action bar can live on top of it */
 	z-index: 6; 
@@ -253,7 +253,7 @@ html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
 	top: 8px;
 	left: 60px;
 	z-index: 5;
-	width: calc(65% - 92px);
+	width: calc(var(--action-bar-width) - 92px);
 	transition: width 0.15s ease-in 0s;
 }
 html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"]::before {
@@ -384,8 +384,8 @@ States (text button labels)
 		--left-offset: -82px;
 	}
 	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */	
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat) .aeH .G-atb,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen) .aeH .G-atb {
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .G-atb,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
 		margin-left: 16px !important;
 	}
@@ -416,18 +416,18 @@ States (text button labels)
 	}
 
 	/* Apply variables to align right edge with content */
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat) .aeH .ar5,
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat) .adF .iG,
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen) .aeH .ar5,
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen) .adF .iG {
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .adF .iG {
 		padding-right: calc(((100vw - var(--content-width)) / 2) - var(--right-offset));
 	}
 
 	/* Keep pagination next to settings when search is open */
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat) .aeH .ar5,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat) .adF .iG,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen) .aeH .ar5,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen) .adF .iG {
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .adF .iG {
 		padding-right: initial;
 	}
 }
@@ -484,6 +484,17 @@ html.simpl #gb form {
 	margin-right: 8px;
 	position: relative;
 	right: 0px;
+}
+
+/* Shorter search box when using text label buttons */
+html.simpl.textButtons #gb form {
+	width: 25%;
+}
+html.simpl {
+	--action-bar-width: 65%;
+}
+html.simpl.textButtons {
+	--action-bar-width: 75%;
 }
 
 /* Minimize search to an icon when hidden */
@@ -801,7 +812,7 @@ html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
 }
 
 html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
-	width: calc(65% - 126px);
+	width: calc(var(--action-bar-width) - 126px);
 }
 
 /* Hide footer & space usage in preview pane */
@@ -1131,10 +1142,10 @@ html.simpl .bq9 {
 
 /* Shrink the action bar when the AddOnsPane AND Search are open */
 html.simpl.addOnsOpen:not(.hideSearch) .aeH {
-    width: calc(65% - 92px) !important;
+    width: calc(var(--action-bar-width) - 92px) !important;
 }
 html.simpl.addOnsOpen.splitView:not(.hideSearch) .G-atb[gh="tm"] {
-    width: calc(65% - 300px) !important;
+    width: calc(var(--action-bar-width) - 300px) !important;
 }
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
