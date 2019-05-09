@@ -217,8 +217,8 @@ function initSearch() {
 	// Setup Search functions to show/hide Search at the 
 	// right times if we have access to the search field
 	if (searchForm) {
-		// Add .gb_vd, Gmail's own class to minimize search
-		searchForm.classList.toggle('gb_vd');
+		// Add .gb_ne, Gmail's own class to minimize search
+		searchForm.classList.toggle('gb_ne');
 		
 		// Add function to search button to toggle search open/closed
 		var searchButton = document.querySelectorAll('#gb form button[aria-label="Search Mail"], #gb form .gb_Qe')[0];
@@ -227,7 +227,7 @@ function initSearch() {
 			event.preventDefault();
 			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
-			searchForm.classList.toggle('gb_vd');
+			searchForm.classList.toggle('gb_ne');
 			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
 			toggleSearchFocus();
 		}, false);
@@ -242,7 +242,7 @@ function initSearch() {
 			event.stopPropagation();
 			toggleSearchFocus('off');
 			document.querySelector('header input[name="q"]').value = "";
-			searchForm.classList.add('gb_vd');
+			searchForm.classList.add('gb_ne');
 			location.hash = closeSearchUrlHash;
 			htmlEl.classList.toggle('hideSearch');
 			window.localStorage.simplifyHideSearch = true;

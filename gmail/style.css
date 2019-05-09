@@ -232,8 +232,8 @@ html.simpl .aeI .G-atb {
 }
 
 /* Hide Support button / menu -- Help is available under Settings gear */
-html.simpl div[data-tooltip="Support"],
-html.simpl div.zo {
+html.simpl #gb div[data-tooltip="Support"],
+html.simpl #gb div.zo {
 	display: none;
 }
 
@@ -504,6 +504,7 @@ html.simpl.textButtons {
 html.simpl.hideSearch #gb form:not(.gb_pe) {
 	width: 52px;
 	margin-right: 0px;
+	box-shadow: none;
 }
 
 /* UNSTABLE: gb_pe */
