@@ -238,15 +238,15 @@ html.simpl div.zo {
 }
 
 /* Hide any buttons after the Search input including the support button (a bit risky) */
-html.simpl #gb .gb_be ~ div,
-html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) ~ div { 
+/* html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) ~ div */
+html.simpl #gb .gb_be ~ div { 
 	display: none;
 }
 
 /* Remove right padding from action bar so search is always correctly placed */
 /* UNSTABLE: gb_be */
-html.simpl #gb .gb_be,
-html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) {
+/* html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) */
+html.simpl #gb .gb_be {
 	padding-right: 0px !important;
 }
 
@@ -482,19 +482,19 @@ States (text button labels)
 /* Push search to the right */
 html.simpl #gb form {
 	float: right;
-	width: 35%;
+	width: 30%;
 	max-width: none;
 	margin-right: 8px;
 	position: relative;
 	right: 0px;
 }
+html.simpl {
+	--action-bar-width: 70%;
+}
 
 /* Shorter search box when using text label buttons */
 html.simpl.textButtons #gb form {
 	width: 25%;
-}
-html.simpl {
-	--action-bar-width: 65%;
 }
 html.simpl.textButtons {
 	--action-bar-width: 75%;
@@ -512,10 +512,10 @@ html.simpl.hideSearch #gb form:not(.gb_pe) {
 	background-color: transparent;
 }
 
-/* UNSTABLE: gb_Ve */
+/* UNSTABLE: gb_Qe */
 /* Hide all search form buttons except search button when search is hidden */
 /* For non-english interfaces, may break as this class name gets changed often */
-html.simpl.hideSearch #gb form:not(.gb_pe) button:not([aria-label="Search Mail"]):not(.gb_Ve) {
+html.simpl.hideSearch #gb form:not(.gb_pe) button:not([aria-label="Search Mail"]):not(.gb_Qe) {
 	display: none;
 }
 
@@ -592,7 +592,7 @@ html.simpl .z0 {
 
 /* Move it over futher if RHS Chat is enabled */
 html.simpl.rhsChat .z0 {
-	left: calc(100vw - 262px);
+	left: calc(100vw - 275px);
 }
 
 /* Add some padding above the nav that the compose button used to provide */
@@ -1117,10 +1117,10 @@ html.simpl.addOnsOpen .bAw:hover {
 
 /* Move Add-ons chooser over when Right side chat is enabled */
 html.simpl.rhsChat:not(.addOnsOpen) .bAw {
-	right: 216px !important;
+	right: 229px !important;
 }
 html.simpl.rhsChat:not(.addOnsOpen) .bAw:hover {
-	right: 205px !important;
+	right: 219px !important;
 }
 
 /* Move the compose button over when the add on pane is open */
