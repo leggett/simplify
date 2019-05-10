@@ -59,7 +59,7 @@ html.simpl.delegate #gb a.gb_Da {
     height: 32px;
     margin: 4px 6px 0 6px;
     line-height: 26px;
-    border-radius: 18px;    
+    border-radius: 18px;
     background-color: rgba(0,0,0,0.85);
     font-weight: bold;
     text-align: center;
@@ -77,12 +77,12 @@ html.simpl.delegate #gb a.gb_Da span {
 
 
 
-/* ================================================== 
- * APP BAR (menu and account switcher + container for search) 
+/* ==================================================
+ * APP BAR (menu and account switcher + container for search)
  */
 
 /* Hide Gmail logo and name */
-html.simpl header a[href="#inbox"] { 
+html.simpl header a[href="#inbox"] {
 	display: none;
 }
 
@@ -141,7 +141,7 @@ html.simpl.addOnsOpen header#gb {
 
 
 /* ==================================================
- * ACTION BAR (actions, pagination, and settings) 
+ * ACTION BAR (actions, pagination, and settings)
  */
 
 /* Move action bar on top of app bar and to right of menu button */
@@ -152,7 +152,7 @@ html.simpl .aeH {
 	width: calc(var(--action-bar-width) - 92px);
 
 	/* Reduce z-index from 986 so action bar can live on top of it */
-	z-index: 6; 
+	z-index: 6;
 }
 html.simpl .aeH .G-atb {
 	height: 64px;
@@ -239,7 +239,7 @@ html.simpl #gb div.zo {
 
 /* Hide any buttons after the Search input including the support button (a bit risky) */
 /* html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) ~ div */
-html.simpl #gb .gb_be ~ div { 
+html.simpl #gb .gb_be ~ div {
 	display: none;
 }
 
@@ -294,7 +294,7 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 }
 
 /* Nudge the offline button closer to the settings gear */
-html.simpl .aqJ .bvX, 
+html.simpl .aqJ .bvX,
 html.simpl .adF .bvX {
 	margin-right: 16px !important;
 }
@@ -351,19 +351,19 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
-/* BUG: I had this turned on for > 1441px BUT it all breaks as 
- * soon as opening things like the menu and add-ons forces the 
+/* BUG: I had this turned on for > 1441px BUT it all breaks as
+ * soon as opening things like the menu and add-ons forces the
  * content to be less than 1100px -- it is possible my whole
  * approach is wrong and I should do this with mutation observers
  * and computing the width/location of things.
- * 
- * For now, I'm just going to apply it when the screen is wide 
- * enough that the menu, content, and add-ons can all fit so 
- * I can push the update. 
+ *
+ * For now, I'm just going to apply it when the screen is wide
+ * enough that the menu, content, and add-ons can all fit so
+ * I can push the update.
  */
 @media only screen and (min-width: 1266.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
-	html.simpl { 
+	html.simpl {
 		--content-width: 960px;
 		--left-offset: 60px;
 	}
@@ -386,14 +386,14 @@ States (text button labels)
 	html.simpl.addOnsOpen.rhsChat.menuOpen {
 		--left-offset: -82px;
 	}
-	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */	
+	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .G-atb,
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
 		margin-left: 16px !important;
 	}
 
-	/* Move pagination controls to right edge of content 
+	/* Move pagination controls to right edge of content
 	 * while leaving settings to far right */
 	html.simpl.hideSearch {
 		--right-offset: 158px;
@@ -405,7 +405,7 @@ States (text button labels)
 		--right-offset: -42px;
 	}
 	html.simpl.hideSearch.addOnsOpen.rhsChat {
-		--right-offset: 208px; 
+		--right-offset: 208px;
 	}
 	html.simpl.hideSearch.menuOpen.addOnsOpen,
 	html.simpl.hideSearch.menuOpen.addOnsOpen.rhsChat {
@@ -435,7 +435,7 @@ States (text button labels)
 	}
 }
 @media only screen and (min-width: 1441.98px) {
-	html.simpl { 
+	html.simpl {
 		--content-width: 1100px;
 	}
 	html.simpl.rhsChat {
@@ -449,10 +449,10 @@ States (text button labels)
 @media only screen and (min-width: 1641.98px) {
 	/* ----------------------------------------------
 	 * DEFAULT INBOX / VIEWS
-	 * Move actions to left edge of content 
+	 * Move actions to left edge of content
 	 */
 
-	/* Apply variables to align left edge */	
+	/* Apply variables to align left edge */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
 		margin-left: 16px !important;
@@ -476,7 +476,7 @@ States (text button labels)
 
 
 /* ==================================================
- * SEARCH 
+ * SEARCH
  */
 
 /* Push search to the right */
@@ -634,8 +634,8 @@ html.simpl.rhsChat .aCl .akj {
 }
 
 
-/* ================================================== 
- * INBOX 
+/* ==================================================
+ * INBOX
  */
 
 /* Bump up the line height a little in the inbox */
@@ -657,7 +657,7 @@ html.simpl .aeF {
 /* Max width inbox and conversation and add top padding */
 html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
-	max-width: 960px; 
+	max-width: 960px;
 }
 @media only screen and (min-width: 1441.98px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
@@ -683,10 +683,10 @@ html.simpl .AO .aeF > .nH {
 html.simpl div[gh="tl"] div[role="tabpanel"] {
 	padding-bottom: 1em;
 }
-/* TODO: Remove that extra padding if the section is hidden 
+/* TODO: Remove that extra padding if the section is hidden
  * This doesn't work
 html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
-	margin-bottom: -2em; 
+	margin-bottom: -2em;
 }
 */
 
@@ -753,7 +753,7 @@ html.simpl .aKh:hover {
 /* Further dim the non-active category tab */
 html.simpl .aKh .aAy[aria-selected="false"] {
 	opacity: 0.5;
-	transition: opacity 0.2s ease-in 0s;	
+	transition: opacity 0.2s ease-in 0s;
 }
 html.simpl .aKh .aAy[aria-selected="false"]:hover,
 html.simpl .aKh .aAy[aria-selected="true"] {
@@ -784,7 +784,7 @@ html.simpl div[role="main"] .J-KU-KO.aAy:before {
 
 
 /* ==================================================
- * SPLIT PANE VIEW 
+ * SPLIT PANE VIEW
  */
 
 /* Move action bar over app bar */
@@ -840,7 +840,7 @@ html.simpl.splitView .AO .aeF > .nH {
 	margin: 0px; /*40px auto 0 auto;*/
 	max-width: 100%;
 }
-/* Larger max-width for Preview pane 
+/* Larger max-width for Preview pane
  * TODO: I shouldn't do this for horizontal preview pane
  * But I don't differentiate yet.
  */
@@ -867,7 +867,7 @@ html.simpl.splitView .aiw {
 html.simpl.splitView .apg .age {
 	/* Normally... */
 	height: calc(100vh - 64px);
-	
+
 	/* In default inbox, there are tabs */
 	/*height: calc(100vh - 119px);*/
 }
@@ -897,7 +897,7 @@ html.simpl.splitView .aph {
 
 
 /* ==================================================
- * CONVERSATION VIEW 
+ * CONVERSATION VIEW
  */
 
 /* Not sure why, but sometimes this div below the conversation gets 440px bottom padding */
@@ -956,7 +956,7 @@ html.simpl .ata-asE .ata-asJ {
 
 
 /* ==================================================
- * COMPOSER 
+ * COMPOSER
  */
 
 /* A touch more padding above the from field and subject */
@@ -980,10 +980,27 @@ html.simpl .aSs {
 	background-color: rgba(0,0,0,.7);
 }
 
+
+/* Simplify formatting options. Remove shadow and make full width. */
+html.simpl .aoI .Ur {
+	width: 100%;
+	margin: auto;
+	box-sizing: border-box;
+	background-color: white;
+}
+
+html.simpl .aoI .Ur div[aria-label='Formatting options'] {
+	width: 100%;
+	box-shadow: none;
+	box-sizing: border-box;
+	border-radius: 0;
+	border-top: 1px solid #dadcdf;
+}
+
 /* BUGS: moving stuff around here is causing problems */
-/* Move extended compose buttons inline  
-html.simpl .aSs .aDl > .Ur, 
-html.simpl .aSs .aDn > .aDl > .Ur, 
+/* Move extended compose buttons inline
+html.simpl .aSs .aDl > .Ur,
+html.simpl .aSs .aDn > .aDl > .Ur,
 html.simpl .aSs .aDi > .aDl > .Ur {
 	left: 205px !important;
 	bottom: -54px !important;
@@ -994,7 +1011,7 @@ html.simpl .aSs .aZ > .J-Z {
 }
 */
 
-/* Hide useless buttons in full screen compose and move bar inline 
+/* Hide useless buttons in full screen compose and move bar inline
 html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
 html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
@@ -1017,7 +1034,7 @@ html.simpl .bAw {
 	position: fixed;
 	right: 47px !important;
 	bottom: 100px !important;
-	height: 36px !important; 
+	height: 36px !important;
 	width: 36px !important;
 	min-width: 36px !important;
 	overflow-y: hidden;
@@ -1044,10 +1061,10 @@ html.simpl .bAw > div:first-child {
 }
 
 /* Show add-ons when you hover over the menu */
-:root { 
+:root {
 	--add-on-height: 168px;
 }
-html.simpl .bAw:hover { 
+html.simpl .bAw:hover {
 	background: initial;
 	right: 38px !important;
 	width: 54px !important;
@@ -1093,7 +1110,7 @@ html.simpl .bAw div[role="navigation"] > div:first-child {
 	margin: -var(--add-on-height) 0px 0px -10px;
 }
 
-/* Move add-on chooser labels to left so they aren't easily 
+/* Move add-on chooser labels to left so they aren't easily
  * hovered on (which causes add-on chooser to hide) */
 html.simpl .brC-ays {
 	margin: -41px 0 0 -65px;
@@ -1130,12 +1147,12 @@ html.simpl.addOnsOpen .z0 {
 }
 
 /* Less shadow on the button to show the add-ons pane */
-html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw { 
+html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw {
 	box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
 }
 
-/* Change the add-ons pane drop shadow to a stroke */ 
+/* Change the add-ons pane drop shadow to a stroke */
 html.simpl .bq9,
 html.simpl .bq9 div {
 	box-shadow: none;
@@ -1164,7 +1181,7 @@ html.simpl.addOnsOpen.hideSearch.splitView .G-atb[gh="tm"] {
 
 
 /* ==================================================
- * SETTINGS 
+ * SETTINGS
  */
 
 /* Show back button when in settings */
@@ -1224,13 +1241,13 @@ html.simpl.inSettings .aeH .f2 .dJ {
 
 
 /* ==================================================
- * SIMPLIFY OPTIONS PAGE 
+ * SIMPLIFY OPTIONS PAGE
  */
 
 #simplOptions {
-	padding: 50px; 
+	padding: 50px;
 	max-width: 800px;
-	margin: 20vh auto; 
+	margin: 20vh auto;
 	text-align: center;
 	font-size: 1.3em;
 	line-height: 2em;
