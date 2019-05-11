@@ -12,7 +12,7 @@
 // Turn debug loggings on/off
 var simplifyDebug = false;
 
-// Print Simplify version number if debug is running 
+// Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
 
 // Add simpl style to html tag
@@ -83,7 +83,7 @@ function initLocalVar() {
 	// Init themes
 	if (window.localStorage.simplifyLightTheme == "true") {
 		if (simplifyDebug) console.log('Loading with light theme');
-		htmlEl.classList.add('lightTheme');	
+		htmlEl.classList.add('lightTheme');
 	} else if (window.localStorage.simplifyDarkTheme == "true") {
 		if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
 		htmlEl.classList.add('darkTheme');
@@ -158,13 +158,13 @@ initLocalVar();
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
-var closeSearchUrlHash = (location.hash.substring(1, 7) == "search" 
-	|| location.hash.substring(1, 7) == "label/" 
+var closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
+	|| location.hash.substring(1, 7) == "label/"
 	|| location.hash.substring(1, 7) == "advanc") ? "#inbox" : location.hash;
 var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
-	if (location.hash.substring(1, 7) != "search" 
+	if (location.hash.substring(1, 7) != "search"
 		&& location.hash.substring(1, 6) != "label"
 		&& location.hash.substring(1, 16) != "advanced-search") {
 			closeSearchUrlHash = location.hash;
@@ -194,12 +194,12 @@ if (location.hash.substring(1, 9) == "settings") {
 // == SEARCH FUNCTIONS =====================================================
 
 /* Focus search input */
-function toggleSearchFocus(onOff) {	
+function toggleSearchFocus(onOff) {
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
 		document.querySelector('header#gb form').classList.remove('gb_pe');
 
-		// Remove focus from search input or button 
+		// Remove focus from search input or button
 		document.activeElement.blur();
 	} else {
 		document.querySelector('header#gb form').classList.add('gb_pe');
@@ -214,12 +214,12 @@ function initSearch() {
 	var headerBar = document.getElementById('gb');
 	var searchForm = (headerBar) ? headerBar.getElementsByTagName('form')[0] : false;
 
-	// Setup Search functions to show/hide Search at the 
+	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
 		// Add .gb_ne, Gmail's own class to minimize search
 		searchForm.classList.toggle('gb_ne');
-		
+
 		// Add function to search button to toggle search open/closed
 		var searchButton = document.querySelectorAll('#gb form button[aria-label="Search Mail"], #gb form .gb_Qe')[0];
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
@@ -235,8 +235,8 @@ function initSearch() {
 		// Add functionality to search close button to close search and go back
 		var searchCloseButton = document.querySelectorAll('#gb form button[aria-label="Clear search"], #gb form .gb_Te')[0];
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
-		
-		// Hide search when you clear the search if it was previously hidden		
+
+		// Hide search when you clear the search if it was previously hidden
 		searchCloseIcon.addEventListener('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -250,7 +250,7 @@ function initSearch() {
 	} else {
 		initSearchLoops++;
 		if (simplifyDebug) console.log('initSearch loop #' + initSearchLoops);
-		
+
 		// only try 20 times and then asume something is wrong
 		if (initSearchLoops < 21) {
 			// Call init function again if the gear button field wasn't loaded yet
@@ -272,12 +272,12 @@ function initSearchFocus() {
 		}
 
 		// Show search if it is focused and hidden
-		searchInput.addEventListener('focus', function() { 
+		searchInput.addEventListener('focus', function() {
 			htmlEl.classList.remove('hideSearch');
 		}, false );
 
 		// Hide search box if it loses focus, is empty, and was previously hidden
-		searchInput.addEventListener('blur', function() { 
+		searchInput.addEventListener('blur', function() {
 			if (this.value == "" && window.localStorage.simplifyHideSearch == "true") {
 				htmlEl.classList.add('hideSearch');
 			}
@@ -285,7 +285,7 @@ function initSearchFocus() {
 	} else {
 		// If the search field can't be found, wait and try again
 		initSearchFocusLoops++;
-		if (simplifyDebug) console.log('initSearchFocus loop #' + initSearchFocusLoops); 
+		if (simplifyDebug) console.log('initSearchFocus loop #' + initSearchFocusLoops);
 
 		// Only try 10 times and then asume something is wrong
 		if (initSearchFocusLoops < 11) {
@@ -311,7 +311,7 @@ function initSettings() {
 	}
 
 	if (backButton) {
-		backButton.addEventListener('click', function() {		
+		backButton.addEventListener('click', function() {
 			if (location.hash.substring(1, 9) == "settings") {
 				location.hash = closeSettingsUrlHash;
 				htmlEl.classList.remove('inSettings');
@@ -362,7 +362,7 @@ function detectTheme() {
 
 		// only try 10 times and then asume you're in a thread
 		if (detectThemeLoops < 11) {
-			setTimeout(detectTheme, 500);		
+			setTimeout(detectTheme, 500);
 		}
 	} else {
 		// We are looking at a conversation, check the theme when the view changes
@@ -415,7 +415,7 @@ function detectSplitView() {
 	} else {
 		var splitViewToggle = document.querySelector('div[selector="nosplit"]');
 		if (splitViewToggle) {
-			// Only the Preview Pane vertical or horizontal has the action bar 
+			// Only the Preview Pane vertical or horizontal has the action bar
 			var splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
 			if (splitViewActionBar) {
 				if (splitViewActionBar.length > 0) {
@@ -552,7 +552,7 @@ function detectRightSideChat() {
 	var talkRoster = document.getElementById('talk_roster');
 	if (talkRoster) {
 		var rosterSide = talkRoster.getAttribute('guidedhelpid');
-		
+
 		if (rosterSide == "right_roster") {
 			if (simplifyDebug) console.log('Right side chat found');
 			htmlEl.classList.add('rhsChat');
@@ -673,7 +673,7 @@ function detectMultipleInboxes() {
 /* Observer to toggle pagination controls
  * Hide pagination controls if buttons are disabled in the default inbox:
  * Default inbox 	.aeH > div[gh=tm] > .ar5
- * 
+ *
  * Ignore these cases:
  * Priority Inbox 	.aeF > .Wm
  * Split pane 		.aeF > div[gh=tm] > .ar5
@@ -740,9 +740,9 @@ function initAppSwitcher() {
 
 
 /* TODO: dynamic padding between pagination and actions
- * Problem: Different settings like the inputs menu add extra buttons to the 
+ * Problem: Different settings like the inputs menu add extra buttons to the
  *   action bar and mis-align the pagination controls above 1441px screen resolution.
- * 
+ *
  * Solution: Detect how many buttons are in the action bar and figure out how much
  *   padding there should be. Set a global css var
  *
@@ -754,8 +754,8 @@ function initAppSwitcher() {
  	window.getComputedStyle(document.querySelector('.ar5')).getPropertyValue('padding-right')
  * A - (B + C) is the width of just the right actions
  * ---
- * I could also possibly do a querySelectorAll on divs after the pagination control and loop 
- * through and count up their computed width to determine the --right-offset 
+ * I could also possibly do a querySelectorAll on divs after the pagination control and loop
+ * through and count up their computed width to determine the --right-offset
 */
 
 
@@ -779,6 +779,6 @@ function initLate() {
 	detectButtonLabel();
 	initAppSwitcher();
 	testPagination();
-	observePagination(); 
+	observePagination();
 }
 window.addEventListener('load', initLate, false);
