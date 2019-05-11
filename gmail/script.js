@@ -24,7 +24,7 @@ function toggleSimpl() {
 	return htmlEl.classList.toggle('simpl');
 }
 
-// Add keyboard shortcut for toggling on/off custom style
+// Handle Simplify keyboard shortcuts
 function handleToggleShortcut(event) {
 	// If Cmd+J was pressed, toggle simpl
 	if (event.metaKey && event.which == 74) {
@@ -41,7 +41,8 @@ function handleToggleShortcut(event) {
 }
 window.addEventListener('keydown', handleToggleShortcut, false);
 
-// Handle messages from background script
+// Handle messages from background script that 
+// supports page action to toggle Simplify on/off
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.action === 'toggle_simpl') {
 		const isNowToggled = toggleSimpl();
@@ -54,10 +55,47 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 
 
-// == INIT SAVED STATES =================================================
+/* == INIT SAVED STATES =================================================
+ * If someone is signed into multiple accounts, the localStorage
+ * variables will overwrite one another unless we associate them
+ * with an account. The user number in the URL is the only
+ * identifying thing we have access to at the start of page load.
+ *
+ * This will continue to match the username so long as you don't
+ * sign out and then back into a different account first. After
+ * the page is totally loaded, we will check for this case and
+ * reset the local variables if the username associated with
+ * the userId in the URL doesn't match the username associated
+ * with the userId in localStorage.
+ */
+var userPos = location.pathname.indexOf('/u/');
+var userNum = location.pathname.substring(userPos+3, userPos+4);
+var simplifyId;
 
-if (simplifyDebug) console.log( 'URL path: ' + location.pathname );
-// /mail/u/0/
+if (simplifyDebug) {
+	if (typeof window.localStorage.simplifyId !== 'undefined') {
+		simplifyId = JSON.parse(window.localStorage.simplifyId);
+		console.log('Username: ' + simplifyId[userNum]);
+	} else {
+		console.log('Username not stored');
+	}
+}
+
+// Make sure local variables are for the right account
+function checkLocalVar() {
+	var username = document.querySelector('.gb_db').innerText;
+
+	if (typeof window.localStorage.simplifyId === 'undefined') {
+		window.localStorage.simplifyId = JSON.stringify({[userNum]:username});
+	} else {
+		if (username == simplifyId[userNum]) {
+			if (simplifyDebug) console.log('Usernames match');
+		} else {
+			if (simplifyDebug) console.log('Usernames do NOT match');
+		}
+	}
+}
+
 
 function initLocalVar() {
 	// Init Preview Pane or Multiple Inboxes
@@ -780,5 +818,6 @@ function initLate() {
 	initAppSwitcher();
 	testPagination();
 	observePagination();
+	checkLocalVar();
 }
 window.addEventListener('load', initLate, false);
