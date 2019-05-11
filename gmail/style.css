@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL
+ * SIMPLIFY GMAIL v1.3.5
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -96,7 +96,8 @@ html.simpl .gb_tc {
 html.simpl #gbwa {
 	display: none !important;
 	position: absolute;
-    right: 52px;
+    right: 0px;
+    padding: 4px 52px 8px 8px;
 }
 html.simpl.appSwitcher #gbwa {
 	display: block !important;
@@ -487,6 +488,7 @@ html.simpl #gb form {
 	margin-right: 8px;
 	position: relative;
 	right: 0px;
+	transition: width 0s;
 }
 html.simpl {
 	--action-bar-width: 70%;
@@ -536,8 +538,11 @@ html.simpl.appSwitcher.hideSearch #gb form {
 	display: none;
 }
 html.simpl.appSwitcher:not(.hideSearch) #gb form {
-	width: calc(35% - 52px);
-	margin-right: 52px;
+	width: calc(30% - 50px);
+	margin-right: 58px;
+}
+html.simpl.textButtons.appSwitcher:not(.hideSearch) #gb form {
+	width: calc(25% - 50px);
 }
 
 
@@ -835,19 +840,21 @@ html.simpl.splitView .aeF {
 	padding-right: 0px !important;
 	margin-bottom: 0px !important;
 }
-/* Max width conversation */
+
+/* Max width view 100% */
 html.simpl.splitView .AO .aeF > .nH {
 	margin: 0px; /*40px auto 0 auto;*/
 	max-width: 100%;
 }
-/* Larger max-width for Preview pane 
- * TODO: I shouldn't do this for horizontal preview pane
- * But I don't differentiate yet.
- */
+
+/* Max-width on conversation */
+html.simpl.splitView .apg .aNW .age .Bs {
+	max-width: 960px;
+	margin: 1.5vw auto 0 auto;
+}
 @media only screen and (min-width: 1441.98px) {
-	html.simpl.splitView .AO .aeF > .nH {
-		max-width: 2000px;
-		margin: 0 auto;
+	html.simpl.splitView .apg .aNW .age .Bs {
+		max-width: 1100px;
 	}
 }
 
@@ -862,19 +869,8 @@ html.simpl.splitView .aiw {
 	-webkit-box-shadow: none;
 }
 
-/* Give view full height */
-/* BUG #114: we should only apply this to vertical split pane */
-html.simpl.splitView .apg .age {
-	/* Normally... */
-	height: calc(100vh - 64px);
-	
-	/* In default inbox, there are tabs */
-	/*height: calc(100vh - 119px);*/
-}
-
 /* Add padding to bottom of conversation view */
-/* BUG: Somehow, this isn't working in horizontal split pane */
-html.simpl.splitView .aNW td.Bu:not(.y3) {
+html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
 	padding-bottom: 200px;
 }
 

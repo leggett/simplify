@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL
+ * SIMPLIFY GMAIL v1.3.5
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -724,21 +724,15 @@ function detectDelegate() {
 // Init App switcher event listeners
 var hideAppSwitcherTimer = 0;
 function initAppSwitcher() {
-	var profileButton = document.querySelector('#gb a.gb_x .gb_ya');
+	var profileButton = document.querySelector('#gb .gb_Ea');
 	if (profileButton) {
-		profileButton.addEventListener('mouseover', function(event) {
+		profileButton.addEventListener('mouseenter', function(event) {
 			htmlEl.classList.add('appSwitcher');
 		}, false);
-		profileButton.addEventListener('mouseout', function(event) {
-			hideAppSwitcherTimer = setTimeout(function(){ htmlEl.classList.remove('appSwitcher') }, 1000);
-		}, false);
 
-		var appSwitcherButton = document.querySelector('#gbwa a svg');
-		appSwitcherButton.addEventListener('mouseover', function(event) {
-			clearTimeout(hideAppSwitcherTimer);
-		}, false);
-		appSwitcherButton.addEventListener('mouseout', function(event) {
-			hideAppSwitcherTimer = setTimeout(function(){ htmlEl.classList.remove('appSwitcher') }, 1000);
+		var appSwitcherWrapper = document.querySelector('#gbwa');
+		appSwitcherWrapper.addEventListener('mouseleave', function(event) {
+			htmlEl.classList.remove('appSwitcher');
 		}, false);
 	}
 }
