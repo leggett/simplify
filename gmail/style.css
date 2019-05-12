@@ -971,7 +971,7 @@ html.simpl .aSs > .aSt {
 	left: calc(50vw - 450px) !important;
 }
 html.simpl .aSs .aDg > .aDj {
-	width: 867px !important;
+	width: 865px !important;
 	left: calc(50vw - 435px) !important;
 }
 
@@ -980,16 +980,13 @@ html.simpl .aSs {
 	background-color: rgba(0,0,0,.7);
 }
 
-
-/* Simplify formatting options. Remove shadow and make full width. */
+/* Fix formatting options appearing over content editable div */
 html.simpl .aoI .Ur {
-	width: 100%;
-	margin: auto;
-	box-sizing: border-box;
-	background-color: white;
+	position: relative;
 }
 
-html.simpl .aoI .Ur div[aria-label='Formatting options'] {
+/* Remove formatting options' shadow and make full width. */
+html.simpl .aoI .Ur div[role='toolbar'] {
 	width: 100%;
 	box-shadow: none;
 	box-sizing: border-box;
