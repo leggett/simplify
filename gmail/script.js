@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.5
+ * SIMPLIFY GMAIL v1.3.6
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -68,127 +68,148 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
  * the userId in the URL doesn't match the username associated
  * with the userId in localStorage.
  */
-var userPos = location.pathname.indexOf('/u/');
-var userNum = location.pathname.substring(userPos+3, userPos+4);
-var simplifyId;
+const userPos = location.pathname.indexOf('/u/');
+const u = location.pathname.substring(userPos+3, userPos+4);
 
-if (simplifyDebug) {
-	if (typeof window.localStorage.simplifyId !== 'undefined') {
-		simplifyId = JSON.parse(window.localStorage.simplifyId);
-		console.log('Username: ' + simplifyId[userNum]);
+const defaultParam = {
+	username: "",
+	previewPane: null,
+	multipleInboxes: "",
+	theme: "",
+	navOpen: null,
+	density: "",
+	textButtons: null,
+	rhsChat: null,
+	minimizeSearch: null,
+	addOns: null,
+	addOnsCount: 3,
+	elements: {}
+}
+
+// Helper function to init or reset the localStorage variable
+function resetLocalStorage(userNum) {
+	window.localStorage.clear();
+	if (userNum) {
+		simplify[u] = defaultParam;
+		window.localStorage.simplify = JSON.stringify(simplify);
 	} else {
-		console.log('Username not stored');
+		window.localStorage.simplify = JSON.stringify({ "0": defaultParam });
 	}
 }
 
-// Make sure local variables are for the right account
+// Initialize local storage if undefined
+if (typeof window.localStorage.simplify === 'undefined') {
+	resetLocalStorage();
+}
+
+// Local copy of Simplify cached state parameters
+const simplify = JSON.parse(window.localStorage.simplify);
+
+// Make sure Simplify cached state parameters are initialized for this account
+if (typeof simplify[u] === 'undefined') {
+	resetLocalStorage(u);
+}
+
+// Write to local and localStorage object
+function updateParam(param, value) {
+	simplify[u][param] = value;
+	window.localStorage.simplify = JSON.stringify(simplify);
+}
+
+/* Make sure local variables are for the right account 
+ * TODO: for now, when it doesn't match, I just localStorage.clear()
+ *  but there might be a better way, maybe try and match the correct account?
+ */
 function checkLocalVar() {
 	var username = document.querySelector('.gb_db').innerText;
-
-	if (typeof window.localStorage.simplifyId === 'undefined') {
-		window.localStorage.simplifyId = JSON.stringify({[userNum]:username});
-	} else {
-		if (username == simplifyId[userNum]) {
-			if (simplifyDebug) console.log('Usernames match');
-		} else {
-			if (simplifyDebug) console.log('Usernames do NOT match');
-		}
+	if (simplify[u].username != username) {
+		if (simplifyDebug) console.log('Usernames do NOT match');
+		resetLocalStorage();
 	}
+	updateParam("username", username);
 }
 
 
-function initLocalVar() {
-	// Init Preview Pane or Multiple Inboxes
-	if (window.localStorage.simplifyPreviewPane == "true") {
-		if (simplifyDebug) console.log('Loading with split view');
-		htmlEl.classList.add('splitView');
 
-		// Multiple Inboxes doesn't work if you have Preview Pane enabled
-		window.localStorage.simplifyMultipleInboxes = "none";
-		htmlEl.classList.remove('multiBoxVert');
-		htmlEl.classList.remove('multiBoxHorz');
-	} else {
-		// Multiple Inboxes only works if Preview Pane is disabled
-		if (window.localStorage.simplifyMultipleInboxes == "horizontal") {
-			if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
-			htmlEl.classList.add('multiBoxHorz');
-		} else if (window.localStorage.simplifyMultipleInboxes == "vertical") {
-			if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
-			htmlEl.classList.add('multiBoxVert');
-		}
-	}
+// Init Preview Pane or Multiple Inboxes
+if (simplify[u].previewPane) {
+	if (simplifyDebug) console.log('Loading with split view');
+	htmlEl.classList.add('splitView');
 
-	// Init themes
-	if (window.localStorage.simplifyLightTheme == "true") {
-		if (simplifyDebug) console.log('Loading with light theme');
-		htmlEl.classList.add('lightTheme');
-	} else if (window.localStorage.simplifyDarkTheme == "true") {
-		if (simplifyDebug) console.log('Loading with dark theme: ' + window.localStorage.simplifyDarkTheme)
-		htmlEl.classList.add('darkTheme');
+	// Multiple Inboxes doesn't work if you have Preview Pane enabled
+	updateParam("multipleInboxes", "none");
+} else {
+	// Multiple Inboxes only works if Preview Pane is disabled
+	if (simplify[u].multipleInboxes == "horizontal") {
+		if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
+		htmlEl.classList.add('multiBoxHorz');
+	} else if (simplify[u].multipleInboxes == "vertical") {
+		if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
+		htmlEl.classList.add('multiBoxVert');
 	}
-
-	// Init nav menu
-	if (window.localStorage.simplifyMenuOpen == "true") {
-		if (simplifyDebug) console.log('Loading with nav menu open');
-		document.documentElement.classList.add('menuOpen');
-	} else if (window.localStorage.simplifyMenuOpen == "false") {
-		if (simplifyDebug) console.log('Loading with nav menu closed');
-		window.localStorage.simplifyMenuOpen = "false";
-	}
-
-	// Init density
-	if (window.localStorage.simplifyDensity == "low") {
-		if (simplifyDebug) console.log('Loading with low density inbox');
-		htmlEl.classList.add('lowDensityInbox');
-	} else if (window.localStorage.simplifyDensity == "high") {
-		if (simplifyDebug) console.log('Loading with high density inbox');
-		htmlEl.classList.add('highDensityInbox');
-	}
-
-	// Init text button labels
-	if (window.localStorage.simplifyTextButtonLabels == "true") {
-		if (simplifyDebug) console.log('Loading with text buttons');
-		document.documentElement.classList.add('textButtons');
-	}
-
-	// Init right side chat
-	if (window.localStorage.simplifyRightSideChat == "true") {
-		if (simplifyDebug) console.log('Loading with right hand side chat');
-		htmlEl.classList.add('rhsChat');
-	}
-
-	// Hide Search box by default
-	if (typeof window.localStorage.simplifyHideSearch === 'undefined') {
-		// Only default to hiding search if the window is smaller than 1441px wide
-		if (window.innerWidth < 1441) {
-			window.localStorage.simplifyHideSearch = true;
-		} else {
-			window.localStorage.simplifyHideSearch = false;
-		}
-	}
-	if (window.localStorage.simplifyHideSearch == "true") {
-		if (simplifyDebug) console.log('Loading with search hidden');
-		htmlEl.classList.add('hideSearch');
-	}
-
-	// Make space for add-ons pane if the add-ons pane was open last time
-	if (typeof window.localStorage.simplifyAddOnPane === 'undefined') {
-		window.localStorage.simplifyAddOnPane = false;
-	}
-	if (window.localStorage.simplifyAddOnPane == "true") {
-		if (simplifyDebug) console.log('Loading with add-ons pane');
-		htmlEl.classList.add('addOnsOpen');
-	}
-
-	// Set default size of add-ons tray
-	if (typeof window.localStorage.simplifyNumberOfAddOns === 'undefined') {
-		window.localStorage.simplifyNumberOfAddOns = 3;
-	}
-	htmlEl.style.setProperty('--add-on-height', parseInt(window.localStorage.simplifyNumberOfAddOns)*56 + 'px');
 }
 
-// Just calling this for now until I figure out how to programatically call it based on the user name
-initLocalVar();
+// Init themes
+if (simplify[u].theme == "light") {
+	if (simplifyDebug) console.log('Loading with light theme');
+	htmlEl.classList.add('lightTheme');
+} else if (simplify[u].theme == "dark") {
+	if (simplifyDebug) console.log('Loading with dark theme');
+	htmlEl.classList.add('darkTheme');
+}
+
+// Init nav menu
+if (simplify[u].navOpen) {
+	if (simplifyDebug) console.log('Loading with nav menu open');
+	document.documentElement.classList.add('navOpen');
+} else {
+	if (simplifyDebug) console.log('Loading with nav menu closed');
+}
+
+// Init density
+if (simplify[u].density == "low") {
+	if (simplifyDebug) console.log('Loading with low density inbox');
+	htmlEl.classList.add('lowDensityInbox');
+} else if (simplify[u].density == "high") {
+	if (simplifyDebug) console.log('Loading with high density inbox');
+	htmlEl.classList.add('highDensityInbox');
+}
+
+// Init text button labels
+if (simplify[u].textButtons) {
+	if (simplifyDebug) console.log('Loading with text buttons');
+	document.documentElement.classList.add('textButtons');
+}
+
+// Init right side chat
+if (simplify[u].rhsChat) {
+	if (simplifyDebug) console.log('Loading with right hand side chat');
+	htmlEl.classList.add('rhsChat');
+}
+
+// Hide Search box by default
+if (simplify[u].minimizeSearch == null) {
+	// Only default to hiding search if the window is smaller than 1441px wide
+	if (window.innerWidth < 1441) {
+		updateParam('minimizeSearch', true);
+	} else {
+		updateParam('minimizeSearch', false);
+	}
+}
+if (simplify[u].minimizeSearch) {
+	if (simplifyDebug) console.log('Loading with search hidden');
+	htmlEl.classList.add('hideSearch');
+}
+
+
+// Make space for add-ons pane if the add-ons pane was open last time
+if (simplify[u].addOns) {
+	if (simplifyDebug) console.log('Loading with add-ons pane');
+	htmlEl.classList.add('addOnsOpen');
+}
+
+// Set default size of add-ons tray
+htmlEl.style.setProperty('--add-on-height', simplify[u].addOnsCount * 56 + 'px');
 
 
 
@@ -266,7 +287,7 @@ function initSearch() {
 			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
 			searchForm.classList.toggle('gb_ne');
-			window.localStorage.simplifyHideSearch = htmlEl.classList.contains('hideSearch') ? true : false;
+			updateParam('minimizeSearch', htmlEl.classList.contains('hideSearch') ? true : false);
 			toggleSearchFocus();
 		}, false);
 
@@ -283,14 +304,14 @@ function initSearch() {
 			searchForm.classList.add('gb_ne');
 			location.hash = closeSearchUrlHash;
 			htmlEl.classList.toggle('hideSearch');
-			window.localStorage.simplifyHideSearch = true;
+			updateParam("minimizeSearch", true);
 		}, false);
 	} else {
 		initSearchLoops++;
 		if (simplifyDebug) console.log('initSearch loop #' + initSearchLoops);
 
-		// only try 20 times and then asume something is wrong
-		if (initSearchLoops < 21) {
+		// only try 4 times and then asume something is wrong
+		if (initSearchLoops < 5) {
 			// Call init function again if the gear button field wasn't loaded yet
 			setTimeout(initSearch, 500);
 		}
@@ -316,7 +337,7 @@ function initSearchFocus() {
 
 		// Hide search box if it loses focus, is empty, and was previously hidden
 		searchInput.addEventListener('blur', function() {
-			if (this.value == "" && window.localStorage.simplifyHideSearch == "true") {
+			if (this.value == "" && simplify[u].minimizeSearch) {
 				htmlEl.classList.add('hideSearch');
 			}
 		}, false );
@@ -326,7 +347,7 @@ function initSearchFocus() {
 		if (simplifyDebug) console.log('initSearchFocus loop #' + initSearchFocusLoops);
 
 		// Only try 10 times and then asume something is wrong
-		if (initSearchFocusLoops < 11) {
+		if (initSearchFocusLoops < 5) {
 			// Call init function again if the search input wasn't loaded yet
 			setTimeout(initSearchFocus, 500);
 		}
@@ -359,8 +380,8 @@ function initSettings() {
 		initSettingsLoops++;
 		if (simplifyDebug) console.log('initSettings loop #' + initSettingsLoops);
 
-		// only try 20 times and then asume something is wrong
-		if (detectThemeLoops < 21) {
+		// only try 5 times and then asume something is wrong
+		if (detectThemeLoops < 5) {
 			// Call init function again if the gear button field wasn't loaded yet
 			setTimeout(initSettings, 500);
 		}
@@ -384,13 +405,11 @@ function detectTheme() {
 		if (checkboxBg.indexOf('black') > -1) {
 			htmlEl.classList.add('lightTheme');
 			htmlEl.classList.remove('darkTheme');
-			window.localStorage.simplifyLightTheme = true;
-			window.localStorage.simplifyDarkTheme = false;
+			updateParam('theme', 'light');
 		} else {
 			htmlEl.classList.add('darkTheme');
 			htmlEl.classList.remove('lightTheme');
-			window.localStorage.simplifyDarkTheme = true;
-			window.localStorage.simplifyLightTheme = false;
+			updateParam('theme', 'dark');
 		}
 		checkThemeLater = false;
 	} else if (conversation.length == 0) {
@@ -398,8 +417,8 @@ function detectTheme() {
 		detectThemeLoops++;
 		if (simplifyDebug) console.log('detectTheme loop #' + detectThemeLoops);
 
-		// only try 10 times and then asume you're in a thread
-		if (detectThemeLoops < 11) {
+		// only try 4 times and then asume you're in a thread
+		if (detectThemeLoops < 5) {
 			setTimeout(detectTheme, 500);
 		}
 	} else {
@@ -420,19 +439,19 @@ function detectDensity() {
 			if (simplifyDebug) console.log('Detected high density');
 			htmlEl.classList.remove('lowDensityInbox');
 			htmlEl.classList.add('highDensityInbox');
-			window.localStorage.simplifyDensity = "high";
+			updateParam('density', 'high');
 		} else {
 			if (simplifyDebug) console.log('Detected low density');
 			htmlEl.classList.add('lowDensityInbox');
 			htmlEl.classList.remove('highDensityInbox');
-			window.localStorage.simplifyDensity = "low";
+			updateParam('density', 'low');
 		}
 	} else {
 		detectDensityLoops++;
 		if (simplifyDebug) console.log('detectDensity loop #' + detectDensityLoops);
 
-		// only try 10 times and then assume no split view
-		if (detectDensityLoops < 11) {
+		// only try 4 times and then assume no split view
+		if (detectDensityLoops < 5) {
 			// Call init function again if nav item wasn't loaded yet
 			setTimeout(detectDensity, 500);
 		} else {
@@ -459,15 +478,15 @@ function detectSplitView() {
 				if (splitViewActionBar.length > 0) {
 					if (simplifyDebug) console.log('Split view detected and active');
 					htmlEl.classList.add('splitView');
-					window.localStorage.simplifyPreviewPane = true;
+					updateParam('previewPane', true);
 					/* TODO: Listen for splitview mode toggle via mutation observer */
 				} else {
 					if (simplifyDebug) console.log('Split view enabled but set to No Split');
 					htmlEl.classList.remove('splitView');
-					window.localStorage.simplifyPreviewPane = false;
+					updateParam('previewPane', false);
 				}
 				// Multiple Inboxes only works when Split view is disabled
-				window.localStorage.simplifyMultipleInboxes = "none";
+				updateParam("multipleInboxes", "none");
 				htmlEl.classList.remove('multiBoxVert');
 				htmlEl.classList.remove('multiBoxHorz');
 			}
@@ -475,14 +494,14 @@ function detectSplitView() {
 			detectSplitViewLoops++;
 			if (simplifyDebug) console.log('Detect preview pane loop #' + detectSplitViewLoops);
 
-			// only try 10 times and then assume no split view
-			if (detectSplitViewLoops < 8) {
+			// only try 4 times and then assume no split view
+			if (detectSplitViewLoops < 5) {
 				// Call init function again if the gear button field wasn't loaded yet
 				setTimeout(detectSplitView, 500);
 			} else {
 				if (simplifyDebug) console.log('Giving up on detecting split view');
 				htmlEl.classList.remove('splitView');
-				window.localStorage.simplifyPreviewPane = false;
+				updateParam('previewPane', false);
 
 				// Multiple Inboxes only works when Split view is disabled
 				detectMultipleInboxes();
@@ -502,16 +521,16 @@ function detectNumberOfAddOns() {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
 		if (numberOfAddOns > 3) {
 			document.documentElement.style.setProperty('--add-on-height', numberOfAddOns*56 + 'px');
-			window.localStorage.simplifyNumberOfAddOns = numberOfAddOns;
+			updateParam('addOnsCount', numberOfAddOns);
 		} else {
-			window.localStorage.simplifyNumberOfAddOns = 3;
+			updateParam('addOnsCount', 3);
 		}
 	} else {
 		detectNumberOfAddOnsLoops++;
 		if (simplifyDebug) console.log('detectNumberOfAddOns loop #' + detectNumberOfAddOnsLoops);
 
-		// only try 10 times and then assume no add-on pane
-		if (detectNumberOfAddOnsLoops < 11) {
+		// only try 4 times and then assume no add-on pane
+		if (detectNumberOfAddOnsLoops < 5) {
 			// Call init function again if the add-on pane wasn't loaded yet
 			setTimeout(detectNumberOfAddOns, 500);
 		} else {
@@ -532,11 +551,11 @@ function detectAddOns() {
 		if (paneVisible == "auto") {
 			if (simplifyDebug) console.log('No add-on pane detected on load');
 			htmlEl.classList.remove('addOnsOpen');
-			window.localStorage.simplifyAddOnPane = false;
+			updateParam('addOns', false);
 		} else {
 			if (simplifyDebug) console.log('Add-on pane detected on load');
 			htmlEl.classList.add('addOnsOpen');
-			window.localStorage.simplifyAddOnPane = true;
+			updateParam('addOns', true);
 		}
 
 		// Set the height of the add-ons tray based on number of add-ons
@@ -553,10 +572,10 @@ function detectAddOns() {
 		        	if (simplifyDebug) console.log('Add-on pane style set to: ' + mutation.target.attributes.style.value);
 		        	if (mutation.target.attributes.style.value.indexOf("display: none") > -1) {
 		        		htmlEl.classList.remove('addOnsOpen');
-		        		window.localStorage.simplifyAddOnPane = false;
+		        		updateParam('addOns', false);
 		        	} else {
 		        		htmlEl.classList.add('addOnsOpen');
-		        		window.localStorage.simplifyAddOnPane = true;
+		        		updateParam('addOns', true);
 		        	}
 		        }
 		    }
@@ -572,8 +591,8 @@ function detectAddOns() {
 		detectAddOnsPaneLoops++;
 		if (simplifyDebug) console.log('detectAddOns loop #' + detectAddOnsPaneLoops);
 
-		// only try 10 times and then assume no add-on pane
-		if (detectAddOnsPaneLoops < 11) {
+		// only try 4 times and then assume no add-on pane
+		if (detectAddOnsPaneLoops < 5) {
 			// Call init function again if the add-on pane wasn't loaded yet
 			setTimeout(detectAddOns, 500);
 		} else {
@@ -594,16 +613,16 @@ function detectRightSideChat() {
 		if (rosterSide == "right_roster") {
 			if (simplifyDebug) console.log('Right side chat found');
 			htmlEl.classList.add('rhsChat');
-			window.localStorage.simplifyRightSideChat = true;
+			updateParam('rhsChat', true);
 		} else {
-			window.localStorage.simplifyRightSideChat = false;
+			updateParam('rhsChat', false);
 		}
 	} else {
 		detectRightSideChatLoops++;
 		if (simplifyDebug) console.log('detectRhsChat loop #' + detectRightSideChatLoops);
 
-		// only try 10 times and then assume no add-on pane
-		if (detectRightSideChatLoops < 11) {
+		// only try 4 times and then assume no add-on pane
+		if (detectRightSideChatLoops < 5) {
 			// Call init function again if the add-on pane wasn't loaded yet
 			setTimeout(detectRightSideChat, 500);
 		} else {
@@ -623,16 +642,17 @@ function detectButtonLabel() {
 		if (textButtonLabel == "") {
 			// Using icon buttons
 			if (simplifyDebug) console.log('Icon button labels detected');
-			window.localStorage.simplifyTextButtonLabels = "false";
+			updateParam('textButtons', false);
+			htmlEl.classList.remove('textButtons');
 		} else {
 			// Using icon buttons
 			if (simplifyDebug) console.log('Text button labels detected');
-			window.localStorage.simplifyTextButtonLabels = "true";
-			document.documentElement.classList.add('textButtons');
+			updateParam('textButtons', true);
+			htmlEl.classList.add('textButtons');
 		}
 	} else {
 		detectButtonLabelLoops++;
-		if (detectButtonLabelLoops < 10) {
+		if (detectButtonLabelLoops < 5) {
 			setTimeout(detectButtonLabel, 500);
 			if (simplifyDebug) console.log('Detect button labels loop #' + detectButtonLabelLoops);
 		}
@@ -645,21 +665,21 @@ function detectButtonLabel() {
 var detectMenuStateLoops = 0;
 function detectMenuState() {
 	var menuButton = document.querySelector('.gb_tc div:first-child');
-	var menuOpen = menuButton.getAttribute('aria-expanded');
+	var navOpen = menuButton.getAttribute('aria-expanded');
 	if (menuButton) {
 		menuButton.addEventListener('click', toggleMenu, false);
-		if (menuOpen == "true") {
+		if (navOpen == "true") {
 			if (simplifyDebug) console.log('Nav menu is open');
-			htmlEl.classList.add('menuOpen');
-			window.localStorage.simplifyMenuOpen = "true";
+			updateParam('navOpen', true);
+			htmlEl.classList.add('navOpen');
 		} else {
 			if (simplifyDebug) console.log('Nav menu is closed');
-			window.localStorage.simplifyMenuOpen = "false";
-			htmlEl.classList.remove('menuOpen');
+			updateParam('navOpen', false);
+			htmlEl.classList.remove('navOpen');
 		}
 	} else {
 		detectMenuStateLoops++;
-		if (detectMenuStateLoops < 10) {
+		if (detectMenuStateLoops < 5) {
 			setTimeout(detectMenuState, 500);
 			if (simplifyDebug) console.log('Detect menu state loop #' + detectMenuStateLoops);
 		}
@@ -667,17 +687,17 @@ function detectMenuState() {
 }
 // Helper function to toggle menu open/closed
 function toggleMenu() {
+	if (simplifyDebug) console.log('Toggle nav');
 	var menuButton = document.querySelector('.gb_tc div:first-child');
-	var menuOpen = window.localStorage.simplifyMenuOpen;
-	if (menuOpen == "true") {
-		htmlEl.classList.remove('menuOpen');
+	if (simplify[u].navOpen) {
+		htmlEl.classList.remove('navOpen');
 		menuButton.setAttribute('aria-expanded', 'false');
-		window.localStorage.simplifyMenuOpen = "false";
+		updateParam('navOpen', false);
 	}
-	else if (menuOpen == "false") {
-		htmlEl.classList.add('menuOpen');
+	else {
+		htmlEl.classList.add('navOpen');
 		menuButton.setAttribute('aria-expanded', 'true');
-		window.localStorage.simplifyMenuOpen = "true";
+		updateParam('navOpen', true);
 	}
 }
 
@@ -693,14 +713,14 @@ function detectMultipleInboxes() {
 		if (actionBars > 1) {
 			htmlEl.classList.add('multiBoxVert');
 			htmlEl.classList.remove('multiBoxHorz');
-			window.localStorage.simplifyMultipleInboxes = "vertical";
+			updateParam("multipleInboxes", "vertical");
 		} else {
 			htmlEl.classList.add('multiBoxHorz');
 			htmlEl.classList.remove('multiBoxVert');
-			window.localStorage.simplifyMultipleInboxes = "horizontal";
+			updateParam("multipleInboxes", "horizontal");
 		}
 	} else {
-		window.localStorage.simplifyMultipleInboxes = "none";
+		updateParam("multipleInboxes", "none");
 		htmlEl.classList.remove('multiBoxVert');
 		htmlEl.classList.remove('multiBoxHorz');
 	}
@@ -797,6 +817,20 @@ function initAppSwitcher() {
 */
 
 
+// Detect classnames that often change and inject style via JS
+// TODO: a lot
+function detectClassNames() {
+	var searchParent = document.querySelector('form[role="search"]').parentElement.classList;
+	var result = ""
+	searchParent.forEach(styleClass => {
+		result += "." + styleClass;
+	})
+
+	if (simplifyDebug) console.log('Search class = ' + result);
+}
+
+
+
 
 // Initialize everything
 function initEarly() {
@@ -808,6 +842,7 @@ function initEarly() {
 window.addEventListener('DOMContentLoaded', initEarly, false);
 
 function initLate() {
+	detectClassNames();
 	detectTheme();
 	detectSplitView();
 	detectDensity();

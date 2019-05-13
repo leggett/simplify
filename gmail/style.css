@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.5
+ * SIMPLIFY GMAIL v1.3.6
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -368,7 +368,7 @@ States (text button labels)
 		--content-width: 960px;
 		--left-offset: 60px;
 	}
-	html.simpl.menuOpen {
+	html.simpl.navOpen {
 		--left-offset: -32px;
 	}
 	html.simpl.rhsChat {
@@ -381,15 +381,15 @@ States (text button labels)
 	html.simpl.addOnsOpen.rhsChat {
 		--left-offset: 12px;
 	}
-	html.simpl.addOnsOpen.menuOpen {
+	html.simpl.addOnsOpen.navOpen {
 		--left-offset: -32px;
 	}
-	html.simpl.addOnsOpen.rhsChat.menuOpen {
+	html.simpl.addOnsOpen.rhsChat.navOpen {
 		--left-offset: -82px;
 	}
 	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .G-atb,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .G-atb {
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
 		margin-left: 16px !important;
 	}
@@ -399,7 +399,7 @@ States (text button labels)
 	html.simpl.hideSearch {
 		--right-offset: 158px;
 	}
-	html.simpl.hideSearch.menuOpen {
+	html.simpl.hideSearch.navOpen {
 		--right-offset: 252px;
 	}
 	html.simpl.hideSearch.rhsChat {
@@ -408,30 +408,30 @@ States (text button labels)
 	html.simpl.hideSearch.addOnsOpen.rhsChat {
 		--right-offset: 208px;
 	}
-	html.simpl.hideSearch.menuOpen.addOnsOpen,
-	html.simpl.hideSearch.menuOpen.addOnsOpen.rhsChat {
+	html.simpl.hideSearch.navOpen.addOnsOpen,
+	html.simpl.hideSearch.navOpen.addOnsOpen.rhsChat {
 		--right-offset: 300px;
 	}
-	html.simpl.hideSearch.menuOpen.rhsChat {
+	html.simpl.hideSearch.navOpen.rhsChat {
 		--right-offset: 44px;
 	}
-	html.simpl.hideSearch.addOnsOpen.menuOpen {
+	html.simpl.hideSearch.addOnsOpen.navOpen {
 		--right-offset: 246px;
 	}
 
 	/* Apply variables to align right edge with content */
 	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
 	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .ar5,
-	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .adF .iG {
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .adF .iG {
 		padding-right: calc(((100vw - var(--content-width)) / 2) - var(--right-offset));
 	}
 
 	/* Keep pagination next to settings when search is open */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .aeH .ar5,
-	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.menuOpen):not(.textButtons) .adF .iG {
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .adF .iG {
 		padding-right: initial;
 	}
 }
