@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = false;
+var simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -328,16 +328,13 @@ function toggleSearchFocus(onOff) {
 var initSearchLoops = 0;
 function initSearch() {
 	// See if Search form has be added to the dom yet
-	// var headerBar = document.getElementById('gb');
-	// var searchForm = (headerBar) ? headerBar.getElementsByTagName('form')[0] : false;
 	var searchForm = document.querySelector('#gb form');
 
 	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
 		// Add function to search button to toggle search open/closed
-		var searchButton = document.querySelector('#gb form button[role="button"]:not([gh="sda"])')
-		var searchIcon = searchButton.getElementsByTagName('svg')[0];
+		var searchIcon = document.querySelector('#gb form path[d|="M20.49,19l-5.73"]').parentElement;
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -347,8 +344,7 @@ function initSearch() {
 		}, false);
 
 		// Add functionality to search close button to close search and go back
-		var searchCloseButton = document.querySelector('#gb form button[gh="sda"] + button');
-		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
+		var searchCloseIcon = document.querySelector('#gb form path[d~="6.41L17.59"]').parentElement;
 
 		// Hide search when you clear the search if it was previously hidden
 		searchCloseIcon.addEventListener('click', function(event) {
@@ -719,8 +715,8 @@ function detectButtonLabel() {
 var detectMenuStateLoops = 0;
 function detectMenuState() {
 	var menuButton = document.querySelector('.gb_tc div:first-child');
-	var navOpen = menuButton.getAttribute('aria-expanded');
 	if (menuButton) {
+		var navOpen = menuButton.getAttribute('aria-expanded');
 		menuButton.addEventListener('click', toggleMenu, false);
 		if (navOpen == "true") {
 			if (simplifyDebug) console.log('Nav menu is open');
