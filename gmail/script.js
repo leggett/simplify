@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = true;
+var simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -123,15 +123,20 @@ function updateParam(param, value) {
 
 /* Make sure local variables are for the right account 
  * TODO: for now, when it doesn't match, I just localStorage.clear()
- *  but there might be a better way, maybe try and match the correct account?
+ * but there might be a better way, maybe try and match the correct account?
  */
 function checkLocalVar() {
-	var username = document.querySelector('.gb_db').innerText;
-	if (simplify[u].username != username) {
-		if (simplifyDebug) console.log('Usernames do NOT match');
-		resetLocalStorage();
+	// var username = document.querySelector('.gb_db').innerText;
+	var usernameStart = document.title.search(/[a-z]+\@gmail.com - Gmail/);
+	if (usernameStart > 0) {
+		var username = document.title.substring(usernameStart, document.title.length-8);
+		if (simplifyDebug) console.log('Username: ' + username);
+		if (simplify[u].username != username) {
+			if (simplifyDebug) console.log('Usernames do NOT match');
+			resetLocalStorage();
+		}
+		updateParam("username", username);
 	}
-	updateParam("username", username);
 }
 
 // Init Preview Pane or Multiple Inboxes
@@ -334,7 +339,7 @@ function initSearch() {
 	// right times if we have access to the search field
 	if (searchForm) {
 		// Add function to search button to toggle search open/closed
-		var searchIcon = document.querySelector('#gb form path[d|="M20.49,19l-5.73"]').parentElement;
+		var searchIcon = document.querySelector('#gb form path[d^="M20.49,19l-5.73"]').parentElement;
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -714,7 +719,7 @@ function detectButtonLabel() {
 // Detect nav menu state
 var detectMenuStateLoops = 0;
 function detectMenuState() {
-	var menuButton = document.querySelector('.gb_tc div:first-child');
+	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement;
 	if (menuButton) {
 		var navOpen = menuButton.getAttribute('aria-expanded');
 		menuButton.addEventListener('click', toggleMenu, false);
