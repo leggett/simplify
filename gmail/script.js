@@ -164,6 +164,9 @@ if (simplify[u].theme == "light") {
 } else if (simplify[u].theme == "dark") {
 	if (simplifyDebug) console.log('Loading with dark theme');
 	htmlEl.classList.add('darkTheme');
+} else if (simplify[u].theme == "medium") {
+	if (simplifyDebug) console.log('Loading with medium theme');
+	htmlEl.classList.add('mediumTheme');
 }
 
 // Init nav menu
@@ -436,7 +439,7 @@ function initSettings() {
 		if (simplifyDebug) console.log('initSettings loop #' + initSettingsLoops);
 
 		// only try 5 times and then asume something is wrong
-		if (detectThemeLoops < 5) {
+		if (initSettingsLoops < 5) {
 			// Call init function again if the gear button field wasn't loaded yet
 			setTimeout(initSettings, 500);
 		}
@@ -449,24 +452,39 @@ function initSettings() {
 // == DETECTION FUNCTIONS =====================================================
 
 // Detect if a dark theme is being used and change styles accordingly
-// TODO: detect when they change themes
 var detectThemeLoops = 0;
 var checkThemeLater = false;
-function detectTheme() {
+var observingThemes = false;
+function detectTheme(fromObserver) {
 	var msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
 	var conversation = document.querySelectorAll('table[role="presentation"]');
+	if (simplifyDebug) console.log('Detecting theme...');
 	if (msgCheckbox) {
 		var checkboxBg = window.getComputedStyle(msgCheckbox, null).getPropertyValue("background-image");
+		var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]');
+		var menuButtonBg = window.getComputedStyle(menuButton, null).getPropertyValue("color");
 		if (checkboxBg.indexOf('black') > -1) {
-			htmlEl.classList.add('lightTheme');
-			htmlEl.classList.remove('darkTheme');
-			updateParam('theme', 'light');
+			if (menuButtonBg.indexOf('255, 255, 255') > -1) {
+				// The checkbox is black which means the threadlist 
+				// bg is light, BUT the app bar icons are light
+				htmlEl.classList.add('mediumTheme');
+				htmlEl.classList.remove('lightTheme');
+				htmlEl.classList.remove('darkTheme');
+				updateParam('theme', 'medium');
+			} else {			
+				htmlEl.classList.add('lightTheme');
+				htmlEl.classList.remove('mediumTheme');
+				htmlEl.classList.remove('darkTheme');
+				updateParam('theme', 'light');
+			}
 		} else {
 			htmlEl.classList.add('darkTheme');
 			htmlEl.classList.remove('lightTheme');
+			htmlEl.classList.remove('mediumTheme');
 			updateParam('theme', 'dark');
 		}
 		checkThemeLater = false;
+		if (!observingThemes) observeThemes();
 	} else if (conversation.length == 0) {
 		// if we're not looking at a conversation, maybe the threadlist just hasn't loaded yet
 		detectThemeLoops++;
@@ -481,7 +499,33 @@ function detectTheme() {
 		checkThemeLater = true;
 	}
 }
+function observeThemes() {
+	/* BUG (sort of)... this only works when changing to/from/between themes 
+	 * with background images. It does NOT work when changing between flat color
+	 * themes. This is b/c this only detects when attributes are changed inline or 
+	 * children nodes are added/removed. The switch from white to black themes
+	 * changes the css in the head (inside one of many style tags) which then
+	 * changes the styles. I don't see an inline change I can observe to trigger
+	 * this observer. At least not yet.
+	 */
+	var themeBg = document.querySelector('.yL .wl');
 
+	if (themeBg) {	
+		var themesObserverConfig = { attributes: true, attributeFilter: ["style"], childList: true, subtree: true };
+
+		// Create an observer instance that calls the detectTheme function
+		// Annoying that I have to delay by 200ms... if I don't then 
+		// it checks to see if anything changed before it had a chance to change
+		var themesObserver = new MutationObserver(function() { setTimeout(detectTheme, 200) });
+
+		// Start observing the target node for configured mutations
+		themesObserver.observe(themeBg, themesObserverConfig);
+		observingThemes = true;
+		if (simplifyDebug) console.log('Adding mutation observer for themes');
+	} else {
+		if (simplifyDebug) console.log('Failed to add mutation observer for themes');
+	}
+}
 
 // Detect the interface density so we can adjust the line height on items
 var detectDensityLoops = 0;
@@ -574,8 +618,8 @@ function detectNumberOfAddOns() {
 	var numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
-		if (numberOfAddOns > 3) {
-			document.documentElement.style.setProperty('--add-on-height', numberOfAddOns*56 + 'px');
+		if (numberOfAddOns != simplify[u].addOnsCount) {
+			addCSS(`:root { --add-on-height: ${numberOfAddOns * 56}px !important; }`);
 			updateParam('addOnsCount', numberOfAddOns);
 		} else {
 			updateParam('addOnsCount', 3);
@@ -827,15 +871,18 @@ function observePagination() {
 	}
 }
 
-//  Detect if this is a delegated account
+
+
+// Detect if this is a delegated account
 function detectDelegate() {
 	if (location.pathname.substring(6,7) == "b" ) {
 		htmlEl.classList.add('delegate');
 	}
 }
 
+
+
 // Init App switcher event listeners
-var hideAppSwitcherTimer = 0;
 function initAppSwitcher() {
 	var profileButton = document.querySelector('#gb .gb_Ea');
 	if (profileButton) {
@@ -847,6 +894,20 @@ function initAppSwitcher() {
 		appSwitcherWrapper.addEventListener('mouseleave', function(event) {
 			htmlEl.classList.remove('appSwitcher');
 		}, false);
+	}
+}
+
+
+// Detect if there are other 3rd party extensions installed
+function detectOtherExtensions() {
+	var otherExtensions = document.querySelectorAll('#gb .manage_menu, #gb .inboxsdk__appButton, #gb #mailtrack-menu-opener, #gb .mixmax-appbar').length;
+	if (otherExtensions > 0) {
+		if (simplifyDebug) console.log('Other extensions detected');
+		htmlEl.classList.add('otherExtensions');
+		// If there are other extensions, we need to do something more drastic when
+		// you hover over the profile button (e.g. hide settings and search entirely)
+	} else {
+		if (simplifyDebug) console.log('No extensions detected');
 	}
 }
 
@@ -897,5 +958,6 @@ function initLate() {
 	testPagination();
 	observePagination();
 	checkLocalVar();
+	detectOtherExtensions();
 }
 window.addEventListener('load', initLate, false);
