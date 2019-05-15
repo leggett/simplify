@@ -3,7 +3,7 @@
 	"version": "1.3.6",
 	"manifest_version": 2,
 	"description": "Simplifies Gmail interface to the bare minimum",
-	"homepage_url": "https://simpl.fyi/",
+	"homepage_url": "https://simpl.fyi",
 	"icons": {
 		"16": "img/icon16.png",
 		"24": "img/icon24.png",

@@ -55,6 +55,7 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 
 
+
 /* == INIT SAVED STATES =================================================
  * If someone is signed into multiple accounts, the localStorage
  * variables will overwrite one another unless we associate them
@@ -70,6 +71,7 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
  */
 const userPos = location.pathname.indexOf('/u/');
 const u = location.pathname.substring(userPos+3, userPos+4);
+let simplify = {};
 
 const defaultParam = {
 	username: "",
@@ -103,7 +105,7 @@ if (typeof window.localStorage.simplify === 'undefined') {
 }
 
 // Local copy of Simplify cached state parameters
-const simplify = JSON.parse(window.localStorage.simplify);
+simplify = JSON.parse(window.localStorage.simplify);
 
 // Make sure Simplify cached state parameters are initialized for this account
 if (typeof simplify[u] === 'undefined') {
@@ -112,7 +114,10 @@ if (typeof simplify[u] === 'undefined') {
 
 // Write to local and localStorage object
 function updateParam(param, value) {
-	simplify[u][param] = value;
+	// Sometimes the value has already been written and we just need to update localStorage
+	if (typeof value !== "undefined") {
+		simplify[u][param] = value;
+	}
 	window.localStorage.simplify = JSON.stringify(simplify);
 }
 
@@ -128,8 +133,6 @@ function checkLocalVar() {
 	}
 	updateParam("username", username);
 }
-
-
 
 // Init Preview Pane or Multiple Inboxes
 if (simplify[u].previewPane) {
@@ -208,9 +211,6 @@ if (simplify[u].addOns) {
 	htmlEl.classList.add('addOnsOpen');
 }
 
-// Set default size of add-ons tray
-htmlEl.style.setProperty('--add-on-height', simplify[u].addOnsCount * 56 + 'px');
-
 
 
 
@@ -250,18 +250,76 @@ if (location.hash.substring(1, 9) == "settings") {
 
 
 
+/* == INIT STYLESHEET =================================================
+ * Certain classnames seem to change often in Gmail. Where possible, use 
+ * stable IDs, tags, and attribute selectors (e.g. #gb input[name="q"]). 
+ * Other times, classnames don't change often. But for when we have to use
+ * a classname and it changes often, detect the classname (usually based on
+ * more stable children elements) and inject the style on load. 
+ */
+
+var simplifyStyles;
+function initStyle() {
+	// Create style sheet element and append to <HEAD>
+	var simplifyStyleEl = document.createElement('style');
+	simplifyStyleEl.id = "simplifyStyle";
+	document.head.appendChild(simplifyStyleEl);
+
+	// Setup global variable for style sheet
+	if (simplifyDebug) console.log('Style sheet added');
+	simplifyStyles = simplifyStyleEl.sheet;
+
+	// Initialize addOns height now that Style Sheet is setup
+	addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
+
+	// Add cached styles
+	addStyles();
+}
+
+// Helper function to add CSS to Simplify Style Sheet
+function addCSS(css, pos) {
+	var position = pos ? pos : simplifyStyles.cssRules.length;
+	simplifyStyles.insertRule(css, position);
+	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
+}
+
+// Detect and cache classNames that often change so we can inject CSS
+function detectClassNames() {
+	// Search parent
+	var searchParent = "." + document.querySelector('form[role="search"]').parentElement.classList.value.replace(" ",".");
+	simplify[u].elements["searchParent"] = searchParent;
+
+	// TODO: Search form elements
+
+	// Update the cached classnames in case any changed
+	updateParam();
+
+	// Add styles again in case the classNames changed
+	addStyles();
+}
+
+function addStyles() {
+	// Remove right padding from action bar so search is always correctly placed
+	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`);
+
+	// Hide any buttons after the Search input including the support button (a bit risky)
+	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
+}
+
+
+
 // == SEARCH FUNCTIONS =====================================================
 
 /* Focus search input */
 function toggleSearchFocus(onOff) {
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
-		document.querySelector('header#gb form').classList.remove('gb_pe');
+		// document.querySelector('header#gb form').classList.remove('gb_pe');
 
 		// Remove focus from search input or button
 		document.activeElement.blur();
 	} else {
-		document.querySelector('header#gb form').classList.add('gb_pe');
+		// document.querySelector('header#gb form').classList.add('gb_pe');
 		document.querySelector('header#gb form input').focus();
 	}
 }
@@ -270,29 +328,26 @@ function toggleSearchFocus(onOff) {
 var initSearchLoops = 0;
 function initSearch() {
 	// See if Search form has be added to the dom yet
-	var headerBar = document.getElementById('gb');
-	var searchForm = (headerBar) ? headerBar.getElementsByTagName('form')[0] : false;
+	// var headerBar = document.getElementById('gb');
+	// var searchForm = (headerBar) ? headerBar.getElementsByTagName('form')[0] : false;
+	var searchForm = document.querySelector('#gb form');
 
 	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
-		// Add .gb_ne, Gmail's own class to minimize search
-		searchForm.classList.toggle('gb_ne');
-
 		// Add function to search button to toggle search open/closed
-		var searchButton = document.querySelectorAll('#gb form button[aria-label="Search Mail"], #gb form .gb_Qe')[0];
+		var searchButton = document.querySelector('#gb form button[role="button"]:not([gh="sda"])')
 		var searchIcon = searchButton.getElementsByTagName('svg')[0];
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			htmlEl.classList.toggle('hideSearch');
-			searchForm.classList.toggle('gb_ne');
-			updateParam('minimizeSearch', htmlEl.classList.contains('hideSearch') ? true : false);
+			updateParam('minimizeSearch', htmlEl.classList.contains('hideSearch'));
 			toggleSearchFocus();
 		}, false);
 
 		// Add functionality to search close button to close search and go back
-		var searchCloseButton = document.querySelectorAll('#gb form button[aria-label="Clear search"], #gb form .gb_Te')[0];
+		var searchCloseButton = document.querySelector('#gb form button[gh="sda"] + button');
 		var searchCloseIcon = searchCloseButton.getElementsByTagName('svg')[0];
 
 		// Hide search when you clear the search if it was previously hidden
@@ -301,7 +356,6 @@ function initSearch() {
 			event.stopPropagation();
 			toggleSearchFocus('off');
 			document.querySelector('header input[name="q"]').value = "";
-			searchForm.classList.add('gb_ne');
 			location.hash = closeSearchUrlHash;
 			htmlEl.classList.toggle('hideSearch');
 			updateParam("minimizeSearch", true);
@@ -817,23 +871,11 @@ function initAppSwitcher() {
 */
 
 
-// Detect classnames that often change and inject style via JS
-// TODO: a lot
-function detectClassNames() {
-	var searchParent = document.querySelector('form[role="search"]').parentElement.classList;
-	var result = ""
-	searchParent.forEach(styleClass => {
-		result += "." + styleClass;
-	})
-
-	if (simplifyDebug) console.log('Search class = ' + result);
-}
-
-
 
 
 // Initialize everything
 function initEarly() {
+	initStyle();
 	initSearch();
 	initSearchFocus();
 	initSettings();

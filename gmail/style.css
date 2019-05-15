@@ -28,7 +28,8 @@ html.simpl .aeG {
 
 /* Move and restyle banners (vacation auto-responder, account delegation) */
 html.simpl .w-MH,
-html.simpl .ZY {
+html.simpl .ZY,
+html.simpl .w-asV .aG {
 	position: fixed;
 	width: auto;
 	max-width: 450px;
@@ -47,12 +48,13 @@ html.simpl .ZY {
 	background-color: #202124;
 }
 html.simpl .w-MH .e,
-html.simpl .ZY .e {
+html.simpl .ZY .e,
+html.simpl .w-asV .aG a {
 	margin-left: 16px;
 	color: #8ab4f8;
 }
 
-/* Reduce deletated account username to one letter */
+/* Reduce delegated account username to one letter */
 html.simpl.delegate #gb a.gb_Da {
     font-size: 0px;
     width: 32px;
@@ -97,7 +99,7 @@ html.simpl #gbwa {
 	display: none !important;
 	position: absolute;
     right: 0px;
-    padding: 4px 52px 8px 8px;
+    padding: 4px 54px 8px 8px;
 }
 html.simpl.appSwitcher #gbwa {
 	display: block !important;
@@ -160,7 +162,6 @@ html.simpl .aeH .G-atb {
 }
 
 /* Remove extra right margin from action bar so it is spaced correctly */
-/* BUG: Added back 8px because something changed pushing settings too close to search */
 html.simpl .aeH .G-atb[gh="tm"] {
 	margin-right: 0px !important;
 	top: 0px;
@@ -181,7 +182,6 @@ html.simpl.hideSearch.addOnsOpen .aeH {
 }
 
 /* Dim pagination controls unless hovered over */
-/* BUG: the pagination controls are on each section in Priority Inbox */
 html.simpl .aeH .G-atb .aqJ,
 html.simpl .aeF .G-atb .aqJ,
 html.simpl .aeH .G-atb .adF {
@@ -238,18 +238,19 @@ html.simpl #gb div.zo {
 	display: none;
 }
 
-/* Hide any buttons after the Search input including the support button (a bit risky) */
-/* html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) ~ div */
-html.simpl #gb .gb_be ~ div {
+/* Hide any buttons after the Search input including the support button (a bit risky) 
+ * ADDED VIA ADDSTYLE()
+html.simpl #gb .gb_be.gb_la ~ div {
 	display: none;
 }
+*/
 
-/* Remove right padding from action bar so search is always correctly placed */
-/* UNSTABLE: gb_be */
-/* html.simpl #gb > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) */
-html.simpl #gb .gb_be {
+/* Remove right padding from action bar so search is always correctly placed 
+ * ADDED VIA ADDSTYLE()
+html.simpl #gb .gb_be.gb_la {
 	padding-right: 0px !important;
 }
+*/
 
 /* Move action bar for Horizontal Multiple Inboxes */
 html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
@@ -316,11 +317,11 @@ html.simpl .bvE {
 Resolutions
 	Low (< 960px)
 	Mid (961 - 1440)
-	x High (> 1441)
+	High (> 1441)
 
 Views
-	x Default inbox w/ tabs
-	x Search (including label)
+	Default inbox w/ tabs
+	Search (including label)
 	Priority inbox
 	Preview pane vertical
 	Preview pane horizontal
@@ -352,16 +353,6 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
-/* BUG: I had this turned on for > 1441px BUT it all breaks as
- * soon as opening things like the menu and add-ons forces the
- * content to be less than 1100px -- it is possible my whole
- * approach is wrong and I should do this with mutation observers
- * and computing the width/location of things.
- *
- * For now, I'm just going to apply it when the screen is wide
- * enough that the menu, content, and add-ons can all fit so
- * I can push the update.
- */
 @media only screen and (min-width: 1266.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
 	html.simpl {
@@ -448,17 +439,11 @@ States (text button labels)
 	}
 }
 @media only screen and (min-width: 1641.98px) {
-	/* ----------------------------------------------
-	 * DEFAULT INBOX / VIEWS
-	 * Move actions to left edge of content
-	 */
-
 	/* Apply variables to align left edge */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
 		margin-left: 16px !important;
 	}
-
 
 	/* Apply variables to align right edge with content */
 	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .ar5,
@@ -503,23 +488,19 @@ html.simpl.textButtons {
 }
 
 /* Minimize search to an icon when hidden */
-html.simpl.hideSearch #gb form:not(.gb_pe) {
-	width: 52px;
+html.simpl.hideSearch #gb form {
+	width: 54px;
 	margin-right: 0px;
 	box-shadow: none;
-}
-
-/* UNSTABLE: gb_pe */
-/* Make search box transparent when hidden */
-html.simpl.hideSearch #gb form:not(.gb_pe) {
 	background-color: transparent;
 }
 
-/* UNSTABLE: gb_Qe */
 /* Hide all search form buttons except search button when search is hidden */
-/* For non-english interfaces, may break as this class name gets changed often */
-html.simpl.hideSearch #gb form:not(.gb_pe) button:not([aria-label="Search Mail"]):not(.gb_Qe) {
+html.simpl.hideSearch #gb form button {
 	display: none;
+}
+html.simpl.hideSearch #gb form button[role="button"]:not([gh="sda"]) {
+	display: block;
 }
 
 /* Move filter form to be under search box */
@@ -816,7 +797,7 @@ html.simpl.splitView .G-atb[gh="tm"]:not(:first-child) {
 
 /* Expand action bar when search is hidden */
 html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
-	width: calc(100vw - 210px);
+	width: calc(100vw - 206px);
 	transition: width 0.2s ease-in 0s;
 }
 
@@ -847,14 +828,23 @@ html.simpl.splitView .AO .aeF > .nH {
 	max-width: 100%;
 }
 
-/* Max-width on conversation */
+/* Max-width and margin on conversation */
 html.simpl.splitView .apg .aNW .age .Bs {
-	max-width: 960px;
-	margin: 1.5vw auto 0 auto;
+	max-width: 1050px;
+}
+html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
+	padding-bottom: 200px;
 }
 @media only screen and (min-width: 1441.98px) {
 	html.simpl.splitView .apg .aNW .age .Bs {
+		margin: 1.5vw auto 200px auto;
 		max-width: 1100px;
+		border-radius: 8px;
+	}
+	/* Swap margin for padding when message is likely to 
+	 * switch from pane to floating card */
+	html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
+		padding-bottom: 0px;
 	}
 }
 
@@ -869,14 +859,10 @@ html.simpl.splitView .aiw {
 	-webkit-box-shadow: none;
 }
 
-/* Add padding to bottom of conversation view */
-html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
-	padding-bottom: 200px;
-}
-
 /* Drop the double border between panes to a single border */
 html.simpl.splitView .apj {
 	border-right: none;
+	background-color: transparent;
 }
 html.simpl.splitView .aph {
 	border-bottom: none;
@@ -1165,11 +1151,11 @@ html.simpl.addOnsOpen.hideSearch.splitView .G-atb[gh="tm"] {
 
 /* Show back button when in settings */
 html.simpl.inSettings header#gb div[aria-label="Main menu"],
-html.simpl.inSettings header#gb div.gb_qc > div:first-child { /* For non-english interface */
+html.simpl.inSettings header#gb div.gb_vc > div:first-child { /* For non-english interface */
 	display: none !important;
 }
 html.simpl.inSettings header#gb div[aria-label="Go back"],
-html.simpl.inSettings header#gb div.gb_qc > div:nth-child(2) { /* For non-english interface */
+html.simpl.inSettings header#gb div.gb_vc > div:nth-child(2) { /* For non-english interface */
 	display: block !important;
 }
 
