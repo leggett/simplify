@@ -124,14 +124,8 @@ html.simpl.delegate #gb a.gb_Da span {
  */
 
 /* Hide Gmail logo and name */
-html.simpl header a[href="#inbox"] {
+html.simpl #gb a[href="#inbox"] {
 	display: none;
-}
-
-/* Max width for comtainer around menu button & logo */
-html.simpl .gb_tc {
-	min-width: 58px !important;
-	padding-right: 0px;
 }
 
 /* Hide App Switcher */
@@ -145,14 +139,19 @@ html.simpl.appSwitcher #gbwa {
 	display: block !important;
 }
 
-
 /* Remove padding around profile photo so settings is better spaced */
 html.simpl .gb_pc {
 	padding-left: 0px !important;
 }
 
+/* Hide oneGoogle ring around profile pic */
+/* UNSTABLE - replace with addCSS call */
+html.simpl #gb div svg[height="40px"] {
+	display: none;
+}
+
 /* Hiding company logo from identy */
-html.simpl header#gb .gb_fa {
+html.simpl #gb .gb_fa {
 	width: 48px !important;
 	border: none !important;
 	background-color: transparent;
@@ -160,11 +159,6 @@ html.simpl header#gb .gb_fa {
 }
 html.simpl .gb_ga {
 	display: none !important;
-}
-
-/* Hide Google One color ring */
-html.simpl .gb_Oa {
-	display: none;
 }
 
 /* Clean up the butter bar (loading, etc) */
@@ -1198,18 +1192,8 @@ html.simpl.addOnsOpen.hideSearch.splitView .G-atb[gh="tm"] {
  * SETTINGS
  */
 
-/* Show back button when in settings */
-html.simpl.inSettings header#gb div[aria-label="Main menu"],
-html.simpl.inSettings header#gb div.gb_vc > div:first-child { /* For non-english interface */
-	display: none !important;
-}
-html.simpl.inSettings header#gb div[aria-label="Go back"],
-html.simpl.inSettings header#gb div.gb_vc > div:nth-child(2) { /* For non-english interface */
-	display: block !important;
-}
-
 /* Hide app bar and action bar when in Settings */
-html.simpl.inSettings header {
+html.simpl.inSettings #gb {
 	height: 0px !important;
 }
 html.simpl.inSettings .aeH,

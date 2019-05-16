@@ -85,6 +85,7 @@ const defaultParam = {
 	minimizeSearch: null,
 	addOns: null,
 	addOnsCount: 3,
+	otherExtensions: null,
 	elements: {}
 }
 
@@ -212,11 +213,16 @@ if (simplify[u].minimizeSearch) {
 	htmlEl.classList.add('hideSearch');
 }
 
-
 // Make space for add-ons pane if the add-ons pane was open last time
 if (simplify[u].addOns) {
 	if (simplifyDebug) console.log('Loading with add-ons pane');
 	htmlEl.classList.add('addOnsOpen');
+}
+
+// Init 3rd party extensions
+if (simplify[u].otherExtensions) {
+	if (simplifyDebug) console.log('Loading with 3rd party extensions');
+	htmlEl.classList.add('otherExtensions');
 }
 
 
@@ -294,10 +300,22 @@ function addCSS(css, pos) {
 // Detect and cache classNames that often change so we can inject CSS
 function detectClassNames() {
 	// Search parent
-	var searchParent = "." + document.querySelector('form[role="search"]').parentElement.classList.value.replace(" ",".");
-	simplify[u].elements["searchParent"] = searchParent;
+	var searchParent = document.querySelector('form[role="search"]').parentElement.classList.value;
+	simplify[u].elements["searchParent"] = "." + searchParent.replace(/ /g,".");
 
-	// TODO: Search form elements
+	// Main menu
+	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value;
+	simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + '  > div:first-child';
+	simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
+
+	// Back button
+	var backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value;
+	simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
+
+	/*
+	var oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
+	simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.replace(/ /g,".") : false;
+	*/
 
 	// Update the cached classnames in case any changed
 	updateParam();
@@ -306,12 +324,27 @@ function detectClassNames() {
 	addStyles();
 }
 
+// This is all CSS that I need to add dynamically as the classNames often change for these elements 
+// and I couldn't find a stable way to select the elements other than their classnames 
 function addStyles() {
 	// Remove right padding from action bar so search is always correctly placed
 	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`);
 
 	// Hide any buttons after the Search input including the support button (a bit risky)
 	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
+
+	// Switch menu button for back button when in Settings
+	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
+	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.backButton} { display: block !important; }`);
+
+	/* Hide the oneGoogle Ring if it is there
+	if (simplify[u].elements["oneGoogleRing"]) {
+		addCSS(`html.simpl #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
+	}
+	*/
+	
+	// Adjust size of menu button container
+	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);	
 }
 
 
@@ -787,7 +820,8 @@ function detectMenuState() {
 // Helper function to toggle menu open/closed
 function toggleMenu() {
 	if (simplifyDebug) console.log('Toggle nav');
-	var menuButton = document.querySelector('.gb_tc div:first-child');
+	var menuButton = document.querySelector(`#gb ${simplify[u].elements.menuButton}`);
+	// var menuButton = document.querySelector('.gb_tc div:first-child');
 	if (simplify[u].navOpen) {
 		htmlEl.classList.remove('navOpen');
 		menuButton.setAttribute('aria-expanded', 'false');
@@ -902,11 +936,12 @@ function initAppSwitcher() {
 function detectOtherExtensions() {
 	var otherExtensions = document.querySelectorAll('#gb .manage_menu, #gb .inboxsdk__appButton, #gb #mailtrack-menu-opener, #gb .mixmax-appbar').length;
 	if (otherExtensions > 0) {
-		if (simplifyDebug) console.log('Other extensions detected');
 		htmlEl.classList.add('otherExtensions');
-		// If there are other extensions, we need to do something more drastic when
-		// you hover over the profile button (e.g. hide settings and search entirely)
+		updateParam('otherExtensions', true);
+		if (simplifyDebug) console.log('Other extensions detected');
 	} else {
+		htmlEl.classList.remove('otherExtensions');
+		updateParam('otherExtensions', false);
 		if (simplifyDebug) console.log('No extensions detected');
 	}
 }
