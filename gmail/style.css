@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.7
+ * SIMPLIFY GMAIL v1.3.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -97,7 +97,7 @@ html.simpl .w-asV .aG a {
 }
 
 /* Reduce delegated account username to one letter */
-html.simpl.delegate #gb a.gb_Da {
+html.simpl.delegate #gb a.gb_Ca {
     font-size: 0px;
     width: 32px;
     height: 32px;
@@ -110,11 +110,11 @@ html.simpl.delegate #gb a.gb_Da {
     text-transform: uppercase;
     overflow: hidden;
 }
-html.simpl.delegate #gb a.gb_Da::first-letter {
+html.simpl.delegate #gb a.gb_Ca::first-letter {
     font-size: initial;
     color: white;
 }
-html.simpl.delegate #gb a.gb_Da span {
+html.simpl.delegate #gb a.gb_Ca span {
     display: none;
 }
 
