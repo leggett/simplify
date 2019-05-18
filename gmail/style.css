@@ -390,7 +390,7 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
-@media only screen and (min-width: 1266.98px) {
+@media only screen and (min-width: 1291.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
 	html.simpl {
 		--content-width: 960px;
@@ -980,6 +980,11 @@ html.simpl .ata-asE .ata-asJ {
 	padding-left: 12px;
 }
 
+/* Keep inline images from being wider than the current view */
+html.simpl table.Bs .gs img {
+    max-width: 100%;
+    margin-right: 0px !important;
+}
 
 
 

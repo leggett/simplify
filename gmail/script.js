@@ -651,7 +651,7 @@ function detectNumberOfAddOns() {
 	var numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
-		if (numberOfAddOns != simplify[u].addOnsCount) {
+		if (numberOfAddOns != simplify[u].addOnsCount && numberOfAddOns > 3) {
 			addCSS(`:root { --add-on-height: ${numberOfAddOns * 56}px !important; }`);
 			updateParam('addOnsCount', numberOfAddOns);
 		} else {
