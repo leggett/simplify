@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.8
+ * SIMPLIFY GMAIL v1.3.9
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -17,46 +17,11 @@
 
 
 
+
 /* ==================================================
  * 3RD PARTY EXTENTIONS
- * /
+ */
 
-/* Boomerang * /
-
-/* Hide Pause Inbox button when Nav is hidden * /
-html.simpl:not(.navOpen) .aeN #ibp-main {
-	display: none;
-}
-
-/* Hide top-right icons by default * /
-html.simpl:not(.appSwitcher) #gb .manage_menu, /* Boomerang * /
-html.simpl:not(.appSwitcher) #gb .mixmax-appbar, /* Mixmax * /
-html.simpl:not(.appSwitcher) #gb #mailtrack-menu-opener, /* Mail track * / 
-html.simpl:not(.appSwitcher) #gb .inboxsdk__appButton /* Streak * /
-{
-	display: none !important;
-}
-
-/* Show them when you hover over the profile pic * /
-html.simpl.appSwitcher #gb .manage_menu, /* Boomerang * /
-html.simpl.appSwitcher #gb .mixmax-appbar, /* Mixmax * /
-html.simpl.appSwitcher #gb #mailtrack-menu-opener, /* Mail track * /
-html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak * /
-{
-	display: block !important;
-	position: absolute;
-	right: 0px;
-	padding-right: 108px !important;
-}
-
-
-/* Hide Search and Settings when showing extension buttons * /
-html.simpl.appSwitcher.otherExtensions div[gh="tm"] div[gh="s"],
-html.simpl.appSwitcher.otherExtensions #gb form {
-	display: none;
-}
-
-*/
 
 
 /* ==================================================

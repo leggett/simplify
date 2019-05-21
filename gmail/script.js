@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.8
+ * SIMPLIFY GMAIL v1.3.9
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -454,10 +454,10 @@ function initSearchFocus() {
 var initSettingsLoops = 0;
 function initSettings() {
 	// See if settings gear has be added to the dom yet
-	var backButton = document.querySelector('header#gb div[aria-label="Go back"] svg');
+	var backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
 	if (!backButton) {
 		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
-		backButton = document.querySelector('header#gb div.gb_1b svg');
+		backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement;
 	}
 
 	if (backButton) {
@@ -933,12 +933,21 @@ function initAppSwitcher() {
 
 
 // Detect if there are other 3rd party extensions installed
+// TODO: Figure out how to auto-dismiss the tray once open
 function detectOtherExtensions() {
-	var otherExtensions = document.querySelectorAll('#gb .manage_menu, #gb .inboxsdk__appButton, #gb #mailtrack-menu-opener, #gb .mixmax-appbar').length;
-	if (otherExtensions > 0) {
+	const otherExtensionsList = ['#gb .manage_menu', '#gb .inboxsdk__appButton', '#gb #mailtrack-menu-opener', '#gb .mixmax-appbar'];
+	const otherExtensions = document.querySelectorAll( otherExtensionsList.toString() );
+	if (otherExtensions.length > 0) {
 		htmlEl.classList.add('otherExtensions');
 		updateParam('otherExtensions', true);
 		if (simplifyDebug) console.log('Other extensions detected');
+
+		let extensionsCount = 0;
+		otherExtensionsList.forEach(function(extension) {
+			if (simplifyDebug) console.log(extension);
+			// TODO: See if extension exists and if it does, increment extensionsCount 
+			//       and boost the left position by the width + padding
+		});
 	} else {
 		htmlEl.classList.remove('otherExtensions');
 		updateParam('otherExtensions', false);
@@ -975,12 +984,12 @@ function initEarly() {
 	initStyle();
 	initSearch();
 	initSearchFocus();
-	initSettings();
 	detectDelegate();
 }
 window.addEventListener('DOMContentLoaded', initEarly, false);
 
 function initLate() {
+	initSettings();
 	detectClassNames();
 	detectTheme();
 	detectSplitView();
