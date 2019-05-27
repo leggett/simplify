@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.1
+ * SIMPLIFY GMAIL v1.4.2
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -15,17 +15,17 @@
  */
 
 /* Left arrow before profile photo */
-/*
+html.simpl .gb_Da::before {
 	content: ' ';
     position: absolute;
-    left: -7px;
+    left: -12px;
     top: 18px;
     width: 24px;
     height: 24px;
     opacity: .5;
     zoom: 0.75;
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
-*/
+}
 
 
 
@@ -114,9 +114,11 @@ html.simpl.appSwitcher #gbwa {
 }
 
 /* Remove padding around profile photo so settings is better spaced */
-html.simpl .gb_pc {
+/* UNSTABLE */
+html.simpl .gb_Ca {
 	padding-left: 0px !important;
 }
+
 
 /* Hide oneGoogle ring around profile pic */
 /* UNSTABLE - replace with addCSS call */
@@ -1326,11 +1328,6 @@ html.simpl.appSwitcher.otherExtensions .aeH {
 	width: 50vw !important;
 }
 
-/* Make the Google App Switcher button and beneith the larger as the tray hides onMouseOut */
-html.simpl.appSwitcher.otherExtensions #gb #gbwa {
-	padding-left: 200px;
-	z-index: -1;
-}
 
 
 

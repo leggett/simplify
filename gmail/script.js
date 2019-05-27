@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.1
+ * SIMPLIFY GMAIL v1.4.2
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -924,12 +924,13 @@ function detectDelegate() {
 function initAppSwitcher() {
 	var profileButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
 	var appSwitcherWrapper = document.querySelector('#gbwa');
+	var appBar = document.querySelector('#gb');
 	if (profileButton && appSwitcherWrapper) {
 		profileButton.addEventListener('mouseenter', function(event) {
 			htmlEl.classList.add('appSwitcher');
 		}, false);
 
-		appSwitcherWrapper.addEventListener('mouseleave', function(event) {
+		appBar.addEventListener('mouseleave', function(event) {
 			htmlEl.classList.remove('appSwitcher');
 		}, false);
 	}
