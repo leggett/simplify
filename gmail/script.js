@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.2
+ * SIMPLIFY GMAIL v1.4.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -300,26 +300,38 @@ function addCSS(css, pos) {
 // Detect and cache classNames that often change so we can inject CSS
 function detectClassNames() {
 	// Search parent
-	var searchParent = document.querySelector('form[role="search"]').parentElement.classList.value;
+	var searchParent = document.querySelector('form[role="search"]').parentElement.classList.value.trim();
 	simplify[u].elements["searchParent"] = "." + searchParent.replace(/ /g,".");
 
 	// Main menu
-	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value;
+	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
 	simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + '  > div:first-child';
 	simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
 
 	// Back button
-	var backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value;
+	var backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
 	simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
 
-	/*
 	// oneGoogle Ring around profile photo
 	var oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
-	simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.replace(/ /g,".") : false;
-	*/
-
+	simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
+	
 	// Support button
-	// var supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]').parentElement.parentElement.classList.value
+	var supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]')
+	simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
+
+	// Account switcher (profile pic/name)
+	// var accountButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
+	var accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
+	simplify[u].elements["accountButton"] = "." + accountButton.classList.value.trim().replace(/ /g,".");
+
+	// Account wrapper (for Gsuite accounts)
+	var accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
+	simplify[u].elements["accountWrapper"] = accountWrapper ? "." + accountWrapper.classList.value.trim().replace(/ /g,".") : false;
+
+	// Gsuite company logo
+	var gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/cpanel"]');
+	simplify[u].elements["gsuiteLogo"] = gsuiteLogo ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g,".") : false;
 
 	// Update the cached classnames in case any changed
 	updateParam();
@@ -341,11 +353,34 @@ function addStyles() {
 	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
 	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.backButton} { display: block !important; }`);
 
-	/* Hide the oneGoogle Ring if it is there
+	// Hide the oneGoogle Ring if it is there
 	if (simplify[u].elements["oneGoogleRing"]) {
-		addCSS(`html.simpl #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
+		addCSS(`html.simpl #gb ${simplify[u].elements.oneGoogleRing} { display: none !important; }`);
 	}
-	*/
+
+	// Hide the support button if it is there
+	if (simplify[u].elements["supportButton"]) {
+		addCSS(`html.simpl #gb ${simplify[u].elements.supportButton} { display: none !important; }`);
+	}
+
+	// Restyle the profile name into an icon for delegated accounts
+	let delegatedAccountButtonCss = 'font-size:0px; width:32px; height:32px; margin:4px 6px 0 6px; line-height:26px; ';
+	delegatedAccountButtonCss += 'border-radius:18px; background-color:rgba(0,0,0,0.85); font-weight:bold; ';
+	delegatedAccountButtonCss += 'text-align:center; text-transform:uppercase; overflow:hidden;'
+	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} { ${delegatedAccountButtonCss} }`);
+	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton}::first-letter { font-size: initial; color: white; }`);
+	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} span { display:none; }`);
+
+	// Restyle profile pic itself
+	if (simplify[u].elements["accountWrapper"]) {
+		let accountWrapperCss = 'width:48px !important; margin-left:0px; border:none !important; background-color:transparent; box-shadow:none !important;'
+		addCSS(`html.simpl #gb ${simplify[u].elements.accountWrapper} { ${accountWrapperCss} }`);
+	}
+
+	// Hide Gsuite company logo if it exists
+	if (simplify[u].elements["gsuiteLogo"]) {
+		addCSS(`html.simpl #gb ${simplify[u].elements.gsuiteLogo} { display:none; }`);
+	}
 
 	// Adjust size of menu button container
 	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);	

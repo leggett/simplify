@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.2
+ * SIMPLIFY GMAIL v1.4.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -14,11 +14,11 @@
  * EXPERIMENTAL
  */
 
-/* Left arrow before profile photo */
+/* Left arrow before profile photo 
 html.simpl .gb_Da::before {
 	content: ' ';
     position: absolute;
-    left: -12px;
+    left: -8px;
     top: 18px;
     width: 24px;
     height: 24px;
@@ -26,7 +26,7 @@ html.simpl .gb_Da::before {
     zoom: 0.75;
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
 }
-
+*/
 
 
 
@@ -67,28 +67,6 @@ html.simpl .w-asV .aG a {
 	color: #8ab4f8;
 }
 
-/* Reduce delegated account username to one letter */
-html.simpl.delegate #gb a.gb_Ca {
-    font-size: 0px;
-    width: 32px;
-    height: 32px;
-    margin: 4px 6px 0 6px;
-    line-height: 26px;
-    border-radius: 18px;
-    background-color: rgba(0,0,0,0.85);
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    overflow: hidden;
-}
-html.simpl.delegate #gb a.gb_Ca::first-letter {
-    font-size: initial;
-    color: white;
-}
-html.simpl.delegate #gb a.gb_Ca span {
-    display: none;
-}
-
 
 
 
@@ -115,26 +93,8 @@ html.simpl.appSwitcher #gbwa {
 
 /* Remove padding around profile photo so settings is better spaced */
 /* UNSTABLE */
-html.simpl .gb_Ca {
-	padding-left: 0px !important;
-}
-
-
-/* Hide oneGoogle ring around profile pic */
-/* UNSTABLE - replace with addCSS call */
-html.simpl #gb div svg[height="40px"] {
-	display: none;
-}
-
-/* Hiding company logo from identy */
-html.simpl #gb .gb_fa {
-	width: 48px !important;
-	border: none !important;
-	background-color: transparent;
-	margin-left: 0px;
-}
-html.simpl .gb_ga {
-	display: none !important;
+html.simpl .gb_Da {
+	padding-left: 2px !important;
 }
 
 /* Clean up the butter bar (loading, etc) */
@@ -241,26 +201,6 @@ html.simpl .aeI .G-atb {
 	box-shadow: none;
 	-webkit-box-shadow: none;
 }
-
-/* Hide Support button / menu -- Help is available under Settings gear */
-html.simpl #gb div[data-tooltip="Support"],
-html.simpl #gb div.zo {
-	display: none;
-}
-
-/* Hide any buttons after the Search input including the support button (a bit risky) 
- * ADDED VIA ADDSTYLE()
-html.simpl #gb .gb_be.gb_la ~ div {
-	display: none;
-}
-*/
-
-/* Remove right padding from action bar so search is always correctly placed 
- * ADDED VIA ADDSTYLE()
-html.simpl #gb .gb_be.gb_la {
-	padding-right: 0px !important;
-}
-*/
 
 /* Move action bar for Horizontal Multiple Inboxes */
 html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
