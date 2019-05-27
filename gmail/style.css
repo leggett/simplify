@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.3.9
+ * SIMPLIFY GMAIL v1.4.1
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -14,13 +14,19 @@
  * EXPERIMENTAL
  */
 
+/* Left arrow before profile photo */
+/*
+	content: ' ';
+    position: absolute;
+    left: -7px;
+    top: 18px;
+    width: 24px;
+    height: 24px;
+    opacity: .5;
+    zoom: 0.75;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
+*/
 
-
-
-
-/* ==================================================
- * 3RD PARTY EXTENTIONS
- */
 
 
 
@@ -281,6 +287,7 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 		max-width: 1400px !important;
 	}
 	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	/* TODO: I should do this at all resolutions for horizontal split view */
 	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
 		max-width: 960px !important;
 		margin: 0 auto;
@@ -913,7 +920,7 @@ html.simpl .bAn .ade:hover {
 }
 
 /* Slightly larger message body text in conversation view and composer */
-html.simpl div[role="textbox"],
+html.simpl div[contenteditable="true"],
 html.simpl div[role="listitem"] .a3s,
 html.simpl div[role="listitem"] .g6,
 html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
@@ -951,6 +958,10 @@ html.simpl table.Bs .gs img {
     margin-right: 0px !important;
 }
 
+/* Boost width of the cell that has the reply and more actions buttons */
+html.simpl div[role="main"] table td[rowspan="2"] {
+	width: 110px;
+}
 
 
 /* ==================================================
@@ -1147,7 +1158,7 @@ html.simpl.addOnsOpen:not(.hideSearch) .aeH {
     width: calc(var(--action-bar-width) - 92px) !important;
 }
 html.simpl.addOnsOpen.splitView:not(.hideSearch) .G-atb[gh="tm"] {
-    width: calc(var(--action-bar-width) - 300px) !important;
+    width: calc(var(--action-bar-width) - 345px) !important;
 }
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
@@ -1207,6 +1218,118 @@ html.simpl.inSettings .aeH .f2 .fY {
 /* I'm not sure what element is for but it is ugly when using themes */
 html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
+}
+
+
+
+
+/* ==================================================
+ * 3RD PARTY EXTENTIONS
+ */
+
+/* BOOMERANG ---------------------------------------- */
+
+/* Hide Pause Inbox button when Nav is hidden */
+html.simpl:not(.navOpen) .aeN #ibp-main {
+	display: none;
+}
+
+/* Reduce action button to icon and desaturate until hover */
+html.simpl .gm-boomerang-button-home,
+html.simpl .gm-boomerang-button-thread {
+	border: 0px !important;
+	font-size: 0px !important;
+	background: transparent !important;
+	width: auto;
+	filter: grayscale(100%);
+}
+html.simpl .gm-boomerang-button-home:hover,
+html.simpl .gm-boomerang-button-thread:hover {
+	filter: grayscale(0%);
+}
+
+
+/* STREAK / INBOX SDK ------------------------------- */
+
+/* Reduce action button to icon and desaturate until hover */
+html.simpl .inboxsdk__button {
+	filter: grayscale(100%);
+}
+html.simpl .inboxsdk__button:hover {
+	filter: grayscale(0%);
+}
+html.simpl .streak__appToolbarButton_title {
+	display: none;
+}
+
+
+/* MIXMAX ------------------------------------------ */
+
+html.simpl div.G-atb div.mixmax-reminder-thread-button {
+    font-size: 0 !important;
+    background-image: linear-gradient(transparent, transparent) !important;
+    background-color: transparent !important;
+    filter: invert(50%);
+    max-width: 20px !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 20px !important;
+    padding-left: 0px !important;
+    min-width: 20px !important;
+    padding-right: 0px !important;
+}
+
+
+/* ALL EXTENSIONS ----------------------------------- */
+
+/* Hide top-right icons by default */
+html.simpl:not(.appSwitcher) #gb .manage_menu, /* Boomerang */
+html.simpl:not(.appSwitcher) #gb .mixmax-appbar, /* Mixmax */
+html.simpl:not(.appSwitcher) #gb #mailtrack-menu-opener, /* Mail track */
+html.simpl:not(.appSwitcher) #gb .inboxsdk__appButton /* Streak */
+{
+	display: none !important;
+}
+
+/* Hide label on Streak button */
+html.simpl #gb .inboxsdk__button_icon {
+	margin-right: 0px;
+}
+html.simpl #gb .inboxsdk__appButton_title {
+	font-size: 0px;
+}
+html.simpl #gb .streak__appToolbarButton_title::after {
+	margin-top: -8px;
+}
+
+/* Show them when you hover over the profile pic */
+html.simpl.appSwitcher #gb .manage_menu, /* Boomerang */
+html.simpl.appSwitcher #gb .mixmax-appbar, /* Mixmax */
+html.simpl.appSwitcher #gb #mailtrack-menu-opener, /* Mail track */
+html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */
+{
+	display: block !important;
+	position: absolute;
+	right: 100px;
+	padding: inherit 0px !important;
+	margin: inherit 0px !important;
+}
+
+/* Hide Search and Settings when showing extension buttons */
+html.simpl.appSwitcher.otherExtensions div[gh="tm"] div[gh="s"],
+html.simpl.appSwitcher.otherExtensions #gb form,
+html.simpl.appSwitcher.otherExtensions .aeH .aqJ,
+html.simpl.appSwitcher.otherExtensions .aeH .adF {
+	display: none;
+}
+html.simpl.appSwitcher.otherExtensions .aeH {
+	width: 50vw !important;
+}
+
+/* Make the Google App Switcher button and beneith the larger as the tray hides onMouseOut */
+html.simpl.appSwitcher.otherExtensions #gb #gbwa {
+	padding-left: 200px;
+	z-index: -1;
 }
 
 
