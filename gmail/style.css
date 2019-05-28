@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.3
+ * SIMPLIFY GMAIL v1.4.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -27,6 +27,10 @@ html.simpl .gb_Da::before {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
 }
 */
+
+
+/* TODO: Change how settings tabs are so top bar is full bleed */
+
 
 
 
@@ -209,7 +213,7 @@ html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
 	left: 60px;
 	z-index: 5;
 	width: calc(var(--action-bar-width) - 92px);
-	transition: width 0.15s ease-in 0s;
+	transition: width 0s ease-in 0s; /* was 0.15s - Looks bad with 3rd party extensions */
 }
 html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"]::before {
 	box-shadow: none;
@@ -738,7 +742,7 @@ html.simpl.splitView .G-atb[gh="tm"] {
 	position: fixed;
 	top: 8px;
 	left: 60px;
-	z-index: 7;
+	z-index: 7 !important;
 	padding-right: 0px !important;
 }
 html.simpl.splitView .G-atb[gh="tm"]:before {
@@ -758,7 +762,7 @@ html.simpl.splitView .G-atb[gh="tm"]:not(:first-child) {
 /* Expand action bar when search is hidden */
 html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
 	width: calc(100vw - 206px);
-	transition: width 0.2s ease-in 0s;
+	transition: width 0s; /* was 0.2s ease-in 0s */
 }
 
 html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
@@ -1261,10 +1265,12 @@ html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */
 html.simpl.appSwitcher.otherExtensions div[gh="tm"] div[gh="s"],
 html.simpl.appSwitcher.otherExtensions #gb form,
 html.simpl.appSwitcher.otherExtensions .aeH .aqJ,
+html.simpl.appSwitcher.otherExtensions .aeF .aqJ,
 html.simpl.appSwitcher.otherExtensions .aeH .adF {
 	display: none;
 }
-html.simpl.appSwitcher.otherExtensions .aeH {
+html.simpl.appSwitcher.otherExtensions .aeH,
+html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 	width: 50vw !important;
 }
 

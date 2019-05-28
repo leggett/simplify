@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.3
+ * SIMPLIFY GMAIL v1.4.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -653,6 +653,7 @@ function detectSplitView() {
 					/* TODO: Listen for splitview mode toggle via mutation observer */
 				} else {
 					if (simplifyDebug) console.log('Split view enabled but set to No Split');
+					if (simplifyDebug) console.log(splitViewActionBar);
 					htmlEl.classList.remove('splitView');
 					updateParam('previewPane', false);
 				}
@@ -665,8 +666,8 @@ function detectSplitView() {
 			detectSplitViewLoops++;
 			if (simplifyDebug) console.log('Detect preview pane loop #' + detectSplitViewLoops);
 
-			// only try 4 times and then assume no split view
-			if (detectSplitViewLoops < 5) {
+			// only try 10 times and then assume no split view
+			if (detectSplitViewLoops < 10) {
 				// Call init function again if the gear button field wasn't loaded yet
 				setTimeout(detectSplitView, 500);
 			} else {
