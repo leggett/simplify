@@ -1,6 +1,6 @@
 {
 	"name": "Simplify Gmail",
-	"version": "1.5.1",
+	"version": "1.5.3",
 	"manifest_version": 2,
 	"description": "Simplifies Gmail interface to the bare minimum",
 	"homepage_url": "https://simpl.fyi",
@@ -21,7 +21,7 @@
 	}],
 	"page_action": {},
 	"background": {
-		"scripts": [ "pageActionHandler.js" ],
+		"scripts": [ "toggle.js" ],
 		"persistent": false
 	},
 	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'"

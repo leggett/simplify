@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.1
+ * SIMPLIFY GMAIL v1.5.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -322,7 +322,7 @@ function detectClassNames() {
 
 	// Account switcher (profile pic/name)
 	const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
-	simplify[u].elements["accountButton"] = "." + accountButton.classList.value.trim().replace(/ /g,".");
+	simplify[u].elements["accountButton"] = accountButton ? "." + accountButton.classList.value.trim().replace(/ /g,".") : false;
 
 	// Account wrapper (for Gsuite accounts)
 	const accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
@@ -363,12 +363,14 @@ function addStyles() {
 	}
 
 	// Restyle the profile name into an icon for delegated accounts
-	let delegatedAccountButtonCss = 'font-size:0px; width:32px; height:32px; margin:4px 6px 0 6px; line-height:26px; ';
-	delegatedAccountButtonCss += 'border-radius:18px; background-color:rgba(0,0,0,0.85); font-weight:bold; ';
-	delegatedAccountButtonCss += 'text-align:center; text-transform:uppercase; overflow:hidden;'
-	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} { ${delegatedAccountButtonCss} }`);
-	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton}::first-letter { font-size: initial; color: white; }`);
-	addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} span { display:none; }`);
+	if (simplify[u].elements["accountButton"]) {
+		let delegatedAccountButtonCss = 'font-size:0px; width:32px; height:32px; margin:4px 6px 0 6px; line-height:26px; ';
+		delegatedAccountButtonCss += 'border-radius:18px; background-color:rgba(0,0,0,0.85); font-weight:bold; ';
+		delegatedAccountButtonCss += 'text-align:center; text-transform:uppercase; overflow:hidden;'
+		addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} { ${delegatedAccountButtonCss} }`);
+		addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton}::first-letter { font-size: initial; color: white; }`);
+		addCSS(`html.simpl.delegate #gb ${simplify[u].elements.accountButton} span { display:none; }`);
+	}
 
 	// Restyle profile pic itself
 	if (simplify[u].elements["accountWrapper"]) {

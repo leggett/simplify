@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.1
+ * SIMPLIFY GMAIL v1.5.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -907,9 +907,12 @@ html.simpl .ata-asE .ata-asJ {
 }
 
 /* Keep inline images from being wider than the current view */
+/* TODO: This won't work in split pane view */
 html.simpl table.Bs .gs img {
+    max-width: calc(var(--content-width) - 80px);
+}
+html.simpl.splitView table.Bs .gs img {
     max-width: 100%;
-    margin-right: 0px !important;
 }
 
 /* Boost width of the cell that has the reply and more actions buttons */
