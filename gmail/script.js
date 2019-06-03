@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.4
+ * SIMPLIFY GMAIL v1.5.1
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -10,13 +10,13 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-var simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
 
 // Add simpl style to html tag
-var htmlEl = document.documentElement;
+const htmlEl = document.documentElement;
 htmlEl.classList.add('simpl');
 
 // Toggles custom style and returns latest state
@@ -128,9 +128,9 @@ function updateParam(param, value) {
  */
 function checkLocalVar() {
 	// var username = document.querySelector('.gb_db').innerText;
-	var usernameStart = document.title.search(/[a-z]+\@gmail.com - Gmail/);
+	const usernameStart = document.title.search(/[a-z]+\@gmail.com - Gmail/);
 	if (usernameStart > 0) {
-		var username = document.title.substring(usernameStart, document.title.length-8);
+		const username = document.title.substring(usernameStart, document.title.length-8);
 		if (simplifyDebug) console.log('Username: ' + username);
 		if (simplify[u].username != username) {
 			if (simplifyDebug) console.log('Usernames do NOT match');
@@ -231,10 +231,10 @@ if (simplify[u].otherExtensions) {
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
-var closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
+let closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
 	|| location.hash.substring(1, 7) == "label/"
 	|| location.hash.substring(1, 7) == "advanc") ? "#inbox" : location.hash;
-var closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
+let closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
 	if (location.hash.substring(1, 7) != "search"
@@ -272,10 +272,10 @@ if (location.hash.substring(1, 9) == "settings") {
  * more stable children elements) and inject the style on load. 
  */
 
-var simplifyStyles;
+let simplifyStyles;
 function initStyle() {
 	// Create style sheet element and append to <HEAD>
-	var simplifyStyleEl = document.createElement('style');
+	let simplifyStyleEl = document.createElement('style');
 	simplifyStyleEl.id = "simplifyStyle";
 	document.head.appendChild(simplifyStyleEl);
 
@@ -292,7 +292,7 @@ function initStyle() {
 
 // Helper function to add CSS to Simplify Style Sheet
 function addCSS(css, pos) {
-	var position = pos ? pos : simplifyStyles.cssRules.length;
+	const position = pos ? pos : simplifyStyles.cssRules.length;
 	simplifyStyles.insertRule(css, position);
 	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
 }
@@ -300,37 +300,36 @@ function addCSS(css, pos) {
 // Detect and cache classNames that often change so we can inject CSS
 function detectClassNames() {
 	// Search parent
-	var searchParent = document.querySelector('form[role="search"]').parentElement.classList.value.trim();
+	const searchParent = document.querySelector('form[role="search"]').parentElement.classList.value.trim();
 	simplify[u].elements["searchParent"] = "." + searchParent.replace(/ /g,".");
 
 	// Main menu
-	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
+	const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
 	simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + '  > div:first-child';
 	simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
 
 	// Back button
-	var backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
+	const backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
 	simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
 
 	// oneGoogle Ring around profile photo
-	var oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
+	const oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
 	simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
 	
 	// Support button
-	var supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]')
+	const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]')
 	simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
 
 	// Account switcher (profile pic/name)
-	// var accountButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
-	var accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
+	const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
 	simplify[u].elements["accountButton"] = "." + accountButton.classList.value.trim().replace(/ /g,".");
 
 	// Account wrapper (for Gsuite accounts)
-	var accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
+	const accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
 	simplify[u].elements["accountWrapper"] = accountWrapper ? "." + accountWrapper.classList.value.trim().replace(/ /g,".") : false;
 
 	// Gsuite company logo
-	var gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/cpanel"]');
+	const gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/"]');
 	simplify[u].elements["gsuiteLogo"] = gsuiteLogo ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g,".") : false;
 
 	// Update the cached classnames in case any changed
@@ -405,16 +404,16 @@ function toggleSearchFocus(onOff) {
 }
 
 // Setup search event listeners
-var initSearchLoops = 0;
+let initSearchLoops = 0;
 function initSearch() {
 	// See if Search form has be added to the dom yet
-	var searchForm = document.querySelector('#gb form');
+	const searchForm = document.querySelector('#gb form');
 
 	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
 		// Add function to search button to toggle search open/closed
-		var searchIcon = document.querySelector('#gb form path[d^="M20.49,19l-5.73"]').parentElement;
+		const searchIcon = document.querySelector('#gb form path[d^="M20.49,19l-5.73"]').parentElement;
 		searchIcon.addEventListener('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -424,7 +423,7 @@ function initSearch() {
 		}, false);
 
 		// Add functionality to search close button to close search and go back
-		var searchCloseIcon = document.querySelector('#gb form path[d~="6.41L17.59"]').parentElement;
+		const searchCloseIcon = document.querySelector('#gb form path[d~="6.41L17.59"]').parentElement;
 
 		// Hide search when you clear the search if it was previously hidden
 		searchCloseIcon.addEventListener('click', function(event) {
@@ -449,10 +448,10 @@ function initSearch() {
 }
 
 // Detect if search is focused and needs to be expanded
-var initSearchFocusLoops = 0;
+let initSearchFocusLoops = 0;
 function initSearchFocus() {
 	// If the search field gets focus and hideSearch hasn't been applied, add it
-	var searchInput = document.querySelectorAll('header input[name="q"]')[0];
+	const searchInput = document.querySelectorAll('header input[name="q"]')[0];
 
 	if (searchInput) {
 		// Show search if the page is loaded is a search view
@@ -490,10 +489,10 @@ function initSearchFocus() {
 // == SETTINGS FUNCTIONS =====================================================
 
 // Setup settings event listeners
-var initSettingsLoops = 0;
+let initSettingsLoops = 0;
 function initSettings() {
 	// See if settings gear has be added to the dom yet
-	var backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
+	const backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
 	if (!backButton) {
 		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
 		backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement;
@@ -524,17 +523,17 @@ function initSettings() {
 // == DETECTION FUNCTIONS =====================================================
 
 // Detect if a dark theme is being used and change styles accordingly
-var detectThemeLoops = 0;
-var checkThemeLater = false;
-var observingThemes = false;
+let detectThemeLoops = 0;
+let checkThemeLater = false;
+let observingThemes = false;
 function detectTheme(fromObserver) {
-	var msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
-	var conversation = document.querySelectorAll('table[role="presentation"]');
+	const msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
+	const conversation = document.querySelectorAll('table[role="presentation"]');
 	if (simplifyDebug) console.log('Detecting theme...');
 	if (msgCheckbox) {
-		var checkboxBg = window.getComputedStyle(msgCheckbox, null).getPropertyValue("background-image");
-		var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]');
-		var menuButtonBg = window.getComputedStyle(menuButton, null).getPropertyValue("color");
+		const checkboxBg = window.getComputedStyle(msgCheckbox, null).getPropertyValue("background-image");
+		const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]');
+		const menuButtonBg = window.getComputedStyle(menuButton, null).getPropertyValue("color");
 		if (checkboxBg.indexOf('black') > -1) {
 			if (menuButtonBg.indexOf('255, 255, 255') > -1) {
 				// The checkbox is black which means the threadlist 
@@ -580,15 +579,15 @@ function observeThemes() {
 	 * changes the styles. I don't see an inline change I can observe to trigger
 	 * this observer. At least not yet.
 	 */
-	var themeBg = document.querySelector('.yL .wl');
+	const themeBg = document.querySelector('.yL .wl');
 
 	if (themeBg) {	
-		var themesObserverConfig = { attributes: true, attributeFilter: ["style"], childList: true, subtree: true };
+		const themesObserverConfig = { attributes: true, attributeFilter: ["style"], childList: true, subtree: true };
 
 		// Create an observer instance that calls the detectTheme function
 		// Annoying that I have to delay by 200ms... if I don't then 
 		// it checks to see if anything changed before it had a chance to change
-		var themesObserver = new MutationObserver(function() { setTimeout(detectTheme, 200) });
+		const themesObserver = new MutationObserver(function() { setTimeout(detectTheme, 200) });
 
 		// Start observing the target node for configured mutations
 		themesObserver.observe(themeBg, themesObserverConfig);
@@ -600,11 +599,11 @@ function observeThemes() {
 }
 
 // Detect the interface density so we can adjust the line height on items
-var detectDensityLoops = 0;
+let detectDensityLoops = 0;
 function detectDensity() {
-	var navItem = document.querySelector('div[role="navigation"] .TN');
+	const navItem = document.querySelector('div[role="navigation"] .TN');
 	if (navItem) {
-		var navItemHeight = parseInt(window.getComputedStyle(navItem, null).getPropertyValue("height"));
+		const navItemHeight = parseInt(window.getComputedStyle(navItem, null).getPropertyValue("height"));
 		if (simplifyDebug) console.log('Detecting inbox density via nav item. Height is ' + navItemHeight + 'px');
 		if (navItemHeight <= 26) {
 			if (simplifyDebug) console.log('Detected high density');
@@ -633,18 +632,18 @@ function detectDensity() {
 
 // Detect if preview panes are enabled and being used
 // TODO: I should rename SplitView PreviewPane as that is what Gmail calls the feature
-var detectSplitViewLoops = 0;
+let detectSplitViewLoops = 0;
 function detectSplitView() {
 	// Short term patch: Offline seems to mess with detecting splitPanes
-	var offlineActive = document.getElementsByClassName('bvE');
+	const offlineActive = document.getElementsByClassName('bvE');
 	if (offlineActive && detectSplitViewLoops == 0) {
 		detectSplitViewLoops++;
 		setTimeout(detectSplitView, 2000);
 	} else {
-		var splitViewToggle = document.querySelector('div[selector="nosplit"]');
+		const splitViewToggle = document.querySelector('div[selector="nosplit"]');
 		if (splitViewToggle) {
 			// Only the Preview Pane vertical or horizontal has the action bar
-			var splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
+			const splitViewActionBar = document.querySelectorAll('div[role="main"] > .G-atb');
 			if (splitViewActionBar) {
 				if (splitViewActionBar.length > 0) {
 					if (simplifyDebug) console.log('Split view detected and active');
@@ -685,10 +684,10 @@ function detectSplitView() {
 
 
 // Determine number of add-ons and set the height of the add-ons pane accordingly
-var detectNumberOfAddOnsLoops = 0;
+let detectNumberOfAddOnsLoops = 0;
 function detectNumberOfAddOns() {
 	// Detect how many add-ons there are
-	var numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
+	const numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
 		if (numberOfAddOns != simplify[u].addOnsCount && numberOfAddOns > 3) {
@@ -714,11 +713,11 @@ function detectNumberOfAddOns() {
 
 
 // Detect Add-ons Pane
-var detectAddOnsPaneLoops = 0;
+let detectAddOnsPaneLoops = 0;
 function detectAddOns() {
-	var addOnsPane = document.getElementsByClassName('brC-brG')[0];
+	const addOnsPane = document.getElementsByClassName('brC-brG')[0];
 	if (addOnsPane) {
-		var paneVisible = window.getComputedStyle(document.getElementsByClassName('bq9')[0], null).getPropertyValue('width');
+		const paneVisible = window.getComputedStyle(document.getElementsByClassName('bq9')[0], null).getPropertyValue('width');
 		if (simplifyDebug) console.log('Add-on pane width loaded as ' + paneVisible);
 		if (paneVisible == "auto") {
 			if (simplifyDebug) console.log('No add-on pane detected on load');
@@ -734,12 +733,12 @@ function detectAddOns() {
 		detectNumberOfAddOns();
 
 		// Options for the observer (which mutations to observe)
-		var addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
+		const addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
 
 		// Callback function to execute when mutations are observed
 		// TODO: detect changes to width of bq9 instead of style attribute
-		var addOnsObserverCallback = function(mutationsList, observer) {
-		    for (var mutation of mutationsList) {
+		const addOnsObserverCallback = function(mutationsList, observer) {
+		    for (let mutation of mutationsList) {
 		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
 		        	if (simplifyDebug) console.log('Add-on pane style set to: ' + mutation.target.attributes.style.value);
 		        	if (mutation.target.attributes.style.value.indexOf("display: none") > -1) {
@@ -754,7 +753,7 @@ function detectAddOns() {
 		};
 
 		// Create an observer instance linked to the callback function
-		var addOnsObserver = new MutationObserver(addOnsObserverCallback);
+		const addOnsObserver = new MutationObserver(addOnsObserverCallback);
 
 		// Start observing the target node for configured mutations
 		if (simplifyDebug) console.log('Adding mutation observer for Add-ons Pane');
@@ -776,11 +775,11 @@ function detectAddOns() {
 
 
 // Detect Right Side Chat (why hasn't Gmail killed this already?)
-var detectRightSideChatLoops = 0;
+let detectRightSideChatLoops = 0;
 function detectRightSideChat() {
-	var talkRoster = document.getElementById('talk_roster');
+	const talkRoster = document.getElementById('talk_roster');
 	if (talkRoster) {
-		var rosterSide = talkRoster.getAttribute('guidedhelpid');
+		const rosterSide = talkRoster.getAttribute('guidedhelpid');
 
 		if (rosterSide == "right_roster") {
 			if (simplifyDebug) console.log('Right side chat found');
@@ -806,11 +805,11 @@ function detectRightSideChat() {
 
 
 // Detect if using text or icon buttons
-var detectButtonLabelLoops = 0;
+let detectButtonLabelLoops = 0;
 function detectButtonLabel() {
-	var secondButton = document.querySelectorAll('div[gh="tm"] div[role="button"] > div')[2];
+	const secondButton = document.querySelectorAll('div[gh="tm"] div[role="button"] > div')[2];
 	if (secondButton) {
-		var textButtonLabel = secondButton.innerText;
+		const textButtonLabel = secondButton.innerText;
 		if (textButtonLabel == "") {
 			// Using icon buttons
 			if (simplifyDebug) console.log('Icon button labels detected');
@@ -834,11 +833,11 @@ function detectButtonLabel() {
 
 
 // Detect nav state
-var detectMenuStateLoops = 0;
+let detectMenuStateLoops = 0;
 function detectMenuState() {
-	var menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement;
+	const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement;
 	if (menuButton) {
-		var navOpen = menuButton.getAttribute('aria-expanded');
+		const navOpen = menuButton.getAttribute('aria-expanded');
 		menuButton.addEventListener('click', toggleMenu, false);
 		if (navOpen == "true") {
 			if (simplifyDebug) console.log('Nav is open');
@@ -860,8 +859,8 @@ function detectMenuState() {
 // Helper function to toggle nav open/closed
 function toggleMenu() {
 	if (simplifyDebug) console.log('Toggle nav');
-	var menuButton = document.querySelector(`#gb ${simplify[u].elements.menuButton}`);
-	// var menuButton = document.querySelector('.gb_tc div:first-child');
+	const menuButton = document.querySelector(`#gb ${simplify[u].elements.menuButton}`);
+
 	if (simplify[u].navOpen) {
 		htmlEl.classList.remove('navOpen');
 		menuButton.setAttribute('aria-expanded', 'false');
@@ -878,11 +877,11 @@ function toggleMenu() {
 
 // Detect Multiple Inboxes
 function detectMultipleInboxes() {
-	var viewAllButton = document.getElementsByClassName('p9').length;
-	// var inboxesPanes = document.querySelectorAll('div[role="main"]').length;
+	const viewAllButton = document.getElementsByClassName('p9').length;
+
 	if (viewAllButton > 0) {
 		if (simplifyDebug) console.log('Multiple inboxes found');
-		var actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
+		const actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
 		if (actionBars > 1) {
 			htmlEl.classList.add('multiBoxVert');
 			htmlEl.classList.remove('multiBoxHorz');
@@ -912,13 +911,13 @@ function detectMultipleInboxes() {
  * MultiboxVert		.aeF > div[gh=tm] > .ar5
  */
 function testPagination() {
-	var actionBar = document.querySelector('div.aeH');
+	const actionBar = document.querySelector('div.aeH');
 
 	if (actionBar) {
-		var paginationDivs = document.querySelectorAll('.aeH div.ar5');
+		const paginationDivs = document.querySelectorAll('.aeH div.ar5');
 		paginationDivs.forEach(function(pagination) {
 			// How many messages in the list?
-			var pageButtons = pagination.querySelectorAll('div[role="button"][aria-disabled="true"]');
+			const pageButtons = pagination.querySelectorAll('div[role="button"][aria-disabled="true"]');
 
 			// Hide pagination control if the total count is less than 100
 			if (pageButtons.length >= 2) {
@@ -930,14 +929,14 @@ function testPagination() {
 	}
 }
 function observePagination() {
-	var actionBar = document.querySelector('div.aeH');
+	const actionBar = document.querySelector('div.aeH');
 
 	if (actionBar) {
 		// Options for the observer (which mutations to observe)
-		var paginationObserverConfig = { attributes: true, childList: true, subtree: true };
+		const paginationObserverConfig = { attributes: true, childList: true, subtree: true };
 
 		// Create an observer instance linked to the callback function
-		var paginationObserver = new MutationObserver(testPagination);
+		const paginationObserver = new MutationObserver(testPagination);
 
 		// Start observing the target node for configured mutations
 		if (simplifyDebug) console.log('Adding mutation observer for Pagination controls');
@@ -958,9 +957,9 @@ function detectDelegate() {
 
 // Init App switcher event listeners
 function initAppSwitcher() {
-	var profileButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
-	var appSwitcherWrapper = document.querySelector('#gbwa');
-	var appBar = document.querySelector('#gb');
+	const profileButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
+	const appSwitcherWrapper = document.querySelector('#gbwa');
+	const appBar = document.querySelector('#gb');
 	if (profileButton && appSwitcherWrapper) {
 		profileButton.addEventListener('mouseenter', function(event) {
 			htmlEl.classList.add('appSwitcher');

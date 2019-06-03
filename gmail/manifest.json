@@ -1,6 +1,6 @@
 {
-	"name": "Simplify Gmail Beta",
-	"version": "1.4.4",
+	"name": "Simplify Gmail",
+	"version": "1.5.1",
 	"manifest_version": 2,
 	"description": "Simplifies Gmail interface to the bare minimum",
 	"homepage_url": "https://simpl.fyi",

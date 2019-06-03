@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.4.4
+ * SIMPLIFY GMAIL v1.5.1
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -49,7 +49,7 @@ html.simpl .ZY,
 html.simpl .w-asV .aG {
 	position: fixed;
 	width: auto;
-	max-width: 450px;
+	max-width: 300px;
 	text-align: left;
     padding: 18px 24px;
     bottom: 24px;
@@ -211,7 +211,7 @@ html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
 	position: fixed;
 	top: 8px;
 	left: 60px;
-	z-index: 5;
+	z-index: 6 !important;
 	width: calc(var(--action-bar-width) - 92px);
 	transition: width 0s ease-in 0s; /* was 0.15s - Looks bad with 3rd party extensions */
 }
@@ -839,6 +839,14 @@ html.simpl.splitView .aph {
 	}
 }
 
+/* Move the right aligned actions on the inline reply over so the 
+ * compose button doesn't cover them 
+ * TODO: Find a more elegant solution to this problem
+ */
+html.simpl.splitView div[role="listitem"] .btC>.az5 {
+	padding-right: 50px;
+}
+
 
 
 
@@ -905,9 +913,11 @@ html.simpl table.Bs .gs img {
 }
 
 /* Boost width of the cell that has the reply and more actions buttons */
-html.simpl div[role="main"] table td[rowspan="2"] {
+html.simpl div[role="listitem"] table td[rowspan="2"] {
 	width: 110px;
 }
+
+
 
 
 /* ==================================================
@@ -1161,9 +1171,15 @@ html.simpl.inSettings .aeH .f2 .fY {
 	padding: 0 8px !important;
 	border-radius: 8px;
 }
+
 /* I'm not sure what element is for but it is ugly when using themes */
 html.simpl.inSettings .aeH .f2 .dJ {
 	display: none;
+}
+
+/* Invert the settings tab bar in the dark theme so it is more seamless */
+html.simpl.inSettings.darkTheme .fY {
+	filter: invert(93%);
 }
 
 
@@ -1223,6 +1239,16 @@ html.simpl div.G-atb div.mixmax-reminder-thread-button {
     padding-left: 0px !important;
     min-width: 20px !important;
     padding-right: 0px !important;
+}
+
+
+/* MAIL TRACK ---------------------------------------- */
+
+/* For some reason Mail Track sets the action bar to position:relative 
+ * which screws up moving it on top of the app bar
+ */
+html.simpl.otherExtensions .aeN + .bkK {
+	position: static !important;
 }
 
 
