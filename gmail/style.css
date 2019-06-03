@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.3
+ * SIMPLIFY GMAIL v1.5.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -46,7 +46,8 @@ html.simpl .aeG {
 /* Move and restyle banners (vacation auto-responder, account delegation) */
 html.simpl .w-MH,
 html.simpl .ZY,
-html.simpl .w-asV .aG {
+html.simpl .w-asV .aG,
+html.simpl .bir {
 	position: fixed;
 	width: auto;
 	max-width: 300px;
@@ -66,7 +67,8 @@ html.simpl .w-asV .aG {
 }
 html.simpl .w-MH .e,
 html.simpl .ZY .e,
-html.simpl .w-asV .aG a {
+html.simpl .w-asV .aG a,
+html.simpl .bir a {
 	margin-left: 16px;
 	color: #8ab4f8;
 }
