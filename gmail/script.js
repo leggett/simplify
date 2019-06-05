@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.5
+ * SIMPLIFY GMAIL v1.5.6
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -494,7 +494,7 @@ function initSearchFocus() {
 let initSettingsLoops = 0;
 function initSettings() {
 	// See if settings gear has be added to the dom yet
-	const backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
+	let backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
 	if (!backButton) {
 		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
 		backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement;
