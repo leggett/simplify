@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.6
+ * SIMPLIFY GMAIL v1.5.7
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -374,7 +374,7 @@ function addStyles() {
 
 	// Restyle profile pic itself
 	if (simplify[u].elements["accountWrapper"]) {
-		let accountWrapperCss = 'width:48px !important; margin-left:0px; border:none !important; background-color:transparent; box-shadow:none !important;'
+		const accountWrapperCss = 'width:48px !important; margin-left:0px; border:none !important; background-color:transparent; box-shadow:none !important;'
 		addCSS(`html.simpl #gb ${simplify[u].elements.accountWrapper} { ${accountWrapperCss} }`);
 	}
 
@@ -528,7 +528,7 @@ function initSettings() {
 let detectThemeLoops = 0;
 let checkThemeLater = false;
 let observingThemes = false;
-function detectTheme(fromObserver) {
+function detectTheme() {
 	const msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
 	const conversation = document.querySelectorAll('table[role="presentation"]');
 	if (simplifyDebug) console.log('Detecting theme...');
@@ -738,7 +738,8 @@ function detectAddOns() {
 		const addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
 
 		// Callback function to execute when mutations are observed
-		// TODO: detect changes to width of bq9 instead of style attribute
+		// TODO: Detect changes to width of bq9 instead of style attribute
+		// TODO: Can I do this without looping through all the mutations?
 		const addOnsObserverCallback = function(mutationsList, observer) {
 		    for (let mutation of mutationsList) {
 		        if (mutation.type == 'attributes' && mutation.attributeName == 'style') {
@@ -963,11 +964,11 @@ function initAppSwitcher() {
 	const appSwitcherWrapper = document.querySelector('#gbwa');
 	const appBar = document.querySelector('#gb');
 	if (profileButton && appSwitcherWrapper) {
-		profileButton.addEventListener('mouseenter', function(event) {
+		profileButton.addEventListener('mouseenter', function() {
 			htmlEl.classList.add('appSwitcher');
 		}, false);
 
-		appBar.addEventListener('mouseleave', function(event) {
+		appBar.addEventListener('mouseleave', function() {
 			htmlEl.classList.remove('appSwitcher');
 		}, false);
 	}
@@ -997,7 +998,7 @@ function detectOtherExtensions() {
 		let extensionsWidth = 0;
 		Object.entries(otherExtensionsList).forEach(function(extension) {
 			if (simplifyDebug) console.log(`Extensions - Looking for ${extension[0]}...`);
-			let extensionEl = document.querySelector(extension[0]);
+			const extensionEl = document.querySelector(extension[0]);
 			if (extensionEl) {
 				if (extensionsWidth == 0) {
 					extensionsWidth = extension[1].initial;
