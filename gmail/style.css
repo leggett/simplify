@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.7
+ * SIMPLIFY GMAIL v1.5.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -82,7 +82,7 @@ html.simpl .bir a {
 
 /* Hide Gmail logo and name */
 html.simpl #gb a[href="#inbox"] {
-	display: none;
+	display: none !important;
 }
 
 /* Hide App Switcher */

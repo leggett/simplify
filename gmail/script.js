@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.7
+ * SIMPLIFY GMAIL v1.5.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
+const simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -69,6 +69,7 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
  * the userId in the URL doesn't match the username associated
  * with the userId in localStorage.
  */
+// const isDelegate = location.pathname.indexOf('/mail/b/') >= 0;
 const userPos = location.pathname.indexOf('/u/');
 const u = location.pathname.substring(userPos+3, userPos+4);
 let simplify = {};
@@ -86,7 +87,17 @@ const defaultParam = {
 	addOns: null,
 	addOnsCount: 3,
 	otherExtensions: null,
-	elements: {}
+	elements: {
+		"searchParent": ".gb_je",
+		"menuButton": ".gb_xc.gb_Dc.gb_Ec > div:first-child",
+		"menuContainer": ".gb_xc.gb_Dc.gb_Ec",
+		"backButton": ".gb_6b.gb_9b.gb_va",
+		"supportButton": ".gb_6d.gb_4d",
+		"accountButton":".gb_x.gb_Ea.gb_f",
+		"accountWrapper": false,
+		"gsuiteLogo": false,
+		"oneGoogleRing": false
+	}
 }
 
 // Helper function to init or reset the localStorage variable
@@ -272,22 +283,64 @@ if (location.hash.substring(1, 9) == "settings") {
  * more stable children elements) and inject the style on load. 
  */
 
-let simplifyStyles;
-function initStyle() {
-	// Create style sheet element and append to <HEAD>
-	let simplifyStyleEl = document.createElement('style');
-	simplifyStyleEl.id = "simplifyStyle";
-	document.head.appendChild(simplifyStyleEl);
+// Detect and cache classNames that often change so we can inject CSS
+let detectClassNamesLoops = 0;
+function detectClassNames() {
+	const searchForm = document.querySelector('form[role="search"]');
 
-	// Setup global variable for style sheet
-	if (simplifyDebug) console.log('Style sheet added');
-	simplifyStyles = simplifyStyleEl.sheet;
+	if (searchForm) {
+		if (simplifyDebug) console.log('Detecting class names...');
 
-	// Initialize addOns height now that Style Sheet is setup
-	addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
+		// Search parent
+		const searchParent = searchForm.parentElement.classList.value.trim();
+		simplify[u].elements["searchParent"] = "." + searchParent.replace(/ /g,".");
 
-	// Add cached styles
-	addStyles();
+		// Main menu
+		const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
+		simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + ' > div:first-child';
+		simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
+
+		// Back button
+		const backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
+		simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
+
+		// Support button (usually added about 2 seconds after page is loaded)
+		const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
+		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : simplify[u].elements["supportButton"];
+
+		// Account switcher (profile pic/name)
+		const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
+		simplify[u].elements["accountButton"] = accountButton ? "." + accountButton.classList.value.trim().replace(/ /g,".") : false;
+
+		// Account wrapper (for Gsuite accounts)
+		const accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
+		simplify[u].elements["accountWrapper"] = accountWrapper ? "." + accountWrapper.classList.value.trim().replace(/ /g,".") : false;
+
+		// Gsuite company logo
+		const gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/"]');
+		simplify[u].elements["gsuiteLogo"] = gsuiteLogo ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g,".") : false;
+
+		// oneGoogle Ring around profile photo
+		const oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
+		simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
+		
+		// Update the cached classnames in case any changed
+		updateParam();
+
+		// Add styles again in case the classNames changed
+		addStyles();
+	} else {
+		detectClassNamesLoops++;
+		if (simplifyDebug) console.log('detectClassNames loop #' + detectClassNamesLoops);
+
+		// only try 10 times and then asume something is wrong
+		if (detectClassNamesLoops < 10) {
+			// Call init function again if the gear button field wasn't loaded yet
+			setTimeout(detectClassNames, 500);
+		} else {
+			if (simplifyDebug) console.log('Giving up on detecting class names');
+		}
+	}
 }
 
 // Helper function to add CSS to Simplify Style Sheet
@@ -297,48 +350,6 @@ function addCSS(css, pos) {
 	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
 }
 
-// Detect and cache classNames that often change so we can inject CSS
-function detectClassNames() {
-	// Search parent
-	const searchParent = document.querySelector('form[role="search"]').parentElement.classList.value.trim();
-	simplify[u].elements["searchParent"] = "." + searchParent.replace(/ /g,".");
-
-	// Main menu
-	const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
-	simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + '  > div:first-child';
-	simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
-
-	// Back button
-	const backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
-	simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
-
-	// oneGoogle Ring around profile photo
-	const oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
-	simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
-	
-	// Support button
-	const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]')
-	simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
-
-	// Account switcher (profile pic/name)
-	const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
-	simplify[u].elements["accountButton"] = accountButton ? "." + accountButton.classList.value.trim().replace(/ /g,".") : false;
-
-	// Account wrapper (for Gsuite accounts)
-	const accountWrapper = document.querySelector('#gb div[href^="https://accounts.google.com/SignOutOptions"]');
-	simplify[u].elements["accountWrapper"] = accountWrapper ? "." + accountWrapper.classList.value.trim().replace(/ /g,".") : false;
-
-	// Gsuite company logo
-	const gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/"]');
-	simplify[u].elements["gsuiteLogo"] = gsuiteLogo ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g,".") : false;
-
-	// Update the cached classnames in case any changed
-	updateParam();
-
-	// Add styles again in case the classNames changed
-	addStyles();
-}
-
 // This is all CSS that I need to add dynamically as the classNames often change for these elements 
 // and I couldn't find a stable way to select the elements other than their classnames 
 function addStyles() {
@@ -346,7 +357,7 @@ function addStyles() {
 	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`);
 
 	// Hide any buttons after the Search input including the support button (a bit risky)
-	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
+	// addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
 
 	// Switch menu button for back button when in Settings
 	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
@@ -386,6 +397,50 @@ function addStyles() {
 	// Adjust size of menu button container
 	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);	
 }
+
+// Add CSS based on cached selectors detected in previous loads
+let simplifyStyles;
+function initStyle() {
+	if (document.head) {
+		initStyleObserver.disconnect();
+
+		// Create style sheet element and append to <HEAD>
+		let simplifyStyleEl = document.createElement('style');
+		simplifyStyleEl.id = "simplifyStyle";
+		document.head.appendChild(simplifyStyleEl);
+
+		// Setup global variable for style sheet
+		if (simplifyDebug) console.log('Style sheet added');
+		simplifyStyles = simplifyStyleEl.sheet;
+
+		// Initialize addOns height now that Style Sheet is setup
+		addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
+
+		// Add cached styles
+		addStyles();
+	}
+}
+
+/*
+// Figure out when an element is added to the DOM
+let howLong = 0;
+console.log('Looking for the Support button');
+function findSupport() {
+	let supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
+	if (supportButton) {
+		console.log(`Found support button in ${howLong}ms`);
+	} else {
+		if (howLong > 10000) {
+			console.log(`Giving up on finding Support button. Looked for ${howLong}ms`);
+		} else {
+			howLong += 50;
+			setTimeout(findSupport, 50);
+		}
+	}
+}
+findSupport();
+*/
+
 
 
 
@@ -497,7 +552,8 @@ function initSettings() {
 	let backButton = document.querySelector('#gb div[aria-label="Go back"] svg');
 	if (!backButton) {
 		// aria-label doesn't work with non-english interfaces but .gb_1b changes often
-		backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement;
+		backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]');
+		if (backButton) backButton = backButton.parentElement;
 	}
 
 	if (backButton) {
@@ -838,8 +894,9 @@ function detectButtonLabel() {
 // Detect nav state
 let detectMenuStateLoops = 0;
 function detectMenuState() {
-	const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement;
-	if (menuButton) {
+	const menuButtonIcon = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]');
+	if (menuButtonIcon) {
+		const menuButton = menuButtonIcon.parentElement.parentElement;
 		const navOpen = menuButton.getAttribute('aria-expanded');
 		menuButton.addEventListener('click', toggleMenu, false);
 		if (navOpen == "true") {
@@ -859,6 +916,7 @@ function detectMenuState() {
 		}
 	}
 }
+
 // Helper function to toggle nav open/closed
 function toggleMenu() {
 	if (simplifyDebug) console.log('Toggle nav');
@@ -959,6 +1017,7 @@ function detectDelegate() {
 
 
 // Init App switcher event listeners
+let initAppSwitcherLoops = 0;
 function initAppSwitcher() {
 	const profileButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
 	const appSwitcherWrapper = document.querySelector('#gbwa');
@@ -971,6 +1030,12 @@ function initAppSwitcher() {
 		appBar.addEventListener('mouseleave', function() {
 			htmlEl.classList.remove('appSwitcher');
 		}, false);
+	} else {
+		initAppSwitcherLoops++;
+		if (initAppSwitcherLoops < 10) {
+			setTimeout(initAppSwitcher, 500);
+			if (simplifyDebug) console.log('initAppSwitcher loop #' + initAppSwitcherLoops);
+		}
 	}
 }
 
@@ -1039,20 +1104,33 @@ function detectOtherExtensions() {
 */
 
 
+/*
+ * TODO: package images
+ * You have to use chrome.runtime.getURL(string path)
+ * More info: https://developer.chrome.com/extensions/runtime#method-getURL
+ */
 
 
-// Initialize everything
-function initEarly() {
-	initStyle();
+// Initialize styles as soon as head is ready
+const initStyleObserver = new MutationObserver(initStyle);
+function observeHead() {
+	// Start observing the target node for configured mutations
+	initStyleObserver.observe(htmlEl, { attributes: true, childList: true, subtree: true });
+	if (simplifyDebug) console.log('Adding mutation observer for head to initialize cached styles');
+}
+observeHead();
+
+// Initialize search as soon as DOM is ready
+function initOnDomReady() {
 	initSearch();
 	initSearchFocus();
 	detectDelegate();
 }
-window.addEventListener('DOMContentLoaded', initEarly, false);
+window.addEventListener('DOMContentLoaded', initOnDomReady, false);
 
-function initLate() {
+// Initialize everything else when the page is ready
+function initOnPageLoad() {
 	initSettings();
-	detectClassNames();
 	detectTheme();
 	detectSplitView();
 	detectDensity();
@@ -1065,7 +1143,10 @@ function initLate() {
 	observePagination();
 	checkLocalVar();
 
+	// Some elements get loaded in after the page is done loading
+	setTimeout(detectClassNames, 3000);
+
 	// 3rd party extensions take a few seconds to load
 	setTimeout(detectOtherExtensions, 5000);
 }
-window.addEventListener('load', initLate, false);
+window.addEventListener('load', initOnPageLoad, false);
