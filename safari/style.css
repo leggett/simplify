@@ -1,0 +1,1342 @@
+/* ==================================================
+ * SIMPLIFY GMAIL v1.5.8
+ * By Michael Leggett: leggett.org
+ * Copyright (c) 2019 Michael Hart Leggett
+ * Repo: github.com/leggett/simplify/blob/master/gmail/
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
+ * More info: simpl.fyi
+ */
+
+
+
+
+/* ==================================================
+ * EXPERIMENTAL
+ */
+
+/* Left arrow before profile photo 
+html.simpl .gb_Da::before {
+	content: ' ';
+    position: absolute;
+    left: -8px;
+    top: 18px;
+    width: 24px;
+    height: 24px;
+    opacity: .5;
+    zoom: 0.75;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
+}
+*/
+
+
+/* TODO: Change how settings tabs are so top bar is full bleed */
+
+
+
+
+/* ==================================================
+ * GLOBAL / APP-LEVEL
+ */
+
+/* Hide footer */
+html.simpl .aeG {
+	display: none;
+}
+
+/* Move and restyle banners (vacation auto-responder, account delegation) */
+html.simpl .w-MH,
+html.simpl .ZY,
+html.simpl .w-asV .aG,
+html.simpl .bir {
+	position: fixed;
+	width: auto;
+	max-width: 300px;
+	text-align: left;
+    padding: 18px 24px;
+    bottom: 24px;
+    left: 24px;
+    font-size: .875rem;
+	font-weight: bold;
+	border: none;
+	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	-webkit-box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	border-radius: 2px;
+
+	/* Override the black on yellow default theme */
+	color: #fff;
+	background-color: #202124;
+}
+html.simpl .w-MH .e,
+html.simpl .ZY .e,
+html.simpl .w-asV .aG a,
+html.simpl .bir a {
+	margin-left: 16px;
+	color: #8ab4f8;
+}
+
+
+
+
+/* ==================================================
+ * APP BAR (menu and account switcher + container for search)
+ */
+
+/* Hide Gmail logo and name */
+html.simpl #gb a[href="#inbox"] {
+	display: none !important;
+}
+
+/* Hide App Switcher */
+html.simpl #gbwa {
+	display: none !important;
+	position: absolute;
+    right: 0px !important;
+    padding: 12px 66px 14px 12px !important;
+	margin: -8px -12px 0 0 !important;
+}
+html.simpl.appSwitcher #gbwa {
+	display: block !important;
+}
+
+/* Remove padding around profile photo so settings is better spaced */
+/* UNSTABLE */
+html.simpl .gb_Da {
+	padding-left: 2px !important;
+}
+
+/* Clean up the butter bar (loading, etc) */
+html.simpl .vX .vh {
+	border: none;
+    border-radius: 0 0 4px 4px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Reduce width of app bar when Addons are open */
+html.simpl.addOnsOpen header#gb {
+	width: calc(100vw - 300px);
+}
+
+
+
+
+/* ==================================================
+ * ACTION BAR (actions, pagination, and settings)
+ */
+
+/* Move action bar on top of app bar and to right of menu button */
+html.simpl .aeH {
+	position: absolute !important;
+	top: 0px !important;
+	left: 60px !important;
+	width: calc(var(--action-bar-width) - 92px);
+
+	/* Reduce z-index from 986 so action bar can live on top of it */
+	z-index: 6;
+}
+html.simpl .aeH .G-atb {
+	height: 64px !important;
+}
+
+/* Remove extra right margin from action bar so it is spaced correctly */
+html.simpl .aeH .G-atb[gh="tm"] {
+	margin-right: 0px !important;
+	top: 0px;
+}
+
+/* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
+html.simpl .aeH .G-atb::before {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+/* Make bar wider when search is hidden */
+html.simpl.hideSearch .aeH {
+	width: calc(100vw - 172px);
+}
+html.simpl.hideSearch.addOnsOpen .aeH {
+	width: calc(100vw - 172px - 300px);
+}
+
+/* Dim pagination controls unless hovered over */
+html.simpl .aeH .G-atb .aqJ,
+html.simpl .aeF .G-atb .aqJ,
+html.simpl .aeH .G-atb .adF {
+	opacity: 0.5;
+	transition: opacity 0.2s ease-in 0s;
+}
+html.simpl .aeH .G-atb .aqJ:hover,
+html.simpl .aeF .G-atb .aqJ:hover,
+html.simpl .aeH .G-atb .adF:hover {
+	opacity: 1;
+}
+
+/* Below 1350px, hide pagination when search and addOns are both open */
+@media only screen and (max-width: 1350.98px) {
+	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
+	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
+		display: none;
+	}
+}
+
+/* Below 1200px, hide pagination AND settings when search and addOns are both open */
+@media only screen and (max-width: 1200.98px) {
+	html.simpl.addOnsOpen:not(.hideSearch) .adF,
+	html.simpl.addOnsOpen:not(.hideSearch) .aqJ {
+		display: none;
+	}
+}
+
+/* Below 1100px wide, when search is expanded, hide pagination controls even if AddOns aren't open */
+@media only screen and (max-width: 1100.98px) {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
+		display: none;
+	}
+}
+
+/* Below 850px wide, when search is expanded, pagination AND settings */
+@media only screen and (max-width: 850.98px) {
+	html.simpl:not(.hideSearch) .aeH .G-atb .aqJ,
+	html.simpl:not(.hideSearch) .aeH .G-atb .adF {
+		display: none;
+	}
+}
+
+/* Remove drop shadow from action bar */
+html.simpl .aeI .G-atb {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Move action bar for Horizontal Multiple Inboxes */
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
+	position: fixed;
+	top: 8px;
+	left: 60px;
+	z-index: 6 !important;
+	width: calc(var(--action-bar-width) - 92px);
+	transition: width 0s ease-in 0s; /* was 0.15s - Looks bad with 3rd party extensions */
+}
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"]::before {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+html.simpl.multiBoxHorz.hideSearch .aeF .G-atb[gh="tm"] {
+	width: calc(100vw - 172px) !important;
+}
+
+/* Further adjustments for side-by-side multiple inboxes */
+html.simpl.multiBoxHorz div[role="main"] .byR {
+	margin-top: 0px;
+}
+
+@media only screen and (max-width: 1441px) {
+	html.simpl.multiBoxHorz .aeF > div.nH {
+		max-width: 1400px !important;
+	}
+	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	/* TODO: I should do this at all resolutions for horizontal split view */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
+		max-width: 960px !important;
+		margin: 0 auto;
+	}
+}
+@media only screen and (min-width: 1441.98px) {
+	html.simpl.multiBoxHorz .aeF > div.nH {
+		max-width: 2200px !important;
+	}
+	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
+		max-width: 1100px !important;
+		margin: 0 auto;
+	}
+}
+
+/* Nudge the offline button closer to the settings gear */
+html.simpl .aqJ .bvX,
+html.simpl .adF .bvX {
+	margin-right: 16px !important;
+}
+
+/* Hide the Offline icon */
+html.simpl .bvE {
+	display: none;
+}
+
+
+
+
+/* ==================================================
+ * ALIGN ACTION BAR WITH CONTENT
+ */
+
+/*
+Resolutions
+	Low (< 960px)
+	Mid (961 - 1440)
+	High (> 1441)
+
+Views
+	Default inbox w/ tabs
+	Search (including label)
+	Priority inbox
+	Preview pane vertical
+	Preview pane horizontal
+	Multiple inboxes vertical
+	Multiple inboxes horizontal
+
+States (icon buttons)
+	Menu closed
+	Menu closed, Right side chat
+	Menu closed, Right side chat, Search open
+	Menu closed, Add-ons open
+	Menu closed, Add-ons open, Search open
+	Menu open
+	Menu open, Right side chat
+	Menu open, Right side chat, Search open
+	Menu open, Add-ons open
+	Menu open, Add-ons open, Search open
+
+States (text button labels)
+	Menu closed
+	Menu closed, Right side chat
+	Menu closed, Right side chat, Search open
+	Menu closed, Add-ons open
+	Menu closed, Add-ons open, Search open
+	Menu open
+	Menu open, Right side chat
+	Menu open, Right side chat, Search open
+	Menu open, Add-ons open
+	Menu open, Add-ons open, Search open
+ */
+
+@media only screen and (min-width: 1291.98px) {
+	/* DETAULT VIEWS: Move actions to left edge of content */
+	html.simpl {
+		--content-width: 960px;
+		--left-offset: 60px;
+	}
+	html.simpl.navOpen {
+		--left-offset: -32px;
+	}
+	html.simpl.rhsChat {
+		--content-width: 1164px;
+	}
+	html.simpl.addOnsOpen,
+	html.simpl.addOnsOpen.rhsChat {
+		--content-width: 1260px;
+	}
+	html.simpl.addOnsOpen.rhsChat {
+		--left-offset: 12px;
+	}
+	html.simpl.addOnsOpen.navOpen {
+		--left-offset: -32px;
+	}
+	html.simpl.addOnsOpen.rhsChat.navOpen {
+		--left-offset: -82px;
+	}
+	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .G-atb,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .G-atb {
+		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset)) !important;
+		margin-left: 16px !important;
+	}
+
+	/* Move pagination controls to right edge of content
+	 * while leaving settings to far right */
+	html.simpl.hideSearch {
+		--right-offset: 158px;
+	}
+	html.simpl.hideSearch.navOpen {
+		--right-offset: 252px;
+	}
+	html.simpl.hideSearch.rhsChat {
+		--right-offset: -42px;
+	}
+	html.simpl.hideSearch.addOnsOpen.rhsChat {
+		--right-offset: 208px;
+	}
+	html.simpl.hideSearch.navOpen.addOnsOpen,
+	html.simpl.hideSearch.navOpen.addOnsOpen.rhsChat {
+		--right-offset: 300px;
+	}
+	html.simpl.hideSearch.navOpen.rhsChat {
+		--right-offset: 44px;
+	}
+	html.simpl.hideSearch.addOnsOpen.navOpen {
+		--right-offset: 246px;
+	}
+
+	/* Apply variables to align right edge with content */
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .adF .iG {
+		padding-right: calc(((100vw - var(--content-width)) / 2) - var(--right-offset));
+	}
+
+	/* Keep pagination next to settings when search is open */
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .adF .iG,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .adF .iG {
+		padding-right: initial;
+	}
+}
+@media only screen and (min-width: 1441.98px) {
+	html.simpl {
+		--content-width: 1100px;
+	}
+	html.simpl.rhsChat {
+		--content-width: 1304px;
+	}
+	html.simpl.addOnsOpen,
+	html.simpl.addOnsOpen.rhsChat {
+		--content-width: 1400px;
+	}
+}
+@media only screen and (min-width: 1641.98px) {
+	/* Apply variables to align left edge */
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
+		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset)) !important;
+		margin-left: 16px !important;
+	}
+
+	/* Apply variables to align right edge with content */
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .ar5,
+	html.simpl.hideSearch:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .adF .iG {
+		padding-right: calc(((100vw - var(--content-width)) / 2) - var(--right-offset));
+	}
+
+	/* Keep pagination next to settings when search is open */
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .ar5,
+	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .adF .iG {
+		padding-right: initial;
+	}
+}
+
+
+
+
+/* ==================================================
+ * SEARCH
+ */
+
+/* Push search to the right */
+html.simpl #gb form {
+	float: right;
+	width: 30%;
+	max-width: none;
+	margin-right: 8px;
+	position: relative;
+	right: 0px;
+	transition: width 0s;
+}
+html.simpl {
+	--action-bar-width: 70%;
+}
+
+/* Shorter search box when using text label buttons */
+html.simpl.textButtons #gb form {
+	width: 25%;
+}
+html.simpl.textButtons {
+	--action-bar-width: 75%;
+}
+
+/* Minimize search to an icon when hidden */
+html.simpl.hideSearch #gb form {
+	width: 54px;
+	margin-right: 0px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	background-color: transparent !important;
+}
+
+/* Hide all search form buttons except search button when search is hidden */
+html.simpl.hideSearch #gb form button {
+	display: none;
+}
+html.simpl.hideSearch #gb form button[role="button"]:not([gh="sda"]) {
+	display: block;
+}
+
+/* Move filter form to be under search box */
+html.simpl .ZF-Av {
+	left: auto !important;
+	right: 71px !important;
+	width: 31% !important;
+	min-width: 450px;
+}
+html.simpl .ZF-Av > div {
+	border: 0px;
+}
+
+/* Hide  or shrink search when app switcher is shown */
+html.simpl.appSwitcher.hideSearch #gb form {
+	display: none;
+}
+html.simpl.appSwitcher:not(.hideSearch) #gb form {
+	width: calc(30% - 50px);
+	margin-right: 58px;
+}
+html.simpl.textButtons.appSwitcher:not(.hideSearch) #gb form {
+	width: calc(25% - 50px);
+}
+
+
+
+
+/* ==================================================
+ * NAV & COMPOSE BUTTON
+ */
+
+/* Hide nav when minimized or in Settings */
+html.simpl .bhZ,
+html.simpl.inSettings .aeN {
+	max-width:0px !important;
+	min-width:0px !important;
+	position: relative;
+	z-index: 3 !important;
+}
+
+/* Don't show the nav when hovering over the compose button */
+html.simpl .bym {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+html.simpl .bhZ div[role="complementary"],
+html.simpl .bhZ div[gh="ns"] {
+	display: none !important;
+}
+
+/* No shadow or label on compose button */
+html.simpl .z0 > div[gh="cm"] /*.L3*/ {
+	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	-webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	border-radius: 28px !important;
+    font-size: 0 !important;
+    height: 56px !important;
+    padding: 0 !important;
+    width: 56px !important;
+    overflow: hidden;
+}
+
+/* Make FAB dark in dark themes */
+html.simpl.darkTheme .z0 > div[gh="cm"] /*.L3*/ { 
+	background-color: rgba(51,51,51,.9);
+}
+
+/* Move compose button out of menu */
+html.simpl .z0 {
+    position: absolute;
+    left: calc(100vw - 92px);
+    top: calc(100vh - 140px);
+    z-index: 3 !important;
+	width: 56px !important;
+	height: 56px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Move it over futher if RHS Chat is enabled */
+html.simpl.rhsChat .z0 {
+	left: calc(100vw - 275px);
+}
+
+/* Add some padding above the nav that the compose button used to provide */
+html.simpl .wT {
+	padding-top: 20px;
+}
+
+/* Hide top shadow when you scroll long label list */
+html.simpl .aeN .ajj:before {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+/* Hide the compose and add-ons button when in Settings */
+html.simpl.inSettings .z0,
+html.simpl.inSettings .bAw {
+	display: none;
+}
+
+/* Make the bottom Hangouts tabs a little less ugly */
+html.simpl div[gh="gt"] {
+	text-align: left !important;
+	border-top: 0px !important;
+	padding-left: 18px;
+}
+html.simpl.rhsChat div[gh="gt"] {
+	text-align: right !important;
+	border-top: 0px !important;
+	padding-left: 0px;
+}
+html.simpl.rhsChat .akj {
+	margin-top: 12px;
+}
+
+/* Remove extra right padding from rhsChat */
+html.simpl.rhsChat .aCl .akj {
+	padding-right: 0px !important;
+}
+
+
+/* ==================================================
+ * INBOX
+ */
+
+/* Bump up the line height a little in the inbox */
+html.simpl.lowDensityInbox:not(.splitView) .zA {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+html.simpl.highDensityInbox:not(.splitView) .zA {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+/* Right and bottom padding on inbox and messages */
+html.simpl .aeF {
+	padding-right: 56px !important;
+	margin-bottom: 150px;
+}
+
+/* Max width inbox and conversation and add top padding */
+html.simpl .AO .aeF > .nH {
+	margin: 40px auto 0 auto;
+	max-width: 960px;
+}
+@media only screen and (min-width: 1441.98px) {
+	html.simpl:not(.splitView) .AO .aeF > .nH {
+		max-width: 1100px;
+	}
+}
+
+/* Less padding on inbox and messages for low resolutions */
+@media only screen and (max-width: 960.98px) {
+	html.simpl .bhZ+.bkK {
+		margin-left: 12px !important;
+	}
+	html.simpl .aeF {
+		padding-right: 12px !important;
+		margin-bottom: 50px;
+	}
+	html.simpl .AO .aeF > .nH {
+		margin-top: 12px !important;
+	}
+}
+
+/* Add extra padding between inbox groups */
+html.simpl div[gh="tl"] div[role="tabpanel"] {
+	padding-bottom: 1em;
+}
+/* TODO: Remove that extra padding if the section is hidden
+ * This doesn't work
+html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
+	margin-bottom: -2em;
+}
+*/
+
+/* Add spacing between vertically stacked Multiple Inboxes */
+html.simpl.multiBoxVert .nH > .nK {
+	margin-top: 1em;
+}
+
+/* Hide toggle next to inbox groups */
+html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
+	display: none;
+}
+
+/* Different treatment of read items in inbox except highlighted items in splitpane view*/
+html.simpl.lightTheme .yO:not(.aps),
+html.simpl.mediumTheme .yO:not(.aps) {
+	/* White with lighter text */
+	background-color: rgba(255,255,255,0.8);
+	color: #333;
+}
+/* Back to defaults for selected items */
+html.simpl.lightTheme .yO.x7,
+html.simpl.mediumTheme .yO.x7 {
+	background-color: #c2dbff;
+	color: #202124;
+}
+/* Dim snippets for read messages a little more */
+html.simpl.lightTheme .yO .y2,
+html.simpl.mediumTheme .yO .y2 {
+	opacity: 0.7;
+}
+
+/* Make sure minimized search icon is white for medium themes */
+html.simpl.mediumTheme.hideSearch #gb form button[role="button"] > svg,
+html.simpl.mediumTheme.hideSearch #gb form button[role="button"] > svg > path {
+	color: rgba(255,255,255,.87);
+}
+
+/* Different background colors for dark themes */
+html.simpl.darkTheme .yO:not(.aps) {
+	background: rgba(0,0,0,0.8);
+    color: rgba(255,255,255,0.70);
+}
+html.simpl.darkTheme .yO.x7 {
+	color: rgba(255,255,255,1);
+    background: #174ea6;
+}
+
+/* Dim the Snoozed N days ago text in the inbox */
+html.simpl .zA .cL {
+	font-weight: normal;
+	opacity: 0.8;
+}
+html.simpl .zA.yO .cL {
+	opacity: 0.4;
+}
+
+/* Less shadow on items on hover */
+html.simpl .zA:hover {
+	box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
+	-webkit-box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
+}
+
+/* Dim Default Inbox category tabs */
+html.simpl .aKh {
+	opacity: 0.7;
+	transition: opacity 0.2s ease-in 0s;
+	border-radius: 8px 8px 0 0;
+}
+html.simpl .aKh:hover {
+	opacity: 1;
+}
+
+/* Further dim the non-active category tab */
+html.simpl .aKh .aAy[aria-selected="false"] {
+	opacity: 0.5;
+	transition: opacity 0.2s ease-in 0s;
+}
+html.simpl .aKh .aAy[aria-selected="false"]:hover,
+html.simpl .aKh .aAy[aria-selected="true"] {
+	opacity: 1;
+}
+
+/* Make "new" badges on tabs grayscale */
+html.simpl .aKh .aDG {
+	filter: grayscale(100%);
+}
+
+/* Hide ads in top of inbox tabs */
+html.simpl .aKB {
+	display: none;
+}
+
+/* Dim attachment type icons on read messages */
+html.simpl div[gh="tl"] tr.yO img.brf {
+	/* filter: grayscale(100%) brightness(135%); */
+	opacity: 0.6;
+}
+
+/* Hide underlines on category tabs in default inbox */
+html.simpl div[role="main"] .J-KU-KO.aAy:before {
+	background-color: transparent !important;
+}
+
+
+
+/* ==================================================
+ * SPLIT PANE VIEW
+ */
+
+/* Move action bar over app bar */
+html.simpl.splitView .G-atb[gh="tm"] {
+	position: fixed;
+	top: 8px;
+	left: 60px;
+	z-index: 7 !important;
+	padding-right: 0px !important;
+}
+html.simpl.splitView .G-atb[gh="tm"]:before {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+/* If Multiple Inboxes AND Preview Pane are enabled,
+ * there will be multiple action bars; Multiple Inboxes
+ * only works when Preview Pane is disabled. So hide
+ * the other action bars if there are multiple
+ */
+html.simpl.splitView .G-atb[gh="tm"]:not(:first-child) {
+	display: none;
+}
+
+/* Expand action bar when search is hidden */
+html.simpl.splitView.hideSearch .G-atb[gh="tm"] {
+	width: calc(100vw - 206px);
+	transition: width 0s; /* was 0.2s ease-in 0s */
+}
+
+html.simpl.splitView:not(.hideSearch) .G-atb[gh="tm"] {
+	width: calc(var(--action-bar-width) - 126px);
+}
+
+/* Hide footer & space usage in preview pane */
+html.simpl.splitView .apc,
+html.simpl.splitView .apO {
+	display: none;
+}
+
+/* Reduce left margin on main view */
+html.simpl.splitView .bhZ+.bkK {
+	margin-left: 12px !important;
+}
+
+/* Override padding around main view */
+html.simpl.splitView .aeF {
+	padding-right: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+/* Max width view 100% */
+html.simpl.splitView .AO .aeF > .nH {
+	margin: 0px; /*40px auto 0 auto;*/
+	max-width: 100%;
+}
+
+/* Max-width and margin on conversation */
+html.simpl.splitView .apg .aNW .age .Bs {
+	max-width: 1050px;
+}
+html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
+	padding-bottom: 200px;
+}
+@media only screen and (min-width: 1441.98px) {
+	html.simpl.splitView .apg .aNW .age .Bs {
+		margin: 1.5vw auto 200px auto;
+		max-width: 1100px;
+		border-radius: 8px;
+	}
+	/* Swap margin for padding when message is likely to 
+	 * switch from pane to floating card */
+	html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
+		padding-bottom: 0px;
+	}
+}
+
+/* Add right margin to inbox tabs */
+html.simpl.splitView .aeF .aKh {
+	margin-right: 16px;
+}
+
+/* No bottom border on app bar */
+html.simpl.splitView .aiw {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+/* Drop the double border between panes to a single border */
+html.simpl.splitView .apj {
+	border-right: none;
+	background-color: transparent;
+}
+html.simpl.splitView .aph {
+	border-bottom: none;
+}
+
+/* Below 1250px, hide the pagination controls */
+@media only screen and (max-width: 1250.98px) {
+	html.simpl.splitView:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh="s"]) {
+		display: none;
+	}
+}
+
+/* Move the right aligned actions on the inline reply over so the 
+ * compose button doesn't cover them 
+ * TODO: Find a more elegant solution to this problem
+ */
+html.simpl.splitView div[role="listitem"] .btC>.az5 {
+	padding-right: 50px;
+}
+
+
+
+
+/* ==================================================
+ * CONVERSATION VIEW
+ */
+
+/* Not sure why, but sometimes this div below the conversation gets 440px bottom padding */
+html.simpl .pfiaof {
+	padding-bottom: 0px !important;
+}
+
+/* Round corners of conversation for themes */
+html.simpl .bAn {
+	border-radius: 8px;
+}
+
+/* Dim print and pop-out icons in conversation view */
+html.simpl .bAn .ade {
+	opacity: 0.2;
+	transition: opacity 0.4s ease-in 0s;
+}
+html.simpl .bAn .ade:hover {
+	opacity: 1;
+}
+
+/* Slightly larger message body text in conversation view and composer */
+html.simpl div[contenteditable="true"],
+html.simpl div[role="listitem"] .a3s,
+html.simpl div[role="listitem"] .g6,
+html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
+	font-size: 0.875rem !important;
+}
+
+/* Dim from email address in conversation view */
+html.simpl div[role="listitem"] h3.iw .go {
+	opacity: 0.5;
+}
+
+/* Clean up "New message from" banner */
+html.simpl .ata-asE {
+	right: auto;
+	left: 24px;
+	bottom: 24px;
+	font-size: .875rem;
+	color: #fff;
+	background-color: #202124;
+	padding: 18px;
+	border: none;
+	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	-webkit-box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+}
+html.simpl .ata-asE > span:first-child:not(.ata-asJ) {
+	padding-right: 12px;
+}
+html.simpl .ata-asE .ata-asJ {
+	color: #8ab4f8;
+	padding-left: 12px;
+}
+
+/* Keep inline images from being wider than the current view */
+/* TODO: This won't work in split pane view */
+html.simpl table.Bs .gs img {
+    max-width: calc(var(--content-width) - 80px);
+    height: auto;
+}
+html.simpl.splitView table.Bs .gs img {
+    max-width: 100%;
+}
+
+/* Boost width of the cell that has the reply and more actions buttons */
+html.simpl div[role="listitem"] table td[rowspan="2"] {
+	width: 110px;
+}
+
+
+
+
+/* ==================================================
+ * COMPOSER
+ */
+
+/* A touch more padding above the from field and subject */
+html.simpl .dw form.bAs,
+html.simpl .aSs .aSt .I5 > form.bAs {
+	padding-top: 6px;
+}
+
+/* Make full screen composer less wide */
+html.simpl .aSs > .aSt {
+	width: 900px !important;
+	left: calc(50vw - 450px) !important;
+}
+html.simpl .aSs .aDg > .aDj {
+	width: 865px !important;
+	left: calc(50vw - 435px) !important;
+}
+
+/* Make scrim behind full screen composer darker */
+html.simpl .aSs {
+	background-color: rgba(0,0,0,.7);
+}
+
+/* BUGS: moving stuff around here is causing problems */
+/* Move extended compose buttons inline
+html.simpl .aSs .aDl > .Ur,
+html.simpl .aSs .aDn > .aDl > .Ur,
+html.simpl .aSs .aDi > .aDl > .Ur {
+	left: 205px !important;
+	bottom: -54px !important;
+}
+html.simpl .aSs .aZ > .J-Z {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+*/
+
+/* Hide useless buttons in full screen compose and move bar inline
+html.simpl .aSs .aZ .J-Z-I[command^="+undo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+redo"],
+html.simpl .aSs .aZ .J-Z-I[command^="+bold"],
+html.simpl .aSs .aZ .J-Z-I[command^="+italic"],
+html.simpl .aSs .aZ .J-Z-I[command^="+underline"],
+html.simpl .aSs .btC .oc.gU,
+html.simpl .aSs .a8X .wG[command^="docs"],
+html.simpl .aSs .a8X .wG[command^="op.money"] {
+	display: none !important;
+}
+*/
+
+
+
+/* ================================================== */
+/* ADD-ONS RIGHT SIDE PANE */
+
+/* Shrink the add-on chooser to a small FAB when not hovered on */
+html.simpl .bAw {
+	position: fixed;
+	right: 47px !important;
+	bottom: 100px !important;
+	height: 36px !important;
+	width: 36px !important;
+	min-width: 36px !important;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	border-radius: 27px;
+	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	-webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	transition: height 0s ease-out 0s;
+	transition: width 0s ease-out 0s;
+	transition: right 0s ease-out 0s;
+	transition-duration: 0s !important;
+	background-color: rgba(255,255,255,.9);
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png") !important;
+	background-repeat: no-repeat;
+	background-position: 6px 7px;
+	background-size: 24px;
+}
+html.simpl.darkTheme .bAw {
+	background-color: rgba(51,51,51,.9);
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png") !important;
+}
+
+/* Hide everything inside the add-ons menu until you hover on it */
+html.simpl .bAw > div:first-child {
+	display: none !important;
+}
+
+/* Show add-ons when you hover over the menu */
+:root {
+	--add-on-height: 168px;
+}
+html.simpl .bAw:hover {
+	background: initial;
+	right: 38px !important;
+	width: 54px !important;
+	height: var(--add-on-height) !important;
+}
+html.simpl .bAw:hover > div:first-child {
+	display: flex !important;
+	border-left: 0px;
+	border-radius: 16px;
+	background-color: #fff;
+}
+html.simpl .bAw > div:first-child:hover > div {
+	display: block !important;
+	margin: 0px;
+	opacity: 1;
+}
+
+/* Hide buttons other than add-ons */
+html.simpl .bAw div[role="tablist"] > div[role="tab"] {
+	display: block !important;
+}
+html.simpl .bAw div[role="tablist"] > div[role="tab"]:nth-last-child(-n+2),
+html.simpl .bAw div[role="separator"],
+html.simpl .bAw div[role="presentation"] {
+	display: none !important;
+}
+
+/* Hide the add-on minimize button in the add-on chooser */
+html.simpl .bAw .brC-dA-I-Jw {
+	display: none !important;
+}
+
+/* Hide the about button in the add-on chooser */
+html.simpl .bAw .brC-by0-P6-I {
+	display: none;
+}
+
+/* Style the add-ons pane */
+html.simpl.darkTheme .bAw div[role="navigation"] {
+	background-color: rgba(51,51,51,.9);
+}
+html.simpl .bAw div[role="navigation"] > div:first-child {
+	margin: -var(--add-on-height) 0px 0px -10px;
+}
+
+/* Move add-on chooser labels to left so they aren't easily
+ * hovered on (which causes add-on chooser to hide) */
+html.simpl .brC-ays {
+	margin: -41px 0 0 -65px;
+	max-width: 54px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* Set the active add-on icon to still have a white background */
+html.simpl .aT5-aOt-I-JX-Jw {
+	background-color: #fff !important;
+}
+
+/* Move Add-ons chooser over when Add-ons pane is open */
+html.simpl.addOnsOpen .bAw {
+	right: 347px !important;
+}
+html.simpl.addOnsOpen .bAw:hover {
+	right: 338px !important;
+}
+
+/* Move Add-ons chooser over when Right side chat is enabled */
+html.simpl.rhsChat:not(.addOnsOpen) .bAw {
+	right: 229px !important;
+}
+html.simpl.rhsChat:not(.addOnsOpen) .bAw:hover {
+	right: 219px !important;
+}
+
+/* Move the compose button over when the add on pane is open */
+html.simpl.addOnsOpen .z0 {
+	left: calc(100vw - 392px);
+}
+
+/* Less shadow on the button to show the add-ons pane */
+html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw {
+	box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(60,64,67,.2) !important;
+}
+
+/* Change the add-ons pane drop shadow to a stroke */
+html.simpl .bq9,
+html.simpl .bq9 div {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+html.simpl .bq9 {
+	border-left: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Shrink the action bar when the AddOnsPane AND Search are open */
+html.simpl.addOnsOpen:not(.hideSearch) .aeH {
+    width: calc(var(--action-bar-width) - 92px) !important;
+}
+html.simpl.addOnsOpen.splitView:not(.hideSearch) .G-atb[gh="tm"] {
+    width: calc(var(--action-bar-width) - 345px) !important;
+}
+
+/* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
+html.simpl.addOnsOpen.hideSearch .aeH {
+	width: calc(100vw - 470px) !important;
+}
+html.simpl.addOnsOpen.hideSearch.splitView .G-atb[gh="tm"] {
+	width: calc(100vw - 506px) !important;
+}
+
+
+
+
+/* ==================================================
+ * SETTINGS
+ */
+
+/* Hide app bar and action bar when in Settings */
+html.simpl.inSettings #gb {
+	height: 0px !important;
+}
+html.simpl.inSettings .aeH,
+html.simpl.inSettings.hideSearch .aeH {
+	position: relative !important;
+	left: 0px !important;
+	width: calc(100vw - 144px) !important;
+	margin-top: -8px;
+}
+html.simpl.inSettings.splitView .aeH {
+	left: 72px !important;
+}
+html.simpl.inSettings .bkK {
+	margin-left: 72px !important;
+}
+html.simpl.inSettings .aeH .G-atb,
+html.simpl.inSettings.hideSearch .aeH .G-atb {
+	display: none;
+}
+html.simpl.inSettings .aeH .nH,
+html.simpl.inSettings.hideSearch .aeH .nH {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+html.simpl.inSettings .aeH .nH > div,
+html.simpl.inSettings.hideSearch .aeH .nH > div {
+	padding: 4px 8px !important;
+}
+html.simpl.inSettings header#gb form,
+html.simpl.inSettings.hideSearch header#gb form {
+	display: none;
+}
+html.simpl.inSettings .aeH .f2 .fY {
+	margin: 16px 0 0 0 !important;
+	padding: 0 8px !important;
+	border-radius: 8px;
+}
+
+/* I'm not sure what element is for but it is ugly when using themes */
+html.simpl.inSettings .aeH .f2 .dJ {
+	display: none;
+}
+
+/* Invert the settings tab bar in the dark theme so it is more seamless */
+html.simpl.inSettings.darkTheme .fY {
+	filter: invert(93%);
+}
+
+
+
+
+/* ==================================================
+ * 3RD PARTY EXTENTIONS
+ */
+
+/* BOOMERANG ---------------------------------------- */
+
+/* Hide Pause Inbox button when Nav is hidden */
+html.simpl:not(.navOpen) .aeN #ibp-main {
+	display: none;
+}
+
+/* Reduce action button to icon and desaturate until hover */
+html.simpl .gm-boomerang-button-home,
+html.simpl .gm-boomerang-button-thread {
+	border: 0px !important;
+	font-size: 0px !important;
+	background: transparent !important;
+	width: auto;
+	filter: grayscale(100%);
+}
+html.simpl .gm-boomerang-button-home:hover,
+html.simpl .gm-boomerang-button-thread:hover {
+	filter: grayscale(0%);
+}
+
+
+/* STREAK / INBOX SDK ------------------------------- */
+
+/* Reduce action button to icon and desaturate until hover */
+html.simpl .inboxsdk__button {
+	filter: grayscale(100%);
+}
+html.simpl .inboxsdk__button:hover {
+	filter: grayscale(0%);
+}
+html.simpl .streak__appToolbarButton_title {
+	display: none;
+}
+
+
+/* MIXMAX ------------------------------------------ */
+
+html.simpl div.G-atb div.mixmax-reminder-thread-button {
+    font-size: 0 !important;
+    background-image: linear-gradient(transparent, transparent) !important;
+    background-color: transparent !important;
+    filter: invert(50%);
+    max-width: 20px !important;
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    width: 20px !important;
+    padding-left: 0px !important;
+    min-width: 20px !important;
+    padding-right: 0px !important;
+}
+
+
+/* MAIL TRACK ---------------------------------------- */
+
+/* For some reason Mail Track sets the action bar to position:relative 
+ * which screws up moving it on top of the app bar
+ */
+html.simpl.otherExtensions .aeN + .bkK {
+	position: static !important;
+}
+
+
+/* ALL EXTENSIONS ----------------------------------- */
+
+/* Hide top-right icons by default */
+html.simpl:not(.appSwitcher) #gb .manage_menu, /* Boomerang */
+html.simpl:not(.appSwitcher) #gb .mixmax-appbar, /* Mixmax */
+html.simpl:not(.appSwitcher) #gb #mailtrack-menu-opener, /* Mail track */
+html.simpl:not(.appSwitcher) #gb .inboxsdk__appButton /* Streak */
+{
+	display: none !important;
+}
+
+/* Hide label on Streak button */
+html.simpl #gb .inboxsdk__button_icon {
+	margin-right: 0px;
+}
+html.simpl #gb .inboxsdk__appButton_title {
+	font-size: 0px;
+}
+html.simpl #gb .streak__appToolbarButton_title::after {
+	margin-top: -8px;
+}
+
+/* Show them when you hover over the profile pic */
+html.simpl.appSwitcher #gb .manage_menu, /* Boomerang */
+html.simpl.appSwitcher #gb .mixmax-appbar, /* Mixmax */
+html.simpl.appSwitcher #gb #mailtrack-menu-opener, /* Mail track */
+html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */
+{
+	display: block !important;
+	position: absolute;
+	right: 100px;
+	padding: inherit 0px !important;
+	margin: inherit 0px !important;
+}
+
+/* Hide Search and Settings when showing extension buttons */
+html.simpl.appSwitcher.otherExtensions div[gh="tm"] div[gh="s"],
+html.simpl.appSwitcher.otherExtensions #gb form,
+html.simpl.appSwitcher.otherExtensions .aeH .aqJ,
+html.simpl.appSwitcher.otherExtensions .aeF .aqJ,
+html.simpl.appSwitcher.otherExtensions .aeH .adF {
+	display: none;
+}
+html.simpl.appSwitcher.otherExtensions .aeH,
+html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
+	width: 50vw !important;
+}
+
+
+
+
+/* ==================================================
+ * SIMPLIFY OPTIONS PAGE
+ */
+
+#simplOptions {
+	padding: 50px;
+	max-width: 800px;
+	margin: 20vh auto;
+	text-align: center;
+	font-size: 1.3em;
+	line-height: 2em;
+}
+#simplOptions img {
+	margin-bottom: 2em;
+}
+#simplOptions a {
+	color: #555;
+}
