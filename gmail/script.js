@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
+const simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -24,8 +24,46 @@ function toggleSimpl() {
 	return htmlEl.classList.toggle('simpl');
 }
 
+// Helper function for keyboard shortcuts to determine if an element is not editable
+function notEditable(el) {
+	el = el ? el : document.activeElement;
+
+	// BUG: Still firing when inputs are in focus
+	// I think Gmail is removing focus before this function runs
+	if (el.isContentEditable || el.tagName == "INPUT") {
+		if (simplifyDebug) {
+			console.log('IS or WAS editable');
+			console.log(el);
+		}
+		return false;
+	}
+	else {
+		if (simplifyDebug) {
+			console.log('NOT editable');
+			console.log(el);			
+		}
+		return true;
+	}
+}
+
 // Handle Simplify keyboard shortcuts
 function handleToggleShortcut(event) {	
+	// WIP: If Escape was pressed, close conversation or search
+	if (event.key === "Escape") {
+		// Only close if focus wasn't in an input or content editable div
+		if (notEditable()) {
+			if (simplifyDebug) console.log('Close search or conversation');
+
+			// TODO: IF conversation is open
+
+			// TODO: ELSE If in search results (check url)
+
+			// TODO: ELSE, we could either return to the inbox or do nothing
+
+			// event.preventDefault();
+		}
+	}
+
 	// If Ctrl+Shift+S or Command+Shift+S was pressed, toggle Simpl
 	if ((event.ctrlKey && event.shiftKey && event.key === "S") || 
 		(event.metaKey && event.shiftKey && event.key === "s")) {
