@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -25,12 +25,25 @@ function toggleSimpl() {
 }
 
 // Handle Simplify keyboard shortcuts
-function handleToggleShortcut(event) {
-	// If Ctrl+M was pressed, toggle menu open/closed
-	if (event.ctrlKey && event.key == "m") {
+function handleToggleShortcut(event) {	
+	// If Ctrl+Shift+S or Command+Shift+S was pressed, toggle Simpl
+	if ((event.ctrlKey && event.shiftKey && event.key === "S") || 
+		(event.metaKey && event.shiftKey && event.key === "s")) {
+		toggleSimpl();
+		event.preventDefault();
+	}
+
+	// If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
+	if ((event.ctrlKey && event.shiftKey && event.key === "M") || 
+		(event.metaKey && event.shiftKey && event.key === "m")) {
 		document.querySelector('.aeN').classList.toggle('bhZ');
 		toggleMenu();
-		// TODO: if opening, focus the first element
+		event.preventDefault();
+
+		// If opening, focus the first element
+		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
+			document.querySelector('div[role="navigation"] a:first-child').focus();
+		}
 	}
 }
 window.addEventListener('keydown', handleToggleShortcut, false);

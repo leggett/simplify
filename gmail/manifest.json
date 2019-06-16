@@ -24,13 +24,5 @@
 		"scripts": [ "toggle.js" ],
 		"persistent": false
 	},
-	"commands": {
-		"_execute_page_action": {
-			"suggested_key": {
-				"default": "Alt+J",
-				"mac": "Command+J"
-			}
-		}
-	},
 	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'"
 }
