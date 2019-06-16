@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.8
+ * SIMPLIFY GMAIL v1.5.9
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -171,7 +171,7 @@ html.simpl .aeH .G-atb .adF:hover {
 }
 
 /* Below 1350px, hide pagination when search and addOns are both open */
-@media only screen and (max-width: 1350.98px) {
+@media only screen and (max-width: 1370.98px) {
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
 		display: none;
@@ -441,6 +441,14 @@ html.simpl.textButtons #gb form {
 	width: 25%;
 }
 html.simpl.textButtons {
+	--action-bar-width: 75%;
+}
+
+/* Shorter search box when nav is open */
+html.simpl.navOpen #gb form {
+	width: 25%;
+}
+html.simpl.navOpen {
 	--action-bar-width: 75%;
 }
 
@@ -910,16 +918,18 @@ html.simpl .ata-asE .ata-asJ {
 
 /* Keep inline images from being wider than the current view */
 /* TODO: This won't work in split pane view */
-html.simpl table.Bs .gs img {
+html.simpl table.Bs .gs img:not([style]) {
     max-width: calc(var(--content-width) - 80px);
+    /*max-width: 100%;*/
     height: auto;
 }
 html.simpl.splitView table.Bs .gs img {
     max-width: 100%;
 }
 
+
 /* Boost width of the cell that has the reply and more actions buttons */
-html.simpl div[role="listitem"] table td[rowspan="2"] {
+html.simpl div[role="listitem"] div:not([dir="ltr"]) table td:last-child[rowspan="2"] {
 	width: 110px;
 }
 
