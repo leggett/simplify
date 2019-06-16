@@ -26,12 +26,6 @@ function toggleSimpl() {
 
 // Handle Simplify keyboard shortcuts
 function handleToggleShortcut(event) {
-	// If Cmd+J was pressed, toggle simpl
-	if (event.metaKey && event.which == 74) {
-		toggleSimpl();
-		event.preventDefault();
-	}
-
 	// If Ctrl+M was pressed, toggle menu open/closed
 	if (event.ctrlKey && event.key == "m") {
 		document.querySelector('.aeN').classList.toggle('bhZ');
