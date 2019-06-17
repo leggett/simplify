@@ -39,9 +39,24 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 chrome.pageAction.onClicked.addListener(function (tab) {
-    const tabId = tab.id;
+    toggleSimplify(tab.id);
+});
 
+chrome.commands.onCommand.addListener(function(command) {
+    if (command === 'toggle-simpl') {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            toggleSimplify(tabs[0].id);    
+        });
+    }
+});
+
+function toggleSimplify(tabId) {
     chrome.tabs.sendMessage(tabId, {action: 'toggle_simpl'}, function(response) {
+        if (chrome.runtime.lastError) {
+            console.log(`Error sending request to content script: ${chrome.runtime.lastError.message}`);
+            return;
+        }
+
         updatePageAction(tabId, response.toggled);
     });
-});
+}
