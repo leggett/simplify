@@ -917,15 +917,21 @@ html.simpl .ata-asE .ata-asJ {
 }
 
 /* Keep inline images from being wider than the current view */
-/* TODO: This won't work in split pane view */
-html.simpl table.Bs .gs img:not([style]) {
-    max-width: calc(var(--content-width) - 80px);
-    /*max-width: 100%;*/
+html.simpl table.Bs .gs img {
+	max-width: 100%;
+    height: auto;
+}
+/* If the content is wider, the image will still scroll horizontally
+ * We can set the max-width the the max-width of the content but
+ * this sometimes has unintended consequences in html emails
+html.simpl table.Bs .gs img {
+	max-width: calc(var(--content-width) - 80px);
     height: auto;
 }
 html.simpl.splitView table.Bs .gs img {
     max-width: 100%;
 }
+*/    
 
 
 /* Boost width of the cell that has the reply and more actions buttons */
