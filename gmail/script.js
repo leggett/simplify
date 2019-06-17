@@ -64,13 +64,6 @@ function handleToggleShortcut(event) {
 		}
 	}
 
-	// If Ctrl+Shift+S or Command+Shift+S was pressed, toggle Simpl
-	if ((event.ctrlKey && event.shiftKey && event.key === "S") || 
-		(event.metaKey && event.shiftKey && event.key === "s")) {
-		toggleSimpl();
-		event.preventDefault();
-	}
-
 	// If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
 	if ((event.ctrlKey && event.shiftKey && event.key === "M") || 
 		(event.metaKey && event.shiftKey && event.key === "m")) {

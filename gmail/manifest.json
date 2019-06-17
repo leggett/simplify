@@ -24,5 +24,13 @@
 		"scripts": [ "toggle.js" ],
 		"persistent": false
 	},
+	"commands": {
+		"toggle-simpl": {
+			"description": "Toggle Simplify on / off",
+			"suggested_key": {
+				"default": "Ctrl+Shift+S"
+			}
+		}
+	},
 	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'"
 }
