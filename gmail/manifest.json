@@ -9,7 +9,8 @@
 		"24": "img/icon24.png",
 		"32": "img/icon32.png",
 		"48": "img/icon48.png",
-		"128": "img/icon128.png"
+		"128": "img/icon128.png",
+		"256": "img/icon256.png"
 	},
 	"options_page": "options.html",
 	"content_scripts": [{
