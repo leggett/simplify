@@ -28,7 +28,7 @@
 		"toggle-simpl": {
 			"description": "Toggle Simplify on / off",
 			"suggested_key": {
-				"default": "Ctrl+Shift+S"
+				"default": "Ctrl+J"
 			}
 		}
 	},
