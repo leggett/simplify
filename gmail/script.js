@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -107,9 +107,10 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
  * the userId in the URL doesn't match the username associated
  * with the userId in localStorage.
  */
-// const isDelegate = location.pathname.indexOf('/mail/b/') >= 0;
+const isDelegate = location.pathname.indexOf('/mail/b/') >= 0;
 const userPos = location.pathname.indexOf('/u/');
-const u = location.pathname.substring(userPos+3, userPos+4);
+const u = isDelegate ? 'b' + location.pathname.substring(userPos+3, userPos+4) : location.pathname.substring(userPos+3, userPos+4);
+
 let simplify = {};
 
 const defaultParam = {
@@ -126,11 +127,11 @@ const defaultParam = {
 	addOnsCount: 3,
 	otherExtensions: null,
 	elements: {
-		"searchParent": ".gb_je",
-		"menuButton": ".gb_xc.gb_Dc.gb_Ec > div:first-child",
-		"menuContainer": ".gb_xc.gb_Dc.gb_Ec",
-		"backButton": ".gb_6b.gb_9b.gb_va",
-		"supportButton": ".gb_6d.gb_4d",
+		"searchParent": ".gb_pe",
+		"menuButton": ".gb_Dc.gb_Kc.gb_Lc > div:first-child",
+		"menuContainer": ".gb_Dc.gb_Kc.gb_Lc",
+		"backButton": ".gb_cc.gb_fc.gb_va",
+		"supportButton": ".gb_ce.gb_ae",
 		"accountButton":".gb_x.gb_Ea.gb_f",
 		"accountWrapper": false,
 		"gsuiteLogo": false,
@@ -177,7 +178,7 @@ function updateParam(param, value) {
  */
 function checkLocalVar() {
 	// var username = document.querySelector('.gb_db').innerText;
-	const usernameStart = document.title.search(/[a-z]+\@gmail.com - Gmail/);
+	const usernameStart = document.title.search(/[A-Za-z0-9\.]+\@gmail\.com - Gmail/);
 	if (usernameStart > 0) {
 		const username = document.title.substring(usernameStart, document.title.length-8);
 		if (simplifyDebug) console.log('Username: ' + username);
