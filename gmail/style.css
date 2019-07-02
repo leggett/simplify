@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.9
+ * SIMPLIFY GMAIL v1.6.0
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -441,15 +441,17 @@ html.simpl.textButtons #gb form {
 	width: 25%;
 }
 html.simpl.textButtons {
-	--action-bar-width: 75%;
+	--action-bar-width: 74.5%;
 }
 
-/* Shorter search box when nav is open */
-html.simpl.navOpen #gb form {
-	width: 25%;
-}
-html.simpl.navOpen {
-	--action-bar-width: 75%;
+/* Shorter search box when nav is open on smaller screens */
+@media only screen and (max-width: 1441.98px) {
+	html.simpl.navOpen #gb form {
+		width: 25%;
+	}
+	html.simpl.navOpen {
+		--action-bar-width: 74.5%;
+	}
 }
 
 /* Minimize search to an icon when hidden */
@@ -472,7 +474,7 @@ html.simpl.hideSearch #gb form button[role="button"]:not([gh="sda"]) {
 html.simpl .ZF-Av {
 	left: auto !important;
 	right: 71px !important;
-	width: 31% !important;
+	width: calc(100% - var(--action-bar-width) + 1%) !important;
 	min-width: 450px;
 }
 html.simpl .ZF-Av > div {
@@ -484,11 +486,8 @@ html.simpl.appSwitcher.hideSearch #gb form {
 	display: none;
 }
 html.simpl.appSwitcher:not(.hideSearch) #gb form {
-	width: calc(30% - 50px);
+	width: calc(100% - var(--action-bar-width) - 50px);
 	margin-right: 58px;
-}
-html.simpl.textButtons.appSwitcher:not(.hideSearch) #gb form {
-	width: calc(25% - 50px);
 }
 
 
@@ -501,8 +500,8 @@ html.simpl.textButtons.appSwitcher:not(.hideSearch) #gb form {
 /* Hide nav when minimized or in Settings */
 html.simpl .bhZ,
 html.simpl.inSettings .aeN {
-	max-width:0px !important;
-	min-width:0px !important;
+	max-width: 0px !important;
+	min-width: 0px !important;
 	position: relative;
 	z-index: 3 !important;
 }

@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.5.9
+ * SIMPLIFY GMAIL v1.6.0
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
+const simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -131,7 +131,7 @@ const defaultParam = {
 		"menuButton": ".gb_Dc.gb_Kc.gb_Lc > div:first-child",
 		"menuContainer": ".gb_Dc.gb_Kc.gb_Lc",
 		"backButton": ".gb_cc.gb_fc.gb_va",
-		"supportButton": ".gb_ce.gb_ae",
+		"supportButton": ".gb_fe.gb_de",
 		"accountButton":".gb_x.gb_Ea.gb_f",
 		"accountWrapper": false,
 		"gsuiteLogo": false,
@@ -177,7 +177,6 @@ function updateParam(param, value) {
  * but there might be a better way, maybe try and match the correct account?
  */
 function checkLocalVar() {
-	// var username = document.querySelector('.gb_db').innerText;
 	const usernameStart = document.title.search(/[A-Za-z0-9\.]+\@gmail\.com - Gmail/);
 	if (usernameStart > 0) {
 		const username = document.title.substring(usernameStart, document.title.length-8);
@@ -345,6 +344,10 @@ function detectClassNames() {
 
 		// Support button (usually added about 2 seconds after page is loaded)
 		const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
+		if (simplifyDebug) {
+			console.log('Detecting class name for support path element:');
+			console.log(supportButton);
+		}
 		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : simplify[u].elements["supportButton"];
 
 		// Account switcher (profile pic/name)
@@ -1182,10 +1185,10 @@ function initOnPageLoad() {
 	observePagination();
 	checkLocalVar();
 
-	// Some elements get loaded in after the page is done loading
-	setTimeout(detectClassNames, 3000);
-
 	// 3rd party extensions take a few seconds to load
 	setTimeout(detectOtherExtensions, 5000);
+	
+	// Some elements get loaded in after the page is done loading
+	setTimeout(detectClassNames, 7000);
 }
 window.addEventListener('load', initOnPageLoad, false);
