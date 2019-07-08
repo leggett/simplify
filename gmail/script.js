@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -281,11 +281,12 @@ if (simplify[u].otherExtensions) {
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
 let closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
-	|| location.hash.substring(1, 7) == "label/"
-	|| location.hash.substring(1, 7) == "advanc") ? "#inbox" : location.hash;
+	|| location.hash.substring(1, 6) == "label"
+	|| location.hash.substring(1, 16) == "advanced-search") ? "#inbox" : location.hash;
 let closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
+	// TODO: Should I also consider "#create-filter"?
 	if (location.hash.substring(1, 7) != "search"
 		&& location.hash.substring(1, 6) != "label"
 		&& location.hash.substring(1, 16) != "advanced-search") {
@@ -492,12 +493,10 @@ findSupport();
 function toggleSearchFocus(onOff) {
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
-		// document.querySelector('header#gb form').classList.remove('gb_pe');
-
 		// Remove focus from search input or button
 		document.activeElement.blur();
 	} else {
-		// document.querySelector('header#gb form').classList.add('gb_pe');
+		// Focus the search input
 		document.querySelector('header#gb form input').focus();
 	}
 }
@@ -511,6 +510,12 @@ function initSearch() {
 	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
+		// Focus search when you click anywhere on it
+		searchForm.addEventListener('click', function(event) {
+			toggleSearchFocus();
+			console.log(event.target);
+		}, false);
+
 		// Add function to search button to toggle search open/closed
 		const searchIcon = document.querySelector('#gb form path[d^="M20.49,19l-5.73"]').parentElement;
 		searchIcon.addEventListener('click', function(event) {
@@ -530,9 +535,21 @@ function initSearch() {
 			event.stopPropagation();
 			toggleSearchFocus('off');
 			document.querySelector('header input[name="q"]').value = "";
-			location.hash = closeSearchUrlHash;
-			htmlEl.classList.toggle('hideSearch');
-			updateParam("minimizeSearch", true);
+			if (location.hash == closeSearchUrlHash) {
+				// Hide close button
+				const searchCloseButton = searchCloseIcon.parentElement;
+				const showCloesButtonClass = searchCloseButton.classList.value.split(' ')[1];
+				searchCloseButton.classList.remove(showCloesButtonClass);
+
+				// Remove focus style from search input (always the 3rd classname)
+				const searchFormClass = searchForm.classList.value.split(' ')[2];
+				searchForm.classList.remove(searchFormClass);
+			} else {
+				location.hash = closeSearchUrlHash;
+			}
+			if (simplify[u].minimizeSearch) {
+				htmlEl.classList.add('hideSearch');
+			}
 		}, false);
 	} else {
 		initSearchLoops++;
@@ -550,7 +567,7 @@ function initSearch() {
 let initSearchFocusLoops = 0;
 function initSearchFocus() {
 	// If the search field gets focus and hideSearch hasn't been applied, add it
-	const searchInput = document.querySelectorAll('header input[name="q"]')[0];
+	const searchInput = document.querySelector('header input[name="q"]');
 
 	if (searchInput) {
 		// Show search if the page is loaded is a search view
@@ -564,11 +581,29 @@ function initSearchFocus() {
 		}, false );
 
 		// Hide search box if it loses focus, is empty, and was previously hidden
-		searchInput.addEventListener('blur', function() {
+		searchInput.addEventListener('blur', function(event) {
+			// if (this.value == "" && (simplify[u].minimizeSearch || event.target.name == "q")) {
 			if (this.value == "" && simplify[u].minimizeSearch) {
 				htmlEl.classList.add('hideSearch');
 			}
 		}, false );
+
+		// Remove the placeholder text in the search box
+		searchInput.placeholder = "";
+
+		// Setup eventListeners for search input
+		searchInput.addEventListener('focus', () => {
+			// Add searchFocus from html element
+			document.documentElement.classList.add('searchFocused');
+			const searchLength = searchInput.value.length;
+			setTimeout(function() {
+				searchInput.setSelectionRange(searchLength, searchLength);
+			}, 200);
+		});
+		searchInput.addEventListener('blur', () => {
+			// Remove searchFocus from html element
+			document.documentElement.classList.remove('searchFocused');
+		});
 	} else {
 		// If the search field can't be found, wait and try again
 		initSearchFocusLoops++;

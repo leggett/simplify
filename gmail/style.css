@@ -32,8 +32,6 @@ html.simpl .gb_Da::before {
 /* TODO: Change how settings tabs are so top bar is full bleed */
 
 
-
-
 /* ==================================================
  * GLOBAL / APP-LEVEL
  */
@@ -425,7 +423,7 @@ States (text button labels)
 /* Push search to the right */
 html.simpl #gb form {
 	float: right;
-	width: 30%;
+	width: 20%;
 	max-width: none;
 	margin-right: 8px;
 	position: relative;
@@ -433,18 +431,32 @@ html.simpl #gb form {
 	transition: width 0s;
 }
 html.simpl {
-	--action-bar-width: 70%;
+	--action-bar-width: 79%;
 }
 
-/* Shorter search box when using text label buttons */
+/* Make search wider and hide pagination/settings when search is focused */
+html.simpl.searchFocused #gb form {
+	width: 40%;
+}
+html.simpl.searchFocused {
+	--action-bar-width: 59%;
+}
+html.simpl.searchFocused .aeH .G-atb .aqJ,
+html.simpl.searchFocused .aeF .G-atb .aqJ,
+html.simpl.searchFocused .aeH .G-atb .adF {
+	display: none;
+}
+
+/* Shorter search box when using text label buttons 
 html.simpl.textButtons #gb form {
 	width: 25%;
 }
 html.simpl.textButtons {
 	--action-bar-width: 74.5%;
 }
+*/
 
-/* Shorter search box when nav is open on smaller screens */
+/* Shorter search box when nav is open on smaller screens 
 @media only screen and (max-width: 1441.98px) {
 	html.simpl.navOpen #gb form {
 		width: 25%;
@@ -453,6 +465,7 @@ html.simpl.textButtons {
 		--action-bar-width: 74.5%;
 	}
 }
+*/
 
 /* Minimize search to an icon when hidden */
 html.simpl.hideSearch #gb form {
@@ -486,8 +499,23 @@ html.simpl.appSwitcher.hideSearch #gb form {
 	display: none;
 }
 html.simpl.appSwitcher:not(.hideSearch) #gb form {
-	width: calc(100% - var(--action-bar-width) - 50px);
+	width: calc(100% - var(--action-bar-width) - 1% - 50px);
 	margin-right: 58px;
+}
+
+/* Hide search options button until you hover over search box 
+html.simpl:not(.hideSearch) #gb form button[gh="sda"] {
+	display: none;
+}
+html.simpl:not(.hideSearch) #gb form:hover button[gh="sda"] {
+	display: block;
+}
+*/
+
+/* Hide "Search the web" option from search auto-complete */
+html.simpl #gb form td.gssb_e tr[role="separator"],
+html.simpl #gb form td.gssb_e tr[role="separator"] + tr[role="option"] {
+	display: none;
 }
 
 
@@ -1311,9 +1339,12 @@ html.simpl.inSettings .aeH .f2 .dJ {
 
 /* Invert the settings tab bar in the dark theme so it is more seamless */
 html.simpl.inSettings.darkTheme .fY {
-	filter: invert(93%);
+	filter: invert(.93);
 }
-
+/* Invert back the selected tab */
+html.simpl.inSettings.darkTheme .fY .fZ {
+	filter: invert(1);
+}
 
 
 
