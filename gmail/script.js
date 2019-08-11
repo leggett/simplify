@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.0
+ * SIMPLIFY GMAIL v1.6.1
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -47,7 +47,7 @@ function notEditable(el) {
 }
 
 // Handle Simplify keyboard shortcuts
-function handleToggleShortcut(event) {	
+function handleKeyboardShortcut(event) {	
 	// WIP: If Escape was pressed, close conversation or search
 	if (event.key === "Escape") {
 		// Only close if focus wasn't in an input or content editable div
@@ -64,7 +64,29 @@ function handleToggleShortcut(event) {
 		}
 	}
 
-	// If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
+	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed
+	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME */
+	if ((event.ctrlKey && event.key === "M") || 
+		(event.metaKey && event.key === "m")) {
+		document.querySelector('.aeN').classList.toggle('bhZ');
+		toggleMenu();
+		event.preventDefault();
+
+		// If opening, focus the first element
+		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
+			document.querySelector('div[role="navigation"] a:first-child').focus();
+		}
+	}
+
+	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
+	if ((event.ctrlKey && event.key === "S") || 
+		(event.metaKey && event.key === "s")) {
+		toggleSimpl();
+		event.preventDefault();
+	}
+
+	/* If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
+	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME
 	if ((event.ctrlKey && event.shiftKey && event.key === "M") || 
 		(event.metaKey && event.shiftKey && event.key === "m")) {
 		document.querySelector('.aeN').classList.toggle('bhZ');
@@ -76,8 +98,9 @@ function handleToggleShortcut(event) {
 			document.querySelector('div[role="navigation"] a:first-child').focus();
 		}
 	}
+	*/
 }
-window.addEventListener('keydown', handleToggleShortcut, false);
+window.addEventListener('keydown', handleKeyboardShortcut, false);
 
 // Handle messages from background script that 
 // supports page action to toggle Simplify on/off
@@ -90,7 +113,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 // Activate page action button
 chrome.runtime.sendMessage({action: 'activate_page_action'});
-
 
 
 
@@ -398,9 +420,6 @@ function addCSS(css, pos) {
 function addStyles() {
 	// Remove right padding from action bar so search is always correctly placed
 	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`);
-
-	// Hide any buttons after the Search input including the support button (a bit risky)
-	// addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
 
 	// Switch menu button for back button when in Settings
 	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`);

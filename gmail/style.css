@@ -1,13 +1,11 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.0
+ * SIMPLIFY GMAIL v1.6.1
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
  * More info: simpl.fyi
  */
-
-
 
 
 /* ==================================================
@@ -953,111 +951,6 @@ html.simpl table.Bs .gs > div:not(.gE) img {
 	height: auto;
 }
 
-/* Add CSS for when the height attribute is used instead of CSS
- * so height:auto (above) doesn't override the extected height
- * See more at https://issues.simpl.fyi/196
- */
-html.simpl table.Bs .gs > div:not(.gE) img[height="0"] { height: 0px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="1"] { height: 1px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="2"] { height: 2px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="3"] { height: 3px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="4"] { height: 4px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="5"] { height: 5px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="6"] { height: 6px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="7"] { height: 7px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="8"] { height: 8px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="9"] { height: 9px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="10"] { height: 10px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="11"] { height: 11px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="12"] { height: 12px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="13"] { height: 13px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="14"] { height: 14px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="15"] { height: 15px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="16"] { height: 16px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="17"] { height: 17px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="18"] { height: 18px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="19"] { height: 19px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="20"] { height: 20px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="21"] { height: 21px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="22"] { height: 22px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="23"] { height: 23px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="24"] { height: 24px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="25"] { height: 25px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="26"] { height: 26px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="27"] { height: 27px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="28"] { height: 28px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="29"] { height: 29px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="30"] { height: 30px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="31"] { height: 31px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="32"] { height: 32px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="33"] { height: 33px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="34"] { height: 34px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="35"] { height: 35px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="36"] { height: 36px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="37"] { height: 37px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="38"] { height: 38px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="39"] { height: 39px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="40"] { height: 40px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="41"] { height: 41px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="42"] { height: 42px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="43"] { height: 43px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="44"] { height: 44px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="45"] { height: 45px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="46"] { height: 46px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="47"] { height: 47px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="48"] { height: 48px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="49"] { height: 49px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="50"] { height: 50px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="51"] { height: 51px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="52"] { height: 52px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="53"] { height: 53px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="54"] { height: 54px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="55"] { height: 55px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="56"] { height: 56px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="57"] { height: 57px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="58"] { height: 58px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="59"] { height: 59px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="60"] { height: 60px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="61"] { height: 61px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="62"] { height: 62px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="63"] { height: 63px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="64"] { height: 64px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="65"] { height: 65px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="66"] { height: 66px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="67"] { height: 67px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="68"] { height: 68px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="69"] { height: 69px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="70"] { height: 70px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="71"] { height: 71px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="72"] { height: 72px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="73"] { height: 73px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="74"] { height: 74px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="75"] { height: 75px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="76"] { height: 76px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="77"] { height: 77px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="78"] { height: 78px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="79"] { height: 79px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="80"] { height: 80px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="81"] { height: 81px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="82"] { height: 82px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="83"] { height: 83px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="84"] { height: 84px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="85"] { height: 85px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="86"] { height: 86px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="87"] { height: 87px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="88"] { height: 88px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="89"] { height: 89px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="90"] { height: 90px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="91"] { height: 91px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="92"] { height: 92px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="93"] { height: 93px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="94"] { height: 94px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="95"] { height: 95px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="96"] { height: 96px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="97"] { height: 97px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="98"] { height: 98px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="99"] { height: 99px; }
-html.simpl table.Bs .gs > div:not(.gE) img[height="100"] { height: 100px; }
 
 /* If the content is wider, the image will still scroll horizontally
  * We can set the max-width the the max-width of the content but

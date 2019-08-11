@@ -34,31 +34,14 @@ function updatePageAction(tabId, toggled) {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'activate_page_action') {
         const tabId = sender.tab.id;
-
         updatePageAction(tabId, true);
         chrome.pageAction.show(tabId);
     }
 });
 
 chrome.pageAction.onClicked.addListener(function (tab) {
-    toggleSimplify(tab.id);
-});
-
-chrome.commands.onCommand.addListener(function(command) {
-    if (command === 'toggle-simpl') {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            toggleSimplify(tabs[0].id);    
-        });
-    }
-});
-
-function toggleSimplify(tabId) {
+    const tabId = tab.id;
     chrome.tabs.sendMessage(tabId, {action: 'toggle_simpl'}, function(response) {
-        if (chrome.runtime.lastError) {
-            console.log(`Error sending request to content script: ${chrome.runtime.lastError.message}`);
-            return;
-        }
-
         updatePageAction(tabId, response.toggled);
     });
-}
+});
