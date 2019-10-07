@@ -194,20 +194,29 @@ function updateParam(param, value) {
 	window.localStorage.simplify = JSON.stringify(simplify);
 }
 
+
+// Hash string
+function hashCode(s) {
+	return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}
+
 /* Make sure local variables are for the right account 
  * TODO: for now, when it doesn't match, I just localStorage.clear()
  * but there might be a better way, maybe try and match the correct account?
  */
+let username = "";
 function checkLocalVar() {
-	const usernameStart = document.title.search(/[A-Za-z0-9\.]+\@gmail\.com - Gmail/);
+	const usernameStart = document.title.search(/([\w\.]+\@[\w\.\-]+)/);
 	if (usernameStart > 0) {
-		const username = document.title.substring(usernameStart, document.title.length-8);
+		username = document.title.substring(usernameStart, document.title.lastIndexOf(" - "));
+		const userhash = hashCode(username);
 		if (simplifyDebug) console.log('Username: ' + username);
-		if (simplify[u].username != username) {
+		if (simplifyDebug) console.log('Userhash: ' + userhash);
+		if (simplify[u].username != userhash) {
 			if (simplifyDebug) console.log('Usernames do NOT match');
 			resetLocalStorage();
 		}
-		updateParam("username", username);
+		updateParam("username", userhash);
 	}
 }
 
@@ -374,7 +383,7 @@ function detectClassNames() {
 		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : simplify[u].elements["supportButton"];
 
 		// Account switcher (profile pic/name)
-		const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
+		const accountButton = document.querySelector(`#gb a[aria-label*="${username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`);
 		simplify[u].elements["accountButton"] = accountButton ? "." + accountButton.classList.value.trim().replace(/ /g,".") : false;
 
 		// Account wrapper (for Gsuite accounts)
@@ -827,9 +836,6 @@ function detectSplitView() {
 				if (simplifyDebug) console.log('Giving up on detecting split view');
 				htmlEl.classList.remove('splitView');
 				updateParam('previewPane', false);
-
-				// Multiple Inboxes only works when Split view is disabled
-				detectMultipleInboxes();
 			}
 		}
 	}
@@ -1034,19 +1040,26 @@ function toggleMenu() {
 
 // Detect Multiple Inboxes
 function detectMultipleInboxes() {
-	const viewAllButton = document.getElementsByClassName('p9').length;
-
+	const viewAllButton = document.querySelectorAll('div[role="main"] span[action="viewAll"]').length;
 	if (viewAllButton > 0) {
 		if (simplifyDebug) console.log('Multiple inboxes found');
-		const actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
-		if (actionBars > 1) {
-			htmlEl.classList.add('multiBoxVert');
-			htmlEl.classList.remove('multiBoxHorz');
-			updateParam("multipleInboxes", "vertical");
+
+		// Multiple Inboxes only works when Split view is disabled
+		if (simplify[u].previewPane) {
+			// TODO: If both multiple inboxes and preview pane are enabled, throw an error
+
+			// TODO: what do we do with the multiple inboxes class names & localStorage var?
 		} else {
-			htmlEl.classList.add('multiBoxHorz');
-			htmlEl.classList.remove('multiBoxVert');
-			updateParam("multipleInboxes", "horizontal");
+			const actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
+			if (actionBars > 1) {
+				htmlEl.classList.add('multiBoxVert');
+				htmlEl.classList.remove('multiBoxHorz');
+				updateParam("multipleInboxes", "vertical");
+			} else {
+				htmlEl.classList.add('multiBoxHorz');
+				htmlEl.classList.remove('multiBoxVert');
+				updateParam("multipleInboxes", "horizontal");
+			}
 		}
 	} else {
 		updateParam("multipleInboxes", "none");
@@ -1234,6 +1247,7 @@ function initOnPageLoad() {
 	detectAddOns();
 	detectMenuState();
 	detectButtonLabel();
+	detectMultipleInboxes();
 	initAppSwitcher();
 	testPagination();
 	observePagination();
