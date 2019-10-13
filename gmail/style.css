@@ -3,7 +3,7 @@
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
- * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
  */
 
@@ -28,6 +28,7 @@ html.simpl .gb_Da::before {
 
 
 /* TODO: Change how settings tabs are so top bar is full bleed */
+
 
 
 /* ==================================================
@@ -306,7 +307,7 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
-@media only screen and (min-width: 1291.98px) {
+@media only screen and (min-width: 1278.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
 	html.simpl {
 		--content-width: 960px;
@@ -379,7 +380,7 @@ States (text button labels)
 		padding-right: initial;
 	}
 }
-@media only screen and (min-width: 1441.98px) {
+@media only screen and (min-width: 1438.98px) {
 	html.simpl {
 		--content-width: 1100px;
 	}
@@ -390,8 +391,20 @@ States (text button labels)
 	html.simpl.addOnsOpen.rhsChat {
 		--content-width: 1400px;
 	}
+
+	/* Apply variables to align left edge for vertical preview pane when the nav is open */
+	html.simpl.navOpen.splitView:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons) .aeF .G-atb {
+		padding-left: 196px;
+		margin-left: 16px !important;
+		/*
+		TODO: why isn't the right padding correct here? Look at what I did when the content is wider
+		width: calc(var(--action-bar-width) - 322px);
+		*/
+	}
 }
-@media only screen and (min-width: 1641.98px) {
+@media only screen and (min-width: 1638.98px) {
+	/* TODO: Get this to work for split view too when nav is open */
+	
 	/* Apply variables to align left edge */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
 		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
@@ -769,6 +782,62 @@ html.simpl div[role="main"] .J-KU-KO.aAy:before {
 
 
 /* ==================================================
+ * POPOUTS
+ */
+
+/* Correct max-width */
+html.simpl.popout .aeF {
+	padding-right: 0px !important;
+	margin-bottom: 0px !important;
+	max-width: 960px;
+}
+html.simpl.popout .aeF > div {
+	box-shadow: none !important;
+}
+html.simpl.popout .G-atb[gh="tm"] {
+	max-width: 930px;
+	margin: 0 auto !important;
+}
+@media only screen and (min-width: 799.98px) {
+	html.simpl.popout .G-atb[gh="tm"] {
+		min-width: 730px;
+	}
+}
+@media only screen and (min-width: 1441.98px) {
+	html.simpl.popout .aeF {
+		max-width: 1100px;
+	}
+	html.simpl.popout .G-atb[gh="tm"] {
+		max-width: 1070px;
+	}
+}
+@media only screen and (min-width: 1679.98px) {
+	html.simpl.popout .aeF {
+		max-width: 100%;
+	}
+	html.simpl.popout .aeF > div {
+		max-width: 100% !important;
+	}
+	html.simpl.popout .aDc {
+		max-width: 100% !important;
+	}
+	html.simpl.popout .G-atb[gh="tm"] {
+		max-width: calc(100% - 30px);
+	}
+}
+
+/* Hide theme background */
+html.simpl.popout .wl,
+html.simpl.popout .wl div,
+html.simpl.popout .wq,
+html.simpl.popout .wp {
+	background-image: none !important;
+	background-color: #fff !important;
+}
+
+
+
+/* ==================================================
  * SPLIT PANE VIEW
  */
 
@@ -942,7 +1011,7 @@ html.simpl .ata-asE .ata-asJ {
 }
 
 /* Keep inline images from being wider than the current view */
-html.simpl table.Bs .gs > div:not(.gE) img {
+html.simpl table.Bs .gs > div:not(.gE) img:not([src*="cleardot.gif"]) {
 	max-width: 100%;
 
     /* Without this, large portrait images will be squished

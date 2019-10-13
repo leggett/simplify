@@ -3,14 +3,14 @@
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
- * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
  */
 
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
+const simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -130,6 +130,7 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
  * with the userId in localStorage.
  */
 const isDelegate = location.pathname.indexOf('/mail/b/') >= 0;
+const isPopout = location.href.indexOf("view=btop") >= 0;
 const userPos = location.pathname.indexOf('/u/');
 const u = isDelegate ? 'b' + location.pathname.substring(userPos+3, userPos+4) : location.pathname.substring(userPos+3, userPos+4);
 
@@ -253,7 +254,7 @@ if (simplify[u].theme == "light") {
 // Init nav menu
 if (simplify[u].navOpen) {
 	if (simplifyDebug) console.log('Loading with nav menu open');
-	document.documentElement.classList.add('navOpen');
+	htmlEl.classList.add('navOpen');
 } else {
 	if (simplifyDebug) console.log('Loading with nav menu closed');
 }
@@ -270,7 +271,7 @@ if (simplify[u].density == "low") {
 // Init text button labels
 if (simplify[u].textButtons) {
 	if (simplifyDebug) console.log('Loading with text buttons');
-	document.documentElement.classList.add('textButtons');
+	htmlEl.classList.add('textButtons');
 }
 
 // Init right side chat
@@ -305,6 +306,11 @@ if (simplify[u].otherExtensions) {
 	htmlEl.classList.add('otherExtensions');
 }
 
+// Add .popout if this is a popped out email
+if (isPopout) {
+	htmlEl.classList.add('popout');
+	htmlEl.classList.remove('splitView');
+}
 
 
 
@@ -341,6 +347,8 @@ window.onhashchange = function() {
 if (location.hash.substring(1, 9) == "settings") {
 	htmlEl.classList.add('inSettings');
 }
+
+
 
 
 
@@ -622,7 +630,7 @@ function initSearchFocus() {
 		// Setup eventListeners for search input
 		searchInput.addEventListener('focus', () => {
 			// Add searchFocus from html element
-			document.documentElement.classList.add('searchFocused');
+			htmlEl.classList.add('searchFocused');
 			const searchLength = searchInput.value.length;
 			setTimeout(function() {
 				searchInput.setSelectionRange(searchLength, searchLength);
@@ -630,7 +638,7 @@ function initSearchFocus() {
 		});
 		searchInput.addEventListener('blur', () => {
 			// Remove searchFocus from html element
-			document.documentElement.classList.remove('searchFocused');
+			htmlEl.classList.remove('searchFocused');
 		});
 	} else {
 		// If the search field can't be found, wait and try again
@@ -1235,7 +1243,6 @@ function initOnDomReady() {
 	initSearchFocus();
 	detectDelegate();
 }
-window.addEventListener('DOMContentLoaded', initOnDomReady, false);
 
 // Initialize everything else when the page is ready
 function initOnPageLoad() {
@@ -1259,4 +1266,9 @@ function initOnPageLoad() {
 	// Some elements get loaded in after the page is done loading
 	setTimeout(detectClassNames, 7000);
 }
-window.addEventListener('load', initOnPageLoad, false);
+
+// Only initialize everything if this isn't a popout
+if (!isPopout) {
+	window.addEventListener('DOMContentLoaded', initOnDomReady, false);
+	window.addEventListener('load', initOnPageLoad, false);
+}
