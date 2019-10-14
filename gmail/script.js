@@ -533,7 +533,7 @@ function toggleSearchFocus(onOff) {
 		document.activeElement.blur();
 	} else {
 		// Focus the search input
-		document.querySelector('header#gb form input').focus();
+		document.querySelector('header input[name="q"]').focus();
 	}
 }
 
@@ -549,7 +549,6 @@ function initSearch() {
 		// Focus search when you click anywhere on it
 		searchForm.addEventListener('click', function(event) {
 			toggleSearchFocus();
-			console.log(event.target);
 		}, false);
 
 		// Add function to search button to toggle search open/closed
@@ -631,10 +630,14 @@ function initSearchFocus() {
 		searchInput.addEventListener('focus', () => {
 			// Add searchFocus from html element
 			htmlEl.classList.add('searchFocused');
-			const searchLength = searchInput.value.length;
 			setTimeout(function() {
-				searchInput.setSelectionRange(searchLength, searchLength);
-			}, 200);
+				if (searchInput.value == "label:") {
+					searchInput.selectionStart = searchInput.selectionEnd = 10000;
+				} else {
+					searchInput.selectionStart = 0;
+					searchInput.selectionEnd = 10000;
+				}
+			}, 100);
 		});
 		searchInput.addEventListener('blur', () => {
 			// Remove searchFocus from html element

@@ -8,16 +8,6 @@
  */
 
 
-/* ==================================================
- * EXPERIMENTAL
- */
-
-
-
-/* TODO: Change how settings tabs are so top bar is full bleed */
-
-
-
 
 /* ==================================================
  * GLOBAL / APP-LEVEL
@@ -950,10 +940,6 @@ html.simpl.splitView div[role="listitem"] .btC>.az5 {
 	padding-right: 50px;
 }
 
-/* Hide dark blue left border on current item in inbox */
-html.simpl.splitView .zA>.PE.PF::before {
-	background-color: none !important;
-}
 
 
 
