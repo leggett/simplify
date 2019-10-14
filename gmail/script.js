@@ -955,6 +955,7 @@ function detectRightSideChat() {
 			htmlEl.classList.add('rhsChat');
 			updateParam('rhsChat', true);
 		} else {
+			htmlEl.classList.remove('rhsChat');
 			updateParam('rhsChat', false);
 		}
 	} else {
