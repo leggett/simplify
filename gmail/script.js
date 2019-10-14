@@ -66,7 +66,7 @@ function handleKeyboardShortcut(event) {
 
 	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed
 	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME */
-	if ((event.ctrlKey && event.key === "M") || 
+	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
 		(event.metaKey && event.key === "m")) {
 		document.querySelector('.aeN').classList.toggle('bhZ');
 		toggleMenu();
@@ -79,7 +79,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if ((event.ctrlKey && event.key === "S") || 
+	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
 		(event.metaKey && event.key === "s")) {
 		toggleSimpl();
 		event.preventDefault();
