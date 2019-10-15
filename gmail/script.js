@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
