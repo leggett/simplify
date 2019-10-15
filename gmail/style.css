@@ -218,11 +218,12 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 	}
 }
 @media only screen and (min-width: 1438.98px) {
+	/* Allow the side-by-side multiBox to be a lot wider... */
 	html.simpl.multiBoxHorz .aeF > div.nH {
 		max-width: 2200px !important;
 	}
-	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
-	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
+	/* ... while keeping the max-width of the conversation narrow */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH[role="main"]:not(.BltHke) {
 		max-width: 1100px !important;
 		margin: 0 auto;
 	}
