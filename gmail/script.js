@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.1
+ * SIMPLIFY GMAIL v1.6.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/

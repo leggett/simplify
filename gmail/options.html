@@ -3,20 +3,36 @@
 <head>
 	<title>Simplify</title>
 	<link rel="stylesheet" href="style.css">
+	<style type="text/css">
+		* {
+			font-family: sans-serif;
+		}
+	</style>
 </head>
 <body>
 	<div id="simplOptions">
  		<img src="img/icon128.png"><br>
 
- 		<h1>Simplify Gmail v1.6.1</h1><br>
- 		Simplify has no options. But here are some resources.<br>
+ 		<h1>Simplify Gmail v1.6.3</h1><br>
+
+ 		<b>Keyboard shortcuts</b><br>
+ 		<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - Toggle Simplify on/off<br>
+ 		<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - Toggle Gmail navigation menu open/closed<br><br>
+ 		
+ 		<b>Resources</b><br>
 		<a href="https://simpl.fyi/#faq">FAQ</a> -
 		<a href="https://issues.simpl.fyi">Report issue</a> -
 		<a href="https://simpl.fyi/#privacy">Privacy Policy</a> -
 		<a href="https://simpl.fyi/#about">About</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/">Source code</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/LICENSE.md">License</a><br>
-		Copyright (c) 2019 <a href="https://leggett.org">Michael Leggett</a><br>
+		<span style="opacity:0.3">Copyright (c) 2019 <a href="https://leggett.org">Michael Leggett</a></span><br>
 	</div>
 </body>
+<script type="text/javascript">
+	if (window.navigator.platform.indexOf('Mac') >= 0) {
+		document.getElementById('systemKey1').innerText = 'Cmd';
+		document.getElementById('systemKey2').innerText = 'Cmd';
+	}
+</script>
 </html>

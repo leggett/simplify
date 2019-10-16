@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.1
+ * SIMPLIFY GMAIL v1.6.3
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -217,7 +217,7 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 		margin: 0 auto;
 	}
 }
-@media only screen and (min-width: 1438.98px) {
+@media only screen and (min-width: 1441.98px) {
 	/* Allow the side-by-side multiBox to be a lot wider... */
 	html.simpl.multiBoxHorz .aeF > div.nH {
 		max-width: 2200px !important;
@@ -360,7 +360,7 @@ States (text button labels)
 		padding-right: initial;
 	}
 }
-@media only screen and (min-width: 1438.98px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl {
 		--content-width: 1100px;
 	}
@@ -631,7 +631,7 @@ html.simpl.splitView.inSettings .AO .aeF > .nH {
 	margin: 40px auto 100px auto !important;
 	max-width: 960px !important;
 }
-@media only screen and (min-width: 1438.98px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
 	}
@@ -789,7 +789,7 @@ html.simpl.popout .G-atb[gh="tm"] {
 		min-width: 730px;
 	}
 }
-@media only screen and (min-width: 1438.98px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl.popout .aeF {
 		max-width: 1100px;
 	}
@@ -889,7 +889,7 @@ html.simpl.splitView .apg .aNW .age .Bs {
 html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
 	padding-bottom: 200px;
 }
-@media only screen and (min-width: 1438.98px) {
+@media only screen and (min-width: 1441.98px) {
 	html.simpl.splitView .apg .aNW .age .Bs {
 		max-width: 1100px;
 		/* float conversation view
@@ -1430,9 +1430,9 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
  */
 
 #simplOptions {
-	padding: 50px;
+	padding: 50px 50px 10px 50px;
 	max-width: 800px;
-	margin: 20vh auto;
+	margin: 5vh auto 0 auto;
 	text-align: center;
 	font-size: 1.3em;
 	line-height: 2em;
@@ -1442,4 +1442,19 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 }
 #simplOptions a {
 	color: #555;
+}
+#simplOptions kbd {
+	background-color: #eee;
+	border-radius: 3px;
+	border: 1px solid #b4b4b4;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+	color: #333;
+	display: inline-block;
+	font-size: 1em;
+	font-family: monospace;
+	font-weight: 700;
+	line-height: 1;
+	padding: 4px 6px;
+	margin: 0 4px;
+	white-space: nowrap;
 }
