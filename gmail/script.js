@@ -1267,25 +1267,27 @@ function insertDateGaps() {
 			let lastItem = null;
 			let n = 1;
 			items.forEach(function(item){
-				let itemDate = new Date(item.querySelector('.xW > span').title);
-				if (itemDate > today) {
-					item.setAttribute('date', 'today');
-					// item.classList.add('today');
-				} else if (itemDate >= yesterday) {
-					item.setAttribute('date', 'yesterday');
-					// item.classList.add('yesterday');
-				} else if (itemDate >= month0) {
-					item.setAttribute('date', 'month0');
-					// item.classList.add('lastMonth');
-				} else if (itemDate >= month1) {
-					item.setAttribute('date', 'month1');
-					// item.classList.add('prevMonth1');
-				} else if (itemDate >= month2) {
-					item.setAttribute('date', 'month2');
-					// item.classList.add('prevMonth2');
-				} else {
-					item.setAttribute('date', 'earlier');
-					// item.classList.add('error');
+				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
+					let itemDate = new Date(item.querySelector('.xW > span').title);
+					if (itemDate > today) {
+						item.setAttribute('date', 'today');
+						// item.classList.add('today');
+					} else if (itemDate >= yesterday) {
+						item.setAttribute('date', 'yesterday');
+						// item.classList.add('yesterday');
+					} else if (itemDate >= month0) {
+						item.setAttribute('date', 'month0');
+						// item.classList.add('lastMonth');
+					} else if (itemDate >= month1) {
+						item.setAttribute('date', 'month1');
+						// item.classList.add('prevMonth1');
+					} else if (itemDate >= month2) {
+						item.setAttribute('date', 'month2');
+						// item.classList.add('prevMonth2');
+					} else {
+						item.setAttribute('date', 'earlier');
+						// item.classList.add('error');
+					}
 				}
 			});
 		});
