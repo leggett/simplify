@@ -1,11 +1,33 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
  */
+
+
+
+tr[date="today"],
+tr[date="yesterday"],
+tr[date="month0"],
+tr[date="month1"],
+tr[date="month2"],
+tr[date="earlier"] {
+	margin-top: 3em;
+}
+
+tr[date="today"] ~ tr[date="today"],
+tr[date="yesterday"] ~ tr[date="yesterday"],
+tr[date="month0"] ~ tr[date="month0"],
+tr[date="month1"] ~ tr[date="month1"],
+tr[date="month2"] ~ tr[date="month2"],
+tr[date="earlier"] ~ tr[date="earlier"] {
+	margin-top: initial;
+}
+
+
 
 
 

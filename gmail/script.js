@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
+const simplifyDebug = true;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -1230,6 +1230,87 @@ function detectOtherExtensions() {
  * You have to use chrome.runtime.getURL(string path)
  * More info: https://developer.chrome.com/extensions/runtime#method-getURL
  */
+
+
+
+/* ==========================================================================================
+	Adding date gaps in the inbox between the following sections
+	Today
+	Yesterday
+	This month
+	<Month name>
+	<Month name year>
+	Earlier
+	----
+	TODO:
+	- Add labels between sections
+	- Check for snoozed items
+	- Don't do this for certain inbox setups that already have sections (like multiple inboxes)
+	- Make it more efficient (I'm calling insertDateGaps more often than I should)
+ */
+
+// Date constants
+const now = new Date();
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
+const month0 = new Date(now.getFullYear(), now.getMonth(), 1);
+const month1 = new Date(now.getFullYear(), now.getMonth()-1, 1);
+const month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+
+// Insert date gaps
+function insertDateGaps() {
+	if (simplifyDebug) console.log('Inserting date gaps');
+	let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
+	if (lists.length > 0) {
+		lists.forEach(function(list) {
+			let items = list.querySelectorAll('.zA');
+			let lastItem = null;
+			let n = 1;
+			items.forEach(function(item){
+				let itemDate = new Date(item.querySelector('.xW > span').title);
+				if (itemDate > today) {
+					item.setAttribute('date', 'today');
+					// item.classList.add('today');
+				} else if (itemDate >= yesterday) {
+					item.setAttribute('date', 'yesterday');
+					// item.classList.add('yesterday');
+				} else if (itemDate >= month0) {
+					item.setAttribute('date', 'month0');
+					// item.classList.add('lastMonth');
+				} else if (itemDate >= month1) {
+					item.setAttribute('date', 'month1');
+					// item.classList.add('prevMonth1');
+				} else if (itemDate >= month2) {
+					item.setAttribute('date', 'month2');
+					// item.classList.add('prevMonth2');
+				} else {
+					item.setAttribute('date', 'earlier');
+					// item.classList.add('error');
+				}
+			});
+		});
+	}
+	// new Date(Date.parse(document.querySelectorAll('.UI div[role="tabpanel"]')[0].querySelectorAll('.zA')[0].querySelector('.xW > span').title))
+}
+
+const inboxObserver = new MutationObserver(insertDateGaps);
+function observeInbox() {
+	// Start observing the target node for configured mutations
+	let inbox = document.querySelector('div[gh="tl"]');
+	if (inbox) {	
+		insertDateGaps();
+		inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
+		if (simplifyDebug) console.log('Adding mutation observer for Inbox');
+	} else {
+		if (simplifyDebug) console.log('Inbox not there yet -- too early');
+		setTimeout(observeInbox, 500);
+	}
+}
+observeInbox();
+
+/* ========================================================================================== */
+
+
 
 
 // Initialize styles as soon as head is ready
