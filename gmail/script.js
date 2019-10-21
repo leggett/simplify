@@ -64,17 +64,18 @@ function handleKeyboardShortcut(event) {
 		}
 	}
 
-	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed
-	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME */
-	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
-		(event.metaKey && event.key === "m")) {
-		document.querySelector('.aeN').classList.toggle('bhZ');
-		toggleMenu();
-		event.preventDefault();
+	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
+	if (simplify["settings"]["kbsMenu"]) {
+		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
+			(event.metaKey && event.key === "m")) {
+			document.querySelector('.aeN').classList.toggle('bhZ');
+			toggleMenu();
+			event.preventDefault();
 
-		// If opening, focus the first element
-		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-			document.querySelector('div[role="navigation"] a:first-child').focus();
+			// If opening, focus the first element
+			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
+				document.querySelector('div[role="navigation"] a:first-child').focus();
+			}
 		}
 	}
 
