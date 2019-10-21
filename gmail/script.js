@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -341,6 +341,9 @@ window.onhashchange = function() {
 	if (checkThemeLater) {
 		detectTheme();
 	}
+
+	// See if we need to date group the view
+	insertDateGaps();
 }
 
 // Show back button if page loaded on Settings
@@ -1230,6 +1233,136 @@ function detectOtherExtensions() {
  * You have to use chrome.runtime.getURL(string path)
  * More info: https://developer.chrome.com/extensions/runtime#method-getURL
  */
+
+
+
+/* ==========================================================================================
+	Adding date gaps in the inbox between the following sections
+	Today
+	Yesterday
+	This month
+	<Month name>
+	<Month name year>
+	Earlier
+	----
+	TODO:
+	- Add labels between sections
+	- Check for snoozed items
+	- Don't do this for certain inbox setups that already have sections (like multiple inboxes)
+	- Make it more efficient (I'm calling insertDateGaps more often than I should)
+ */
+
+// Date constants
+const now = new Date();
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
+const month0 = new Date(now.getFullYear(), now.getMonth(), 1);
+const month1 = new Date(now.getFullYear(), now.getMonth()-1, 1);
+const month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+let justRan = false;
+
+// Insert date gaps
+function insertDateGaps(mutationList, observer) {
+	if (mutationList) {
+		console.log(mutationList);
+	} else {
+		console.log('No mutation list')
+	}
+
+	// if (mutationList[0].target.className == "DVI7hd" || mutationList[0].target.className == "Wm") return;
+/*
+	let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
+	if (lists.length > 0) {
+		if (true) console.log('Inserting date gaps');
+
+		mutationList.forEach((mutation) => {
+			switch(mutation.type) {
+				case 'childList':
+		           	console.log("Childlist:");
+		           	console.log(mutation);
+		        	break;
+				case 'attributes':
+		        	break;
+		           	console.log("Attributes:");
+		           	console.log(mutation);
+	           	default:
+		           	console.log("Default:");
+	           		console.log(mutation);
+
+		    }
+		});
+	}
+*/
+
+	//let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
+	let lists = document.querySelectorAll('.UI table[role="grid"]');
+	//<table cellpadding="0" id=":2r2" class="F cf zt" role="grid" aria-readonly="true">
+	if (lists.length > 0) {
+		if (true) console.log('Inserting date gaps');
+		lists.forEach(function(list) {
+			let items = list.querySelectorAll('.zA');
+			items.forEach(function(item){
+				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
+					let itemDate = new Date(item.querySelector('.xW > span').title);
+					if (itemDate > today) {
+						item.setAttribute('date', 'today');
+						// item.classList.add('today');
+					} else if (itemDate >= yesterday) {
+						item.setAttribute('date', 'yesterday');
+						// item.classList.add('yesterday');
+					} else if (itemDate >= month0) {
+						item.setAttribute('date', 'month0');
+						// item.classList.add('lastMonth');
+					} else if (itemDate >= month1) {
+						item.setAttribute('date', 'month1');
+						// item.classList.add('prevMonth1');
+					} else if (itemDate >= month2) {
+						item.setAttribute('date', 'month2');
+						// item.classList.add('prevMonth2');
+					} else {
+						item.setAttribute('date', 'earlier');
+						// item.classList.add('error');
+					}
+				}
+			});
+		});
+	}
+/*
+
+*/
+}
+
+const inboxObserver = new MutationObserver(insertDateGaps);
+function observeInbox() {
+	// Start observing the target node for configured mutations
+	let inbox = document.querySelector('div[gh="tl"]');
+	if (inbox) {	
+		insertDateGaps();
+		inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
+		if (true) console.log('Adding mutation observer for Inbox');
+	} else {
+		if (true) console.log('Inbox not there yet -- too early');
+		setTimeout(observeInbox, 500);
+	}
+}
+observeInbox();
+
+
+/*
+mutation observers:
+https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
+
+childlist: One or more children have been added to and/or removed from the tree; see mutation.addedNodes and mutation.removedNodes 
+
+attributes: An attribute value changed on the element in mutation.target; the attribute name is in mutation.attributeName and its previous value is in mutation.oldValue
+
+subtree: Omit or set to false to observe only changes to the parent node.
+ */
+
+/* ========================================================================================== */
+
+
+
 
 
 // Initialize styles as soon as head is ready

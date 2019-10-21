@@ -1,11 +1,70 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
  */
+
+
+/* ==================================================
+ * INBOX DATE GROUPING
+ */
+
+tr[date="today"],
+tr[date="yesterday"],
+tr[date="month0"],
+tr[date="month1"],
+tr[date="month2"],
+tr[date="earlier"] {
+	margin-top: 3em;
+}
+tr[date="today"] ~ 		tr[date="today"],
+tr[date="yesterday"] ~ 	tr[date="yesterday"],
+tr[date="month0"] ~ 	tr[date="month0"],
+tr[date="month1"] ~ 	tr[date="month1"],
+tr[date="month2"] ~ 	tr[date="month2"],
+tr[date="earlier"] ~ 	tr[date="earlier"] {
+	margin-top: initial;
+}
+
+tr[date="today"]::before,
+tr[date="yesterday"]::before,
+tr[date="month0"]::before,
+tr[date="month1"]::before,
+tr[date="month2"]::before,
+tr[date="earlier"]::before {
+	height: 0px;
+	width: 0px;
+	white-space: nowrap;
+	overflow: visible;
+	font-size: 0.70em;
+	letter-spacing: 1.2;
+	color: #aaa;
+	font-weight: bold;
+	display: block;
+	position: relative;
+	top: -32px;
+	left: 16px;
+}
+tr[date="today"]::before { content: 'TODAY'; }
+tr[date="yesterday"]::before { content: 'YESTERDAY'; }
+tr[date="month0"]::before { content: 'THIS MONTH'; }
+tr[date="month1"]::before { content: 'LAST MONTH'; }
+tr[date="month2"]::before { content: 'AUGUST'; }
+tr[date="earlier"]::before { content: 'EARLIER'; }
+
+tr[date="today"] ~ tr[date="today"]::before,
+tr[date="yesterday"] ~ tr[date="yesterday"]::before,
+tr[date="month0"] ~ tr[date="month0"]::before,
+tr[date="month1"] ~ tr[date="month1"]::before,
+tr[date="month2"] ~ tr[date="month2"]::before,
+tr[date="earlier"] ~ tr[date="earlier"]::before {
+	content: '';
+	display: none;
+}
+
 
 
 
