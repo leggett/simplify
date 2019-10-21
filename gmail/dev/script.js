@@ -10,7 +10,7 @@
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = true;
+const simplifyDebug = false;
 
 // Print Simplify version number if debug is running
 if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
@@ -341,6 +341,9 @@ window.onhashchange = function() {
 	if (checkThemeLater) {
 		detectTheme();
 	}
+
+	// See if we need to date group the view
+	insertDateGaps();
 }
 
 // Show back button if page loaded on Settings
@@ -1256,16 +1259,48 @@ const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
 const month0 = new Date(now.getFullYear(), now.getMonth(), 1);
 const month1 = new Date(now.getFullYear(), now.getMonth()-1, 1);
 const month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+let justRan = false;
 
 // Insert date gaps
-function insertDateGaps() {
-	if (simplifyDebug) console.log('Inserting date gaps');
+function insertDateGaps(mutationList, observer) {
+	if (mutationList) {
+		console.log(mutationList);
+	} else {
+		console.log('No mutation list')
+	}
+
+	// if (mutationList[0].target.className == "DVI7hd" || mutationList[0].target.className == "Wm") return;
+/*
 	let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
 	if (lists.length > 0) {
+		if (true) console.log('Inserting date gaps');
+
+		mutationList.forEach((mutation) => {
+			switch(mutation.type) {
+				case 'childList':
+		           	console.log("Childlist:");
+		           	console.log(mutation);
+		        	break;
+				case 'attributes':
+		        	break;
+		           	console.log("Attributes:");
+		           	console.log(mutation);
+	           	default:
+		           	console.log("Default:");
+	           		console.log(mutation);
+
+		    }
+		});
+	}
+*/
+
+	//let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
+	let lists = document.querySelectorAll('.UI table[role="grid"]');
+	//<table cellpadding="0" id=":2r2" class="F cf zt" role="grid" aria-readonly="true">
+	if (lists.length > 0) {
+		if (true) console.log('Inserting date gaps');
 		lists.forEach(function(list) {
 			let items = list.querySelectorAll('.zA');
-			let lastItem = null;
-			let n = 1;
 			items.forEach(function(item){
 				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
 					let itemDate = new Date(item.querySelector('.xW > span').title);
@@ -1292,7 +1327,9 @@ function insertDateGaps() {
 			});
 		});
 	}
-	// new Date(Date.parse(document.querySelectorAll('.UI div[role="tabpanel"]')[0].querySelectorAll('.zA')[0].querySelector('.xW > span').title))
+/*
+
+*/
 }
 
 const inboxObserver = new MutationObserver(insertDateGaps);
@@ -1302,15 +1339,28 @@ function observeInbox() {
 	if (inbox) {	
 		insertDateGaps();
 		inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
-		if (simplifyDebug) console.log('Adding mutation observer for Inbox');
+		if (true) console.log('Adding mutation observer for Inbox');
 	} else {
-		if (simplifyDebug) console.log('Inbox not there yet -- too early');
+		if (true) console.log('Inbox not there yet -- too early');
 		setTimeout(observeInbox, 500);
 	}
 }
 observeInbox();
 
+
+/*
+mutation observers:
+https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
+
+childlist: One or more children have been added to and/or removed from the tree; see mutation.addedNodes and mutation.removedNodes 
+
+attributes: An attribute value changed on the element in mutation.target; the attribute name is in mutation.attributeName and its previous value is in mutation.oldValue
+
+subtree: Omit or set to false to observe only changes to the parent node.
+ */
+
 /* ========================================================================================== */
+
 
 
 
