@@ -1115,6 +1115,11 @@ html.simpl.darkTheme .bAw {
 	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
 }
 
+/* Hide add-ons chooser entirely if Simplify Setting enabled */
+html.simpl.hideAddons .bAw {
+	display: none !important;
+}
+
 /* Hide everything inside the add-ons menu until you hover on it */
 html.simpl .bAw > div:first-child {
 	display: none;

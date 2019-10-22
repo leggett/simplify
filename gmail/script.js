@@ -131,8 +131,6 @@ chrome.storage.local.get(null, function (results) {
 function applySettings(settings) {
 	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
 	for (let key in settings) {
-		console.log("Key: " + key);
-		console.log("Value: " + settings[key]);
 		switch (key) {
 			case "hideAddons":
 				simplSettings["hideAddons"] = settings[key];
@@ -168,18 +166,15 @@ function applySettings(settings) {
 // Detect changes in settings and make appropriate changes
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	for (let key in changes) {
-		let storageChange = changes[key];
-		if (simplifyDebug) {
-			console.log('Storage key "%s" in namespace "%s" changed. ' +
-	              'Old value was "%s", new value is "%s".',
-	              key, namespace, storageChange.oldValue, storageChange.newValue);
-		}
 		let newSettings = {};
-		newSettings[key] = storageChange.newValue;
+		newSettings[key] = changes[key].newValue;
 		applySettings(newSettings);
 	}
 });
 
+const optionsUrl = chrome.extension.getURL("options.html");
+console.log(optionsUrl);
+// const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
 
 
 /* == INIT SAVED STATES =================================================
