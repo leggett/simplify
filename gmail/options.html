@@ -9,20 +9,61 @@
 	<div id="simplOptions">
  		<img src="img/icon128.png"><br>
 
- 		<h1>Simplify Gmail v1.6.3</h1><br>
+ 		<h1>Simplify Gmail Options</h1><br>
 
- 		<b>Keyboard shortcuts</b><br>
- 		<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - Toggle Simplify on/off<br>
- 		<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - Toggle Gmail navigation menu open/closed<br><br>
- 		
- 		<b>Resources</b><br>
+ 		<table>
+ 			<tr>
+ 				<td><label for="minSearch">Keep search minimized when not in use</label></td>
+		 		<td class="toggle"><input type="checkbox" id="minSearch"></td>
+ 			</tr>
+ 			<tr>
+ 				<td><label for="hideAddons">Hide Add-ons menu</label></td>
+		 		<td class="toggle"><input type="checkbox" id="hideAddons"></td>
+ 			</tr>
+		</table><br><br>
+
+ 		<table>
+ 			<tr>
+ 				<td colspan="2"><b>Enable keyboard shortcuts</b></td>
+ 			</tr>
+ 			<tr>
+ 				<td>
+		 			<label for="kbsToggle">
+		 				<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - 
+		 				Toggle Simplify on/off
+		 			</label>
+		 		</td>
+		 		<td class="toggle"><input type="checkbox" id="kbsToggle"></td>
+ 			</tr>
+ 			<tr>
+ 				<td>
+		 			<label for="kbsMenu">
+		 				<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - 
+		 				Toggle Gmail navigation menu open/closed
+		 			</label>
+		 		</td>
+		 		<td class="toggle"><input type="checkbox" id="kbsMenu"></td>
+ 			</tr>
+		</table><br><br>
+
+ 		<table class="beta">
+ 			<tr>
+ 				<td colspan="2"><b>Beta features</b></td>
+ 			</tr>
+ 			<tr>
+ 				<td><label for="dateGrouping">Group emails by date</label></td>
+		 		<td class="toggle"><input type="checkbox" id="dateGrouping"></td>
+ 			</tr>
+		</table><br><br>
+
+ 		<br>
 		<a href="https://simpl.fyi/#faq">FAQ</a> -
 		<a href="https://issues.simpl.fyi">Report issue</a> -
 		<a href="https://simpl.fyi/#privacy">Privacy Policy</a> -
 		<a href="https://simpl.fyi/#about">About</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/">Source code</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/LICENSE.md">License</a><br>
-		<span>Copyright (c) 2019 <a href="https://leggett.org">Michael Leggett</a></span><br>
+		<span>Simplify v1.6.4 - Copyright (c) 2019 <a href="https://leggett.org">Michael Leggett</a></span><br>
 	</div>
 </body>
 </html>

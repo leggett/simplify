@@ -20,6 +20,9 @@
 		"run_at": "document_start",
 		"all_frames": false
 	}],
+	"permissions": [
+		"storage"
+	],
 	"page_action": {},
 	"background": {
 		"scripts": [ "toggle.js" ],

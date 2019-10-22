@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -47,7 +47,7 @@ function notEditable(el) {
 }
 
 // Handle Simplify keyboard shortcuts
-function handleKeyboardShortcut(event) {	
+function handleKeyboardShortcut(event) {
 	// WIP: If Escape was pressed, close conversation or search
 	if (event.key === "Escape") {
 		// Only close if focus wasn't in an input or content editable div
@@ -65,7 +65,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if (simplify["settings"]["kbsMenu"]) {
+	if (simplSettings["kbsMenu"]) {
 		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
 			(event.metaKey && event.key === "m")) {
 			document.querySelector('.aeN').classList.toggle('bhZ');
@@ -80,10 +80,12 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
-		(event.metaKey && event.key === "s")) {
-		toggleSimpl();
-		event.preventDefault();
+	if (simplSettings["kbsToggle"]) {
+		if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
+			(event.metaKey && event.key === "s")) {
+			toggleSimpl();
+			event.preventDefault();
+		}
 	}
 
 	/* If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
@@ -114,6 +116,69 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 // Activate page action button
 chrome.runtime.sendMessage({action: 'activate_page_action'});
+
+
+
+// == SIMPLIFY SETTINGS =====================================================
+// Load Simplify Settings
+let simplSettings = {};
+chrome.storage.local.get(null, function (results) {
+	simplSettings = results;
+	applySettings(simplSettings);
+});
+
+// Apply setting
+function applySettings(settings) {
+	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
+	for (let key in settings) {
+		console.log("Key: " + key);
+		console.log("Value: " + settings[key]);
+		switch (key) {
+			case "hideAddons":
+				simplSettings["hideAddons"] = settings[key];
+				if (simplSettings["hideAddons"]) {
+					htmlEl.classList.add("hideAddons");
+				} else {
+					htmlEl.classList.remove("hideAddons");
+				}
+				break;
+			case "minSearch":
+				simplSettings["minSearch"] = settings[key];
+				/*
+				if (simplSettings["minSearch"]) {
+					htmlEl.classList.add("minimizeSearch");
+				} else {
+					htmlEl.classList.remove("minimizeSearch");
+				}
+				*/
+				break;
+			case "kbsMenu":
+				simplSettings["kbsMenu"] = settings[key];
+				break;
+			case "kbsToggle":
+				simplSettings["kbsToggle"] = settings[key];
+				break;
+			case "dateGrouping":
+				simplSettings["dateGrouping"] = settings[key];
+				break;
+		}
+	}
+}
+
+// Detect changes in settings and make appropriate changes
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+	for (let key in changes) {
+		let storageChange = changes[key];
+		if (simplifyDebug) {
+			console.log('Storage key "%s" in namespace "%s" changed. ' +
+	              'Old value was "%s", new value is "%s".',
+	              key, namespace, storageChange.oldValue, storageChange.newValue);
+		}
+		let newSettings = {};
+		newSettings[key] = storageChange.newValue;
+		applySettings(newSettings);
+	}
+});
 
 
 
@@ -616,14 +681,6 @@ function initSearchFocus() {
 			htmlEl.classList.remove('hideSearch');
 		}, false );
 
-		// Hide search box if it loses focus, is empty, and was previously hidden
-		searchInput.addEventListener('blur', function(event) {
-			// if (this.value == "" && (simplify[u].minimizeSearch || event.target.name == "q")) {
-			if (this.value == "" && simplify[u].minimizeSearch) {
-				htmlEl.classList.add('hideSearch');
-			}
-		}, false );
-
 		// Remove the placeholder text in the search box
 		searchInput.placeholder = "";
 
@@ -643,6 +700,11 @@ function initSearchFocus() {
 		searchInput.addEventListener('blur', () => {
 			// Remove searchFocus from html element
 			htmlEl.classList.remove('searchFocused');
+
+			// Hide search box if it loses focus, is empty, and was previously hidden
+			if (this.value == "" && simplify[u].minimizeSearch) {
+				htmlEl.classList.add('hideSearch');
+			}
 		});
 	} else {
 		// If the search field can't be found, wait and try again

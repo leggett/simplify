@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -1430,7 +1430,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
  */
 
 #simplOptions {
-	padding: 50px 50px 10px 50px;
+	padding: 10px 50px 10px 50px;
 	max-width: 800px;
 	margin: 5vh auto 0 auto;
 	text-align: center;
@@ -1439,6 +1439,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 }
 #simplOptions img {
 	margin-bottom: 2em;
+	zoom: 60%;
 }
 #simplOptions a {
 	color: #555;
@@ -1460,4 +1461,37 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 }
 #simplOptions span {
 	opacity: 0.3;
+}
+
+#simplOptions table {
+	padding: 0;
+	margin: 0 auto;
+	border: 0;
+	border-spacing: 0;
+	min-width: 550px;
+}
+#simplOptions td {
+	padding: 16px 0;
+	text-align: left;
+	border: 0;
+}
+#simplOptions tr td {
+	border-bottom: 1px solid #ddd;
+}
+#simplOptions tr:first-child td {
+	border-top: 0px;
+}
+#simplOptions td.toggle {
+	width: 48px;
+	text-align: center;
+}
+
+#simplOptions label {
+	cursor: pointer;
+	width: 100%;
+	display: block;
+}
+
+#simplOptions .beta {
+	display: none;
 }
