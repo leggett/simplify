@@ -172,6 +172,8 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	}
 });
 
+
+// TODO: show announcement and link to settings page 
 const optionsUrl = chrome.extension.getURL("options.html");
 console.log(optionsUrl);
 // const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
