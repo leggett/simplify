@@ -48,3 +48,22 @@ window.addEventListener('load', function(){
 		document.getElementById('systemKey2').innerText = 'Cmd';
 	}	
 }, false)
+
+
+// Function to make toggles work
+function toggleSwitch() {
+    console.log('click');
+    this.toggleClass('toggle-button-selected');
+}
+const toggles = document.getElementsByClassName("toggle-button");
+for (let i = 0; i < toggles.length; i++) {
+    console.log('Adding event listener #' + i);
+    toggles[i].addEventListener('click', toggleSwitch, false);
+}
+
+/*
+Array.from(toggles).forEach(function(element) {
+	element.addEventListener('click', toggleSwitch);
+});
+*/
+// Array.from(toggles, c => c.addEventListener('click', toggleSwitch));

@@ -1476,7 +1476,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 	min-width: 550px;
 }
 #simplOptions td {
-	padding: 16px 0;
+	padding: 16px 8px;
 	text-align: left;
 	border: 0;
 }
@@ -1486,17 +1486,68 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 #simplOptions tr:first-child td {
 	border-top: 0px;
 }
+#simplOptions tr:hover td {
+	background-color: rgba(0,0,0,0.04);
+}
 #simplOptions td.toggle {
 	width: 48px;
 	text-align: center;
 }
 
 #simplOptions label {
-	cursor: pointer;
 	width: 100%;
 	display: block;
+}
+#simplOptions label,
+#simplOptions input {
+	cursor: pointer;
 }
 
 #simplOptions .beta {
 	display: none;
+}
+
+/* Toggle buttons */
+#simplOptions .toggle-button { 
+	margin: 5px 0;
+	border-radius: 20px;
+	border: 2px solid #D0D0D0;
+	height: 24px;
+	cursor: pointer;
+	width: 50px;
+	position: relative;
+	display: inline-block;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+}
+#simplOptions .toggle-button span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border-radius: 100%;
+	width: 26px;
+	height: 26px;
+	background-color: white;
+	float: left;
+	margin: -3px 0 0 -3px;
+	border: 2px solid #D0D0D0;
+ 	transition: left 0.3s;
+}
+#simplOptions .toggle-button-selected { 
+	background-color: #83B152;
+	border: 2px solid #7DA652;
+}
+#simplOptions .toggle-button-selected span {
+	left: 26px;
+	top: 0;
+	margin: 0;
+	border: none;
+	width: 24px;
+	height: 24px;
+	box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+#simplOptions .center {
+	text-align: center;
 }
