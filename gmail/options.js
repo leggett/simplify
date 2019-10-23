@@ -4,14 +4,14 @@ function saveOptions(e) {
 	if (e.target.nodeName == "INPUT" || e.target.nodeName == "LABEL"){
 		let checkToggle = document.getElementById('kbsToggle').checked;
 		let checkMenu = document.getElementById('kbsMenu').checked;
-		let checkMinSearch = document.getElementById('minSearch').checked;
+		let checkMinimizeSearch = document.getElementById('minimizeSearch').checked;
 		let checkHideAddons = document.getElementById('hideAddons').checked;
 		let checkDateGrouping = document.getElementById('dateGrouping').checked;
 
 		chrome.storage.local.set({
 			kbsToggle: checkToggle,
 			kbsMenu: checkMenu,
-			minSearch: checkMinSearch,
+			minimizeSearch: checkMinimizeSearch,
 			hideAddons: checkHideAddons,
 			dateGrouping: checkDateGrouping
 		});
@@ -27,13 +27,13 @@ function restoreOptions() {
 	chrome.storage.local.get({
 		kbsToggle: false,
 		kbsMenu: false,
-		minSearch: false,
+		minimizeSearch: false,
 		hideAddons: false,
 		dateGrouping: false
 	}, function(items) {
 		document.getElementById('kbsToggle').checked = items.kbsToggle;
 		document.getElementById('kbsMenu').checked = items.kbsMenu;
-		document.getElementById('minSearch').checked = items.minSearch;
+		document.getElementById('minimizeSearch').checked = items.minimizeSearch;
 		document.getElementById('hideAddons').checked = items.hideAddons;
 		document.getElementById('dateGrouping').checked = items.dateGrouping;
 	});

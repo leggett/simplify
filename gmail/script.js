@@ -87,21 +87,6 @@ function handleKeyboardShortcut(event) {
 			event.preventDefault();
 		}
 	}
-
-	/* If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
-	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME
-	if ((event.ctrlKey && event.shiftKey && event.key === "M") || 
-		(event.metaKey && event.shiftKey && event.key === "m")) {
-		document.querySelector('.aeN').classList.toggle('bhZ');
-		toggleMenu();
-		event.preventDefault();
-
-		// If opening, focus the first element
-		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-			document.querySelector('div[role="navigation"] a:first-child').focus();
-		}
-	}
-	*/
 }
 window.addEventListener('keydown', handleKeyboardShortcut, false);
 
@@ -140,15 +125,13 @@ function applySettings(settings) {
 					htmlEl.classList.remove("hideAddons");
 				}
 				break;
-			case "minSearch":
-				simplSettings["minSearch"] = settings[key];
-				/*
-				if (simplSettings["minSearch"]) {
-					htmlEl.classList.add("minimizeSearch");
+			case "minimizeSearch":
+				simplSettings["minimizeSearch"] = settings[key];
+				if (simplSettings["minimizeSearch"]) {
+					htmlEl.classList.add("hideSearch");
 				} else {
-					htmlEl.classList.remove("minimizeSearch");
+					htmlEl.classList.remove("hideSearch");
 				}
-				*/
 				break;
 			case "kbsMenu":
 				simplSettings["kbsMenu"] = settings[key];
@@ -352,7 +335,7 @@ if (simplify[u].minimizeSearch == null) {
 		updateParam('minimizeSearch', false);
 	}
 }
-if (simplify[u].minimizeSearch) {
+if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
 	if (simplifyDebug) console.log('Loading with search hidden');
 	htmlEl.classList.add('hideSearch');
 }
@@ -645,7 +628,7 @@ function initSearch() {
 			} else {
 				location.hash = closeSearchUrlHash;
 			}
-			if (simplify[u].minimizeSearch) {
+			if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
 				htmlEl.classList.add('hideSearch');
 			}
 		}, false);
@@ -699,7 +682,12 @@ function initSearchFocus() {
 			htmlEl.classList.remove('searchFocused');
 
 			// Hide search box if it loses focus, is empty, and was previously hidden
-			if (this.value == "" && simplify[u].minimizeSearch) {
+			if (simplifyDebug) {
+				console.log("Search for '%s' with [u]ms set to %s and ss.ms set to %s", 
+					searchInput.value, simplify[u].minimizeSearch, simplSettings.minimizeSearch);
+			}
+			if ((searchInput.value == "" || searchInput.value == null) && 
+				(simplify[u].minimizeSearch || simplSettings.minimizeSearch)) {
 				htmlEl.classList.add('hideSearch');
 			}
 		});
