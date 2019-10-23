@@ -1435,7 +1435,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
  */
 
 #simplOptions {
-	padding: 10px 50px 10px 50px;
+	padding: 10px 50px 50px 50px;
 	max-width: 800px;
 	margin: 5vh auto 0 auto;
 	text-align: center;
@@ -1483,10 +1483,13 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 #simplOptions tr td {
 	border-bottom: 1px solid #ddd;
 }
+#simplOptions tr.label td {
+	font-weight: bold;
+}
 #simplOptions tr:first-child td {
 	border-top: 0px;
 }
-#simplOptions tr:hover td {
+#simplOptions tr:not(.label):hover td {
 	background-color: rgba(0,0,0,0.04);
 }
 #simplOptions td.toggle {
