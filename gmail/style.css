@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -1115,6 +1115,11 @@ html.simpl.darkTheme .bAw {
 	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
 }
 
+/* Hide add-ons chooser entirely if Simplify Setting enabled */
+html.simpl.hideAddons .bAw {
+	display: none !important;
+}
+
 /* Hide everything inside the add-ons menu until you hover on it */
 html.simpl .bAw > div:first-child {
 	display: none;
@@ -1424,13 +1429,50 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 
 
 
+/* ==================================================
+ * SIMPLIFY IN-GMAIL NOTIFICATIONS
+ */
+
+#simplNotification {
+	position: absolute;
+	z-index: 999;
+	top: 100px;
+	right: 48px;
+	max-width: 350px;
+	border-radius: 8px;
+	background-color: white;
+	padding: 24px;
+	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.151), 0 4px 8px 3px rgba(60,64,67,0.991);
+}
+#simplNotification button {
+	font-size: 0.87em;
+	font-weight: bold;
+	color: white;
+	padding: 8px 16px;
+	background: #0A6CDD;
+	border-radius: 4px;
+	border: 2px solid #0A6CDD;
+	text-decoration: none;
+	text-shadow: 0 1px 1px rgba(0,0,0,.5);
+	box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 4px -2px rgba(0,0,0,.3);	
+	margin: 24px 16px 0 0;
+}
+#simplNotification button.secondary {
+	color: #0A6CDD;
+	background: #fff;
+	border: 2px solid rgba(0,0,0,0.12);
+	text-shadow: 0 1px 1px rgba(0,0,0,.12);
+}
+
+
+
 
 /* ==================================================
- * SIMPLIFY OPTIONS PAGE
+ * SIMPLIFY EXTENSION OPTIONS PAGE
  */
 
 #simplOptions {
-	padding: 50px 50px 10px 50px;
+	padding: 10px 50px 50px 50px;
 	max-width: 800px;
 	margin: 5vh auto 0 auto;
 	text-align: center;
@@ -1439,6 +1481,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 }
 #simplOptions img {
 	margin-bottom: 2em;
+	zoom: 60%;
 }
 #simplOptions a {
 	color: #555;
@@ -1458,6 +1501,93 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 	margin: 0 4px;
 	white-space: nowrap;
 }
-#simplOptions span {
+#simplOptions .footer {
 	opacity: 0.3;
+}
+
+#simplOptions table {
+	padding: 0;
+	margin: 0 auto;
+	border: 0;
+	border-spacing: 0;
+	min-width: 550px;
+}
+#simplOptions td {
+	padding: 16px 8px;
+	text-align: left;
+	border: 0;
+}
+#simplOptions tr td {
+	border-bottom: 1px solid #ddd;
+}
+#simplOptions tr.label td {
+	font-weight: bold;
+}
+#simplOptions tr:first-child td {
+	border-top: 0px;
+}
+#simplOptions tr:not(.label):hover td {
+	background-color: rgba(0,0,0,0.04);
+}
+#simplOptions td.toggle {
+	width: 48px;
+	text-align: center;
+}
+
+#simplOptions label {
+	width: 100%;
+	display: block;
+}
+#simplOptions label,
+#simplOptions input {
+	cursor: pointer;
+}
+
+#simplOptions .beta {
+	display: none;
+}
+
+/* Toggle buttons */
+#simplOptions button.toggle { 
+	margin: 8px 0 0 0;
+	border-radius: 20px;
+	border: 2px solid #D0D0D0;
+	height: 28px;
+	cursor: pointer;
+	width: 54px;
+	position: relative;
+	display: inline-block;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+}
+#simplOptions button.toggle:focus {
+	outline: none;
+}
+#simplOptions button.toggle span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border-radius: 100%;
+	width: 26px;
+	height: 26px;
+	background-color: white;
+	float: left;
+	margin: -3px 0 0 -3px;
+	border: 2px solid #D0D0D0;
+ 	transition: left 0.3s;
+}
+#simplOptions button.toggle.on { 
+	background-color: #59E20E;
+	border: 2px solid #4ECD09;
+}
+#simplOptions button.toggle.on span {
+	left: 26px;
+	top: 0;
+	margin: 0;
+	border: none;
+	width: 24px;
+	height: 24px;
+	box-shadow: 0 0 4px rgba(0,0,0,0.1);
 }

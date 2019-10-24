@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.3
+ * SIMPLIFY GMAIL v1.6.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -47,7 +47,7 @@ function notEditable(el) {
 }
 
 // Handle Simplify keyboard shortcuts
-function handleKeyboardShortcut(event) {	
+function handleKeyboardShortcut(event) {
 	// WIP: If Escape was pressed, close conversation or search
 	if (event.key === "Escape") {
 		// Only close if focus wasn't in an input or content editable div
@@ -64,41 +64,29 @@ function handleKeyboardShortcut(event) {
 		}
 	}
 
-	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed
-	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME */
-	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
-		(event.metaKey && event.key === "m")) {
-		document.querySelector('.aeN').classList.toggle('bhZ');
-		toggleMenu();
-		event.preventDefault();
+	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
+	if (simplSettings["kbsMenu"]) {
+		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
+			(event.metaKey && event.key === "m")) {
+			document.querySelector('.aeN').classList.toggle('bhZ');
+			toggleMenu();
+			event.preventDefault();
 
-		// If opening, focus the first element
-		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-			document.querySelector('div[role="navigation"] a:first-child').focus();
+			// If opening, focus the first element
+			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
+				document.querySelector('div[role="navigation"] a:first-child').focus();
+			}
 		}
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
-		(event.metaKey && event.key === "s")) {
-		toggleSimpl();
-		event.preventDefault();
-	}
-
-	/* If Ctrl+Shift+M or Command+Shift+M was pressed, toggle nav menu open/closed
-	BUG: THIS CONFLICTS WITH CHANGING THE PROFILE IN CHROME
-	if ((event.ctrlKey && event.shiftKey && event.key === "M") || 
-		(event.metaKey && event.shiftKey && event.key === "m")) {
-		document.querySelector('.aeN').classList.toggle('bhZ');
-		toggleMenu();
-		event.preventDefault();
-
-		// If opening, focus the first element
-		if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-			document.querySelector('div[role="navigation"] a:first-child').focus();
+	if (simplSettings["kbsToggle"]) {
+		if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
+			(event.metaKey && event.key === "s")) {
+			toggleSimpl();
+			event.preventDefault();
 		}
 	}
-	*/
 }
 window.addEventListener('keydown', handleKeyboardShortcut, false);
 
@@ -114,6 +102,68 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 // Activate page action button
 chrome.runtime.sendMessage({action: 'activate_page_action'});
 
+
+
+// == SIMPLIFY SETTINGS =====================================================
+// Load Simplify Settings
+let simplSettings = {};
+chrome.storage.local.get(null, function (results) {
+	if (results == null) {
+		console.log('No settings yet -- maybe initialize them');
+	} else {
+		simplSettings = results;
+	}
+	applySettings(simplSettings);
+});
+
+// Apply setting
+function applySettings(settings) {
+	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
+	for (let key in settings) {
+		switch (key) {
+			case "hideAddons":
+				simplSettings["hideAddons"] = settings[key];
+				if (simplSettings["hideAddons"]) {
+					htmlEl.classList.add("hideAddons");
+				} else {
+					htmlEl.classList.remove("hideAddons");
+				}
+				break;
+			case "minimizeSearch":
+				simplSettings["minimizeSearch"] = settings[key];
+				if (simplSettings["minimizeSearch"]) {
+					htmlEl.classList.add("hideSearch");
+				} else {
+					htmlEl.classList.remove("hideSearch");
+				}
+				break;
+			case "kbsMenu":
+				simplSettings["kbsMenu"] = settings[key];
+				break;
+			case "kbsToggle":
+				simplSettings["kbsToggle"] = settings[key];
+				break;
+			case "dateGrouping":
+				simplSettings["dateGrouping"] = settings[key];
+				break;
+		}
+	}
+}
+
+// Detect changes in settings and make appropriate changes
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+	for (let key in changes) {
+		let newSettings = {};
+		newSettings[key] = changes[key].newValue;
+		applySettings(newSettings);
+	}
+});
+
+
+// TODO: show announcement and link to settings page 
+const optionsUrl = chrome.extension.getURL("options.html");
+console.log(optionsUrl);
+// const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
 
 
 /* == INIT SAVED STATES =================================================
@@ -289,7 +339,7 @@ if (simplify[u].minimizeSearch == null) {
 		updateParam('minimizeSearch', false);
 	}
 }
-if (simplify[u].minimizeSearch) {
+if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
 	if (simplifyDebug) console.log('Loading with search hidden');
 	htmlEl.classList.add('hideSearch');
 }
@@ -582,7 +632,7 @@ function initSearch() {
 			} else {
 				location.hash = closeSearchUrlHash;
 			}
-			if (simplify[u].minimizeSearch) {
+			if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
 				htmlEl.classList.add('hideSearch');
 			}
 		}, false);
@@ -615,14 +665,6 @@ function initSearchFocus() {
 			htmlEl.classList.remove('hideSearch');
 		}, false );
 
-		// Hide search box if it loses focus, is empty, and was previously hidden
-		searchInput.addEventListener('blur', function(event) {
-			// if (this.value == "" && (simplify[u].minimizeSearch || event.target.name == "q")) {
-			if (this.value == "" && simplify[u].minimizeSearch) {
-				htmlEl.classList.add('hideSearch');
-			}
-		}, false );
-
 		// Remove the placeholder text in the search box
 		searchInput.placeholder = "";
 
@@ -642,6 +684,16 @@ function initSearchFocus() {
 		searchInput.addEventListener('blur', () => {
 			// Remove searchFocus from html element
 			htmlEl.classList.remove('searchFocused');
+
+			// Hide search box if it loses focus, is empty, and was previously hidden
+			if (simplifyDebug) {
+				console.log("Search for '%s' with [u]ms set to %s and ss.ms set to %s", 
+					searchInput.value, simplify[u].minimizeSearch, simplSettings.minimizeSearch);
+			}
+			if ((searchInput.value == "" || searchInput.value == null) && 
+				(simplify[u].minimizeSearch || simplSettings.minimizeSearch)) {
+				htmlEl.classList.add('hideSearch');
+			}
 		});
 	} else {
 		// If the search field can't be found, wait and try again
