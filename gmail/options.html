@@ -9,27 +9,73 @@
 	<div id="simplOptions">
  		<img src="img/icon128.png"><br>
 
- 		<h1>Simplify Gmail v1.6.3</h1><br>
+ 		<h1>Simplify Gmail Options</h1><br>
 
- 		<b>Keyboard shortcuts</b><br>
- 		<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - Toggle Simplify on/off<br>
- 		<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - Toggle Gmail navigation menu open/closed<br><br>
+ 		<table>
+ 			<tr>
+ 				<td><label for="hideAddons" id="haLabel">Hide Add-ons menu</label></td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="hideAddons" aria-labelledby="haLabel"><span></span></button>
+		 		</td>
+ 			</tr>
+ 			<tr>
+ 				<td><label for="minimizeSearch" id="msLabel">Keep search minimized when not in use</label></td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="minimizeSearch" aria-labelledby="msLabel"><span></span></button>
+		 		</td>
+ 			</tr>
+		</table><br><br>
 
-		<!--  
-		SETTINGS TO ADD
-		Search always closed
-		Hide add-ons
-		
-		-->
+ 		<table>
+ 			<tr class="label">
+ 				<td colspan="2">Enable keyboard shortcuts</td>
+ 			</tr>
+ 			<tr>
+ 				<td>
+		 			<label for="kbsToggle" id="tLabel">
+		 				<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - 
+		 				Toggle Simplify on/off
+		 			</label>
+		 		</td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="kbsToggle" aria-labelledby="tLabel"><span></span></button>
+		 		</td>
+ 			</tr>
+ 			<tr>
+ 				<td>
+		 			<label for="kbsMenu" id="mLabel">
+		 				<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - 
+		 				Toggle Gmail navigation menu open/closed
+		 			</label>
+		 		</td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="kbsMenu" aria-labelledby="mLabel"><span></span></button>
+		 		</td>
+ 			</tr>
+		</table><br><br>
 
- 		<b>Resources</b><br>
+ 		<table class="beta">
+ 			<tr class="label">
+ 				<td colspan="2">Beta features</td>
+ 			</tr>
+ 			<tr>
+ 				<td><label for="dateGrouping">Group emails by date</label></td>
+		 		<td class="toggle"><input type="checkbox" id="dateGrouping"></td>
+ 			</tr>
+		</table>
+
+ 		<br>
 		<a href="https://simpl.fyi/#faq">FAQ</a> -
 		<a href="https://issues.simpl.fyi">Report issue</a> -
 		<a href="https://simpl.fyi/#privacy">Privacy Policy</a> -
 		<a href="https://simpl.fyi/#about">About</a> -
-		<a href="https://github.com/leggett/simplify/blob/master/gmail/">Source code</a> -
+		<a href="https://github.com/leggett/simplify/blob/master/gmail/">View source code</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/LICENSE.md">License</a><br>
-		<span>Copyright (c) 2019 <a href="https://leggett.org">Michael Leggett</a></span><br>
+		<span class="footer">
+			Simplify v1.6.4 - Copyright (c) 2019 
+			<a href="https://leggett.org" target="_new">Michael Leggett</a> - 
+			<a href="https://twitter.com/leggett" target="_new">@leggett on Twitter</a>
+		</span><br>
 	</div>
 </body>
 </html>
