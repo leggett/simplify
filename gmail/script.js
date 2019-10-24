@@ -108,7 +108,11 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 // Load Simplify Settings
 let simplSettings = {};
 chrome.storage.local.get(null, function (results) {
-	simplSettings = results;
+	if (results == null) {
+		console.log('No settings yet -- maybe initialize them');
+	} else {
+		simplSettings = results;
+	}
 	applySettings(simplSettings);
 });
 

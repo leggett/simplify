@@ -1,12 +1,12 @@
 
 // Function to save settings
 function saveOptions(e) {
-	if (e.target.nodeName == "INPUT" || e.target.nodeName == "LABEL"){
-		let checkToggle = document.getElementById('kbsToggle').checked;
-		let checkMenu = document.getElementById('kbsMenu').checked;
-		let checkMinimizeSearch = document.getElementById('minimizeSearch').checked;
-		let checkHideAddons = document.getElementById('hideAddons').checked;
-		let checkDateGrouping = document.getElementById('dateGrouping').checked;
+	if (e.target.nodeName == "BUTTON" || e.target.nodeName == "LABEL" || e.target.nodeName == "SPAN"){
+		let checkToggle = document.getElementById('kbsToggle').classList.contains('on');
+		let checkMenu = document.getElementById('kbsMenu').classList.contains('on');
+		let checkMinimizeSearch = document.getElementById('minimizeSearch').classList.contains('on');
+		let checkHideAddons = document.getElementById('hideAddons').classList.contains('on');
+		let checkDateGrouping = document.getElementById('dateGrouping').classList.contains('on');
 
 		chrome.storage.local.set({
 			kbsToggle: checkToggle,
@@ -31,39 +31,30 @@ function restoreOptions() {
 		hideAddons: false,
 		dateGrouping: false
 	}, function(items) {
-		document.getElementById('kbsToggle').checked = items.kbsToggle;
-		document.getElementById('kbsMenu').checked = items.kbsMenu;
-		document.getElementById('minimizeSearch').checked = items.minimizeSearch;
-		document.getElementById('hideAddons').checked = items.hideAddons;
-		document.getElementById('dateGrouping').checked = items.dateGrouping;
+		if (items.kbsToggle) document.getElementById('kbsToggle').classList.add('on');
+		if (items.kbsMenu) document.getElementById('kbsMenu').classList.add('on');
+		if (items.minimizeSearch) document.getElementById('minimizeSearch').classList.add('on');
+		if (items.hideAddons) document.getElementById('hideAddons').classList.add('on');
+		if (items.dateGrouping) document.getElementById('dateGrouping').classList.add('on');
 	});
 }
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
-
-// Change Ctrl button to Cmd for Mac
+// Run on load
 window.addEventListener('load', function(){
+	// Change Ctrl button to Cmd for Mac
 	if (window.navigator.platform.indexOf('Mac') >= 0) {
 		document.getElementById('systemKey1').innerText = 'Cmd';
 		document.getElementById('systemKey2').innerText = 'Cmd';
-	}	
+	}
+
+	// Setup toggles
+	const toggles = document.querySelectorAll("button.toggle");
+	for (let i = 0; i < toggles.length; i++) {
+	    toggles[i].addEventListener('click', function() {
+	    	this.classList.toggle('on');
+	    }, false);
+	}
 }, false)
 
 
-// Function to make toggles work
-function toggleSwitch() {
-    console.log('click');
-    this.toggleClass('toggle-button-selected');
-}
-const toggles = document.getElementsByClassName("toggle-button");
-for (let i = 0; i < toggles.length; i++) {
-    console.log('Adding event listener #' + i);
-    toggles[i].addEventListener('click', toggleSwitch, false);
-}
-
-/*
-Array.from(toggles).forEach(function(element) {
-	element.addEventListener('click', toggleSwitch);
-});
-*/
-// Array.from(toggles, c => c.addEventListener('click', toggleSwitch));

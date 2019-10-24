@@ -13,14 +13,15 @@
 
  		<table>
  			<tr>
- 				<td><label for="hideAddons">Hide Add-ons menu</label></td>
-		 		<td class="toggle"><input type="checkbox" id="hideAddons"></td>
+ 				<td><label for="hideAddons" id="haLabel">Hide Add-ons menu</label></td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="hideAddons" aria-labelledby="haLabel"><span></span></button>
+		 		</td>
  			</tr>
  			<tr>
- 				<td><label for="minimizeSearch">Keep search minimized when not in use</label></td>
+ 				<td><label for="minimizeSearch" id="msLabel">Keep search minimized when not in use</label></td>
 		 		<td class="toggle">
-		 			<input type="checkbox" id="minimizeSearch">
-		 			<!-- <div class="center"><br /><div class="toggle-button"><span></span></div></div> -->
+		 			<button class="toggle" id="minimizeSearch" aria-labelledby="msLabel"><span></span></button>
 		 		</td>
  			</tr>
 		</table><br><br>
@@ -31,21 +32,25 @@
  			</tr>
  			<tr>
  				<td>
-		 			<label for="kbsToggle">
+		 			<label for="kbsToggle" id="tLabel">
 		 				<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - 
 		 				Toggle Simplify on/off
 		 			</label>
 		 		</td>
-		 		<td class="toggle"><input type="checkbox" id="kbsToggle"></td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="kbsToggle" aria-labelledby="tLabel"><span></span></button>
+		 		</td>
  			</tr>
  			<tr>
  				<td>
-		 			<label for="kbsMenu">
+		 			<label for="kbsMenu" id="mLabel">
 		 				<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - 
 		 				Toggle Gmail navigation menu open/closed
 		 			</label>
 		 		</td>
-		 		<td class="toggle"><input type="checkbox" id="kbsMenu"></td>
+		 		<td class="toggle">
+		 			<button class="toggle" id="kbsMenu" aria-labelledby="mLabel"><span></span></button>
+		 		</td>
  			</tr>
 		</table><br><br>
 
@@ -66,7 +71,7 @@
 		<a href="https://simpl.fyi/#about">About</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/">View source code</a> -
 		<a href="https://github.com/leggett/simplify/blob/master/gmail/LICENSE.md">License</a><br>
-		<span>
+		<span class="footer">
 			Simplify v1.6.4 - Copyright (c) 2019 
 			<a href="https://leggett.org" target="_new">Michael Leggett</a> - 
 			<a href="https://twitter.com/leggett" target="_new">@leggett on Twitter</a>
