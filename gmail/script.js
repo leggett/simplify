@@ -145,7 +145,11 @@ function applySettings(settings) {
 				break;
 			case "dateGrouping":
 				simplSettings.dateGrouping = settings[key];
-				observeThreadlist();
+				if (simplSettings.dateGrouping) {
+					observeThreadlist();
+				} else {
+					threadlistObserver.disconnect();
+				}
 				break;
 		}
 	}
