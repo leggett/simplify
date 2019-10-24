@@ -65,7 +65,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if (simplSettings["kbsMenu"]) {
+	if (simplSettings.kbsMenu) {
 		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
 			(event.metaKey && event.key === "m")) {
 			document.querySelector('.aeN').classList.toggle('bhZ');
@@ -80,7 +80,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if (simplSettings["kbsToggle"]) {
+	if (simplSettings.kbsToggle) {
 		if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
 			(event.metaKey && event.key === "s")) {
 			toggleSimpl();
@@ -122,29 +122,30 @@ function applySettings(settings) {
 	for (let key in settings) {
 		switch (key) {
 			case "hideAddons":
-				simplSettings["hideAddons"] = settings[key];
-				if (simplSettings["hideAddons"]) {
+				simplSettings.hideAddons = settings[key];
+				if (simplSettings.hideAddons) {
 					htmlEl.classList.add("hideAddons");
 				} else {
 					htmlEl.classList.remove("hideAddons");
 				}
 				break;
 			case "minimizeSearch":
-				simplSettings["minimizeSearch"] = settings[key];
-				if (simplSettings["minimizeSearch"]) {
+				simplSettings.minimizeSearch = settings[key];
+				if (simplSettings.minimizeSearch) {
 					htmlEl.classList.add("hideSearch");
 				} else {
 					htmlEl.classList.remove("hideSearch");
 				}
 				break;
 			case "kbsMenu":
-				simplSettings["kbsMenu"] = settings[key];
+				simplSettings.kbsMenu = settings[key];
 				break;
 			case "kbsToggle":
-				simplSettings["kbsToggle"] = settings[key];
+				simplSettings.kbsToggle = settings[key];
 				break;
 			case "dateGrouping":
-				simplSettings["dateGrouping"] = settings[key];
+				simplSettings.dateGrouping = settings[key];
+				observeInbox();
 				break;
 		}
 	}
@@ -159,11 +160,12 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	}
 });
 
-
 // TODO: show announcement and link to settings page 
 const optionsUrl = chrome.extension.getURL("options.html");
-console.log(optionsUrl);
+if (simplifyDebug) console.log(optionsUrl);
 // const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
+
+
 
 
 /* == INIT SAVED STATES =================================================
@@ -1315,42 +1317,18 @@ let justRan = false;
 
 // Insert date gaps
 function insertDateGaps(mutationList, observer) {
-	if (mutationList) {
-		console.log(mutationList);
-	} else {
-		console.log('No mutation list')
+	if (simplifyDebug) {
+		if (mutationList) {
+			console.log(mutationList);
+		} else {
+			console.log('No mutation list')
+		}		
 	}
 
-	// if (mutationList[0].target.className == "DVI7hd" || mutationList[0].target.className == "Wm") return;
-/*
-	let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
-	if (lists.length > 0) {
-		if (true) console.log('Inserting date gaps');
-
-		mutationList.forEach((mutation) => {
-			switch(mutation.type) {
-				case 'childList':
-		           	console.log("Childlist:");
-		           	console.log(mutation);
-		        	break;
-				case 'attributes':
-		        	break;
-		           	console.log("Attributes:");
-		           	console.log(mutation);
-	           	default:
-		           	console.log("Default:");
-	           		console.log(mutation);
-
-		    }
-		});
-	}
-*/
-
-	//let lists = document.querySelectorAll('.UI div[role="tabpanel"]');
 	let lists = document.querySelectorAll('.UI table[role="grid"]');
-	//<table cellpadding="0" id=":2r2" class="F cf zt" role="grid" aria-readonly="true">
+
 	if (lists.length > 0) {
-		if (true) console.log('Inserting date gaps');
+		if (simplifyDebug) console.log('Inserting date gaps');
 		lists.forEach(function(list) {
 			let items = list.querySelectorAll('.zA');
 			items.forEach(function(item){
@@ -1358,42 +1336,35 @@ function insertDateGaps(mutationList, observer) {
 					let itemDate = new Date(item.querySelector('.xW > span').title);
 					if (itemDate > today) {
 						item.setAttribute('date', 'today');
-						// item.classList.add('today');
 					} else if (itemDate >= yesterday) {
 						item.setAttribute('date', 'yesterday');
-						// item.classList.add('yesterday');
 					} else if (itemDate >= month0) {
 						item.setAttribute('date', 'month0');
-						// item.classList.add('lastMonth');
 					} else if (itemDate >= month1) {
 						item.setAttribute('date', 'month1');
-						// item.classList.add('prevMonth1');
 					} else if (itemDate >= month2) {
 						item.setAttribute('date', 'month2');
-						// item.classList.add('prevMonth2');
 					} else {
 						item.setAttribute('date', 'earlier');
-						// item.classList.add('error');
 					}
 				}
 			});
 		});
 	}
-/*
-
-*/
 }
 
 const inboxObserver = new MutationObserver(insertDateGaps);
 function observeInbox() {
 	// Start observing the target node for configured mutations
 	let inbox = document.querySelector('div[gh="tl"]');
-	if (inbox) {	
-		insertDateGaps();
-		inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
-		if (true) console.log('Adding mutation observer for Inbox');
+	if (inbox) {
+		if (simplSettings.dateGrouping) {
+			insertDateGaps();
+			inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
+			if (simplifyDebug) console.log('Adding mutation observer for Inbox');			
+		}
 	} else {
-		if (true) console.log('Inbox not there yet -- too early');
+		if (simplifyDebug) console.log('Inbox not there yet -- too early');
 		setTimeout(observeInbox, 500);
 	}
 }
