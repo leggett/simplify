@@ -65,7 +65,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if (simplSettings["kbsMenu"]) {
+	if (simplSettings.kbsMenu) {
 		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
 			(event.metaKey && event.key === "m")) {
 			document.querySelector('.aeN').classList.toggle('bhZ');
@@ -80,7 +80,7 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if (simplSettings["kbsToggle"]) {
+	if (simplSettings.kbsToggle) {
 		if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
 			(event.metaKey && event.key === "s")) {
 			toggleSimpl();
@@ -122,29 +122,34 @@ function applySettings(settings) {
 	for (let key in settings) {
 		switch (key) {
 			case "hideAddons":
-				simplSettings["hideAddons"] = settings[key];
-				if (simplSettings["hideAddons"]) {
+				simplSettings.hideAddons = settings[key];
+				if (simplSettings.hideAddons) {
 					htmlEl.classList.add("hideAddons");
 				} else {
 					htmlEl.classList.remove("hideAddons");
 				}
 				break;
 			case "minimizeSearch":
-				simplSettings["minimizeSearch"] = settings[key];
-				if (simplSettings["minimizeSearch"]) {
+				simplSettings.minimizeSearch = settings[key];
+				if (simplSettings.minimizeSearch) {
 					htmlEl.classList.add("hideSearch");
 				} else {
 					htmlEl.classList.remove("hideSearch");
 				}
 				break;
 			case "kbsMenu":
-				simplSettings["kbsMenu"] = settings[key];
+				simplSettings.kbsMenu = settings[key];
 				break;
 			case "kbsToggle":
-				simplSettings["kbsToggle"] = settings[key];
+				simplSettings.kbsToggle = settings[key];
 				break;
 			case "dateGrouping":
-				simplSettings["dateGrouping"] = settings[key];
+				simplSettings.dateGrouping = settings[key];
+				if (simplSettings.dateGrouping) {
+					observeThreadlist();
+				} else {
+					threadlistObserver.disconnect();
+				}
 				break;
 		}
 	}
@@ -159,11 +164,12 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	}
 });
 
-
 // TODO: show announcement and link to settings page 
 const optionsUrl = chrome.extension.getURL("options.html");
-console.log(optionsUrl);
+if (simplifyDebug) console.log(optionsUrl);
 // const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
+
+
 
 
 /* == INIT SAVED STATES =================================================
@@ -390,6 +396,13 @@ window.onhashchange = function() {
 	// if we were supposed to check the theme later, do it now
 	if (checkThemeLater) {
 		detectTheme();
+	}
+
+	// See if we need to date group the view
+	// todo maybe stop the observer and start a new one?
+	if (simplSettings.dateGrouping) {
+		threadlistObserver.disconnect();
+		observeThreadlist();
 	}
 }
 
@@ -1282,6 +1295,106 @@ function detectOtherExtensions() {
  * You have to use chrome.runtime.getURL(string path)
  * More info: https://developer.chrome.com/extensions/runtime#method-getURL
  */
+
+
+
+/* ==========================================================================================
+	Adding date gaps in the inbox between the following sections
+	Today
+	Yesterday
+	This month
+	<Month name>
+	<Month name year>
+	Earlier
+	----
+	TODO:
+	- Make it more efficient (I'm calling insertDateGaps more often than I should)
+ */
+
+// Date constants
+const now = new Date();
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
+const month0 = new Date(now.getFullYear(), now.getMonth(), 1);
+const month1 = new Date(now.getFullYear(), now.getMonth()-1, 1);
+const month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+let justRan = false;
+
+// Insert date gaps
+function insertDateGaps(mutationList, observer) {
+	if (simplifyDebug) {
+		if (mutationList) {
+			console.log(mutationList);
+		} else {
+			console.log('No mutation list')
+		}		
+	}
+
+	let lists = document.querySelectorAll('.UI table[role="grid"]');
+
+	if (lists.length > 0) {
+		if (simplifyDebug) console.log('Inserting date gaps');
+		lists.forEach(function(list) {
+			let items = list.querySelectorAll('.zA');
+			items.forEach(function(item){
+				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
+					let itemDate = new Date(item.querySelector('.xW > span').title);
+					if (itemDate > today) {
+						item.setAttribute('date', 'today');
+					} else if (itemDate >= yesterday) {
+						item.setAttribute('date', 'yesterday');
+					} else if (itemDate >= month0) {
+						item.setAttribute('date', 'month0');
+					} else if (itemDate >= month1) {
+						item.setAttribute('date', 'month1');
+					} else if (itemDate >= month2) {
+						item.setAttribute('date', 'month2');
+					} else {
+						item.setAttribute('date', 'earlier');
+					}
+				}
+			});
+		});
+	}
+}
+
+const threadlistObserver = new MutationObserver(insertDateGaps);
+let observeThreadlistLoops = 1;
+function observeThreadlist() {
+	// Start observing the target node for configured mutations
+	let threadlist = document.querySelector('div[gh="tl"]');
+	if (threadlist) {
+		if (simplSettings.dateGrouping) {
+			insertDateGaps();
+			threadlistObserver.observe(threadlist, { attributes: false, childList: true, subtree: true });
+			if (simplifyDebug) console.log('Adding mutation observer for threadlist');			
+		}
+	} else {
+		if (observeThreadlistLoops < 10) {
+			setTimeout(observeThreadlist, 500);
+			observeThreadlistLoops++;
+			if (simplifyDebug) console.log('observeThreadlist attempt #' + observeThreadlistLoops);
+		}
+	}
+}
+observeThreadlist();
+
+
+/*
+mutation observers:
+https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
+
+childlist: One or more children have been added to and/or removed from the tree; see mutation.addedNodes and mutation.removedNodes 
+
+attributes: An attribute value changed on the element in mutation.target; the attribute name is in mutation.attributeName and its previous value is in mutation.oldValue
+
+subtree: Omit or set to false to observe only changes to the parent node.
+ */
+
+/* ========================================================================================== */
+
+
+
 
 
 // Initialize styles as soon as head is ready

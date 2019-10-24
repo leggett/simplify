@@ -8,7 +8,6 @@
 <body>
 	<div id="simplOptions">
  		<img src="img/icon128.png"><br>
-
  		<h1>Simplify Gmail Options</h1><br>
 
  		<table>
@@ -32,37 +31,39 @@
  			</tr>
  			<tr>
  				<td>
-		 			<label for="kbsToggle" id="tLabel">
+		 			<label for="kbsToggle" id="kbssLabel">
 		 				<kbd id="systemKey1">Ctrl</kbd>+<kbd id="systemKey">S</kbd> - 
 		 				Toggle Simplify on/off
 		 			</label>
 		 		</td>
 		 		<td class="toggle">
-		 			<button class="toggle" id="kbsToggle" aria-labelledby="tLabel"><span></span></button>
+		 			<button class="toggle" id="kbsToggle" aria-labelledby="kbssLabel"><span></span></button>
 		 		</td>
  			</tr>
  			<tr>
  				<td>
-		 			<label for="kbsMenu" id="mLabel">
+		 			<label for="kbsMenu" id="kbsmLabel">
 		 				<kbd id="systemKey2">Ctrl</kbd>+<kbd id="systemKey">M</kbd> - 
 		 				Toggle Gmail navigation menu open/closed
 		 			</label>
 		 		</td>
 		 		<td class="toggle">
-		 			<button class="toggle" id="kbsMenu" aria-labelledby="mLabel"><span></span></button>
+		 			<button class="toggle" id="kbsMenu" aria-labelledby="kbsmLabel"><span></span></button>
 		 		</td>
  			</tr>
 		</table><br><br>
 
- 		<table class="beta">
+ 		<table>
  			<tr class="label">
  				<td colspan="2">Beta features</td>
  			</tr>
  			<tr>
- 				<td><label for="dateGrouping">Group emails by date</label></td>
-		 		<td class="toggle"><input type="checkbox" id="dateGrouping"></td>
+ 				<td><label for="dateGrouping" id="dgLabel">Group emails by date</label></td>
+		 		<td class="toggle">
+					<button class="toggle" id="dateGrouping" aria-labelledby="dgLabel"><span></span></button>
+		 		</td>
  			</tr>
-		</table>
+		</table><br><br>
 
  		<br>
 		<a href="https://simpl.fyi/#faq">FAQ</a> -
