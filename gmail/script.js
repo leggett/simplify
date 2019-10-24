@@ -145,7 +145,7 @@ function applySettings(settings) {
 				break;
 			case "dateGrouping":
 				simplSettings.dateGrouping = settings[key];
-				observeInbox();
+				observeThreadlist();
 				break;
 		}
 	}
@@ -395,7 +395,11 @@ window.onhashchange = function() {
 	}
 
 	// See if we need to date group the view
-	insertDateGaps();
+	// todo maybe stop the observer and start a new one?
+	if (simplSettings.dateGrouping) {
+		threadlistObserver.disconnect();
+		observeThreadlist();
+	}
 }
 
 // Show back button if page loaded on Settings
@@ -1300,9 +1304,6 @@ function detectOtherExtensions() {
 	Earlier
 	----
 	TODO:
-	- Add labels between sections
-	- Check for snoozed items
-	- Don't do this for certain inbox setups that already have sections (like multiple inboxes)
 	- Make it more efficient (I'm calling insertDateGaps more often than I should)
  */
 
@@ -1353,22 +1354,26 @@ function insertDateGaps(mutationList, observer) {
 	}
 }
 
-const inboxObserver = new MutationObserver(insertDateGaps);
-function observeInbox() {
+const threadlistObserver = new MutationObserver(insertDateGaps);
+let observeThreadlistLoops = 1;
+function observeThreadlist() {
 	// Start observing the target node for configured mutations
-	let inbox = document.querySelector('div[gh="tl"]');
-	if (inbox) {
+	let threadlist = document.querySelector('div[gh="tl"]');
+	if (threadlist) {
 		if (simplSettings.dateGrouping) {
 			insertDateGaps();
-			inboxObserver.observe(inbox, { attributes: false, childList: true, subtree: true });
-			if (simplifyDebug) console.log('Adding mutation observer for Inbox');			
+			threadlistObserver.observe(threadlist, { attributes: false, childList: true, subtree: true });
+			if (simplifyDebug) console.log('Adding mutation observer for threadlist');			
 		}
 	} else {
-		if (simplifyDebug) console.log('Inbox not there yet -- too early');
-		setTimeout(observeInbox, 500);
+		if (observeThreadlistLoops < 10) {
+			setTimeout(observeThreadlist, 500);
+			observeThreadlistLoops++;
+			if (simplifyDebug) console.log('observeThreadlist attempt #' + observeThreadlistLoops);
+		}
 	}
 }
-observeInbox();
+observeThreadlist();
 
 
 /*
