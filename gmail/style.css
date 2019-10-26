@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.6.4
+ * SIMPLIFY GMAIL v1.7.0
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -48,6 +48,22 @@ tr[date="earlier"]::before {
 	top: -32px;
 	left: 16px;
 }
+
+html.simpl.mediumTheme tr[date="today"]::before,
+html.simpl.mediumTheme tr[date="yesterday"]::before,
+html.simpl.mediumTheme tr[date="month0"]::before,
+html.simpl.mediumTheme tr[date="month1"]::before,
+html.simpl.mediumTheme tr[date="month2"]::before,
+html.simpl.mediumTheme tr[date="earlier"]::before,
+html.simpl.darkTheme tr[date="today"]::before,
+html.simpl.darkTheme tr[date="yesterday"]::before,
+html.simpl.darkTheme tr[date="month0"]::before,
+html.simpl.darkTheme tr[date="month1"]::before,
+html.simpl.darkTheme tr[date="month2"]::before,
+html.simpl.darkTheme tr[date="earlier"]::before {
+	color: #ffffff;
+}
+
 tr[date="today"]::before { content: 'TODAY'; }
 tr[date="yesterday"]::before { content: 'YESTERDAY'; }
 tr[date="month0"]::before { content: 'THIS MONTH'; }
