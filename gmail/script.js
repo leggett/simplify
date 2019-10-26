@@ -65,9 +65,9 @@ function handleKeyboardShortcut(event) {
 	}
 
 	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if (simplSettings.kbsMenu) {
-		if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
-			(event.metaKey && event.key === "m")) {
+	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
+		(event.metaKey && event.key === "m")) {
+		if (simplSettings.kbsMenu) {
 			document.querySelector('.aeN').classList.toggle('bhZ');
 			toggleMenu();
 			event.preventDefault();
@@ -76,15 +76,28 @@ function handleKeyboardShortcut(event) {
 			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
 				document.querySelector('div[role="navigation"] a:first-child').focus();
 			}
+		} else if (!simplSettings.kbsNotified) {
+			if (htmlEl.classList.contains('navOpen')) {
+				showNotification('Trying to hide the main menu? Enable the keyboard shortcut in Simplify Settings.');
+			} else {
+				showNotification('Trying to show the main menu? Enable the keyboard shortcut in Simplify Settings.');
+			}
+			
 		}
 	}
 
 	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if (simplSettings.kbsToggle) {
-		if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
-			(event.metaKey && event.key === "s")) {
+	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
+		(event.metaKey && event.key === "s")) {
+		if (simplSettings.kbsToggle) {
 			toggleSimpl();
 			event.preventDefault();
+		} else if (!simplSettings.kbsNotified) {
+			if (htmlEl.classList.contains('simpl')) {
+				showNotification('Trying to disable Simplify? Enable the keyboard shortcut in Simplify Settings.');
+			} else {
+				showNotification('Trying to enable Simplify? Enable the keyboard shortcut in Simplify Settings.');
+			}
 		}
 	}
 }
@@ -584,6 +597,44 @@ findSupport();
 */
 
 
+
+// == IN-GMAIL SIMPLIFY NOTIFICATIONS ======================================
+function showNotification(msg) {
+	let notificationBox = document.getElementById('simplNotification');
+	if (notificationBox) {
+		// If notification already exists, just show it again
+		notificationBox.style.display = "block";
+	} else {
+		// Create notification bubble, attach to body
+		let notificationEl = document.createElement('div');
+		notificationEl.id = "simplNotification";
+		document.body.appendChild(notificationEl);
+		notificationBox = document.getElementById('simplNotification');
+	}
+
+	// Add content and buttons to notification div
+	notificationBox.innerHTML = msg + '<br>';
+	notificationBox.innerHTML += '<button id="openSettings">Simplify settings</button>'
+	notificationBox.innerHTML += '<button class="secondary" id="closeNotification">Close</button>';
+
+	// Add event listeners for buttons
+	document.querySelector('#simplNotification #openSettings').addEventListener('click', function() {
+		let optionsUrl = chrome.extension.getURL("options.html");
+		window.open(optionsUrl, '_blank');
+		notificationBox.style.display = 'none';
+		clearTimeout(autoCloseNotification);
+	}, false);
+	document.querySelector('#simplNotification #closeNotification').addEventListener('click', function() {
+		notificationBox.style.display = 'none';
+		clearTimeout(autoCloseNotification);
+		simplSettings.kbsNotified = true;
+	}, false);
+
+	// Auto hide this notification in 30 seconds
+	let autoCloseNotification = setTimeout(function() {
+		notificationBox.style.display = 'none';
+	}, 30000);
+}
 
 
 // == SEARCH FUNCTIONS =====================================================

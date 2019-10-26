@@ -12,7 +12,13 @@
 		"128": "img/icon128.png",
 		"256": "img/icon256.png"
 	},
-	"options_page": "options.html",
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": true
+	},
+	"web_accessible_resources": [
+		"options.html"
+	],
 	"content_scripts": [{
       	"matches": ["*://mail.google.com/*"],
       	"js": ["script.js"],
