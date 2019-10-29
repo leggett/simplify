@@ -1,186 +1,47 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.0
+ * SIMPLIFY GMAIL v1.5.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
- * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
  * More info: simpl.fyi
  */
 
 
 // == SIMPL =====================================================
 // Turn debug loggings on/off
-const simplifyDebug = false;
-
-// Print Simplify version number if debug is running
-if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
-
-// Add simpl style to html tag
+const simplifyDebug = true;
 const htmlEl = document.documentElement;
-htmlEl.classList.add('simpl');
+
+function initSimplify() {
+	// Print Simplify version number if debug is running
+	if (simplifyDebug) console.log('Simplify version 1.5.8');
+
+	// Add simpl style to html tag
+	htmlEl.classList.add('simpl');
+}
 
 // Toggles custom style and returns latest state
 function toggleSimpl() {
 	return htmlEl.classList.toggle('simpl');
 }
 
-// Helper function for keyboard shortcuts to determine if an element is not editable
-function notEditable(el) {
-	el = el ? el : document.activeElement;
-
-	// BUG: Still firing when inputs are in focus
-	// I think Gmail is removing focus before this function runs
-	if (el.isContentEditable || el.tagName == "INPUT") {
-		if (simplifyDebug) {
-			console.log('IS or WAS editable');
-			console.log(el);
-		}
-		return false;
-	}
-	else {
-		if (simplifyDebug) {
-			console.log('NOT editable');
-			console.log(el);			
-		}
-		return true;
-	}
-}
-
 // Handle Simplify keyboard shortcuts
-function handleKeyboardShortcut(event) {
-	// WIP: If Escape was pressed, close conversation or search
-	if (event.key === "Escape") {
-		// Only close if focus wasn't in an input or content editable div
-		if (notEditable()) {
-			if (simplifyDebug) console.log('Close search or conversation');
-
-			// TODO: IF conversation is open
-
-			// TODO: ELSE If in search results (check url)
-
-			// TODO: ELSE, we could either return to the inbox or do nothing
-
-			// event.preventDefault();
-		}
+function handleToggleShortcut(event) {
+	// If Cmd+J was pressed, toggle simpl
+	if (event.metaKey && event.which == 74) {
+		toggleSimpl();
+		event.preventDefault();
 	}
 
-	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
-		(event.metaKey && event.key === "m")) {
-		if (simplSettings.kbsMenu) {
-			document.querySelector('.aeN').classList.toggle('bhZ');
-			toggleMenu();
-			event.preventDefault();
-
-			// If opening, focus the first element
-			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-				document.querySelector('div[role="navigation"] a:first-child').focus();
-			}
-		} else if (!simplSettings.kbsNotified) {
-			if (htmlEl.classList.contains('navOpen')) {
-				showNotification('Trying to hide the main menu? Enable the keyboard shortcut in Simplify Settings.');
-			} else {
-				showNotification('Trying to show the main menu? Enable the keyboard shortcut in Simplify Settings.');
-			}
-			
-		}
-	}
-
-	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
-		(event.metaKey && event.key === "s")) {
-		if (simplSettings.kbsToggle) {
-			toggleSimpl();
-			event.preventDefault();
-		} else if (!simplSettings.kbsNotified) {
-			if (htmlEl.classList.contains('simpl')) {
-				showNotification('Trying to disable Simplify? Enable the keyboard shortcut in Simplify Settings.');
-			} else {
-				showNotification('Trying to enable Simplify? Enable the keyboard shortcut in Simplify Settings.');
-			}
-		}
-	}
-}
-window.addEventListener('keydown', handleKeyboardShortcut, false);
-
-// Handle messages from background script that 
-// supports page action to toggle Simplify on/off
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	if (message.action === 'toggle_simpl') {
-		const isNowToggled = toggleSimpl();
-		sendResponse({toggled: isNowToggled});
-	}
-});
-
-// Activate page action button
-chrome.runtime.sendMessage({action: 'activate_page_action'});
-
-
-
-// == SIMPLIFY SETTINGS =====================================================
-// Load Simplify Settings
-let simplSettings = {};
-chrome.storage.local.get(null, function (results) {
-	if (results == null) {
-		console.log('No settings yet -- maybe initialize them');
-	} else {
-		simplSettings = results;
-	}
-	applySettings(simplSettings);
-});
-
-// Apply setting
-function applySettings(settings) {
-	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
-	for (let key in settings) {
-		switch (key) {
-			case "hideAddons":
-				simplSettings.hideAddons = settings[key];
-				if (simplSettings.hideAddons) {
-					htmlEl.classList.add("hideAddons");
-				} else {
-					htmlEl.classList.remove("hideAddons");
-				}
-				break;
-			case "minimizeSearch":
-				simplSettings.minimizeSearch = settings[key];
-				if (simplSettings.minimizeSearch) {
-					htmlEl.classList.add("hideSearch");
-				} else {
-					htmlEl.classList.remove("hideSearch");
-				}
-				break;
-			case "kbsMenu":
-				simplSettings.kbsMenu = settings[key];
-				break;
-			case "kbsToggle":
-				simplSettings.kbsToggle = settings[key];
-				break;
-			case "dateGrouping":
-				simplSettings.dateGrouping = settings[key];
-				if (simplSettings.dateGrouping) {
-					observeThreadlist();
-				} else {
-					threadlistObserver.disconnect();
-				}
-				break;
-		}
+	// If Ctrl+M was pressed, toggle menu open/closed
+	if (event.ctrlKey && event.key == "m") {
+		document.querySelector('.aeN').classList.toggle('bhZ');
+		toggleMenu();
+		// TODO: if opening, focus the first element
 	}
 }
 
-// Detect changes in settings and make appropriate changes
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-	for (let key in changes) {
-		let newSettings = {};
-		newSettings[key] = changes[key].newValue;
-		applySettings(newSettings);
-	}
-});
-
-// TODO: show announcement and link to settings page 
-const optionsUrl = chrome.extension.getURL("options.html");
-if (simplifyDebug) console.log(optionsUrl);
-// const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
 
 
 
@@ -198,13 +59,8 @@ if (simplifyDebug) console.log(optionsUrl);
  * the userId in the URL doesn't match the username associated
  * with the userId in localStorage.
  */
-const isDelegate = location.pathname.indexOf('/mail/b/') >= 0;
-const isPopout = location.href.indexOf("view=btop") >= 0;
 const userPos = location.pathname.indexOf('/u/');
-const u = isDelegate ? 'b' + location.pathname.substring(userPos+3, userPos+4) : location.pathname.substring(userPos+3, userPos+4);
-
-let simplify = {};
-
+const u = location.pathname.substring(userPos+3, userPos+4);
 const defaultParam = {
 	username: "",
 	previewPane: null,
@@ -218,18 +74,9 @@ const defaultParam = {
 	addOns: null,
 	addOnsCount: 3,
 	otherExtensions: null,
-	elements: {
-		"searchParent": ".gb_pe",
-		"menuButton": ".gb_Dc.gb_Kc.gb_Lc > div:first-child",
-		"menuContainer": ".gb_Dc.gb_Kc.gb_Lc",
-		"backButton": ".gb_cc.gb_fc.gb_va",
-		"supportButton": ".gb_fe.gb_de",
-		"accountButton":".gb_x.gb_Ea.gb_f",
-		"accountWrapper": false,
-		"gsuiteLogo": false,
-		"oneGoogleRing": false
-	}
+	elements: {}
 }
+let simplify = {};
 
 // Helper function to init or reset the localStorage variable
 function resetLocalStorage(userNum) {
@@ -242,19 +89,6 @@ function resetLocalStorage(userNum) {
 	}
 }
 
-// Initialize local storage if undefined
-if (typeof window.localStorage.simplify === 'undefined') {
-	resetLocalStorage();
-}
-
-// Local copy of Simplify cached state parameters
-simplify = JSON.parse(window.localStorage.simplify);
-
-// Make sure Simplify cached state parameters are initialized for this account
-if (typeof simplify[u] === 'undefined') {
-	resetLocalStorage(u);
-}
-
 // Write to local and localStorage object
 function updateParam(param, value) {
 	// Sometimes the value has already been written and we just need to update localStorage
@@ -264,122 +98,126 @@ function updateParam(param, value) {
 	window.localStorage.simplify = JSON.stringify(simplify);
 }
 
-
-// Hash string
-function hashCode(s) {
-	return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
-}
-
 /* Make sure local variables are for the right account 
  * TODO: for now, when it doesn't match, I just localStorage.clear()
  * but there might be a better way, maybe try and match the correct account?
  */
-let username = "";
 function checkLocalVar() {
-	const usernameStart = document.title.search(/([\w\.]+\@[\w\.\-]+)/);
+	// var username = document.querySelector('.gb_db').innerText;
+	const usernameStart = document.title.search(/[a-z]+\@gmail.com - Gmail/);
 	if (usernameStart > 0) {
-		username = document.title.substring(usernameStart, document.title.lastIndexOf(" - "));
-		const userhash = hashCode(username);
+		const username = document.title.substring(usernameStart, document.title.length-8);
 		if (simplifyDebug) console.log('Username: ' + username);
-		if (simplifyDebug) console.log('Userhash: ' + userhash);
-		if (simplify[u].username != userhash) {
+		if (simplify[u].username != username) {
 			if (simplifyDebug) console.log('Usernames do NOT match');
 			resetLocalStorage();
 		}
-		updateParam("username", userhash);
+		updateParam("username", username);
 	}
 }
 
-// Init Preview Pane or Multiple Inboxes
-if (simplify[u].previewPane) {
-	if (simplifyDebug) console.log('Loading with split view');
-	htmlEl.classList.add('splitView');
-
-	// Multiple Inboxes doesn't work if you have Preview Pane enabled
-	updateParam("multipleInboxes", "none");
-} else {
-	// Multiple Inboxes only works if Preview Pane is disabled
-	if (simplify[u].multipleInboxes == "horizontal") {
-		if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
-		htmlEl.classList.add('multiBoxHorz');
-	} else if (simplify[u].multipleInboxes == "vertical") {
-		if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
-		htmlEl.classList.add('multiBoxVert');
+// Initialize saved states from localStorage
+function initSavedStates() {
+	// Initialize local storage if undefined
+	if (typeof window.localStorage.simplify === 'undefined') {
+		resetLocalStorage();
 	}
-}
 
-// Init themes
-if (simplify[u].theme == "light") {
-	if (simplifyDebug) console.log('Loading with light theme');
-	htmlEl.classList.add('lightTheme');
-} else if (simplify[u].theme == "dark") {
-	if (simplifyDebug) console.log('Loading with dark theme');
-	htmlEl.classList.add('darkTheme');
-} else if (simplify[u].theme == "medium") {
-	if (simplifyDebug) console.log('Loading with medium theme');
-	htmlEl.classList.add('mediumTheme');
-}
+	// Local copy of Simplify cached state parameters
+	simplify = JSON.parse(window.localStorage.simplify);
 
-// Init nav menu
-if (simplify[u].navOpen) {
-	if (simplifyDebug) console.log('Loading with nav menu open');
-	htmlEl.classList.add('navOpen');
-} else {
-	if (simplifyDebug) console.log('Loading with nav menu closed');
-}
+	// Make sure Simplify cached state parameters are initialized for this account
+	if (typeof simplify[u] === 'undefined') {
+		resetLocalStorage(u);
+	}
 
-// Init density
-if (simplify[u].density == "low") {
-	if (simplifyDebug) console.log('Loading with low density inbox');
-	htmlEl.classList.add('lowDensityInbox');
-} else if (simplify[u].density == "high") {
-	if (simplifyDebug) console.log('Loading with high density inbox');
-	htmlEl.classList.add('highDensityInbox');
-}
+	// Init Preview Pane or Multiple Inboxes
+	if (simplify[u].previewPane) {
+		if (simplifyDebug) console.log('Loading with split view');
+		htmlEl.classList.add('splitView');
 
-// Init text button labels
-if (simplify[u].textButtons) {
-	if (simplifyDebug) console.log('Loading with text buttons');
-	htmlEl.classList.add('textButtons');
-}
-
-// Init right side chat
-if (simplify[u].rhsChat) {
-	if (simplifyDebug) console.log('Loading with right hand side chat');
-	htmlEl.classList.add('rhsChat');
-}
-
-// Hide Search box by default
-if (simplify[u].minimizeSearch == null) {
-	// Only default to hiding search if the window is smaller than 1441px wide
-	if (window.innerWidth < 1441) {
-		updateParam('minimizeSearch', true);
+		// Multiple Inboxes doesn't work if you have Preview Pane enabled
+		updateParam("multipleInboxes", "none");
 	} else {
-		updateParam('minimizeSearch', false);
+		// Multiple Inboxes only works if Preview Pane is disabled
+		if (simplify[u].multipleInboxes == "horizontal") {
+			if (simplifyDebug) console.log('Loading with side-by-side multiple inboxes');
+			htmlEl.classList.add('multiBoxHorz');
+		} else if (simplify[u].multipleInboxes == "vertical") {
+			if (simplifyDebug) console.log('Loading with vertically stacked multiple inboxes');
+			htmlEl.classList.add('multiBoxVert');
+		}
+	}
+
+	// Init themes
+	if (simplify[u].theme == "light") {
+		if (simplifyDebug) console.log('Loading with light theme');
+		htmlEl.classList.add('lightTheme');
+	} else if (simplify[u].theme == "dark") {
+		if (simplifyDebug) console.log('Loading with dark theme');
+		htmlEl.classList.add('darkTheme');
+	} else if (simplify[u].theme == "medium") {
+		if (simplifyDebug) console.log('Loading with medium theme');
+		htmlEl.classList.add('mediumTheme');
+	}
+
+	// Init nav menu
+	if (simplify[u].navOpen) {
+		if (simplifyDebug) console.log('Loading with nav menu open');
+		document.documentElement.classList.add('navOpen');
+	} else {
+		if (simplifyDebug) console.log('Loading with nav menu closed');
+	}
+
+	// Init density
+	if (simplify[u].density == "low") {
+		if (simplifyDebug) console.log('Loading with low density inbox');
+		htmlEl.classList.add('lowDensityInbox');
+	} else if (simplify[u].density == "high") {
+		if (simplifyDebug) console.log('Loading with high density inbox');
+		htmlEl.classList.add('highDensityInbox');
+	}
+
+	// Init text button labels
+	if (simplify[u].textButtons) {
+		if (simplifyDebug) console.log('Loading with text buttons');
+		document.documentElement.classList.add('textButtons');
+	}
+
+	// Init right side chat
+	if (simplify[u].rhsChat) {
+		if (simplifyDebug) console.log('Loading with right hand side chat');
+		htmlEl.classList.add('rhsChat');
+	}
+
+	// Hide Search box by default
+	if (simplify[u].minimizeSearch == null) {
+		// Only default to hiding search if the window is smaller than 1441px wide
+		if (window.innerWidth < 1441) {
+			updateParam('minimizeSearch', true);
+		} else {
+			updateParam('minimizeSearch', false);
+		}
+	}
+	if (simplify[u].minimizeSearch) {
+		if (simplifyDebug) console.log('Loading with search hidden');
+		htmlEl.classList.add('hideSearch');
+	}
+
+	// Make space for add-ons pane if the add-ons pane was open last time
+	if (simplify[u].addOns) {
+		if (simplifyDebug) console.log('Loading with add-ons pane');
+		htmlEl.classList.add('addOnsOpen');
+	}
+
+	// Init 3rd party extensions
+	if (simplify[u].otherExtensions) {
+		if (simplifyDebug) console.log('Loading with 3rd party extensions');
+		htmlEl.classList.add('otherExtensions');
 	}
 }
-if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
-	if (simplifyDebug) console.log('Loading with search hidden');
-	htmlEl.classList.add('hideSearch');
-}
 
-// Make space for add-ons pane if the add-ons pane was open last time
-if (simplify[u].addOns) {
-	if (simplifyDebug) console.log('Loading with add-ons pane');
-	htmlEl.classList.add('addOnsOpen');
-}
 
-// Init 3rd party extensions
-if (simplify[u].otherExtensions) {
-	if (simplifyDebug) console.log('Loading with 3rd party extensions');
-	htmlEl.classList.add('otherExtensions');
-}
-
-// Add .popout if this is a popped out email
-if (isPopout) {
-	htmlEl.classList.add('popout');
-	htmlEl.classList.remove('splitView');
-}
 
 
 
@@ -387,12 +225,11 @@ if (isPopout) {
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
 let closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
-	|| location.hash.substring(1, 6) == "label"
-	|| location.hash.substring(1, 16) == "advanced-search") ? "#inbox" : location.hash;
+	|| location.hash.substring(1, 7) == "label/"
+	|| location.hash.substring(1, 7) == "advanc") ? "#inbox" : location.hash;
 let closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
-	// TODO: Should I also consider "#create-filter"?
 	if (location.hash.substring(1, 7) != "search"
 		&& location.hash.substring(1, 6) != "label"
 		&& location.hash.substring(1, 16) != "advanced-search") {
@@ -410,21 +247,12 @@ window.onhashchange = function() {
 	if (checkThemeLater) {
 		detectTheme();
 	}
-
-	// See if we need to date group the view
-	// todo maybe stop the observer and start a new one?
-	if (simplSettings.dateGrouping) {
-		threadlistObserver.disconnect();
-		observeThreadlist();
-	}
 }
 
 // Show back button if page loaded on Settings
 if (location.hash.substring(1, 9) == "settings") {
 	htmlEl.classList.add('inSettings');
 }
-
-
 
 
 
@@ -436,6 +264,31 @@ if (location.hash.substring(1, 9) == "settings") {
  * a classname and it changes often, detect the classname (usually based on
  * more stable children elements) and inject the style on load. 
  */
+
+let simplifyStyles;
+function initStyle() {
+	// Create style sheet element and append to <HEAD>
+	let simplifyStyleEl = document.createElement('style');
+	simplifyStyleEl.id = "simplifyStyle";
+	document.head.appendChild(simplifyStyleEl);
+
+	// Setup global variable for style sheet
+	if (simplifyDebug) console.log('Style sheet added');
+	simplifyStyles = simplifyStyleEl.sheet;
+
+	// Initialize addOns height now that Style Sheet is setup
+	addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
+
+	// Add cached styles
+	addStyles();
+}
+
+// Helper function to add CSS to Simplify Style Sheet
+function addCSS(css, pos) {
+	const position = pos ? pos : simplifyStyles.cssRules.length;
+	simplifyStyles.insertRule(css, position);
+	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
+}
 
 // Detect and cache classNames that often change so we can inject CSS
 let detectClassNamesLoops = 0;
@@ -451,23 +304,23 @@ function detectClassNames() {
 
 		// Main menu
 		const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]').parentElement.parentElement.parentElement.classList.value.trim();
-		simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + ' > div:first-child';
+		simplify[u].elements["menuButton"] = "." + menuButton.replace(/ /g,".") + '  > div:first-child';
 		simplify[u].elements["menuContainer"] = "." + menuButton.replace(/ /g,".");
 
 		// Back button
 		const backButton = document.querySelector('#gb div[role="button"] path[d*="11H7.83l5.59-5.59L12"]').parentElement.parentElement.classList.value.trim();
 		simplify[u].elements["backButton"] = "." + backButton.replace(/ /g,".");
 
-		// Support button (usually added about 2 seconds after page is loaded)
-		const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
-		if (simplifyDebug) {
-			console.log('Detecting class name for support path element:');
-			console.log(supportButton);
-		}
-		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : simplify[u].elements["supportButton"];
+		// oneGoogle Ring around profile photo
+		const oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
+		simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
+		
+		// Support button
+		const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]')
+		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
 
 		// Account switcher (profile pic/name)
-		const accountButton = document.querySelector(`#gb a[aria-label*="${username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`);
+		const accountButton = document.querySelectorAll(`#gb a[aria-label*="${simplify[u].username}"], #gb a[href^="https://accounts.google.com/SignOutOptions"]`)[0];
 		simplify[u].elements["accountButton"] = accountButton ? "." + accountButton.classList.value.trim().replace(/ /g,".") : false;
 
 		// Account wrapper (for Gsuite accounts)
@@ -478,10 +331,6 @@ function detectClassNames() {
 		const gsuiteLogo = document.querySelector('#gb img[src^="https://www.google.com/a/"]');
 		simplify[u].elements["gsuiteLogo"] = gsuiteLogo ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g,".") : false;
 
-		// oneGoogle Ring around profile photo
-		const oneGoogleRing = document.querySelector('#gb div path[fill="#F6AD01"]');
-		simplify[u].elements["oneGoogleRing"] = oneGoogleRing ? "." + oneGoogleRing.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : false;
-		
 		// Update the cached classnames in case any changed
 		updateParam();
 
@@ -501,18 +350,14 @@ function detectClassNames() {
 	}
 }
 
-// Helper function to add CSS to Simplify Style Sheet
-function addCSS(css, pos) {
-	const position = pos ? pos : simplifyStyles.cssRules.length;
-	simplifyStyles.insertRule(css, position);
-	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
-}
-
 // This is all CSS that I need to add dynamically as the classNames often change for these elements 
 // and I couldn't find a stable way to select the elements other than their classnames 
 function addStyles() {
 	// Remove right padding from action bar so search is always correctly placed
 	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`);
+
+	// Hide any buttons after the Search input including the support button (a bit risky)
+	addCSS(`html.simpl #gb ${simplify[u].elements.searchParent} ~ div { display:none; }`);
 
 	// Switch menu button for back button when in Settings
 	addCSS(`html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`);
@@ -553,88 +398,6 @@ function addStyles() {
 	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);	
 }
 
-// Add CSS based on cached selectors detected in previous loads
-let simplifyStyles;
-function initStyle() {
-	if (document.head) {
-		initStyleObserver.disconnect();
-
-		// Create style sheet element and append to <HEAD>
-		let simplifyStyleEl = document.createElement('style');
-		simplifyStyleEl.id = "simplifyStyle";
-		document.head.appendChild(simplifyStyleEl);
-
-		// Setup global variable for style sheet
-		if (simplifyDebug) console.log('Style sheet added');
-		simplifyStyles = simplifyStyleEl.sheet;
-
-		// Initialize addOns height now that Style Sheet is setup
-		addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
-
-		// Add cached styles
-		addStyles();
-	}
-}
-
-/*
-// Figure out when an element is added to the DOM
-let howLong = 0;
-console.log('Looking for the Support button');
-function findSupport() {
-	let supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
-	if (supportButton) {
-		console.log(`Found support button in ${howLong}ms`);
-	} else {
-		if (howLong > 10000) {
-			console.log(`Giving up on finding Support button. Looked for ${howLong}ms`);
-		} else {
-			howLong += 50;
-			setTimeout(findSupport, 50);
-		}
-	}
-}
-findSupport();
-*/
-
-
-
-// == IN-GMAIL SIMPLIFY NOTIFICATIONS ======================================
-function showNotification(msg) {
-	let notificationBox = document.getElementById('simplNotification');
-	if (notificationBox) {
-		// If notification already exists, just show it again
-		notificationBox.style.display = "block";
-	} else {
-		// Create notification bubble, attach to body
-		let notificationEl = document.createElement('div');
-		notificationEl.id = "simplNotification";
-		document.body.appendChild(notificationEl);
-		notificationBox = document.getElementById('simplNotification');
-	}
-
-	// Add content and buttons to notification div
-	notificationBox.innerHTML = msg + '<br>';
-	notificationBox.innerHTML += '<button id="openSettings">Simplify settings</button>'
-	notificationBox.innerHTML += '<button class="secondary" id="closeNotification">Close</button>';
-
-	// Add event listeners for buttons
-	document.querySelector('#simplNotification #openSettings').addEventListener('click', function() {
-		let optionsUrl = chrome.extension.getURL("options.html");
-		window.open(optionsUrl, '_blank');
-		notificationBox.style.display = 'none';
-		clearTimeout(autoCloseNotification);
-	}, false);
-	document.querySelector('#simplNotification #closeNotification').addEventListener('click', function() {
-		notificationBox.style.display = 'none';
-		clearTimeout(autoCloseNotification);
-		simplSettings.kbsNotified = true;
-	}, false);
-
-	// Auto hide this notification in 30 seconds
-	let autoCloseNotification = setTimeout(function() {
-		notificationBox.style.display = 'none';
-	}, 30000);
-}
 
 
 // == SEARCH FUNCTIONS =====================================================
@@ -643,11 +406,13 @@ function showNotification(msg) {
 function toggleSearchFocus(onOff) {
 	// We are about to show Search if hideSearch is still on the html tag
 	if (onOff == 'off' || htmlEl.classList.contains('hideSearch')) {
+		// document.querySelector('header#gb form').classList.remove('gb_pe');
+
 		// Remove focus from search input or button
 		document.activeElement.blur();
 	} else {
-		// Focus the search input
-		document.querySelector('header input[name="q"]').focus();
+		// document.querySelector('header#gb form').classList.add('gb_pe');
+		document.querySelector('header#gb form input').focus();
 	}
 }
 
@@ -660,11 +425,6 @@ function initSearch() {
 	// Setup Search functions to show/hide Search at the
 	// right times if we have access to the search field
 	if (searchForm) {
-		// Focus search when you click anywhere on it
-		searchForm.addEventListener('click', function(event) {
-			toggleSearchFocus();
-		}, false);
-
 		// Add function to search button to toggle search open/closed
 		const searchIcon = document.querySelector('#gb form path[d^="M20.49,19l-5.73"]').parentElement;
 		searchIcon.addEventListener('click', function(event) {
@@ -684,21 +444,9 @@ function initSearch() {
 			event.stopPropagation();
 			toggleSearchFocus('off');
 			document.querySelector('header input[name="q"]').value = "";
-			if (location.hash == closeSearchUrlHash) {
-				// Hide close button
-				const searchCloseButton = searchCloseIcon.parentElement;
-				const showCloesButtonClass = searchCloseButton.classList.value.split(' ')[1];
-				searchCloseButton.classList.remove(showCloesButtonClass);
-
-				// Remove focus style from search input (always the 3rd classname)
-				const searchFormClass = searchForm.classList.value.split(' ')[2];
-				searchForm.classList.remove(searchFormClass);
-			} else {
-				location.hash = closeSearchUrlHash;
-			}
-			if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
-				htmlEl.classList.add('hideSearch');
-			}
+			location.hash = closeSearchUrlHash;
+			htmlEl.classList.toggle('hideSearch');
+			updateParam("minimizeSearch", true);
 		}, false);
 	} else {
 		initSearchLoops++;
@@ -716,7 +464,7 @@ function initSearch() {
 let initSearchFocusLoops = 0;
 function initSearchFocus() {
 	// If the search field gets focus and hideSearch hasn't been applied, add it
-	const searchInput = document.querySelector('header input[name="q"]');
+	const searchInput = document.querySelectorAll('header input[name="q"]')[0];
 
 	if (searchInput) {
 		// Show search if the page is loaded is a search view
@@ -729,36 +477,12 @@ function initSearchFocus() {
 			htmlEl.classList.remove('hideSearch');
 		}, false );
 
-		// Remove the placeholder text in the search box
-		searchInput.placeholder = "";
-
-		// Setup eventListeners for search input
-		searchInput.addEventListener('focus', () => {
-			// Add searchFocus from html element
-			htmlEl.classList.add('searchFocused');
-			setTimeout(function() {
-				if (searchInput.value == "label:") {
-					searchInput.selectionStart = searchInput.selectionEnd = 10000;
-				} else {
-					searchInput.selectionStart = 0;
-					searchInput.selectionEnd = 10000;
-				}
-			}, 100);
-		});
-		searchInput.addEventListener('blur', () => {
-			// Remove searchFocus from html element
-			htmlEl.classList.remove('searchFocused');
-
-			// Hide search box if it loses focus, is empty, and was previously hidden
-			if (simplifyDebug) {
-				console.log("Search for '%s' with [u]ms set to %s and ss.ms set to %s", 
-					searchInput.value, simplify[u].minimizeSearch, simplSettings.minimizeSearch);
-			}
-			if ((searchInput.value == "" || searchInput.value == null) && 
-				(simplify[u].minimizeSearch || simplSettings.minimizeSearch)) {
+		// Hide search box if it loses focus, is empty, and was previously hidden
+		searchInput.addEventListener('blur', function() {
+			if (this.value == "" && simplify[u].minimizeSearch) {
 				htmlEl.classList.add('hideSearch');
 			}
-		});
+		}, false );
 	} else {
 		// If the search field can't be found, wait and try again
 		initSearchFocusLoops++;
@@ -819,8 +543,8 @@ let observingThemes = false;
 function detectTheme() {
 	const msgCheckbox = document.querySelectorAll('div[gh="tl"] .xY > .T-Jo')[0];
 	const conversation = document.querySelectorAll('table[role="presentation"]');
-	if (simplifyDebug) console.log('Detecting theme...');
 	if (msgCheckbox) {
+		if (simplifyDebug) console.log('Detecting theme...');
 		const checkboxBg = window.getComputedStyle(msgCheckbox, null).getPropertyValue("background-image");
 		const menuButton = document.querySelector('#gb div path[d*="18h18v-2H3v2zm0"]');
 		const menuButtonBg = window.getComputedStyle(menuButton, null).getPropertyValue("color");
@@ -953,7 +677,7 @@ function detectSplitView() {
 			}
 		} else {
 			detectSplitViewLoops++;
-			if (simplifyDebug) console.log('Detect preview pane loop #' + detectSplitViewLoops);
+			if (simplifyDebug) console.log('detectSplitView loop #' + detectSplitViewLoops);
 
 			// only try 10 times and then assume no split view
 			if (detectSplitViewLoops < 10) {
@@ -963,6 +687,9 @@ function detectSplitView() {
 				if (simplifyDebug) console.log('Giving up on detecting split view');
 				htmlEl.classList.remove('splitView');
 				updateParam('previewPane', false);
+
+				// Multiple Inboxes only works when Split view is disabled
+				detectMultipleInboxes();
 			}
 		}
 	}
@@ -1074,7 +801,6 @@ function detectRightSideChat() {
 			htmlEl.classList.add('rhsChat');
 			updateParam('rhsChat', true);
 		} else {
-			htmlEl.classList.remove('rhsChat');
 			updateParam('rhsChat', false);
 		}
 	} else {
@@ -1114,7 +840,7 @@ function detectButtonLabel() {
 		detectButtonLabelLoops++;
 		if (detectButtonLabelLoops < 5) {
 			setTimeout(detectButtonLabel, 500);
-			if (simplifyDebug) console.log('Detect button labels loop #' + detectButtonLabelLoops);
+			if (simplifyDebug) console.log('detectButtonLabel loop #' + detectButtonLabelLoops);
 		}
 	}
 }
@@ -1142,7 +868,7 @@ function detectMenuState() {
 		detectMenuStateLoops++;
 		if (detectMenuStateLoops < 5) {
 			setTimeout(detectMenuState, 500);
-			if (simplifyDebug) console.log('Detect nav state loop #' + detectMenuStateLoops);
+			if (simplifyDebug) console.log('detectMenuState loop #' + detectMenuStateLoops);
 		}
 	}
 }
@@ -1168,26 +894,19 @@ function toggleMenu() {
 
 // Detect Multiple Inboxes
 function detectMultipleInboxes() {
-	const viewAllButton = document.querySelectorAll('div[role="main"] span[action="viewAll"]').length;
+	const viewAllButton = document.getElementsByClassName('p9').length;
+
 	if (viewAllButton > 0) {
 		if (simplifyDebug) console.log('Multiple inboxes found');
-
-		// Multiple Inboxes only works when Split view is disabled
-		if (simplify[u].previewPane) {
-			// TODO: If both multiple inboxes and preview pane are enabled, throw an error
-
-			// TODO: what do we do with the multiple inboxes class names & localStorage var?
+		const actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
+		if (actionBars > 1) {
+			htmlEl.classList.add('multiBoxVert');
+			htmlEl.classList.remove('multiBoxHorz');
+			updateParam("multipleInboxes", "vertical");
 		} else {
-			const actionBars = document.querySelectorAll('.G-atb[gh="tm"]').length
-			if (actionBars > 1) {
-				htmlEl.classList.add('multiBoxVert');
-				htmlEl.classList.remove('multiBoxHorz');
-				updateParam("multipleInboxes", "vertical");
-			} else {
-				htmlEl.classList.add('multiBoxHorz');
-				htmlEl.classList.remove('multiBoxVert');
-				updateParam("multipleInboxes", "horizontal");
-			}
+			htmlEl.classList.add('multiBoxHorz');
+			htmlEl.classList.remove('multiBoxVert');
+			updateParam("multipleInboxes", "horizontal");
 		}
 	} else {
 		updateParam("multipleInboxes", "none");
@@ -1254,7 +973,6 @@ function detectDelegate() {
 
 
 // Init App switcher event listeners
-let initAppSwitcherLoops = 0;
 function initAppSwitcher() {
 	const profileButton = document.querySelectorAll('#gb a[href^="https://accounts.google.com/SignOutOptions"], #gb a[aria-label^="Google Account: "]')[0];
 	const appSwitcherWrapper = document.querySelector('#gbwa');
@@ -1267,12 +985,6 @@ function initAppSwitcher() {
 		appBar.addEventListener('mouseleave', function() {
 			htmlEl.classList.remove('appSwitcher');
 		}, false);
-	} else {
-		initAppSwitcherLoops++;
-		if (initAppSwitcherLoops < 10) {
-			setTimeout(initAppSwitcher, 500);
-			if (simplifyDebug) console.log('initAppSwitcher loop #' + initAppSwitcherLoops);
-		}
 	}
 }
 
@@ -1341,140 +1053,27 @@ function detectOtherExtensions() {
 */
 
 
-/*
- * TODO: package images
- * You have to use chrome.runtime.getURL(string path)
- * More info: https://developer.chrome.com/extensions/runtime#method-getURL
- */
 
 
-
-/* ==========================================================================================
-	Adding date gaps in the inbox between the following sections
-	Today
-	Yesterday
-	This month
-	<Month name>
-	<Month name year>
-	Earlier
-	----
-	TODO:
-	- Make it more efficient (I'm calling insertDateGaps more often than I should)
- */
-
-// Date constants
-const now = new Date();
-const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
-const month0 = new Date(now.getFullYear(), now.getMonth(), 1);
-const month1 = new Date(now.getFullYear(), now.getMonth()-1, 1);
-const month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
-let justRan = false;
-
-// Insert date gaps
-function insertDateGaps(mutationList, observer) {
-	if (simplifyDebug) {
-		if (mutationList) {
-			console.log(mutationList);
-		} else {
-			console.log('No mutation list')
-		}		
-	}
-
-	let lists = document.querySelectorAll('.UI table[role="grid"]');
-
-	if (lists.length > 0) {
-		if (simplifyDebug) console.log('Inserting date gaps');
-		lists.forEach(function(list) {
-			let items = list.querySelectorAll('.zA');
-			items.forEach(function(item){
-				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
-					let itemDate = new Date(item.querySelector('.xW > span').title);
-					if (itemDate > today) {
-						item.setAttribute('date', 'today');
-					} else if (itemDate >= yesterday) {
-						item.setAttribute('date', 'yesterday');
-					} else if (itemDate >= month0) {
-						item.setAttribute('date', 'month0');
-					} else if (itemDate >= month1) {
-						item.setAttribute('date', 'month1');
-					} else if (itemDate >= month2) {
-						item.setAttribute('date', 'month2');
-					} else {
-						item.setAttribute('date', 'earlier');
-					}
-				}
-			});
-		});
-	}
-}
-
-const threadlistObserver = new MutationObserver(insertDateGaps);
-let observeThreadlistLoops = 1;
-function observeThreadlist() {
-	// Start observing the target node for configured mutations
-	let threadlist = document.querySelector('div[gh="tl"]');
-	if (threadlist) {
-		if (simplSettings.dateGrouping) {
-			insertDateGaps();
-			threadlistObserver.observe(threadlist, { attributes: false, childList: true, subtree: true });
-			if (simplifyDebug) console.log('Adding mutation observer for threadlist');			
-		}
-	} else {
-		if (observeThreadlistLoops < 10) {
-			setTimeout(observeThreadlist, 500);
-			observeThreadlistLoops++;
-			if (simplifyDebug) console.log('observeThreadlist attempt #' + observeThreadlistLoops);
-		}
-	}
-}
-observeThreadlist();
-
-
-/*
-mutation observers:
-https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
-
-childlist: One or more children have been added to and/or removed from the tree; see mutation.addedNodes and mutation.removedNodes 
-
-attributes: An attribute value changed on the element in mutation.target; the attribute name is in mutation.attributeName and its previous value is in mutation.oldValue
-
-subtree: Omit or set to false to observe only changes to the parent node.
- */
-
-/* ========================================================================================== */
-
-
-
-
-
-// Initialize styles as soon as head is ready
-const initStyleObserver = new MutationObserver(initStyle);
-function observeHead() {
-	// Start observing the target node for configured mutations
-	initStyleObserver.observe(htmlEl, { attributes: true, childList: true, subtree: true });
-	if (simplifyDebug) console.log('Adding mutation observer for head to initialize cached styles');
-}
-observeHead();
-
-// Initialize search as soon as DOM is ready
-function initOnDomReady() {
+// Initialize as soon as DOM is loaded
+function initEarly() {
+	initStyle();
 	initSearch();
 	initSearchFocus();
 	detectDelegate();
 }
 
-// Initialize everything else when the page is ready
-function initOnPageLoad() {
-	initSettings();
+// Initialize as soon as page is fully loaded
+function initLate() {
 	detectTheme();
+	detectClassNames();
 	detectSplitView();
-	detectDensity();
-	detectRightSideChat();
-	detectAddOns();
 	detectMenuState();
+	detectAddOns();
+	detectDensity();
 	detectButtonLabel();
-	detectMultipleInboxes();
+	detectRightSideChat();
+	initSettings();
 	initAppSwitcher();
 	testPagination();
 	observePagination();
@@ -1482,13 +1081,31 @@ function initOnPageLoad() {
 
 	// 3rd party extensions take a few seconds to load
 	setTimeout(detectOtherExtensions, 5000);
-	
-	// Some elements get loaded in after the page is done loading
-	setTimeout(detectClassNames, 7000);
 }
 
-// Only initialize everything if this isn't a popout
-if (!isPopout) {
-	window.addEventListener('DOMContentLoaded', initOnDomReady, false);
-	window.addEventListener('load', initOnPageLoad, false);
+// Checks for Safari
+const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
+const isTopFrame = window.top === window;
+
+// Handle messages from background script that supports page action to toggle 
+// Simplify on/off -- ignore for Safari right now
+if (!isSafari) {
+	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+		if (message.action === 'toggle_simpl') {
+			const isNowToggled = toggleSimpl();
+			sendResponse({toggled: isNowToggled});
+		}
+	});	
+
+	// Activate page action button
+	chrome.runtime.sendMessage({action: 'activate_page_action'});
+}
+
+// Don't run script if not in the top frame in Safari
+if (!isSafari || isTopFrame) {
+	initSimplify();
+	initSavedStates();
+	window.addEventListener('keydown', handleToggleShortcut, false);
+	window.addEventListener('DOMContentLoaded', initEarly, false);
+	window.addEventListener('load', initLate, false);
 }

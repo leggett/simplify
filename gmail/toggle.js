@@ -6,7 +6,8 @@ const toggledOnIcon = {
     24: "img/icon24.png",
     32: "img/icon32.png",
     48: "img/icon48.png",
-    128: "img/icon128.png"
+    128: "img/icon128.png",
+    256: "img/icon256.png"
 }
 
 const toggledOffIcon = {
@@ -14,7 +15,8 @@ const toggledOffIcon = {
     24: "img/icon24_off.png",
     32: "img/icon32_off.png",
     48: "img/icon48_off.png",
-    128: "img/icon128_off.png"
+    128: "img/icon128_off.png",
+    256: "img/icon256_off.png"
 }
 
 function updatePageAction(tabId, toggled) {
@@ -32,7 +34,6 @@ function updatePageAction(tabId, toggled) {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'activate_page_action') {
         const tabId = sender.tab.id;
-
         updatePageAction(tabId, true);
         chrome.pageAction.show(tabId);
     }
@@ -40,7 +41,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 chrome.pageAction.onClicked.addListener(function (tab) {
     const tabId = tab.id;
-
     chrome.tabs.sendMessage(tabId, {action: 'toggle_simpl'}, function(response) {
         updatePageAction(tabId, response.toggled);
     });

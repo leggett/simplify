@@ -1,85 +1,35 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.0
+ * SIMPLIFY GMAIL v1.5.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
- * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
+ * License: github.com/leggett/simplify/blob/master/gmail/LICENSE
  * More info: simpl.fyi
  */
 
 
+
+
 /* ==================================================
- * INBOX DATE GROUPING
+ * EXPERIMENTAL
  */
 
-tr[date="today"],
-tr[date="yesterday"],
-tr[date="month0"],
-tr[date="month1"],
-tr[date="month2"],
-tr[date="earlier"] {
-	margin-top: 3em;
+/* Left arrow before profile photo 
+html.simpl .gb_Da::before {
+	content: ' ';
+    position: absolute;
+    left: -8px;
+    top: 18px;
+    width: 24px;
+    height: 24px;
+    opacity: .5;
+    zoom: 0.75;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJncmF5IiBkPSJNMTQuNzEgMTUuODhMMTAuODMgMTJsMy44OC0zLjg4Yy4zOS0uMzkuMzktMS4wMiAwLTEuNDEtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDBMOC43MSAxMS4zYy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxbDQuNTkgNC41OWMuMzkuMzkgMS4wMi4zOSAxLjQxIDAgLjM4LS4zOS4zOS0xLjAzIDAtMS40MnoiLz48L3N2Zz4=")
 }
-tr[date="today"] ~ 		tr[date="today"],
-tr[date="yesterday"] ~ 	tr[date="yesterday"],
-tr[date="month0"] ~ 	tr[date="month0"],
-tr[date="month1"] ~ 	tr[date="month1"],
-tr[date="month2"] ~ 	tr[date="month2"],
-tr[date="earlier"] ~ 	tr[date="earlier"] {
-	margin-top: initial;
-}
+*/
 
-tr[date="today"]::before,
-tr[date="yesterday"]::before,
-tr[date="month0"]::before,
-tr[date="month1"]::before,
-tr[date="month2"]::before,
-tr[date="earlier"]::before {
-	height: 0px;
-	width: 0px;
-	white-space: nowrap;
-	overflow: visible;
-	font-size: 0.70em;
-	letter-spacing: 1.2;
-	color: #aaa;
-	font-weight: bold;
-	display: block;
-	position: relative;
-	top: -32px;
-	left: 16px;
-}
 
-html.simpl.mediumTheme tr[date="today"]::before,
-html.simpl.mediumTheme tr[date="yesterday"]::before,
-html.simpl.mediumTheme tr[date="month0"]::before,
-html.simpl.mediumTheme tr[date="month1"]::before,
-html.simpl.mediumTheme tr[date="month2"]::before,
-html.simpl.mediumTheme tr[date="earlier"]::before,
-html.simpl.darkTheme tr[date="today"]::before,
-html.simpl.darkTheme tr[date="yesterday"]::before,
-html.simpl.darkTheme tr[date="month0"]::before,
-html.simpl.darkTheme tr[date="month1"]::before,
-html.simpl.darkTheme tr[date="month2"]::before,
-html.simpl.darkTheme tr[date="earlier"]::before {
-	color: #ffffff;
-}
-
-tr[date="today"]::before { content: 'TODAY'; }
-tr[date="yesterday"]::before { content: 'YESTERDAY'; }
-tr[date="month0"]::before { content: 'THIS MONTH'; }
-tr[date="month1"]::before { content: 'LAST MONTH'; }
-tr[date="month2"]::before { content: 'AUGUST'; }
-tr[date="earlier"]::before { content: 'EARLIER'; }
-
-tr[date="today"] ~ tr[date="today"]::before,
-tr[date="yesterday"] ~ tr[date="yesterday"]::before,
-tr[date="month0"] ~ tr[date="month0"]::before,
-tr[date="month1"] ~ tr[date="month1"]::before,
-tr[date="month2"] ~ tr[date="month2"]::before,
-tr[date="earlier"] ~ tr[date="earlier"]::before {
-	content: '';
-	display: none;
-}
+/* TODO: Change how settings tabs are so top bar is full bleed */
 
 
 
@@ -109,6 +59,7 @@ html.simpl .bir {
 	font-weight: bold;
 	border: none;
 	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	-webkit-box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
 	border-radius: 2px;
 
 	/* Override the black on yellow default theme */
@@ -139,9 +90,9 @@ html.simpl #gb a[href="#inbox"] {
 html.simpl #gbwa {
 	display: none !important;
 	position: absolute;
-    right: 0px;
-    padding: 12px 66px 14px 12px;
-	margin: -8px -12px 0 0;
+    right: 0px !important;
+    padding: 12px 66px 14px 12px !important;
+	margin: -8px -12px 0 0 !important;
 }
 html.simpl.appSwitcher #gbwa {
 	display: block !important;
@@ -159,6 +110,7 @@ html.simpl .vX .vh {
     border-radius: 0 0 4px 4px;
     padding: 8px 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 /* Reduce width of app bar when Addons are open */
@@ -184,7 +136,7 @@ html.simpl .aeH {
 	z-index: 6;
 }
 html.simpl .aeH .G-atb {
-	height: 64px;
+	height: 64px !important;
 }
 
 /* Remove extra right margin from action bar so it is spaced correctly */
@@ -195,8 +147,8 @@ html.simpl .aeH .G-atb[gh="tm"] {
 
 /* Hide extra drop shadow on action bar - it bleeds through on the filter pop-up */
 html.simpl .aeH .G-atb::before {
-	box-shadow: none;
-	-webkit-box-shadow: none;
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
 }
 
 /* Make bar wider when search is hidden */
@@ -207,7 +159,7 @@ html.simpl.hideSearch.addOnsOpen .aeH {
 	width: calc(100vw - 172px - 300px);
 }
 
-/* Dim pagination controls unless hovered over 
+/* Dim pagination controls unless hovered over */
 html.simpl .aeH .G-atb .aqJ,
 html.simpl .aeF .G-atb .aqJ,
 html.simpl .aeH .G-atb .adF {
@@ -219,10 +171,9 @@ html.simpl .aeF .G-atb .aqJ:hover,
 html.simpl .aeH .G-atb .adF:hover {
 	opacity: 1;
 }
-*/
 
 /* Below 1350px, hide pagination when search and addOns are both open */
-@media only screen and (max-width: 1370.98px) {
+@media only screen and (max-width: 1350.98px) {
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
 	html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
 		display: none;
@@ -293,12 +244,11 @@ html.simpl.multiBoxHorz div[role="main"] .byR {
 	}
 }
 @media only screen and (min-width: 1441.98px) {
-	/* Allow the side-by-side multiBox to be a lot wider... */
 	html.simpl.multiBoxHorz .aeF > div.nH {
 		max-width: 2200px !important;
 	}
-	/* ... while keeping the max-width of the conversation narrow */
-	html.simpl.multiBoxHorz .aeF > div.nH > div.nH[role="main"]:not(.BltHke) {
+	/* Keep the max-width of the conversation narrow -- fragile due to use of .BltHke */
+	html.simpl.multiBoxHorz .aeF > div.nH > div.nH:last-child:not(.BltHke) {
 		max-width: 1100px !important;
 		margin: 0 auto;
 	}
@@ -362,7 +312,7 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
-@media only screen and (min-width: 1278.98px) {
+@media only screen and (min-width: 1291.98px) {
 	/* DETAULT VIEWS: Move actions to left edge of content */
 	html.simpl {
 		--content-width: 960px;
@@ -390,7 +340,7 @@ States (text button labels)
 	/* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons) .aeH .G-atb,
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons) .aeH .G-atb {
-		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
+		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset)) !important;
 		margin-left: 16px !important;
 	}
 
@@ -446,18 +396,11 @@ States (text button labels)
 	html.simpl.addOnsOpen.rhsChat {
 		--content-width: 1400px;
 	}
-
-	/* Apply variables to align left edge for vertical preview pane when the nav is open */
-	html.simpl.navOpen.splitView:not(.hideSearch):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons):not(.rhsChat):not(.addOnsOpen) .aeF .G-atb {
-		padding-left: 196px;
-		margin-left: 16px !important;
-		width: calc(var(--action-bar-width) - 322px) !important;
-	}
 }
-@media only screen and (min-width: 1638.98px) {
+@media only screen and (min-width: 1641.98px) {
 	/* Apply variables to align left edge */
 	html.simpl:not(.splitView):not(.multiBoxHorz):not(.multiBoxVert) .aeH .G-atb {
-		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset));
+		padding-left: calc(((100vw - var(--content-width)) / 2) - var(--left-offset)) !important;
 		margin-left: 16px !important;
 	}
 
@@ -484,7 +427,7 @@ States (text button labels)
 /* Push search to the right */
 html.simpl #gb form {
 	float: right;
-	width: 20%;
+	width: 30%;
 	max-width: none;
 	margin-right: 8px;
 	position: relative;
@@ -492,48 +435,24 @@ html.simpl #gb form {
 	transition: width 0s;
 }
 html.simpl {
-	--action-bar-width: 79%;
+	--action-bar-width: 70%;
 }
 
-/* Make search wider and hide pagination/settings when search is focused */
-html.simpl.searchFocused #gb form {
-	width: 40%;
-}
-html.simpl.searchFocused {
-	--action-bar-width: 59%;
-}
-html.simpl.searchFocused .aeH .G-atb .aqJ,
-html.simpl.searchFocused .aeF .G-atb .aqJ,
-html.simpl.searchFocused .aeH .G-atb .adF {
-	display: none;
-}
-
-/* Shorter search box when using text label buttons 
+/* Shorter search box when using text label buttons */
 html.simpl.textButtons #gb form {
 	width: 25%;
 }
 html.simpl.textButtons {
-	--action-bar-width: 74.5%;
+	--action-bar-width: 75%;
 }
-*/
-
-/* Shorter search box when nav is open on smaller screens 
-@media only screen and (max-width: 1441.98px) {
-	html.simpl.navOpen #gb form {
-		width: 25%;
-	}
-	html.simpl.navOpen {
-		--action-bar-width: 74.5%;
-	}
-}
-*/
 
 /* Minimize search to an icon when hidden */
 html.simpl.hideSearch #gb form {
 	width: 54px;
 	margin-right: 0px;
 	box-shadow: none;
-	background-color: transparent;
+	-webkit-box-shadow: none;
+	background-color: transparent !important;
 }
 
 /* Hide all search form buttons except search button when search is hidden */
@@ -548,7 +467,7 @@ html.simpl.hideSearch #gb form button[role="button"]:not([gh="sda"]) {
 html.simpl .ZF-Av {
 	left: auto !important;
 	right: 71px !important;
-	width: calc(100% - var(--action-bar-width) + 1%) !important;
+	width: 31% !important;
 	min-width: 450px;
 }
 html.simpl .ZF-Av > div {
@@ -560,23 +479,11 @@ html.simpl.appSwitcher.hideSearch #gb form {
 	display: none;
 }
 html.simpl.appSwitcher:not(.hideSearch) #gb form {
-	width: calc(100% - var(--action-bar-width) - 1% - 50px);
+	width: calc(30% - 50px);
 	margin-right: 58px;
 }
-
-/* Hide search options button until you hover over search box 
-html.simpl:not(.hideSearch) #gb form button[gh="sda"] {
-	display: none;
-}
-html.simpl:not(.hideSearch) #gb form:hover button[gh="sda"] {
-	display: block;
-}
-*/
-
-/* Hide "Search the web" option from search auto-complete */
-html.simpl #gb form td.gssb_e tr[role="separator"],
-html.simpl #gb form td.gssb_e tr[role="separator"] + tr[role="option"] {
-	display: none;
+html.simpl.textButtons.appSwitcher:not(.hideSearch) #gb form {
+	width: calc(25% - 50px);
 }
 
 
@@ -589,19 +496,16 @@ html.simpl #gb form td.gssb_e tr[role="separator"] + tr[role="option"] {
 /* Hide nav when minimized or in Settings */
 html.simpl .bhZ,
 html.simpl.inSettings .aeN {
-	max-width: 0px !important;
-	min-width: 0px !important;
+	max-width:0px !important;
+	min-width:0px !important;
 	position: relative;
 	z-index: 3 !important;
-}
-html.simpl.inSettings .aeN {
-	width: 0px !important;
-	overflow: hidden;
 }
 
 /* Don't show the nav when hovering over the compose button */
 html.simpl .bym {
 	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
 }
 html.simpl .bhZ div[role="complementary"],
 html.simpl .bhZ div[gh="ns"] {
@@ -609,17 +513,19 @@ html.simpl .bhZ div[gh="ns"] {
 }
 
 /* No shadow or label on compose button */
-html.simpl .z0 > .L3 {
+html.simpl .z0 > div[gh="cm"] /*.L3*/ {
 	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
-	border-radius: 28px;
-    font-size: 0;
-    height: 56px;
-    padding: 0;
-    width: 56px;
+	-webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	border-radius: 28px !important;
+    font-size: 0 !important;
+    height: 56px !important;
+    padding: 0 !important;
+    width: 56px !important;
+    overflow: hidden;
 }
 
 /* Make FAB dark in dark themes */
-html.simpl.darkTheme .z0 > .L3 {
+html.simpl.darkTheme .z0 > div[gh="cm"] /*.L3*/ { 
 	background-color: rgba(51,51,51,.9);
 }
 
@@ -629,9 +535,10 @@ html.simpl .z0 {
     left: calc(100vw - 92px);
     top: calc(100vh - 140px);
     z-index: 3 !important;
-	width: 54px;
-    margin: 0;
-    padding: 0;
+	width: 56px !important;
+	height: 56px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* Move it over futher if RHS Chat is enabled */
@@ -646,8 +553,8 @@ html.simpl .wT {
 
 /* Hide top shadow when you scroll long label list */
 html.simpl .aeN .ajj:before {
-    -webkit-box-shadow: none;
     box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 /* Hide the compose and add-ons button when in Settings */
@@ -658,13 +565,13 @@ html.simpl.inSettings .bAw {
 
 /* Make the bottom Hangouts tabs a little less ugly */
 html.simpl div[gh="gt"] {
-	text-align: left;
-	border-top: 0px;
+	text-align: left !important;
+	border-top: 0px !important;
 	padding-left: 18px;
 }
 html.simpl.rhsChat div[gh="gt"] {
-	text-align: right;
-	border-top: 0px;
+	text-align: right !important;
+	border-top: 0px !important;
 	padding-left: 0px;
 }
 html.simpl.rhsChat .akj {
@@ -702,16 +609,9 @@ html.simpl .AO .aeF > .nH {
 	margin: 40px auto 0 auto;
 	max-width: 960px;
 }
-html.simpl.splitView.inSettings .AO .aeF > .nH {
-	margin: 40px auto 100px auto !important;
-	max-width: 960px !important;
-}
 @media only screen and (min-width: 1441.98px) {
 	html.simpl:not(.splitView) .AO .aeF > .nH {
 		max-width: 1100px;
-	}
-	html.simpl.splitView.inSettings .AO .aeF > .nH {
-		max-width: 1100px !important;	
 	}
 }
 
@@ -797,6 +697,7 @@ html.simpl .zA.yO .cL {
 /* Less shadow on items on hover */
 html.simpl .zA:hover {
 	box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
+	-webkit-box-shadow: inset 1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,0.15) !important;
 }
 
 /* Dim Default Inbox category tabs */
@@ -843,62 +744,6 @@ html.simpl div[role="main"] .J-KU-KO.aAy:before {
 
 
 /* ==================================================
- * POPOUTS
- */
-
-/* Correct max-width */
-html.simpl.popout .aeF {
-	padding-right: 0px !important;
-	margin-bottom: 0px !important;
-	max-width: 960px;
-}
-html.simpl.popout .aeF > div {
-	box-shadow: none !important;
-}
-html.simpl.popout .G-atb[gh="tm"] {
-	max-width: 930px;
-	margin: 0 auto !important;
-}
-@media only screen and (min-width: 799.98px) {
-	html.simpl.popout .G-atb[gh="tm"] {
-		min-width: 730px;
-	}
-}
-@media only screen and (min-width: 1441.98px) {
-	html.simpl.popout .aeF {
-		max-width: 1100px;
-	}
-	html.simpl.popout .G-atb[gh="tm"] {
-		max-width: 1070px;
-	}
-}
-@media only screen and (min-width: 1679.98px) {
-	html.simpl.popout .aeF {
-		max-width: 100%;
-	}
-	html.simpl.popout .aeF > div {
-		max-width: 100% !important;
-	}
-	html.simpl.popout .aDc {
-		max-width: 100% !important;
-	}
-	html.simpl.popout .G-atb[gh="tm"] {
-		max-width: calc(100% - 30px);
-	}
-}
-
-/* Hide theme background */
-html.simpl.popout .wl,
-html.simpl.popout .wl div,
-html.simpl.popout .wq,
-html.simpl.popout .wp {
-	background-image: none !important;
-	background-color: #fff !important;
-}
-
-
-
-/* ==================================================
  * SPLIT PANE VIEW
  */
 
@@ -911,8 +756,8 @@ html.simpl.splitView .G-atb[gh="tm"] {
 	padding-right: 0px !important;
 }
 html.simpl.splitView .G-atb[gh="tm"]:before {
-	box-shadow: none;
-	-webkit-box-shadow: none;
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
 }
 
 /* If Multiple Inboxes AND Preview Pane are enabled,
@@ -966,12 +811,9 @@ html.simpl.splitView .aNW td.Bu:first-child > div.nH:last-child {
 }
 @media only screen and (min-width: 1441.98px) {
 	html.simpl.splitView .apg .aNW .age .Bs {
-		max-width: 1100px;
-		/* float conversation view
 		margin: 1.5vw auto 200px auto;
+		max-width: 1100px;
 		border-radius: 8px;
-		*/
-		margin: 0 auto;
 	}
 	/* Swap margin for padding when message is likely to 
 	 * switch from pane to floating card */
@@ -994,7 +836,6 @@ html.simpl.splitView .aiw {
 /* Drop the double border between panes to a single border */
 html.simpl.splitView .apj {
 	border-right: none;
-	border-left: none;
 	background-color: transparent;
 }
 html.simpl.splitView .aph {
@@ -1047,7 +888,7 @@ html.simpl div[contenteditable="true"],
 html.simpl div[role="listitem"] .a3s,
 html.simpl div[role="listitem"] .g6,
 html.simpl div[role="listitem"] div:not(.ajA) h3.iw {
-	font-size: .875rem;
+	font-size: 0.875rem !important;
 }
 
 /* Dim from email address in conversation view */
@@ -1066,6 +907,7 @@ html.simpl .ata-asE {
 	padding: 18px;
 	border: none;
 	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+	-webkit-box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
 }
 html.simpl .ata-asE > span:first-child:not(.ata-asJ) {
 	padding-right: 12px;
@@ -1076,31 +918,17 @@ html.simpl .ata-asE .ata-asJ {
 }
 
 /* Keep inline images from being wider than the current view */
-html.simpl table.Bs .gs > div:not(.gE) img:not([src*="cleardot.gif"]) {
-	max-width: 100%;
-
-    /* Without this, large portrait images will be squished
-     * but with this, large images that are forced to be small
-     * but not given a height in css are made their actual big size */
-	height: auto;
-}
-
-
-/* If the content is wider, the image will still scroll horizontally
- * We can set the max-width the the max-width of the content but
- * this sometimes has unintended consequences in html emails
+/* TODO: This won't work in split pane view */
 html.simpl table.Bs .gs img {
-	max-width: calc(var(--content-width) - 80px);
+    max-width: calc(var(--content-width) - 80px);
     height: auto;
 }
 html.simpl.splitView table.Bs .gs img {
     max-width: 100%;
 }
-*/    
-
 
 /* Boost width of the cell that has the reply and more actions buttons */
-html.simpl div[role="listitem"] div:not([dir="ltr"]) table td:last-child[rowspan="2"] {
+html.simpl div[role="listitem"] table td[rowspan="2"] {
 	width: 110px;
 }
 
@@ -1176,28 +1004,25 @@ html.simpl .bAw {
 	overflow-x: hidden;
 	border-radius: 27px;
 	box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
+	-webkit-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3) !important;
 	transition: height 0s ease-out 0s;
 	transition: width 0s ease-out 0s;
 	transition: right 0s ease-out 0s;
+	transition-duration: 0s !important;
 	background-color: rgba(255,255,255,.9);
-	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png") !important;
 	background-repeat: no-repeat;
 	background-position: 6px 7px;
 	background-size: 24px;
 }
 html.simpl.darkTheme .bAw {
 	background-color: rgba(51,51,51,.9);
-	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
-}
-
-/* Hide add-ons chooser entirely if Simplify Setting enabled */
-html.simpl.hideAddons .bAw {
-	display: none !important;
+	background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png") !important;
 }
 
 /* Hide everything inside the add-ons menu until you hover on it */
 html.simpl .bAw > div:first-child {
-	display: none;
+	display: none !important;
 }
 
 /* Show add-ons when you hover over the menu */
@@ -1217,7 +1042,7 @@ html.simpl .bAw:hover > div:first-child {
 	background-color: #fff;
 }
 html.simpl .bAw > div:first-child:hover > div {
-	display: block;
+	display: block !important;
 	margin: 0px;
 	opacity: 1;
 }
@@ -1296,6 +1121,7 @@ html.simpl .brC-dA-I.aT5-aOt-I-Jp .aT5-aOt-I-JX-Jw {
 html.simpl .bq9,
 html.simpl .bq9 div {
 	box-shadow: none;
+	-webkit-box-shadow: none;
 }
 html.simpl .bq9 {
 	border-left: 1px solid rgba(0,0,0,0.1);
@@ -1306,7 +1132,7 @@ html.simpl.addOnsOpen:not(.hideSearch) .aeH {
     width: calc(var(--action-bar-width) - 92px) !important;
 }
 html.simpl.addOnsOpen.splitView:not(.hideSearch) .G-atb[gh="tm"] {
-    width: calc(var(--action-bar-width) - 365px) !important;
+    width: calc(var(--action-bar-width) - 345px) !important;
 }
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
@@ -1336,9 +1162,7 @@ html.simpl.inSettings.hideSearch .aeH {
 	margin-top: -8px;
 }
 html.simpl.inSettings.splitView .aeH {
-	/* Not sure why this was there, deleting for now 
 	left: 72px !important;
-	*/
 }
 html.simpl.inSettings .bkK {
 	margin-left: 72px !important;
@@ -1373,17 +1197,9 @@ html.simpl.inSettings .aeH .f2 .dJ {
 
 /* Invert the settings tab bar in the dark theme so it is more seamless */
 html.simpl.inSettings.darkTheme .fY {
-	filter: invert(.93);
-}
-/* Invert back the selected tab */
-html.simpl.inSettings.darkTheme .fY .fZ {
-	filter: invert(1);
+	filter: invert(93%);
 }
 
-/* Hide right side chat when in Settings */
-html.simpl.inSettings.rhsChat .aCl {
-	display: none;
-}
 
 
 
@@ -1437,6 +1253,7 @@ html.simpl div.G-atb div.mixmax-reminder-thread-button {
     max-width: 20px !important;
     border: none !important;
     box-shadow: none !important;
+    -webkit-box-shadow: none !important;
     width: 20px !important;
     padding-left: 0px !important;
     min-width: 20px !important;
@@ -1504,177 +1321,22 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 
 
 
-/* ==================================================
- * SIMPLIFY IN-GMAIL NOTIFICATIONS
- */
-
-#simplNotification {
-	position: absolute;
-	z-index: 999;
-	top: 100px;
-	right: 48px;
-	max-width: 300px;
-	line-height: 1.7em;
-	border-radius: 8px;
-	padding: 20px 24px 24px 24px;
-	background-color: white;
-	box-shadow: 0 1px 3px 0 rgba(60,64,67,0.151), 0 4px 8px 3px rgba(60,64,67,0.091);
-}
-#simplNotification button {
-	user-select: none;
-	font-size: 0.87em;
-	font-weight: bold;
-	color: white;
-	padding: 8px 16px;
-	background: #0A6CDD;
-	border-radius: 4px;
-	text-decoration: none;
-	margin: 24px 16px 0 0;
-	border-color: rgba(0, 0, 0, 0.12);
-/*
-	text-shadow: 0 1px 1px rgba(0,0,0,.5);
-	border: 2px solid #0A6CDD;
-	box-shadow: inset 0 -1px 0 rgba(100,121,143,0.122), 0 3px 4px -2px rgba(0,0,0,.3);	
-*/
-}
-#simplNotification button.secondary {
-	color: #0A6CDD;
-	background-color: #f5f5f5;
-/*
-	background: #fff;
-	border: 2px solid rgba(0,0,0,0.12);
-	text-shadow: 0 1px 1px rgba(0,0,0,.12);
-*/
-}
-#simplNotification button:focus {
-	outline: none;
-}
-
-
-
 
 /* ==================================================
- * SIMPLIFY EXTENSION OPTIONS PAGE
+ * SIMPLIFY OPTIONS PAGE
  */
 
 #simplOptions {
-	padding: 10px 50px 50px 50px;
+	padding: 50px;
 	max-width: 800px;
-	margin: 5vh auto 0 auto;
-	font-family: system-ui, sans-serif;
-	font-size: 15px;
-	line-height: 2em;
+	margin: 20vh auto;
 	text-align: center;
+	font-size: 1.3em;
+	line-height: 2em;
 }
 #simplOptions img {
 	margin-bottom: 2em;
-	zoom: 60%;
 }
 #simplOptions a {
 	color: #555;
-}
-#simplOptions kbd {
-	background-color: #eee;
-	border-radius: 3px;
-	border: 1px solid #b4b4b4;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
-	color: #333;
-	display: inline-block;
-	font-size: 1em;
-	font-family: monospace;
-	font-weight: 700;
-	line-height: 1;
-	padding: 4px 6px;
-	margin: 0 4px;
-	white-space: nowrap;
-}
-#simplOptions .footer {
-	opacity: 0.3;
-}
-
-#simplOptions table {
-	padding: 0;
-	margin: 0 auto;
-	border: 0;
-	border-spacing: 0;
-	min-width: 550px;
-}
-#simplOptions td {
-	padding: 16px 8px;
-	text-align: left;
-	border: 0;
-}
-#simplOptions tr td {
-	border-bottom: 1px solid #ddd;
-}
-#simplOptions tr.label td {
-	font-weight: bold;
-}
-#simplOptions tr:first-child td {
-	border-top: 0px;
-}
-#simplOptions tr:not(.label):hover td {
-	background-color: rgba(0,0,0,0.04);
-}
-#simplOptions td.toggle {
-	width: 48px;
-	text-align: center;
-}
-
-#simplOptions label {
-	width: 100%;
-	display: block;
-}
-#simplOptions label,
-#simplOptions input {
-	cursor: pointer;
-}
-
-#simplOptions .beta {
-	display: none;
-}
-
-/* Toggle buttons */
-#simplOptions button.toggle { 
-	margin: 8px 0 0 0;
-	border-radius: 20px;
-	border: 2px solid #D0D0D0;
-	height: 28px;
-	cursor: pointer;
-	width: 54px;
-	position: relative;
-	display: inline-block;
-	user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-}
-#simplOptions button.toggle:focus {
-	outline: none;
-}
-#simplOptions button.toggle span {
-	position: absolute;
-	left: 0;
-	top: 0;
-	border-radius: 100%;
-	width: 26px;
-	height: 26px;
-	background-color: white;
-	float: left;
-	margin: -3px 0 0 -3px;
-	border: 2px solid #D0D0D0;
- 	transition: left 0.3s;
-}
-#simplOptions button.toggle.on { 
-	background-color: #59E20E;
-	border: 2px solid #4ECD09;
-}
-#simplOptions button.toggle.on span {
-	left: 26px;
-	top: 0;
-	margin: 0;
-	border: none;
-	width: 24px;
-	height: 24px;
-	box-shadow: 0 0 4px rgba(0,0,0,0.1);
 }
