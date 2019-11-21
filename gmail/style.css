@@ -9,6 +9,40 @@
 
 
 /* ==================================================
+ * SEARCH REFINEMENT BAR
+ */
+
+/* Move search refinement bar below action bar */
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] {
+	position: absolute;
+	top: 44px;
+}
+
+/* Hide search refinement bar when you scroll */
+html.simpl .aeI .aeH div[gh="tm"] div[role="toolbar"] {
+	display: none;
+}
+
+/* Move action bar into correct spot */
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] + .aqK {
+	margin-top: 22px;
+}
+
+/* Hide Advanced search link */
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] div[data-impression-suffix="ADVANCED_SEARCH_LINK"],
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] div:first-child > div[role="button"]:last-child {
+	display: none;
+}
+
+/* TODO: move search refinments to line up with the content under 1280px 
+@media only screen and (max-width: 1278.98px) {
+}
+*/
+
+
+
+
+/* ==================================================
  * INBOX DATE GROUPING
  */
 
@@ -825,7 +859,8 @@ html.simpl .aKh .aDG {
 }
 
 /* Hide ads in top of inbox tabs */
-html.simpl .aKB {
+html.simpl div[gh="tl"] .aKB, /* old way */
+html.simpl div[gh="tl"] div[role="tabpanel"] > div.Cp:first-child {
 	display: none;
 }
 

@@ -8,12 +8,9 @@
  */
 
 
-// == SIMPL =====================================================
-// Turn debug loggings on/off
-const simplifyDebug = false;
 
-// Print Simplify version number if debug is running
-if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
+
+// == SIMPL =====================================================
 
 // Add simpl style to html tag
 const htmlEl = document.documentElement;
@@ -23,85 +20,6 @@ htmlEl.classList.add('simpl');
 function toggleSimpl() {
 	return htmlEl.classList.toggle('simpl');
 }
-
-// Helper function for keyboard shortcuts to determine if an element is not editable
-function notEditable(el) {
-	el = el ? el : document.activeElement;
-
-	// BUG: Still firing when inputs are in focus
-	// I think Gmail is removing focus before this function runs
-	if (el.isContentEditable || el.tagName == "INPUT") {
-		if (simplifyDebug) {
-			console.log('IS or WAS editable');
-			console.log(el);
-		}
-		return false;
-	}
-	else {
-		if (simplifyDebug) {
-			console.log('NOT editable');
-			console.log(el);			
-		}
-		return true;
-	}
-}
-
-// Handle Simplify keyboard shortcuts
-function handleKeyboardShortcut(event) {
-	// WIP: If Escape was pressed, close conversation or search
-	if (event.key === "Escape") {
-		// Only close if focus wasn't in an input or content editable div
-		if (notEditable()) {
-			if (simplifyDebug) console.log('Close search or conversation');
-
-			// TODO: IF conversation is open
-
-			// TODO: ELSE If in search results (check url)
-
-			// TODO: ELSE, we could either return to the inbox or do nothing
-
-			// event.preventDefault();
-		}
-	}
-
-	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
-	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
-		(event.metaKey && event.key === "m")) {
-		if (simplSettings.kbsMenu) {
-			document.querySelector('.aeN').classList.toggle('bhZ');
-			toggleMenu();
-			event.preventDefault();
-
-			// If opening, focus the first element
-			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
-				document.querySelector('div[role="navigation"] a:first-child').focus();
-			}
-		} else if (!simplSettings.kbsNotified) {
-			if (htmlEl.classList.contains('navOpen')) {
-				showNotification('Trying to hide the main menu? Enable the keyboard shortcut in Simplify Settings.');
-			} else {
-				showNotification('Trying to show the main menu? Enable the keyboard shortcut in Simplify Settings.');
-			}
-			
-		}
-	}
-
-	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
-	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
-		(event.metaKey && event.key === "s")) {
-		if (simplSettings.kbsToggle) {
-			toggleSimpl();
-			event.preventDefault();
-		} else if (!simplSettings.kbsNotified) {
-			if (htmlEl.classList.contains('simpl')) {
-				showNotification('Trying to disable Simplify? Enable the keyboard shortcut in Simplify Settings.');
-			} else {
-				showNotification('Trying to enable Simplify? Enable the keyboard shortcut in Simplify Settings.');
-			}
-		}
-	}
-}
-window.addEventListener('keydown', handleKeyboardShortcut, false);
 
 // Handle messages from background script that 
 // supports page action to toggle Simplify on/off
@@ -117,21 +35,31 @@ chrome.runtime.sendMessage({action: 'activate_page_action'});
 
 
 
+
 // == SIMPLIFY SETTINGS =====================================================
+
+// Initialize debug as off
+let simplifyDebug = false;
+
 // Load Simplify Settings
 let simplSettings = {};
+if (simplifyDebug) console.log('About to try to get settings');
 chrome.storage.local.get(null, function (results) {
+	if (simplifyDebug) console.log('About to parse settings');
 	if (results == null) {
-		console.log('No settings yet -- maybe initialize them');
+		if (simplifyDebug) console.log('No settings yet -- maybe initialize them');
 	} else {
 		simplSettings = results;
 	}
 	applySettings(simplSettings);
+	if (simplifyDebug) console.log('Got settings');
 });
+
+// Print Simplify version number if debug is running
+if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest().version);
 
 // Apply setting
 function applySettings(settings) {
-	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
 	for (let key in settings) {
 		switch (key) {
 			case "hideAddons":
@@ -164,8 +92,17 @@ function applySettings(settings) {
 					threadlistObserver.disconnect();
 				}
 				break;
+			case "debug":
+				simplSettings.debug = settings[key];
+				if (simplSettings.debug) {
+					simplifyDebug = true;
+				} else {
+					simplifyDebug = false;
+				}
+				break;
 		}
 	}
+	if (simplifyDebug) console.log("Apply settings: " + JSON.stringify(settings));
 }
 
 // Detect changes in settings and make appropriate changes
@@ -177,10 +114,83 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	}
 });
 
-// TODO: show announcement and link to settings page 
+/*
+// Add Simplify Settings link to gear menu
 const optionsUrl = chrome.extension.getURL("options.html");
-if (simplifyDebug) console.log(optionsUrl);
-// const content = '<a href="' + optionsUrl + '" target="_blank">Options</a>';
+let addSettingsLinkLoops = 0;
+function addSettingsGearListener() {
+	let settingsGear = document.querySelector('div[gh="s"]');
+	if (settingsGear) {
+		console.log('found settings gear');
+		// TODO -- add event listener to all children of settingsGear
+		settingsGear.children[0].children[0].addEventListener('click', addSettingsLink, true);
+	} else if (addSettingsLinkLoops < 10) {
+		setTimeout(addSettingsGearListener, 1000);
+		addSettingsLinkLoops++;
+	}
+}
+function addSettingsLink() {
+	// Make sure it doesn't already exist
+	if (!document.querySelector('#simplifySettingsLink')) {
+		// Find the themes menu item
+		let themesMenuItem = document.querySelector('#pbwc');
+		if (themesMenuItem) {
+			// Clone and modify the themes menu item and insert it back into the gear menu
+			let menuItemClone = themesMenuItem.cloneNode(true);
+			menuItemClone.id = 'simplifySettingsLink';
+			menuItemClone.children[0].innerText = 'Simplify Settings';
+			themesMenuItem.parentNode.insertBefore(menuItemClone, themesMenuItem.nextSibling);
+			document.querySelector('#simplifySettingsLink').addEventListener('click', function() {
+				window.open(optionsUrl, '_blank');
+			}, false);
+			console.log('added Simplify Settings menu item');
+		}
+		// let settingsGear = document.querySelector('div[gh="s"]');
+		// settingsGear.removeEventListener('click', addSettingsLink, false);
+	}
+}
+*/
+
+
+
+// == IN-GMAIL SIMPLIFY NOTIFICATIONS ======================================
+function showNotification(msg, actions, hideAfter) {
+	let notificationBox = document.getElementById('simplNotification');
+	if (notificationBox) {
+		// If notification already exists, just show it again
+		notificationBox.style.display = "block";
+	} else {
+		// Create notification bubble, attach to body
+		let notificationEl = document.createElement('div');
+		notificationEl.id = "simplNotification";
+		document.body.appendChild(notificationEl);
+		notificationBox = document.getElementById('simplNotification');
+	}
+
+	// Add content and buttons to notification div
+	notificationBox.innerHTML = msg;
+	if (actions == "settingsLink") {
+		notificationBox.innerHTML += '<br><button id="openSettings">Simplify settings</button>'
+		notificationBox.innerHTML += '<button class="secondary" id="closeNotification">Close</button>';
+	}
+
+	// Add event listeners for buttons
+	document.querySelector('#simplNotification #openSettings').addEventListener('click', function() {
+		window.open(optionsUrl, '_blank');
+		notificationBox.style.display = 'none';
+		clearTimeout(autoCloseNotification);
+	}, false);
+	document.querySelector('#simplNotification #closeNotification').addEventListener('click', function() {
+		notificationBox.style.display = 'none';
+		clearTimeout(autoCloseNotification);
+		simplSettings.kbsNotified = true;
+	}, false);
+
+	// Auto hide this notification in 30 seconds
+	let autoCloseNotification = setTimeout(function() {
+		notificationBox.style.display = 'none';
+	}, hideAfter * 1000);
+}
 
 
 
@@ -264,7 +274,6 @@ function updateParam(param, value) {
 	window.localStorage.simplify = JSON.stringify(simplify);
 }
 
-
 // Hash string
 function hashCode(s) {
 	return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
@@ -326,6 +335,7 @@ if (simplify[u].navOpen) {
 	htmlEl.classList.add('navOpen');
 } else {
 	if (simplifyDebug) console.log('Loading with nav menu closed');
+	htmlEl.classList.remove('navOpen');
 }
 
 // Init density
@@ -380,6 +390,91 @@ if (isPopout) {
 	htmlEl.classList.add('popout');
 	htmlEl.classList.remove('splitView');
 }
+
+
+
+
+// == KEYBOARD SHORTCUTS =====================================================
+
+// Helper function for keyboard shortcuts to determine if an element is not editable
+function notEditable(el) {
+	el = el ? el : document.activeElement;
+
+	// BUG: Still firing when inputs are in focus
+	// I think Gmail is removing focus before this function runs
+	if (el.isContentEditable || el.tagName == "INPUT") {
+		if (simplifyDebug) {
+			console.log('IS or WAS editable');
+			console.log(el);
+		}
+		return false;
+	}
+	else {
+		if (simplifyDebug) {
+			console.log('NOT editable');
+			console.log(el);			
+		}
+		return true;
+	}
+}
+
+// Handle Simplify keyboard shortcuts
+function handleKeyboardShortcut(event) {
+	// WIP: If Escape was pressed, close conversation or search
+	if (event.key === "Escape") {
+		// Only close if focus wasn't in an input or content editable div
+		if (notEditable()) {
+			if (simplifyDebug) console.log('Close search or conversation');
+
+			// TODO: IF conversation is open
+
+			// TODO: ELSE If in search results (check url)
+
+			// TODO: ELSE, we could either return to the inbox or do nothing
+
+			// event.preventDefault();
+		}
+	}
+
+	/* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
+	if ((event.ctrlKey && (event.key === "M" || event.key === "m")) || 
+		(event.metaKey && event.key === "m")) {
+		if (simplSettings.kbsMenu) {
+			document.querySelector('.aeN').classList.toggle('bhZ');
+			toggleMenu();
+			event.preventDefault();
+
+			// If opening, focus the first element
+			if (!document.querySelector('.aeN').classList.contains('bhZ')) {
+				document.querySelector('div[role="navigation"] a:first-child').focus();
+			}
+		} else if (!simplSettings.kbsNotified) {
+			if (htmlEl.classList.contains('navOpen')) {
+				showNotification('Trying to hide the main menu? Enable the keyboard shortcut in Simplify Settings.', 'settingsLink', 30);
+			} else {
+				showNotification('Trying to show the main menu? Enable the keyboard shortcut in Simplify Settings.', 'settingsLink', 30);
+			}
+			
+		}
+	}
+
+	/* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
+	if ((event.ctrlKey && (event.key === "S" || event.key === "s")) || 
+		(event.metaKey && event.key === "s")) {
+		if (simplSettings.kbsToggle) {
+			toggleSimpl();
+			event.preventDefault();
+		} else if (!simplSettings.kbsNotified) {
+			if (htmlEl.classList.contains('simpl')) {
+				showNotification('Trying to disable Simplify? Enable the keyboard shortcut in Simplify Settings.', 'settingsLink', 30);
+			} else {
+				showNotification('Trying to enable Simplify? Enable the keyboard shortcut in Simplify Settings.', 'settingsLink', 30);
+			}
+		}
+	}
+}
+window.addEventListener('keydown', handleKeyboardShortcut, false);
+
 
 
 
@@ -597,44 +692,6 @@ findSupport();
 */
 
 
-
-// == IN-GMAIL SIMPLIFY NOTIFICATIONS ======================================
-function showNotification(msg) {
-	let notificationBox = document.getElementById('simplNotification');
-	if (notificationBox) {
-		// If notification already exists, just show it again
-		notificationBox.style.display = "block";
-	} else {
-		// Create notification bubble, attach to body
-		let notificationEl = document.createElement('div');
-		notificationEl.id = "simplNotification";
-		document.body.appendChild(notificationEl);
-		notificationBox = document.getElementById('simplNotification');
-	}
-
-	// Add content and buttons to notification div
-	notificationBox.innerHTML = msg + '<br>';
-	notificationBox.innerHTML += '<button id="openSettings">Simplify settings</button>'
-	notificationBox.innerHTML += '<button class="secondary" id="closeNotification">Close</button>';
-
-	// Add event listeners for buttons
-	document.querySelector('#simplNotification #openSettings').addEventListener('click', function() {
-		let optionsUrl = chrome.extension.getURL("options.html");
-		window.open(optionsUrl, '_blank');
-		notificationBox.style.display = 'none';
-		clearTimeout(autoCloseNotification);
-	}, false);
-	document.querySelector('#simplNotification #closeNotification').addEventListener('click', function() {
-		notificationBox.style.display = 'none';
-		clearTimeout(autoCloseNotification);
-		simplSettings.kbsNotified = true;
-	}, false);
-
-	// Auto hide this notification in 30 seconds
-	let autoCloseNotification = setTimeout(function() {
-		notificationBox.style.display = 'none';
-	}, 30000);
-}
 
 
 // == SEARCH FUNCTIONS =====================================================
@@ -1149,18 +1206,19 @@ function detectMenuState() {
 
 // Helper function to toggle nav open/closed
 function toggleMenu() {
-	if (simplifyDebug) console.log('Toggle nav');
 	const menuButton = document.querySelector(`#gb ${simplify[u].elements.menuButton}`);
 
 	if (simplify[u].navOpen) {
 		htmlEl.classList.remove('navOpen');
 		menuButton.setAttribute('aria-expanded', 'false');
 		updateParam('navOpen', false);
+		if (simplifyDebug) console.log('Toggle nav to hidden; simplify.navOpen = ' + simplify[u].navOpen);
 	}
 	else {
 		htmlEl.classList.add('navOpen');
 		menuButton.setAttribute('aria-expanded', 'true');
 		updateParam('navOpen', true);
+		if (simplifyDebug) console.log('Toggle nav to shown;  simplify.navOpen = ' + simplify[u].navOpen);
 	}
 }
 
@@ -1373,6 +1431,7 @@ let justRan = false;
 
 // Insert date gaps
 function insertDateGaps(mutationList, observer) {
+	/*
 	if (simplifyDebug) {
 		if (mutationList) {
 			console.log(mutationList);
@@ -1380,6 +1439,7 @@ function insertDateGaps(mutationList, observer) {
 			console.log('No mutation list')
 		}		
 	}
+	*/
 
 	let lists = document.querySelectorAll('.UI table[role="grid"]');
 
@@ -1387,24 +1447,29 @@ function insertDateGaps(mutationList, observer) {
 		if (simplifyDebug) console.log('Inserting date gaps');
 		lists.forEach(function(list) {
 			let items = list.querySelectorAll('.zA');
-			items.forEach(function(item){
-				if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
-					let itemDate = new Date(item.querySelector('.xW > span').title);
-					if (itemDate > today) {
-						item.setAttribute('date', 'today');
-					} else if (itemDate >= yesterday) {
-						item.setAttribute('date', 'yesterday');
-					} else if (itemDate >= month0) {
-						item.setAttribute('date', 'month0');
-					} else if (itemDate >= month1) {
-						item.setAttribute('date', 'month1');
-					} else if (itemDate >= month2) {
-						item.setAttribute('date', 'month2');
-					} else {
-						item.setAttribute('date', 'earlier');
+			if (items.length > 0) {
+				items.forEach(function(item) {
+					if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
+						let dateSpan = item.querySelector('.xW > span');
+						if (dateSpan) {
+							let itemDate = new Date(dateSpan.title);
+							if (itemDate > today) {
+								item.setAttribute('date', 'today');
+							} else if (itemDate >= yesterday) {
+								item.setAttribute('date', 'yesterday');
+							} else if (itemDate >= month0) {
+								item.setAttribute('date', 'month0');
+							} else if (itemDate >= month1) {
+								item.setAttribute('date', 'month1');
+							} else if (itemDate >= month2) {
+								item.setAttribute('date', 'month2');
+							} else {
+								item.setAttribute('date', 'earlier');
+							}
+						}
 					}
-				}
-			});
+				});
+			}
 		});
 	}
 }
@@ -1418,7 +1483,7 @@ function observeThreadlist() {
 		if (simplSettings.dateGrouping) {
 			insertDateGaps();
 			threadlistObserver.observe(threadlist, { attributes: false, childList: true, subtree: true });
-			if (simplifyDebug) console.log('Adding mutation observer for threadlist');			
+			if (simplifyDebug) console.log('Adding mutation observer for threadlist');
 		}
 	} else {
 		if (observeThreadlistLoops < 10) {
@@ -1467,6 +1532,7 @@ function initOnDomReady() {
 // Initialize everything else when the page is ready
 function initOnPageLoad() {
 	initSettings();
+	// addSettingsGearListener();
 	detectTheme();
 	detectSplitView();
 	detectDensity();

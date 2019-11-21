@@ -7,13 +7,15 @@ function saveOptions(e) {
 		let checkMinimizeSearch = document.getElementById('minimizeSearch').classList.contains('on');
 		let checkHideAddons = document.getElementById('hideAddons').classList.contains('on');
 		let checkDateGrouping = document.getElementById('dateGrouping').classList.contains('on');
+		let checkDebug = document.getElementById('debug').classList.contains('on');
 
 		chrome.storage.local.set({
 			kbsToggle: checkToggle,
 			kbsMenu: checkMenu,
 			minimizeSearch: checkMinimizeSearch,
 			hideAddons: checkHideAddons,
-			dateGrouping: checkDateGrouping
+			dateGrouping: checkDateGrouping,
+			debug: checkDebug
 		});
 	}
 }
@@ -29,7 +31,8 @@ function restoreOptions() {
 		kbsMenu: false,
 		minimizeSearch: false,
 		hideAddons: false,
-		dateGrouping: false
+		dateGrouping: false,
+		debug: false
 	}, function(items) {
 		if (items.kbsToggle) document.getElementById('kbsToggle').classList.add('on');
 		if (items.kbsMenu) document.getElementById('kbsMenu').classList.add('on');
