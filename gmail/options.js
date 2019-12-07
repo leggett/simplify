@@ -6,6 +6,8 @@ function saveOptions(e) {
 		let checkMenu = document.getElementById('kbsMenu').classList.contains('on');
 		let checkMinimizeSearch = document.getElementById('minimizeSearch').classList.contains('on');
 		let checkHideAddons = document.getElementById('hideAddons').classList.contains('on');
+		let checkHideUnreads = document.getElementById('hideUnreadCount').classList.contains('on');
+		let checkBundleCategories = document.getElementById('bundleCategories').classList.contains('on');
 		let checkDateGrouping = document.getElementById('dateGrouping').classList.contains('on');
 		let checkDebug = document.getElementById('debug').classList.contains('on');
 
@@ -15,6 +17,8 @@ function saveOptions(e) {
 			minimizeSearch: checkMinimizeSearch,
 			hideAddons: checkHideAddons,
 			dateGrouping: checkDateGrouping,
+			hideUnreads: checkHideUnreads,
+			bundleCategories: checkBundleCategories,
 			debug: checkDebug
 		});
 	}
@@ -32,6 +36,8 @@ function restoreOptions() {
 		minimizeSearch: false,
 		hideAddons: false,
 		dateGrouping: false,
+		hideUnreads: false,
+		bundleCategories: false,
 		debug: false
 	}, function(items) {
 		if (items.kbsToggle) document.getElementById('kbsToggle').classList.add('on');
@@ -39,6 +45,9 @@ function restoreOptions() {
 		if (items.minimizeSearch) document.getElementById('minimizeSearch').classList.add('on');
 		if (items.hideAddons) document.getElementById('hideAddons').classList.add('on');
 		if (items.dateGrouping) document.getElementById('dateGrouping').classList.add('on');
+		if (items.hideUnreads) document.getElementById('hideUnreadCount').classList.add('on');
+		if (items.bundleCategories) document.getElementById('bundleCategories').classList.add('on');
+		if (items.debug) document.getElementById('debug').classList.add('on');
 	});
 }
 document.addEventListener('DOMContentLoaded', restoreOptions);

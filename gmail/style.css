@@ -1,11 +1,23 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.0
+ * SIMPLIFY GMAIL v1.7.2
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
  */
+
+
+/* ==================================================
+ * BUNDLE ITEMS IN INBOX
+ */
+
+html.simpl div[gh="tl"] tr[labels*="Promotions"] ~ tr[labels*="Promotions"],
+html.simpl div[gh="tl"] tr[labels*="Social"] ~ tr[labels*="Social"],
+html.simpl div[gh="tl"] tr[labels*="Updates"] ~ tr[labels*="Updates"],
+html.simpl div[gh="tl"] tr[labels*="Forums"] ~ tr[labels*="Forums"] {
+	display: none;
+}
 
 
 /* ==================================================
@@ -254,6 +266,12 @@ html.simpl .aeH .G-atb .adF:hover {
 	opacity: 1;
 }
 */
+/* Don't show pagination menu */
+html.simpl .aeH .G-atb .aqJ .amG,
+html.simpl .aeF .G-atb .aqJ .amG,
+html.simpl .aeH .G-atb .adF .amG {
+	display: none;
+}
 
 /* Below 1350px, hide pagination when search and addOns are both open */
 @media only screen and (max-width: 1370.98px) {
@@ -620,26 +638,39 @@ html.simpl #gb form td.gssb_e tr[role="separator"] + tr[role="option"] {
  * NAV & COMPOSE BUTTON
  */
 
-/* Hide nav when minimized or in Settings */
-html.simpl .bhZ,
-html.simpl.inSettings .aeN {
-	max-width: 0px !important;
-	min-width: 0px !important;
-	position: relative;
-	z-index: 3 !important;
+/* SHOW NAV ON HOVER */
+/* This is buggy b/c the animation is not instant and flipping between positions is */
+html.simpl .bhZ:not(.bym) div[role="navigation"] {
+	/* display: none; */
 }
-html.simpl.inSettings .aeN {
-	width: 0px !important;
-	overflow: hidden;
+html.simpl .bhZ.bym {
+	/* position: absolute; */
 }
 
-/* Don't show the nav when hovering over the compose button */
+/* Don't show the nav when hovering over the compose button 
+ * TODO: fix this, probably by adding a class on hover of the compose button
+ */
 html.simpl .bym {
 	box-shadow: none !important;
 }
 html.simpl .bhZ div[role="complementary"],
 html.simpl .bhZ div[gh="ns"] {
 	display: none !important;
+}
+
+/* Hide nav when minimized or in Settings */
+html.simpl .bhZ,
+html.simpl.inSettings .aeN {
+	position: relative;
+	z-index: 3 !important;
+
+	/* Remove this to show nav on hover */
+	max-width: 0px !important;
+	min-width: 0px !important;
+}
+html.simpl.inSettings .aeN {
+	width: 0px !important;
+	overflow: hidden;
 }
 
 /* No shadow or label on compose button */
@@ -709,6 +740,12 @@ html.simpl.rhsChat .akj {
 html.simpl.rhsChat .aCl .akj {
 	padding-right: 0px !important;
 }
+
+/* Hide unread counts in nav if Simplify Setting enabled */
+html.simpl.hideUnreads .bsU {
+	display: none !important;
+}
+
 
 
 /* ==================================================

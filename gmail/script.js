@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.0
+ * SIMPLIFY GMAIL v1.7.2
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -50,6 +50,7 @@ chrome.storage.local.get(null, function (results) {
 		if (simplifyDebug) console.log('No settings yet -- maybe initialize them');
 	} else {
 		simplSettings = results;
+		console.log(simplSettings);
 	}
 	applySettings(simplSettings);
 	if (simplifyDebug) console.log('Got settings');
@@ -91,6 +92,17 @@ function applySettings(settings) {
 				} else {
 					threadlistObserver.disconnect();
 				}
+				break;
+			case "hideUnreads":
+				simplSettings.hideUnreads = settings[key];
+				if (simplSettings.hideUnreads) {
+					htmlEl.classList.add("hideUnreads");
+				} else {
+					htmlEl.classList.remove("hideUnreads");
+				}
+				break;
+			case "bundleCategories":
+				simplSettings.bundleCategories = settings[key];
 				break;
 			case "debug":
 				simplSettings.debug = settings[key];
@@ -1431,46 +1443,76 @@ let justRan = false;
 
 // Insert date gaps
 function insertDateGaps(mutationList, observer) {
-	/*
-	if (simplifyDebug) {
-		if (mutationList) {
-			console.log(mutationList);
-		} else {
-			console.log('No mutation list')
-		}		
+	// Check to see if we're in the inbox and it is empty
+	let threads = document.querySelectorAll('div[gh="tl"] div.Cp tbody tr').length;
+	let inInbox = location.hash.substring(1, 7) == "inbox" ? true : false;
+	if (threads == 0 && inInbox) {
+		// Show inbox zero
+		htmlEl.classList.add('inboxZero');
 	}
-	*/
+	else {
+		htmlEl.classList.remove('inboxZero');
+		/*
+		if (simplifyDebug) {
+			if (mutationList) {
+				console.log(mutationList);
+			} else {
+				console.log('No mutation list')
+			}		
+		}
+		*/
 
-	let lists = document.querySelectorAll('.UI table[role="grid"]');
+		let lists = document.querySelectorAll('.UI table[role="grid"]');
+		if (lists.length > 0) {
+			if (simplifyDebug) console.log('Inserting date gaps');
+			lists.forEach(function(list) {
+				let items = list.querySelectorAll('.zA');
+				if (items.length > 0) {
+					items.forEach( function(item) {
 
-	if (lists.length > 0) {
-		if (simplifyDebug) console.log('Inserting date gaps');
-		lists.forEach(function(list) {
-			let items = list.querySelectorAll('.zA');
-			if (items.length > 0) {
-				items.forEach(function(item) {
-					if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
-						let dateSpan = item.querySelector('.xW > span');
-						if (dateSpan) {
-							let itemDate = new Date(dateSpan.title);
-							if (itemDate > today) {
-								item.setAttribute('date', 'today');
-							} else if (itemDate >= yesterday) {
-								item.setAttribute('date', 'yesterday');
-							} else if (itemDate >= month0) {
-								item.setAttribute('date', 'month0');
-							} else if (itemDate >= month1) {
-								item.setAttribute('date', 'month1');
-							} else if (itemDate >= month2) {
-								item.setAttribute('date', 'month2');
-							} else {
-								item.setAttribute('date', 'earlier');
+						// BUNDLE ITEMS BY LABEL (NOT DONE)
+						/* TODO: 
+						 *	this breaks grouping by date, skip if item is display:none
+						 * 	the remaining item should link to a search, not an email
+						 */
+						
+						// Only bundle items if we're in the Inbox
+						if (inInbox && simplSettings.bundleCategories) {
+							// Get the labels on the item
+							let labels = item.querySelectorAll('.av');
+							if (labels.length > 0) {
+								let labelList = [];
+								labels.forEach( function(label) {
+									labelList.push(label.innerText);
+								});
+								item.setAttribute('labels', labelList.toString());
 							}
 						}
-					}
-				});
-			}
-		});
+
+						// Group by date
+						if (!item.querySelector('.byZ > div')) { // Skip item if it was snoozed
+							let dateSpan = item.querySelector('.xW > span');
+							if (dateSpan) {
+								let itemDate = new Date(dateSpan.title);
+								if (itemDate > today) {
+									item.setAttribute('date', 'today');
+								} else if (itemDate >= yesterday) {
+									item.setAttribute('date', 'yesterday');
+								} else if (itemDate >= month0) {
+									item.setAttribute('date', 'month0');
+								} else if (itemDate >= month1) {
+									item.setAttribute('date', 'month1');
+								} else if (itemDate >= month2) {
+									item.setAttribute('date', 'month2');
+								} else {
+									item.setAttribute('date', 'earlier');
+								}
+							}
+						}
+					});
+				}
+			});
+		}
 	}
 }
 
