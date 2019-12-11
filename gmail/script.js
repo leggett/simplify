@@ -50,7 +50,7 @@ chrome.storage.local.get(null, function (results) {
 		if (simplifyDebug) console.log('No settings yet -- maybe initialize them');
 	} else {
 		simplSettings = results;
-		console.log(simplSettings);
+		if (simplifyDebug) console.log(simplSettings);
 	}
 	applySettings(simplSettings);
 	if (simplifyDebug) console.log('Got settings');
@@ -61,7 +61,12 @@ if (simplifyDebug) console.log('Simplify version ' + chrome.runtime.getManifest(
 
 // Apply setting
 function applySettings(settings) {
+	if (simplifyDebug) console.log('Apply settings');
+	/*
+	TODO: something is breaking here
+	*/
 	for (let key in settings) {
+		if (simplifyDebug) console.log("Applying setting: " + key);
 		switch (key) {
 			case "hideAddons":
 				simplSettings.hideAddons = settings[key];
@@ -106,11 +111,18 @@ function applySettings(settings) {
 				break;
 			case "debug":
 				simplSettings.debug = settings[key];
+				/* This is applied too late to really work... 
+				 * maybe you change the setting and restart the app?
+				 * or I can use localStorage?
 				if (simplSettings.debug) {
 					simplifyDebug = true;
 				} else {
 					simplifyDebug = false;
 				}
+				*/
+				break;
+			default: 
+				console.log('No case for applying setting: ' + key);
 				break;
 		}
 	}
@@ -126,9 +138,9 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	}
 });
 
-/*
 // Add Simplify Settings link to gear menu
 const optionsUrl = chrome.extension.getURL("options.html");
+/*
 let addSettingsLinkLoops = 0;
 function addSettingsGearListener() {
 	let settingsGear = document.querySelector('div[gh="s"]');
@@ -569,7 +581,7 @@ function detectClassNames() {
 		const supportButton = document.querySelector('#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]');
 		if (simplifyDebug) {
 			console.log('Detecting class name for support path element:');
-			console.log(supportButton);
+			// console.log(supportButton);
 		}
 		simplify[u].elements["supportButton"] = supportButton ? "." + supportButton.parentElement.parentElement.parentElement.parentElement.classList.value.trim().replace(/ /g,".") : simplify[u].elements["supportButton"];
 
@@ -1043,6 +1055,7 @@ function detectSplitView() {
 let detectNumberOfAddOnsLoops = 0;
 function detectNumberOfAddOns() {
 	// Detect how many add-ons there are
+	// TODO: addons not showing
 	const numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
 		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
@@ -1086,7 +1099,7 @@ function detectAddOns() {
 		}
 
 		// Set the height of the add-ons tray based on number of add-ons
-		detectNumberOfAddOns();
+		setTimeout(detectNumberOfAddOns, 2500);
 
 		// Options for the observer (which mutations to observe)
 		const addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
@@ -1579,10 +1592,10 @@ function initOnPageLoad() {
 	detectSplitView();
 	detectDensity();
 	detectRightSideChat();
-	detectAddOns();
 	detectMenuState();
 	detectButtonLabel();
 	detectMultipleInboxes();
+	detectAddOns();
 	initAppSwitcher();
 	testPagination();
 	observePagination();
