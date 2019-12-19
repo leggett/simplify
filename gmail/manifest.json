@@ -1,6 +1,6 @@
 {
 	"name": "Simplify Gmail",
-	"version": "1.7.2",
+	"version": "1.7.4",
 	"manifest_version": 2,
 	"description": "Simplifies Gmail interface to the bare minimum",
 	"homepage_url": "https://simpl.fyi",
@@ -20,7 +20,7 @@
 		"options.html"
 	],
 	"content_scripts": [{
-      	"matches": ["*://mail.google.com/*"],
+      	"matches": ["https://mail.google.com/*"],
       	"js": ["script.js"],
 		"css": ["style.css", "style-images.css"],
 		"run_at": "document_start",

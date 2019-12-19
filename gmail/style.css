@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.2
+ * SIMPLIFY GMAIL v1.7.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -1288,11 +1288,13 @@ html.simpl .bAw:hover > div:first-child {
 	border-radius: 16px;
 	background-color: #fff;
 }
-html.simpl .bAw > div:first-child:hover > div {
-	display: block;
+html.simpl .bAw > div:first-child > div {
 	margin: 0px;
 	opacity: 1;
 }
+
+
+
 
 /* Hide buttons other than add-ons */
 html.simpl .bAw div[role="tablist"] > div[role="tab"] {

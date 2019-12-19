@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.2
+ * SIMPLIFY GMAIL v1.7.4
  * By Michael Leggett: leggett.org
  * Copyright (c) 2019 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -120,6 +120,10 @@ function applySettings(settings) {
 					simplifyDebug = false;
 				}
 				*/
+				break;
+			case "minSearch":
+				// No longer used, delete it
+				chrome.storage.local.remove(["minSearch"]);
 				break;
 			default: 
 				console.log('No case for applying setting: ' + key);
@@ -505,9 +509,10 @@ window.addEventListener('keydown', handleKeyboardShortcut, false);
 // == URL HISTORY =====================================================
 
 // Set up urlHashes to track and update for closing Search and leaving Settings
-let closeSearchUrlHash = (location.hash.substring(1, 7) == "search"
-	|| location.hash.substring(1, 6) == "label"
-	|| location.hash.substring(1, 16) == "advanced-search") ? "#inbox" : location.hash;
+let closeSearchUrlHash = (
+	location.hash.substring(1, 7) == "search" ||
+	location.hash.substring(1, 6) == "label" ||
+	location.hash.substring(1, 16) == "advanced-search") ? "#inbox" : location.hash;
 let closeSettingsUrlHash = location.hash.substring(1, 9) == "settings" ? "#inbox" : location.hash;
 
 window.onhashchange = function() {
@@ -622,7 +627,7 @@ function detectClassNames() {
 
 // Helper function to add CSS to Simplify Style Sheet
 function addCSS(css, pos) {
-	const position = pos ? pos : simplifyStyles.cssRules.length;
+	let position = pos ? pos : simplifyStyles.cssRules.length;
 	simplifyStyles.insertRule(css, position);
 	if (simplifyDebug) console.log('CSS added: ' + simplifyStyles.cssRules[position].cssText);
 }
@@ -688,7 +693,8 @@ function initStyle() {
 		simplifyStyles = simplifyStyleEl.sheet;
 
 		// Initialize addOns height now that Style Sheet is setup
-		addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px; }`);
+		addCSS(`:root { --add-on-height: ${simplify[u].addOnsCount * 56}px !important; }`);
+		if (simplifyDebug) console.log('Just made room for ' + simplify[u].addOnsCount + ' add ons');
 
 		// Add cached styles
 		addStyles();
@@ -1055,11 +1061,10 @@ function detectSplitView() {
 let detectNumberOfAddOnsLoops = 0;
 function detectNumberOfAddOns() {
 	// Detect how many add-ons there are
-	// TODO: addons not showing
-	const numberOfAddOns = parseInt(document.querySelectorAll('.bAw div[role="tablist"] > div[role="tab"]').length) - 2;
+	const numberOfAddOns = parseInt(document.querySelectorAll('.bAw div.bse-bvF-I, .bAw div[role="tablist"] > div[role="tab"]').length) - 2;
 	if (numberOfAddOns > 0) {
-		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons');
-		if (numberOfAddOns != simplify[u].addOnsCount && numberOfAddOns > 3) {
+		if (simplifyDebug) console.log('There are ' + numberOfAddOns + ' add-ons now');
+		if (numberOfAddOns > 3) {
 			addCSS(`:root { --add-on-height: ${numberOfAddOns * 56}px !important; }`);
 			updateParam('addOnsCount', numberOfAddOns);
 		} else {
@@ -1099,7 +1104,7 @@ function detectAddOns() {
 		}
 
 		// Set the height of the add-ons tray based on number of add-ons
-		setTimeout(detectNumberOfAddOns, 2500);
+		setTimeout(detectNumberOfAddOns, 5000);
 
 		// Options for the observer (which mutations to observe)
 		const addOnsObserverConfig = { attributes: true, childList: false, subtree: false };
