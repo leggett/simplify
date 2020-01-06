@@ -34,5 +34,5 @@
 		"scripts": [ "toggle.js" ],
 		"persistent": false
 	},
-	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'"
+	"content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'"
 }
