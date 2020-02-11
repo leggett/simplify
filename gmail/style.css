@@ -1,7 +1,7 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.4
+ * SIMPLIFY GMAIL v1.7.7
  * By Michael Leggett: leggett.org
- * Copyright (c) 2019 Michael Hart Leggett
+ * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
  * License: github.com/leggett/simplify/blob/master/gmail/LICENSE.md
  * More info: simpl.fyi
@@ -1605,6 +1605,7 @@ html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
 	text-decoration: none;
 	margin: 24px 16px 0 0;
 	border-color: rgba(0, 0, 0, 0.12);
+	cursor: pointer;
 /*
 	text-shadow: 0 1px 1px rgba(0,0,0,.5);
 	border: 2px solid #0A6CDD;
