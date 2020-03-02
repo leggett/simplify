@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.7
+ * SIMPLIFY GMAIL v1.7.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -58,29 +58,29 @@ html.simpl .aeH div[gh="tm"] div[role="toolbar"] div:first-child > div[role="but
  * INBOX DATE GROUPING
  */
 
-tr[date="today"],
-tr[date="yesterday"],
-tr[date="month0"],
-tr[date="month1"],
-tr[date="month2"],
-tr[date="earlier"] {
+html.simpl tr[date="today"],
+html.simpl tr[date="yesterday"],
+html.simpl tr[date="month0"],
+html.simpl tr[date="month1"],
+html.simpl tr[date="month2"],
+html.simpl tr[date="earlier"] {
 	margin-top: 3em;
 }
-tr[date="today"] ~ 		tr[date="today"],
-tr[date="yesterday"] ~ 	tr[date="yesterday"],
-tr[date="month0"] ~ 	tr[date="month0"],
-tr[date="month1"] ~ 	tr[date="month1"],
-tr[date="month2"] ~ 	tr[date="month2"],
-tr[date="earlier"] ~ 	tr[date="earlier"] {
+html.simpl tr[date="today"] ~ tr[date="today"],
+html.simpl tr[date="yesterday"] ~ tr[date="yesterday"],
+html.simpl tr[date="month0"] ~ tr[date="month0"],
+html.simpl tr[date="month1"] ~ tr[date="month1"],
+html.simpl tr[date="month2"] ~ tr[date="month2"],
+html.simpl tr[date="earlier"] ~ tr[date="earlier"] {
 	margin-top: initial;
 }
 
-tr[date="today"]::before,
-tr[date="yesterday"]::before,
-tr[date="month0"]::before,
-tr[date="month1"]::before,
-tr[date="month2"]::before,
-tr[date="earlier"]::before {
+html.simpl tr[date="today"]::before,
+html.simpl tr[date="yesterday"]::before,
+html.simpl tr[date="month0"]::before,
+html.simpl tr[date="month1"]::before,
+html.simpl tr[date="month2"]::before,
+html.simpl tr[date="earlier"]::before {
 	height: 0px;
 	width: 0px;
 	white-space: nowrap;
@@ -110,19 +110,18 @@ html.simpl.darkTheme tr[date="earlier"]::before {
 	color: #ffffff;
 }
 
-tr[date="today"]::before { content: 'TODAY'; }
-tr[date="yesterday"]::before { content: 'YESTERDAY'; }
-tr[date="month0"]::before { content: 'THIS MONTH'; }
-tr[date="month1"]::before { content: 'LAST MONTH'; }
-tr[date="month2"]::before { content: 'AUGUST'; }
-tr[date="earlier"]::before { content: 'EARLIER'; }
+html.simpl tr[date="today"]::before { content: 'TODAY'; }
+html.simpl tr[date="yesterday"]::before { content: 'YESTERDAY'; }
+html.simpl tr[date="month0"]::before { content: 'THIS MONTH'; }
+html.simpl tr[date="month1"]::before { content: 'LAST MONTH'; }
+html.simpl tr[date="earlier"]::before { content: 'EARLIER'; }
 
-tr[date="today"] ~ tr[date="today"]::before,
-tr[date="yesterday"] ~ tr[date="yesterday"]::before,
-tr[date="month0"] ~ tr[date="month0"]::before,
-tr[date="month1"] ~ tr[date="month1"]::before,
-tr[date="month2"] ~ tr[date="month2"]::before,
-tr[date="earlier"] ~ tr[date="earlier"]::before {
+html.simpl tr[date="today"] ~ tr[date="today"]::before,
+html.simpl tr[date="yesterday"] ~ tr[date="yesterday"]::before,
+html.simpl tr[date="month0"] ~ tr[date="month0"]::before,
+html.simpl tr[date="month1"] ~ tr[date="month1"]::before,
+html.simpl tr[date="month2"] ~ tr[date="month2"]::before,
+html.simpl tr[date="earlier"] ~ tr[date="earlier"]::before {
 	content: '';
 	display: none;
 }

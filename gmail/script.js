@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.7
+ * SIMPLIFY GMAIL v1.7.8
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -687,7 +687,13 @@ function addStyles() {
 	}
 
 	// Adjust size of menu button container
-	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);	
+	addCSS(`html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`);
+
+	// Add correct label for date cluster in inbox for two months ago
+	let now = new Date();
+	let month2 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+	let monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+	addCSS(`html.simpl tr[date="month2"]::before { content: '${monthNames[month2.getMonth()]}'; }`);
 }
 
 // Add CSS based on cached selectors detected in previous loads
