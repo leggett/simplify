@@ -346,7 +346,7 @@ html.simpl.multiBoxHorz div[role='main'] .byR {
   margin-top: 0px;
 }
 
-@media only screen and (max-width: 1441px) {
+@media only screen and (max-width: 1441.98px) {
   html.simpl.multiBoxHorz .aeF > div.nH {
     max-width: 1400px !important;
   }
@@ -433,33 +433,102 @@ States (text button labels)
   html.simpl.navOpen {
     --left-offset: -32px;
   }
-  html.simpl.rhsChat {
+  html.simpl.readingPane.navOpen:not(.noSplitPane) {
+    --left-offset: -1px;
+  }
+  html.simpl.rhsChat.navOpen {
+    --left-offset: 68px;
     --content-width: 1164px;
+  }
+  html.simpl.rhsChat:not(.navOpen) {
+    --left-offset: 160px;
   }
   html.simpl.addOnsOpen,
   html.simpl.addOnsOpen.rhsChat {
+    --left-offset: 210px;
     --content-width: 1260px;
   }
   html.simpl.addOnsOpen.rhsChat {
     --left-offset: 12px;
   }
   html.simpl.addOnsOpen.navOpen {
-    --left-offset: -32px;
+    --left-offset: 118px;
   }
   html.simpl.addOnsOpen.rhsChat.navOpen {
     --left-offset: -82px;
   }
+  /* No Split Reading pane */
+  html.simpl.noSplitPane {
+    --left-offset: 64px;
+  }
+  html.simpl.noSplitPane.navOpen {
+    --left-offset: -60px;
+  }
+  html.simpl.noSplitPane.addOnsOpen {
+    --content-width: 960px;
+    --left-offset: 212px;
+  }
+  html.simpl.noSplitPane.navOpen.addOnsOpen {
+    --left-offset: 90px;
+  }
+
   /* Apply variables to align left edge except if the menu and addOns or rhsChat are both open */
   html.simpl:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert):not(.addOnsOpen):not(.rhsChat):not(.textButtons)
     .aeH
     .G-atb,
   html.simpl:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
     .aeH
+    .G-atb,
+  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+    .aeF
+    .G-atb,
+  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+    .aeH
     .G-atb {
     padding-left: calc(
       ((100vw - var(--content-width)) / 2) - var(--left-offset)
     );
     margin-left: 16px !important;
+  }
+
+  /* Adjust width of action bar for reading pane */
+  html.simpl.readingPane.hideSearch:not(.navOpen) .G-atb[gh='tm'] {
+    width: calc(100vw - 204px);
+  }
+  html.simpl.readingPane:not(.hideSearch):not(.navOpen) .G-atb[gh='tm'] {
+    width: calc(var(--action-bar-width) - 126px);
+  }
+  html.simpl.readingPane.navOpen.hideSearch .G-atb[gh='tm'] {
+    width: calc(100vw - 400px);
+  }
+  html.simpl.readingPane.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--action-bar-width) - 126px);
+  }
+
+  /* Correct width of action bar for No Split reading pane */
+  html.simpl.noSplitPane.hideSearch:not(.navOpen) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 140px);
+  }
+  html.simpl.noSplitPane.hideSearch.navOpen .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 266px);
+  }
+  html.simpl.noSplitPane:not(.navOpen):not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 152px - 16%);
+  }
+  html.simpl.noSplitPane.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 276px - 16%);
+  }
+  html.simpl.noSplitPane.addOnsOpen:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 253px - 16%);
+  }
+  html.simpl.noSplitPane.hideSearch.addOnsOpen:not(.navOpen) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 294px);
+  }
+  html.simpl.noSplitPane.hideSearch.addOnsOpen.navOpen .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 416px);
+  }
+  html.simpl.noSplitPane.addOnsOpen.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--content-width) / 2 + 50vw - 375px - 16%);
   }
 
   /* Move pagination controls to right edge of content
@@ -470,21 +539,39 @@ States (text button labels)
   html.simpl.hideSearch.navOpen {
     --right-offset: 252px;
   }
+  html.simpl.hideSearch.addOnsOpen {
+    --right-offset: 310px;
+  }
   html.simpl.hideSearch.rhsChat {
-    --right-offset: -42px;
+    /* --right-offset: -42px; */
+    --right-offset: 58px;
+  }
+  html.simpl.hideSearch.rhsChat.navOpen {
+    --right-offset: 150px;
   }
   html.simpl.hideSearch.addOnsOpen.rhsChat {
     --right-offset: 208px;
   }
-  html.simpl.hideSearch.navOpen.addOnsOpen,
+  html.simpl.hideSearch.navOpen.addOnsOpen {
+    /* --right-offset: 300px; */
+    --right-offset: 400px;
+  }
   html.simpl.hideSearch.navOpen.addOnsOpen.rhsChat {
     --right-offset: 300px;
   }
-  html.simpl.hideSearch.navOpen.rhsChat {
-    --right-offset: 44px;
+
+  /* No Split reading pane */
+  html.simpl.hideSearch.noSplitPane {
+    --right-offset: 218px;
   }
-  html.simpl.hideSearch.addOnsOpen.navOpen {
-    --right-offset: 246px;
+  html.simpl.hideSearch.noSplitPane.navOpen {
+    --right-offset: 340px;
+  }
+  html.simpl.hideSearch.noSplitPane.addOnsOpen {
+    --right-offset: 368px;
+  }
+  html.simpl.hideSearch.noSplitPane.addOnsOpen.navOpen {
+    --right-offset: 490px;
   }
 
   /* Apply variables to align right edge with content */
@@ -499,18 +586,21 @@ States (text button labels)
     .ar5,
   html.simpl.hideSearch:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
     .adF
-    .iG {
+    .iG,
+  html.simpl.hideSearch.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+    .aeF
+    .ar5 {
     padding-right: calc(
       ((100vw - var(--content-width)) / 2) - var(--right-offset)
     );
   }
 
-  /* Remove extra for No Split preview pane to compensate for the Reading pane button */
-  html.simpl.hideSearch.readingPaneOff:not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
-    .aeF
-    .ar5 {
+  /* There is no split pane button in conversation view -- add more padding */
+  html.simpl.hideSearch.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+    .adF
+    .iG {
     padding-right: calc(
-      ((100vw - var(--content-width)) / 2) - var(--right-offset) - 58px
+      ((100vw - var(--content-width)) / 2) - var(--right-offset) + 60px
     );
   }
 
@@ -527,15 +617,29 @@ States (text button labels)
   html.simpl:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
     .adF
     .iG,
-  html.simpl.hideSearch.readingPaneOff:not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
+  html.simpl.noSplitPane:not(.hideSearch):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
     .aeF
-    .ar5 {
+    .ar5,
+  html.simpl.noSplitPane:not(.hideSearch):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+    .adF
+    .iG {
     padding-right: initial;
   }
 }
+
+@media only screen and (min-width: 1278.98px) and (max-width: 1638.98px) {
+  /* Don't align the actions if the nav and add-ons are both open */
+  html.simpl.noSplitPane.navOpen.addOnsOpen .aeF .G-atb[gh='tm'],
+  html.simpl.noSplitPane.navOpen.addOnsOpen .aeH .G-atb[gh='tm'] {
+    padding-left: initial;
+    width: calc(100vw - 445px - 16%);
+  }
+}
+
+/* Adjust aligment and spacing for higher resolutions */
 @media only screen and (min-width: 1441.98px) {
   html.simpl {
-    --content-width: 1100px;
+    --content-width: 1100px !important;
   }
   html.simpl.rhsChat {
     --content-width: 1304px;
@@ -545,20 +649,34 @@ States (text button labels)
     --content-width: 1400px;
   }
 
-  /* Apply variables to align left edge for vertical reading pane when the nav is open */
-  html.simpl.navOpen.readingPane:not(.hideSearch):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons):not(.rhsChat):not(.addOnsOpen)
+  /* Reading pane: Apply variables to align left edge for vertical reading pane when the nav is open */
+  html.simpl.navOpen.readingPane:not(.hideSearch):not(.noSplitPane):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons):not(.rhsChat):not(.addOnsOpen)
     .aeF
     .G-atb {
-    padding-left: 196px;
+    padding-left: 196px !important;
     margin-left: 16px !important;
     width: calc(var(--action-bar-width) - 322px) !important;
   }
+  html.simpl.navOpen.readingPane.hideSearch:not(.noSplitPane):not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons):not(.rhsChat):not(.addOnsOpen)
+    .adF
+    .G-atb {
+    padding-left: 196px !important;
+    margin-left: 16px !important;
+    width: calc(var(--action-bar-width) - 49px) !important;
+  }
 }
+
 @media only screen and (min-width: 1638.98px) {
   /* Apply variables to align left edge */
+  html.simpl.navOpen.addOnsOpen:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert) {
+    --left-offset: 94px;
+  }
   html.simpl:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert)
     .aeH
-    .G-atb {
+    .G-atb,
+  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert)
+    .aeF
+    .G-atb[gh='tm'] {
     padding-left: calc(
       ((100vw - var(--content-width)) / 2) - var(--left-offset)
     );
@@ -1037,29 +1155,26 @@ html.simpl.readingPane .G-atb[gh='tm']:before {
   box-shadow: none;
   -webkit-box-shadow: none;
 }
-
-/* If Multiple Inboxes AND Preview Pane are enabled,
- * there will be multiple action bars; Multiple Inboxes
- * only works when Preview Pane is disabled. So hide
- * the other action bars if there are multiple
- */
-html.simpl.readingPane .G-atb[gh='tm']:not(:first-child) {
-  display: none;
+@media only screen and (min-width: 1278.98px) {
+  html.simpl.readingPane.navOpen.hideSearch:not(.noSplitPane) .G-atb[gh='tm'] {
+    padding-left: 212px;
+  }
 }
 
-/* Expand action bar when search is hidden */
-html.simpl.readingPane.hideSearch .G-atb[gh='tm'] {
-  width: calc(100vw - 206px);
-  transition: width 0s; /* was 0.2s ease-in 0s */
-}
-html.simpl.readingPane.readingPaneOff.hideSearch .G-atb[gh='tm'] {
-  width: calc(100vw - 400px);
-}
-html.simpl.readingPane:not(.hideSearch) .G-atb[gh='tm'] {
-  width: calc(var(--action-bar-width) - 126px);
-}
-html.simpl.readingPane.readingPaneOff:not(.hideSearch) .G-atb[gh='tm'] {
-  width: calc(var(--action-bar-width) - 126px);
+/* Adjust width of action bar for small resolutions */
+@media only screen and (max-width: 1278.98px) {
+  html.simpl.readingPane.hideSearch .G-atb[gh='tm'] {
+    width: calc(100vw - 204px);
+  }
+  html.simpl.readingPane:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--action-bar-width) - 126px);
+  }
+  html.simpl.readingPane.addOnsOpen.hideSearch .G-atb[gh='tm'] {
+    width: calc(100vw - 502px);
+  }
+  html.simpl.readingPane.addOnsOpen:not(.hideSearch) .G-atb[gh='tm'] {
+    width: calc(var(--action-bar-width) - 366px);
+  }
 }
 
 /* Hide footer & space usage in reading pane */
@@ -1131,7 +1246,17 @@ html.simpl.readingPane .aph {
 }
 
 /* Below 1250px, hide the pagination controls */
-@media only screen and (max-width: 1250.98px) {
+/* TODO: Shouldn't I do this for all setups, not just reading pane? */
+@media only screen and (max-width: 1278.98px) {
+  html.simpl.readingPane.addOnsOpen:not(.hideSearch)
+    .aE3
+    .G-atb
+    .aqJ
+    > div:not([gh='s']) {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1100.98px) {
   html.simpl.readingPane:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh='s']) {
     display: none;
   }
@@ -1145,10 +1270,64 @@ html.simpl.readingPane div[role='listitem'] .btC > .az5 {
   padding-right: 50px;
 }
 
-/* Support "No Split" Reading pane setup */
-html.simpl.readingPaneOff div[gh='tl'] .ae4 {
+/* Add a bit of right margin to the "Select all?" butter bar */
+html.simpl.readingPane .Tm .ya {
+  margin-right: 16px;
+}
+
+/* ====================================================================
+ * NO SPLIT PREVIEW PANE
+ */
+
+/* Center the inbox */
+html.simpl.noSplitPane div[gh='tl'] .ae4 {
   max-width: var(--content-width);
   margin: auto;
+}
+@media only screen and (min-width: 1278.98px) {
+  /* Inbox tabs */
+  html.simpl.noSplitPane .aeF .aKh {
+    max-width: var(--content-width);
+    margin: auto;
+    position: relative;
+    left: -8px;
+  }
+  html.simpl.noSplitPane.navOpen.addOnsOpen .aeF .aKh {
+    max-width: calc(100vw - 573px);
+  }
+  html.simpl.noSplitPane .aeF .aKh > table.aKk {
+    min-width: var(--content-width);
+  }
+}
+
+/* Add padding below inbox */
+html.simpl.noSplitPane .aeF .Nu {
+  padding-bottom: 150px;
+}
+
+/* Center the conversation */
+html.simpl.noSplitPane .aeF div[role='main'][class='nH'] {
+  max-width: var(--content-width);
+  margin: 40px auto 200px auto;
+}
+
+/* Correctly position toolbar in Conversation view */
+html.simpl.noSplitPane .aeH .G-atb[gh='tm'] {
+  top: 0px !important;
+}
+
+/* Center "Select all?" butter bar */
+html.simpl.readingPane.noSplitPane .Tm .ya {
+  max-width: var(--content-width);
+  margin: 4px auto;
+  position: relative;
+  left: -8px;
+}
+@media only screen and (max-width: 1278.98px) {
+  html.simpl.readingPane.noSplitPane .Tm .ya {
+    left: 0;
+    margin-right: 16px;
+  }
 }
 
 /* ====================================================================
@@ -1487,19 +1666,26 @@ html.simpl .bq9 {
 }
 
 /* Shrink the action bar when the AddOnsPane AND Search are open */
-html.simpl.addOnsOpen:not(.hideSearch) .aeH {
+html.simpl.addOnsOpen:not(.hideSearch):not(.noSplitPane) .aeH {
   width: calc(var(--action-bar-width) - 92px) !important;
 }
-html.simpl.addOnsOpen.readingPane:not(.hideSearch) .G-atb[gh='tm'] {
+html.simpl.addOnsOpen.readingPane:not(.hideSearch):not(.noSplitPane)
+  .G-atb[gh='tm'] {
   width: calc(var(--action-bar-width) - 365px) !important;
 }
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
-html.simpl.addOnsOpen.hideSearch .aeH {
+html.simpl.addOnsOpen.hideSearch:not(.noSplitPane) .aeH {
   width: calc(100vw - 470px) !important;
 }
-html.simpl.addOnsOpen.hideSearch.readingPane .G-atb[gh='tm'] {
-  width: calc(100vw - 506px) !important;
+html.simpl.addOnsOpen.hideSearch.readingPane:not(.noSplitPane) .G-atb[gh='tm'] {
+  width: calc(100vw - 505px) !important;
+}
+@media only screen and (min-width: 1278.98px) {
+  html.simpl.addOnsOpen.hideSearch.navOpen.readingPane:not(.noSplitPane)
+    .G-atb[gh='tm'] {
+    width: calc(100vw - 701px) !important;
+  }
 }
 
 /* ====================================================================
@@ -1517,10 +1703,9 @@ html.simpl.inSettings.hideSearch .aeH {
   width: calc(100vw - 144px) !important;
   margin-top: -8px;
 }
+/* Shift settings Tessa tabs over so they don't cover the back button */
 html.simpl.inSettings.readingPane .aeH {
-  /* Not sure why this was there, deleting for now
-	left: 72px !important;
-	*/
+  left: 64px !important;
 }
 html.simpl.inSettings .bkK {
   margin-left: 72px !important;
@@ -1649,8 +1834,7 @@ html.simpl .inboxsdk__navItem .gmelius-nav_accessory > img {
 html.simpl:not(.appSwitcher) #gb .manage_menu, /* Boomerang */
 html.simpl:not(.appSwitcher) #gb .mixmax-appbar, /* Mixmax */
 html.simpl:not(.appSwitcher) #gb #mailtrack-menu-opener, /* Mail track */
-html.simpl:not(.appSwitcher) #gb .inboxsdk__appButton /* Streak */
- {
+html.simpl:not(.appSwitcher) #gb .inboxsdk__appButton /* Streak */ {
   display: none !important;
 }
 
@@ -1669,8 +1853,7 @@ html.simpl #gb .streak__appToolbarButton_title::after {
 html.simpl.appSwitcher #gb .manage_menu, /* Boomerang */
 html.simpl.appSwitcher #gb .mixmax-appbar, /* Mixmax */
 html.simpl.appSwitcher #gb #mailtrack-menu-opener, /* Mail track */
-html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */
- {
+html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */ {
   display: block !important;
   position: absolute;
   right: 100px;

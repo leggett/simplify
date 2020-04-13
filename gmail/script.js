@@ -20,7 +20,7 @@ function toggleSimpl() {
 
 // Handle messages from background script that
 // supports page action to toggle Simplify on/off
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.action === 'toggle_simpl') {
     const isNowToggled = toggleSimpl();
     sendResponse({ toggled: isNowToggled });
@@ -38,7 +38,7 @@ let simplifyDebug = false;
 // Load Simplify Settings
 let simplSettings = {};
 if (simplifyDebug) console.log('About to try to get settings');
-chrome.storage.local.get(null, function(results) {
+chrome.storage.local.get(null, function (results) {
   if (simplifyDebug) console.log('About to parse settings');
   if (results == null) {
     if (simplifyDebug) console.log('No settings yet -- maybe initialize them');
@@ -129,7 +129,7 @@ function applySettings(settings) {
 }
 
 // Detect changes in settings and make appropriate changes
-chrome.storage.onChanged.addListener(function(changes, namespace) {
+chrome.storage.onChanged.addListener(function (changes, namespace) {
   for (let key in changes) {
     let newSettings = {};
     newSettings[key] = changes[key].newValue;
@@ -197,7 +197,7 @@ function showNotification(msg, actions, hideAfter) {
       '<br><button id="openSettings">Open Simplify settings</button>';
     document.querySelector('#simplNotification #openSettings').addEventListener(
       'click',
-      function() {
+      function () {
         window.open(optionsUrl, '_blank');
         notificationBox.style.display = 'none';
         clearTimeout(autoCloseNotification);
@@ -208,12 +208,12 @@ function showNotification(msg, actions, hideAfter) {
     notificationBox.innerHTML +=
       '<br><button id="gmailSettings">Open Gmail settings</button>';
     // TODO: Why do I have to delay this so the button is in the DOM and I can add the function?
-    setTimeout(function() {
+    setTimeout(function () {
       document
         .querySelector('#simplNotification #gmailSettings')
         .addEventListener(
           'click',
-          function() {
+          function () {
             location.hash = 'settings/inbox';
             notificationBox.style.display = 'none';
             clearTimeout(autoCloseNotification);
@@ -230,7 +230,7 @@ function showNotification(msg, actions, hideAfter) {
     .querySelector('#simplNotification #closeNotification')
     .addEventListener(
       'click',
-      function() {
+      function () {
         notificationBox.style.display = 'none';
         clearTimeout(autoCloseNotification);
         simplSettings.kbsNotified = true;
@@ -239,7 +239,7 @@ function showNotification(msg, actions, hideAfter) {
     );
 
   // Auto hide this notification in 30 seconds
-  let autoCloseNotification = setTimeout(function() {
+  let autoCloseNotification = setTimeout(function () {
     notificationBox.style.display = 'none';
   }, hideAfter * 1000);
 }
@@ -269,6 +269,7 @@ let simplify = {};
 const defaultParam = {
   username: '',
   previewPane: null,
+  noSplitPane: null,
   multipleInboxes: '',
   theme: '',
   navOpen: null,
@@ -327,7 +328,7 @@ function updateParam(param, value) {
 
 // Hash string
 function hashCode(s) {
-  return s.split('').reduce(function(a, b) {
+  return s.split('').reduce(function (a, b) {
     a = (a << 5) - a + b.charCodeAt(0);
     return a & a;
   }, 0);
@@ -360,6 +361,10 @@ function checkLocalVar() {
 if (simplify[u].previewPane) {
   if (simplifyDebug) console.log('Loading with reading pane');
   htmlEl.classList.add('readingPane');
+
+  if (simplify[u].noSplitPane) {
+    htmlEl.classList.add('noSplitPane');
+  }
 
   // Multiple Inboxes doesn't work if you have Preview Pane enabled
   updateParam('multipleInboxes', 'none');
@@ -561,7 +566,8 @@ let closeSearchUrlHash =
 let closeSettingsUrlHash =
   location.hash.substring(1, 9) == 'settings' ? '#inbox' : location.hash;
 
-window.onhashchange = function() {
+let detectReadingPaneLater = false;
+window.onhashchange = function () {
   // TODO: Should I also consider "#create-filter"?
   if (
     location.hash.substring(1, 7) != 'search' &&
@@ -581,6 +587,10 @@ window.onhashchange = function() {
   // if we were supposed to check the theme later, do it now
   if (checkThemeLater) {
     detectTheme();
+  }
+
+  if (detectReadingPaneLater) {
+    detectReadingPane();
   }
 
   // See if we need to date group the view
@@ -876,7 +886,7 @@ function initSearch() {
     // Focus search when you click anywhere on it
     searchForm.addEventListener(
       'click',
-      function(event) {
+      function (event) {
         toggleSearchFocus();
       },
       false
@@ -888,7 +898,7 @@ function initSearch() {
     ).parentElement;
     searchIcon.addEventListener(
       'click',
-      function(event) {
+      function (event) {
         event.preventDefault();
         event.stopPropagation();
         htmlEl.classList.toggle('hideSearch');
@@ -906,7 +916,7 @@ function initSearch() {
     // Hide search when you clear the search if it was previously hidden
     searchCloseIcon.addEventListener(
       'click',
-      function(event) {
+      function (event) {
         event.preventDefault();
         event.stopPropagation();
         toggleSearchFocus('off');
@@ -958,7 +968,7 @@ function initSearchFocus() {
     // Show search if it is focused and hidden
     searchInput.addEventListener(
       'focus',
-      function() {
+      function () {
         htmlEl.classList.remove('hideSearch');
       },
       false
@@ -971,7 +981,7 @@ function initSearchFocus() {
     searchInput.addEventListener('focus', () => {
       // Add searchFocus from html element
       htmlEl.classList.add('searchFocused');
-      setTimeout(function() {
+      setTimeout(function () {
         if (searchInput.value == 'label:') {
           searchInput.selectionStart = searchInput.selectionEnd = 10000;
         } else {
@@ -1032,7 +1042,7 @@ function initSettings() {
   if (backButton) {
     backButton.addEventListener(
       'click',
-      function() {
+      function () {
         if (location.hash.substring(1, 9) == 'settings') {
           location.hash = closeSettingsUrlHash;
           htmlEl.classList.remove('inSettings');
@@ -1130,7 +1140,7 @@ function observeThemes() {
     // Create an observer instance that calls the detectTheme function
     // Annoying that I have to delay by 200ms... if I don't then
     // it checks to see if anything changed before it had a chance to change
-    const themesObserver = new MutationObserver(function() {
+    const themesObserver = new MutationObserver(function () {
       setTimeout(detectTheme, 200);
     });
 
@@ -1187,43 +1197,100 @@ function detectDensity() {
 // Detect if preview panes are enabled and being used
 let detectReadingPaneLoops = 0;
 function detectReadingPane() {
+  // Did Gmail load in a conversation in No Split Pane? If so, we can't
+  // detect if this is Reading Pane or not. Do it later when back in a list view.
+  const isConversation = /([^(#search),(#label)]\/[A-Za-z]{28,})$/;
+  if (location.href.search(isConversation) >= 0) {
+    detectReadingPaneLater = true;
+    if (simplifyDebug)
+      console.log('Simplify: in conversation view: detect Reading Pane later');
+    return;
+  } else {
+    detectReadingPaneLater = false;
+    if (simplifyDebug)
+      console.log('Simplify: in an inbox now, detecting Reading Pane');
+  }
+
   // Short term patch: Offline seems to mess with detecting Reading pane
   const offlineActive = document.getElementsByClassName('bvE');
   if (offlineActive && detectReadingPaneLoops == 0) {
     detectReadingPaneLoops++;
     setTimeout(detectReadingPane, 2000);
   } else {
-    const readingPaneToggle = document.querySelector('div[selector="nosplit"]');
-    if (readingPaneToggle) {
-      /* See if the Reading pane toggle is for toggling back on reading pane
-       * (vertical or horizontal). The Toggle button will be to switch back
-       * to Veritcal split or Horizontal split if it is disabled
-       */
-      const readingPaneToggledOff = document.querySelectorAll(
-        'div.apI, div.apK'
-      );
-      if (readingPaneToggledOff) {
-        if (readingPaneToggledOff.length == 0) {
+    // Detect reading pane when conversation view was loaded
+    const readingPaneMenu = document.querySelector('div[selector="nosplit"]');
+    if (readingPaneMenu) {
+      // Detected Reading Pane
+      htmlEl.classList.add('readingPane');
+      updateParam('previewPane', true);
+
+      // See if the Reading pane toggle is for toggling back on reading pane
+      // (vertical or horizontal) which means it is set to "No Split"
+      const noSplitOn = document.querySelectorAll('div.apI, div.apK');
+      if (noSplitOn) {
+        if (noSplitOn.length == 0) {
           if (simplifyDebug) console.log('Reading pane detected and active');
-          htmlEl.classList.add('readingPane');
-          updateParam('previewPane', true);
-          /* TODO: Listen for readingPane mode toggle via mutation observer */
+          htmlEl.classList.remove('noSplitPane');
+          updateParam('noSplitPane', false);
         } else {
           if (simplifyDebug)
             console.log('Reading pane enabled but set to No Split');
-          if (simplifyDebug) console.log(readingPaneToggledOff);
-          // htmlEl.classList.remove('readingPane');
-          htmlEl.classList.add('readingPaneOff');
-          updateParam('previewPane', true);
-
-          // Show warning that Preview Pane should be disabled
-          // showNotification('<b>Disable Reading Pane?</b><br>You have Reading Pane enabled in settings but toggled off (set to "No Split"). This breaks Simplify.<br><br>If you do not use Preview Pane it is best to disable it in Gmail Settings.', 'inboxGmailSettings', 30);
+          if (simplifyDebug) console.log(noSplitOn);
+          htmlEl.classList.add('noSplitPane');
+          updateParam('noSplitPane', true);
         }
-        // Multiple Inboxes only works when Reading pane is disabled
-        updateParam('multipleInboxes', 'none');
-        htmlEl.classList.remove('multiBoxVert');
-        htmlEl.classList.remove('multiBoxHorz');
       }
+
+      /* Listen for readingPane mode toggle via mutation observer */
+      // Options for the observer (which mutations to observe)
+      const readingPaneToggle = document.querySelector(
+        'div[gh="tm"] .apI, div[gh="tm"] .apK, div[gh="tm"] .apJ'
+      );
+      const readingPaneObserverConfig = {
+        attributes: true,
+        childList: false,
+        subtree: false,
+      };
+
+      // Callback function to execute when mutations are observed
+      const readingPaneObserverCallback = function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+          if (
+            mutation.type == 'attributes' &&
+            mutation.attributeName == 'class'
+          ) {
+            if (simplifyDebug)
+              console.log(
+                'Add-on pane className set to: ' +
+                  mutation.target.attributes.class.value
+              );
+            if (mutation.target.attributes.class.value.indexOf('apJ') > -1) {
+              htmlEl.classList.remove('noSplitPane');
+              updateParam('noSplitPane', false);
+            } else {
+              htmlEl.classList.add('noSplitPane');
+              updateParam('noSplitPane', true);
+            }
+          }
+        }
+      };
+
+      // Create an observer instance linked to the callback function
+      const readingPaneObserver = new MutationObserver(
+        readingPaneObserverCallback
+      );
+
+      // Start observing the target node for configured mutations
+      if (simplifyDebug)
+        console.log('Adding mutation observer for Reading Pane');
+      readingPaneObserver.observe(readingPaneToggle, readingPaneObserverConfig);
+
+      // Multiple Inboxes only works when Reading pane is disabled
+      // TODO: I think Gmail removed the ability to have both enabled,
+      //   this may not be needed any more
+      updateParam('multipleInboxes', 'none');
+      htmlEl.classList.remove('multiBoxVert');
+      htmlEl.classList.remove('multiBoxHorz');
     } else {
       detectReadingPaneLoops++;
       if (simplifyDebug)
@@ -1236,7 +1303,9 @@ function detectReadingPane() {
       } else {
         if (simplifyDebug) console.log('Giving up on detecting reading pane');
         htmlEl.classList.remove('readingPane');
+        htmlEl.classList.remove('noSplitPane');
         updateParam('previewPane', false);
+        updateParam('noSplitPane', false);
       }
     }
   }
@@ -1280,19 +1349,16 @@ function detectNumberOfAddOns() {
 // Detect Add-ons Pane
 let detectAddOnsPaneLoops = 0;
 function detectAddOns() {
-  const addOnsPane = document.getElementsByClassName('brC-brG')[0];
+  const addOnsPane = document.querySelector('.bq9');
   if (addOnsPane) {
-    const paneVisible = window
-      .getComputedStyle(document.getElementsByClassName('bq9')[0], null)
-      .getPropertyValue('width');
-    if (simplifyDebug)
-      console.log('Add-on pane width loaded as ' + paneVisible);
-    if (paneVisible == 'auto') {
-      if (simplifyDebug) console.log('No add-on pane detected on load');
+    // .br3 is the className for hiding the add-ons pane
+    let addOnsHidden = addOnsPane.className.indexOf('br3') >= 0;
+    if (addOnsHidden) {
+      if (simplifyDebug) console.log('Add-on pane hidden on load');
       htmlEl.classList.remove('addOnsOpen');
       updateParam('addOns', false);
     } else {
-      if (simplifyDebug) console.log('Add-on pane detected on load');
+      if (simplifyDebug) console.log('Add-on pane visible on load');
       htmlEl.classList.add('addOnsOpen');
       updateParam('addOns', true);
     }
@@ -1308,22 +1374,19 @@ function detectAddOns() {
     };
 
     // Callback function to execute when mutations are observed
-    // TODO: Detect changes to width of bq9 instead of style attribute
     // TODO: Can I do this without looping through all the mutations?
-    const addOnsObserverCallback = function(mutationsList, observer) {
+    const addOnsObserverCallback = function (mutationsList, observer) {
       for (let mutation of mutationsList) {
         if (
           mutation.type == 'attributes' &&
-          mutation.attributeName == 'style'
+          mutation.attributeName == 'class'
         ) {
           if (simplifyDebug)
             console.log(
-              'Add-on pane style set to: ' +
-                mutation.target.attributes.style.value
+              'Add-on pane className set to: ' +
+                mutation.target.attributes.class.value
             );
-          if (
-            mutation.target.attributes.style.value.indexOf('display: none') > -1
-          ) {
+          if (mutation.target.attributes.class.value.indexOf('br3') > -1) {
             htmlEl.classList.remove('addOnsOpen');
             updateParam('addOns', false);
           } else {
@@ -1514,7 +1577,7 @@ function testPagination() {
 
   if (actionBar) {
     const paginationDivs = document.querySelectorAll('.aeH div.ar5');
-    paginationDivs.forEach(function(pagination) {
+    paginationDivs.forEach(function (pagination) {
       // How many messages in the list?
       const pageButtons = pagination.querySelectorAll(
         'div[role="button"][aria-disabled="true"]'
@@ -1568,7 +1631,7 @@ function initAppSwitcher() {
   if (profileButton && appSwitcherWrapper) {
     profileButton.addEventListener(
       'mouseenter',
-      function() {
+      function () {
         htmlEl.classList.add('appSwitcher');
       },
       false
@@ -1576,7 +1639,7 @@ function initAppSwitcher() {
 
     appBar.addEventListener(
       'mouseleave',
-      function() {
+      function () {
         htmlEl.classList.remove('appSwitcher');
       },
       false
@@ -1612,7 +1675,7 @@ function detectOtherExtensions() {
 
     // See if extension exists and if it does, set its right pos by width + padding
     let extensionsWidth = 0;
-    Object.entries(otherExtensionsList).forEach(function(extension) {
+    Object.entries(otherExtensionsList).forEach(function (extension) {
       if (simplifyDebug)
         console.log(`Extensions - Looking for ${extension[0]}...`);
       const extensionEl = document.querySelector(extension[0]);
@@ -1739,10 +1802,10 @@ function insertDateGaps(mutationList, observer) {
     if (lists.length > 0) {
       if (simplifyDebug) console.log('Inserting date gaps');
       let lastDate = 'today';
-      lists.forEach(function(list) {
+      lists.forEach(function (list) {
         let items = list.querySelectorAll('.zA');
         if (items.length > 0) {
-          items.forEach(function(item) {
+          items.forEach(function (item) {
             // BUNDLE ITEMS BY LABEL (NOT DONE)
             /* TODO:
              *	this breaks grouping by date, skip if item is display:none
@@ -1755,7 +1818,7 @@ function insertDateGaps(mutationList, observer) {
               let labels = item.querySelectorAll('.av');
               if (labels.length > 0) {
                 let labelList = [];
-                labels.forEach(function(label) {
+                labels.forEach(function (label) {
                   labelList.push(label.innerText);
                 });
                 item.setAttribute('labels', labelList.toString());
