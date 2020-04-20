@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.8
+ * SIMPLIFY GMAIL v1.7.9
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -84,6 +84,9 @@ function applySettings(settings) {
         break;
       case 'kbsToggle':
         simplSettings.kbsToggle = settings[key];
+        break;
+      case 'kbsEscape':
+        simplSettings.kbsEscape = settings[key];
         break;
       case 'dateGrouping':
         simplSettings.dateGrouping = settings[key];
@@ -270,6 +273,7 @@ const defaultParam = {
   username: '',
   previewPane: null,
   noSplitPane: null,
+  readingPaneWidth: 'var(--content-width)',
   multipleInboxes: '',
   theme: '',
   navOpen: null,
@@ -347,7 +351,6 @@ function checkLocalVar() {
       document.title.lastIndexOf(' - ')
     );
     const userhash = hashCode(username);
-    if (simplifyDebug) console.log('Username: ' + username);
     if (simplifyDebug) console.log('Userhash: ' + userhash);
     if (simplify[u].username != userhash) {
       if (simplifyDebug) console.log('Usernames do NOT match');
@@ -457,46 +460,53 @@ if (isPopout) {
 
 // == KEYBOARD SHORTCUTS =====================================================
 
-// Helper function for keyboard shortcuts to determine if an element is not editable
-function notEditable(el) {
-  el = el ? el : document.activeElement;
-
-  // BUG: Still firing when inputs are in focus
-  // I think Gmail is removing focus before this function runs
-  if (el.isContentEditable || el.tagName == 'INPUT') {
-    if (simplifyDebug) {
-      console.log('IS or WAS editable');
-      console.log(el);
-    }
-    return false;
-  } else {
-    if (simplifyDebug) {
-      console.log('NOT editable');
-      console.log(el);
-    }
-    return true;
-  }
-}
-
 // Handle Simplify keyboard shortcuts
 function handleKeyboardShortcut(event) {
-  // WIP: If Escape was pressed, close conversation or search
-  if (event.key === 'Escape') {
+  // If Escape was pressed, close conversation or search
+  if (event.key === 'Escape' && simplSettings.kbsEscape) {
     // Only close if focus wasn't in an input or content editable div
-    if (notEditable()) {
-      if (simplifyDebug) console.log('Close search or conversation');
+    if (!event.target.isContentEditable) {
+      if (simplifyDebug)
+        console.log('Pressed esc: check to see if in a conversation');
 
-      // TODO: IF conversation is open
-
-      // TODO: ELSE If in search results (check url)
-
-      // TODO: ELSE, we could either return to the inbox or do nothing
-
-      // event.preventDefault();
+      if (inMsg) {
+        if (simplifyDebug)
+          console.log(
+            'Pressed esc: In a conversation, return to list view: ' +
+              closeMsgUrl
+          );
+        location.hash = closeMsgUrl;
+      } else if (inSearch) {
+        if (simplifyDebug)
+          console.log(
+            'Pressed esc: In search, return to previous list view: ' +
+              closeSearchUrl
+          );
+        location.hash = closeSearchUrl;
+      }
+      // TODO: I wonder if this is a bad idea? Maybe people press escape to
+      // defocus something in Settings that isn't content editable but they
+      // don't mean to leave settings?
+      else if (inSettings) {
+        if (simplifyDebug)
+          console.log(
+            'Pressed esc: In settings, return to previous list view: ' +
+              closeSettingsUrl
+          );
+        location.hash = closeSettingsUrl;
+      }
+      // TODO: maybe return to Inbox if anywhere else? Could be a setting
+      else {
+        location.hash = '#inbox';
+        if (simplifyDebug)
+          console.log(
+            'Pressed esc: Not in a conversation or search, go to Inbox'
+          );
+      }
     }
   }
 
-  /* If Ctrl+M or Command+M was pressed, toggle nav menu open/closed */
+  // If Ctrl+M or Command+M was pressed, toggle nav menu open/closed
   if (
     (event.ctrlKey && (event.key === 'M' || event.key === 'm')) ||
     (event.metaKey && event.key === 'm')
@@ -527,7 +537,7 @@ function handleKeyboardShortcut(event) {
     }
   }
 
-  /* If Ctrl+S or Command+S was pressed, toggle Simplify on/off */
+  // If Ctrl+S or Command+S was pressed, toggle Simplify on/off
   if (
     (event.ctrlKey && (event.key === 'S' || event.key === 's')) ||
     (event.metaKey && event.key === 's')
@@ -556,33 +566,98 @@ window.addEventListener('keydown', handleKeyboardShortcut, false);
 
 // == URL HISTORY =====================================================
 
-// Set up urlHashes to track and update for closing Search and leaving Settings
-let closeSearchUrlHash =
-  location.hash.substring(1, 7) == 'search' ||
-  location.hash.substring(1, 6) == 'label' ||
-  location.hash.substring(1, 16) == 'advanced-search'
-    ? '#inbox'
-    : location.hash;
-let closeSettingsUrlHash =
-  location.hash.substring(1, 9) == 'settings' ? '#inbox' : location.hash;
+/*
+  All known URL Hashes:
 
-let detectReadingPaneLater = false;
-window.onhashchange = function () {
-  // TODO: Should I also consider "#create-filter"?
-  if (
-    location.hash.substring(1, 7) != 'search' &&
-    location.hash.substring(1, 6) != 'label' &&
-    location.hash.substring(1, 16) != 'advanced-search'
-  ) {
-    closeSearchUrlHash = location.hash;
+  INBOX
+  #inbox
+
+  SYSTEM & USER FOLDERS
+  #starred
+  #snoozed
+  #sent
+  #outbox
+  #drafts
+  #imp
+  #chats
+  #scheduled
+  #all
+  #spam
+  #trash
+  #label
+  #category /social /updates /forums /promotions
+
+  SETTINGS
+  #settings
+
+  SEARCH
+  #search
+    category:primary
+    category:social
+    category:promotions
+    category:updates
+    category:forums
+    category:reservations
+    category:purchases
+    label:trips ?
+  #advanced-search
+  #create-filter
+ */
+
+// Set up urlHashes to track and update for closing Search and leaving Settings
+const regexMsg = /[A-Za-z]{28,}$/;
+const regexSearch = /#search|#advanced-search|#create-filter/;
+let inMsg = false,
+  inSearch = false,
+  inList = false,
+  inSettings = false,
+  inInbox = false;
+let closeMsgUrl = '#inbox',
+  closeSearchUrl = '#inbox',
+  closeSettingsUrl = '#inbox';
+
+function checkView() {
+  // Update view state variables
+  inMsg = location.hash.search(regexMsg) > -1;
+  inList = location.hash.search(regexMsg) == -1;
+  inSearch = location.hash.search(regexSearch) == 0;
+  inSettings = location.hash.search(/#settings/) == 0;
+  inInbox = location.hash.search(/#inbox/) == 0;
+
+  // In search, settings, or inbox?
+  if (inSearch) htmlEl.classList.add('inSearch');
+  else {
+    htmlEl.classList.remove('inSearch');
+    closeSearchUrl = location.hash;
   }
-  if (location.hash.substring(1, 9) != 'settings') {
-    closeSettingsUrlHash = location.hash;
+
+  if (inSettings) htmlEl.classList.add('inSettings');
+  else {
     htmlEl.classList.remove('inSettings');
+    closeSettingsUrl = location.hash;
   }
-  if (location.hash.substring(1, 9) == 'settings') {
-    htmlEl.classList.add('inSettings');
+
+  if (inInbox) htmlEl.classList.add('inInbox');
+  else htmlEl.classList.remove('inInbox');
+
+  // In a list or message?
+  if (inList && !inSettings) {
+    // Record the last URL Hash seen before going into a message
+    closeMsgUrl = location.hash;
+
+    htmlEl.classList.add('inList');
+    htmlEl.classList.remove('inMsg');
+  } else if (inMsg) {
+    htmlEl.classList.add('inMsg');
+    htmlEl.classList.remove('inList', 'inInbox', 'inSearch');
   }
+}
+
+// Initialize URL Hash variables on load
+checkView();
+
+window.onhashchange = function () {
+  checkView();
 
   // if we were supposed to check the theme later, do it now
   if (checkThemeLater) {
@@ -600,11 +675,6 @@ window.onhashchange = function () {
     observeThreadlist();
   }
 };
-
-// Show back button if page loaded on Settings
-if (location.hash.substring(1, 9) == 'settings') {
-  htmlEl.classList.add('inSettings');
-}
 
 /* == INIT STYLESHEET =================================================
  * Certain classnames seem to change often in Gmail. Where possible, use
@@ -828,6 +898,11 @@ function initStyle() {
     if (simplifyDebug) console.log('Style sheet added');
     simplifyStyles = simplifyStyleEl.sheet;
 
+    // Initialize readingPane width now that Style Sheet is setup
+    addCSS(`:root { --readingPane-width: ${simplify[u].readingPaneWidth}; }`);
+    if (simplifyDebug)
+      console.log('Just made room for search chips in Reading Pane');
+
     // Initialize addOns height now that Style Sheet is setup
     addCSS(
       `:root { --add-on-height: ${simplify[u].addOnsCount * 56}px !important; }`
@@ -921,7 +996,7 @@ function initSearch() {
         event.stopPropagation();
         toggleSearchFocus('off');
         document.querySelector('header input[name="q"]').value = '';
-        if (location.hash == closeSearchUrlHash) {
+        if (location.hash == closeSearchUrl) {
           // Hide close button
           const searchCloseButton = searchCloseIcon.parentElement;
           const showCloesButtonClass = searchCloseButton.classList.value.split(
@@ -933,7 +1008,7 @@ function initSearch() {
           const searchFormClass = searchForm.classList.value.split(' ')[2];
           searchForm.classList.remove(searchFormClass);
         } else {
-          location.hash = closeSearchUrlHash;
+          location.hash = closeSearchUrl;
         }
         if (simplify[u].minimizeSearch || simplSettings.minimizeSearch) {
           htmlEl.classList.add('hideSearch');
@@ -961,7 +1036,7 @@ function initSearchFocus() {
 
   if (searchInput) {
     // Show search if the page is loaded is a search view
-    if (location.hash.substring(1, 7) == 'search') {
+    if (inSearch) {
       htmlEl.classList.remove('hideSearch');
     }
 
@@ -1043,9 +1118,9 @@ function initSettings() {
     backButton.addEventListener(
       'click',
       function () {
-        if (location.hash.substring(1, 9) == 'settings') {
-          location.hash = closeSettingsUrlHash;
-          htmlEl.classList.remove('inSettings');
+        if (inSettings) {
+          location.hash = closeSettingsUrl;
+          // htmlEl.classList.remove('inSettings');
         }
       },
       false
@@ -1196,10 +1271,12 @@ function detectDensity() {
 
 // Detect if preview panes are enabled and being used
 let detectReadingPaneLoops = 0;
+let detectReadingPaneLater = false;
+let readingPaneObserver;
 function detectReadingPane() {
   // Did Gmail load in a conversation in No Split Pane? If so, we can't
   // detect if this is Reading Pane or not. Do it later when back in a list view.
-  const isConversation = /([^(#search),(#label)]\/[A-Za-z]{28,})$/;
+  const isConversation = /([^(#search),(#label),(#advanced-search)]\/[A-Za-z]{28,})$/;
   if (location.href.search(isConversation) >= 0) {
     detectReadingPaneLater = true;
     if (simplifyDebug)
@@ -1226,16 +1303,18 @@ function detectReadingPane() {
 
       // See if the Reading pane toggle is for toggling back on reading pane
       // (vertical or horizontal) which means it is set to "No Split"
-      const noSplitOn = document.querySelectorAll('div.apI, div.apK');
-      if (noSplitOn) {
-        if (noSplitOn.length == 0) {
+      const noSplitToggle = document.querySelectorAll('div.apI, div.apK');
+      if (noSplitToggle) {
+        if (noSplitToggle.length == 0) {
           if (simplifyDebug) console.log('Reading pane detected and active');
           htmlEl.classList.remove('noSplitPane');
           updateParam('noSplitPane', false);
+
+          // Detect and set reading pane width
+          detectReadingPaneWidth();
         } else {
           if (simplifyDebug)
             console.log('Reading pane enabled but set to No Split');
-          if (simplifyDebug) console.log(noSplitOn);
           htmlEl.classList.add('noSplitPane');
           updateParam('noSplitPane', true);
         }
@@ -1243,6 +1322,7 @@ function detectReadingPane() {
 
       /* Listen for readingPane mode toggle via mutation observer */
       // Options for the observer (which mutations to observe)
+      // TODO: when loading in a search, there are two split pane toggles and I'm only observing one
       const readingPaneToggle = document.querySelector(
         'div[gh="tm"] .apI, div[gh="tm"] .apK, div[gh="tm"] .apJ'
       );
@@ -1254,16 +1334,17 @@ function detectReadingPane() {
 
       // Callback function to execute when mutations are observed
       const readingPaneObserverCallback = function (mutationsList, observer) {
+        // Can I just do this for the first mutation?
+        let keepLooking = true;
         for (let mutation of mutationsList) {
           if (
             mutation.type == 'attributes' &&
-            mutation.attributeName == 'class'
+            mutation.attributeName == 'class' &&
+            keepLooking
           ) {
+            keepLooking = false;
             if (simplifyDebug)
-              console.log(
-                'Add-on pane className set to: ' +
-                  mutation.target.attributes.class.value
-              );
+              console.log('Reading pane mode toggled. Detecting new state...');
             if (mutation.target.attributes.class.value.indexOf('apJ') > -1) {
               htmlEl.classList.remove('noSplitPane');
               updateParam('noSplitPane', false);
@@ -1271,19 +1352,27 @@ function detectReadingPane() {
               htmlEl.classList.add('noSplitPane');
               updateParam('noSplitPane', true);
             }
+            setTimeout(detectReadingPaneWidth, 500);
           }
         }
       };
 
       // Create an observer instance linked to the callback function
-      const readingPaneObserver = new MutationObserver(
-        readingPaneObserverCallback
-      );
+      if (readingPaneObserver !== undefined) {
+        if (simplifyDebug) console.log(readingPaneObserver);
+        readingPaneObserver.disconnect();
+      } else {
+        if (simplifyDebug) console.log(readingPaneObserver);
+      }
+      readingPaneObserver = new MutationObserver(readingPaneObserverCallback);
+      if (simplifyDebug) console.log(readingPaneObserver);
 
       // Start observing the target node for configured mutations
       if (simplifyDebug)
         console.log('Adding mutation observer for Reading Pane');
       readingPaneObserver.observe(readingPaneToggle, readingPaneObserverConfig);
+      // BUG: The readingPaneToggle isn't being found if I load on search
+      // BUG: I think there may be more than one toggle too sometimes
 
       // Multiple Inboxes only works when Reading pane is disabled
       // TODO: I think Gmail removed the ability to have both enabled,
@@ -1309,6 +1398,61 @@ function detectReadingPane() {
       }
     }
   }
+}
+// Helper to detect the reading pane width
+let detectReadingPaneWidthLoops = 0;
+function detectReadingPaneWidth() {
+  console.log('Detecting reading pane width for search refinements...');
+  if (simplify[u].noSplitPane) {
+    if (simplifyDebug) console.log('No Split Pane: revert to full width');
+    let readingPaneWidth = '--var(content-width)';
+    addCSS(`:root { --readingPane-width: ${readingPaneWidth} !important; }`);
+    updateParam('readingPaneWidth', readingPaneWidth);
+  } else {
+    let leftPane = document.querySelector('div[gh="tl"] > .Nu:first-child');
+    if (leftPane) {
+      let leftPaneWidth = window.getComputedStyle(leftPane).width;
+      if (leftPaneWidth == 'auto') {
+        // Can't detect width yet: call this function again with a delay
+        detectReadingPaneWidthLoops++;
+        if (simplifyDebug)
+          console.log(
+            'Detect preview pane width loop #' + detectReadingPaneWidthLoops
+          );
+        if (detectReadingPaneWidthLoops < 10) {
+          // Call init function again if the gear button field wasn't loaded yet
+          setTimeout(detectReadingPaneWidth, 500);
+        } else {
+          if (simplifyDebug)
+            console.log('Giving up on detecting reading pane width');
+        }
+      } else {
+        let leftPaneWidthInt = parseInt(leftPaneWidth);
+        let windowWidth = 0.9 * window.innerWidth;
+        // See if this is horizontal width
+        if (leftPaneWidthInt > windowWidth) {
+          console.log('Horizontal split', leftPaneWidthInt, windowWidth);
+          let readingPaneWidth = 'calc(100vw - var(--left-offset))';
+          addCSS(
+            `:root { --readingPane-width: ${readingPaneWidth} !important; }`
+          );
+          updateParam('readingPaneWidth', readingPaneWidth);
+          // TODO: I should probably detect vertical reading pane
+          // vs horizonal somewhere else and add a className
+        } else {
+          console.log('Vertical split');
+          let readingPaneWidth = leftPaneWidthInt - 20 + 'px';
+          addCSS(
+            `:root { --readingPane-width: ${readingPaneWidth} !important; }`
+          );
+          updateParam('readingPaneWidth', readingPaneWidth);
+        }
+      }
+    }
+  }
+
+  // This is auto until the page loads... need to add a mutation observer
+  // for the Gmail loading screen going away and then trigger things like this
 }
 
 // Determine number of add-ons and set the height of the add-ons pane accordingly

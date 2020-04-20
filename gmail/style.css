@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.8
+ * SIMPLIFY GMAIL v1.7.9
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -9,7 +9,6 @@
 
 /* ====================================================================
  * BUNDLE ITEMS IN INBOX
- */
 
 html.simpl div[gh='tl'] tr[labels*='Promotions'] ~ tr[labels*='Promotions'],
 html.simpl div[gh='tl'] tr[labels*='Social'] ~ tr[labels*='Social'],
@@ -17,54 +16,7 @@ html.simpl div[gh='tl'] tr[labels*='Updates'] ~ tr[labels*='Updates'],
 html.simpl div[gh='tl'] tr[labels*='Forums'] ~ tr[labels*='Forums'] {
   display: none;
 }
-
-/* ====================================================================
- * SEARCH REFINEMENT BAR
- */
-
-/* Move search refinement bar below action bar */
-html.simpl .aeH div[gh='tm'] div[role='toolbar'] {
-  position: absolute;
-  top: 44px;
-}
-
-/* Move search refinement bar over when nav and add-ons are open */
-/* TODO: add case for when nav is closed below 1278px */
-@media only screen and (max-width: 1278.98px) {
-  html.simpl.navOpen .aeN .aeH div[gh='tm'] div[role='toolbar'] {
-    left: 211px;
-  }
-}
-@media only screen and (max-width: 1638.98px) {
-  html.simpl.navOpen.addOnsOpen .aeN .aeH div[gh='tm'] div[role='toolbar'] {
-    left: 211px;
-  }
-}
-
-/* Hide search refinement bar when you scroll */
-html.simpl .aeI .aeH div[gh='tm'] div[role='toolbar'] {
-  display: none;
-}
-
-/* Move action bar into correct spot */
-html.simpl .aeH div[gh='tm'] div[role='toolbar'] + .aqK {
-  margin-top: 22px;
-}
-
-/* Hide Advanced search link */
-html.simpl
-  .aeH
-  div[gh='tm']
-  div[role='toolbar']
-  div[data-impression-suffix='ADVANCED_SEARCH_LINK'],
-html.simpl
-  .aeH
-  div[gh='tm']
-  div[role='toolbar']
-  div:first-child
-  > div[role='button']:last-child {
-  display: none;
-}
+*/
 
 /* ====================================================================
  * INBOX DATE GROUPING
@@ -800,7 +752,176 @@ html.simpl:not(.hideSearch) #gb form:hover button[gh="sda"] {
 
 /* Hide "Search the web" option from search auto-complete */
 html.simpl #gb form td.gssb_e tr[role='separator'],
-html.simpl #gb form td.gssb_e tr[role='separator'] + tr[role='option'] {
+html.simpl #gb form td.gssb_e tr[role='option']:last-child {
+  display: none;
+}
+
+/* ====================================================================
+ * SEARCH REFINEMENT BAR
+ */
+
+/* Move search refinement bar below action bar */
+html.simpl .aeH div[gh='tm'] div[role='toolbar'] {
+  position: absolute;
+  top: 44px;
+}
+/* Reading pane */
+html.simpl.readingPane .G-atb[gh='tm'] > div.G6 {
+  position: absolute;
+  top: 60px;
+  height: 46px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: light;
+}
+html.simpl.readingPane .G-atb[gh='tm'] > div[role='toolbar'] > div:first-child {
+  overflow-y: hidden;
+  overflow-x: inherit;
+  height: 46px;
+}
+/* No Split Pane only */
+html.simpl.noSplitPane .G-atb[gh='tm'] > div.G6,
+html.simpl.noSplitPane .G-atb[gh='tm'] > div[role='toolbar'] {
+  width: calc(var(--content-width) - 16px);
+  max-width: calc(var(--content-width) - 16px);
+}
+/* Reading pane only */
+html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6 {
+  left: -32px;
+  width: var(--readingPane-width);
+}
+
+/* BUG: The search refinement bar is pos:absolute making it a higher
+ *      z-index than the search auto-complete that is pos:relative.
+ * FIX: (More of a temporary hack): Hide the search refinement bar
+ *      when search is focused because
+ */
+html.simpl.searchFocused .G-atb[gh='tm'] > div.G6,
+html.simpl.searchFocused .G-atb[gh='tm'] > div[role='toolbar'] {
+  display: none;
+}
+
+/* Add expand button to show all the search chips
+ * TODO: setup event listener for .G6 and see if e.target = .G6
+ *       if so, toggle width of search chips bar
+html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6 {
+  pointer-events: none;
+}
+html.simpl.readingPane .G-atb[gh='tm'] > div[role='toolbar'] > div:first-child {
+  pointer-events: auto;
+}
+html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6::before {
+  content: '»';
+  width: 30px;
+  height: 30px;
+  background: white;
+  display: block;
+  position: absolute;
+  right: 30px;
+  top: 0px;
+  z-index: 1;
+  border-radius: 16px;
+  box-shadow: 0 1px 1px #aaa;
+  line-height: 1.2;
+  text-align: center;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  color: #4185f4;
+  border: 1px solid #eee;
+  letter-spacing: -2px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+*/
+
+/* Move search refinement bar over when nav and add-ons are open */
+/* TODO: set left to be dynamic when nav is closed below 1278px so it stays with the content */
+@media only screen and (max-width: 960.98px) {
+  html.simpl div[gh='tm'] div[role='toolbar'] {
+    left: -36px;
+  }
+}
+@media only screen and (max-width: 1278.98px) {
+  html.simpl.navOpen div[gh='tm'] div[role='toolbar'] {
+    left: 205px;
+  }
+}
+@media only screen and (max-width: 1638.98px) {
+  html.simpl.navOpen.readingPane:not(.noSplitPane)
+    div[gh='tm']
+    div[role='toolbar'],
+  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh='tm'] div.G6 {
+    left: 205px;
+    max-width: calc(100vw - 266px);
+  }
+  html.simpl.navOpen.addOnsOpen div[gh='tm'] div[role='toolbar'],
+  html.simpl.navOpen.addOnsOpen div[gh='tm'] div.G6 {
+    left: 205px;
+    max-width: calc(100vw - 566px);
+  }
+  html.simpl.navOpen.addOnsOpen.noSplitPane
+    div.G-atb[gh='tm']
+    div[role='toolbar'],
+  html.simpl.navOpen.addOnsOpen.noSplitPane div.G-atb[gh='tm'] div.G6 {
+    left: 185px;
+    max-width: calc(100vw - 566px);
+  }
+}
+
+/* Hide search refinement bar when you scroll */
+/* .aeI is added to a parent Div when you are scrolled to the top */
+/* but not for Reading Pane = Vertical|Horizontal */
+html.simpl .aeI .aeH div.G-atb[gh='tm'] div[role='toolbar'],
+html.simpl .aeI .aeF div.G-atb[gh='tm'] div[role='toolbar'] {
+  display: none;
+}
+
+/* Move action bar into correct spot */
+/* Maybe add .inSearch for not reading pane? */
+html.simpl .aeH div[gh='tm'] div[role='toolbar'] + .aqK {
+  margin-top: 22px;
+}
+/* Reading pane */
+html.simpl.readingPane.inSearch .G-atb[gh='tm'] > div.G6 ~ div.aqK,
+html.simpl.readingPane.inSearch
+  .G-atb[gh='tm']
+  > div[role='toolbar']
+  ~ div.aqK {
+  margin-top: 14px;
+}
+
+/* Create more space above the results for the search chips in Reading pane */
+/* TODO not sure if .PY only is added when the search chips are present or if it is a stable classname */
+html.simpl.noSplitPane.inSearch .aeF .G-atb.PY ~ .UI .ae4 {
+  padding-top: 20px;
+}
+html.simpl.readingPane.inSearch:not(.noSplitPane) .aeF .G-atb.PY ~ .UI .ae4 {
+  padding-top: 70px;
+}
+
+/* Keep the action bar from covering the left nav */
+html.simpl.readingPane.inSearch .G-atb[gh='tm'] {
+  height: 54px;
+}
+
+/* Shift message list down to make space for search chips */
+html.simpl.inSearch .aeF div[role='main'] > .bX,
+html.simpl.inSearch .aeF div[role='main'] > .afn + .ae4 {
+  margin-top: 72px;
+}
+
+/* Hide Advanced search link */
+html.simpl
+  div.G-atb[gh='tm']
+  div[role='toolbar']
+  div[data-impression-suffix='ADVANCED_SEARCH_LINK'],
+html.simpl
+  .aeH
+  div[gh='tm']
+  div[role='toolbar']
+  div:first-child
+  > div[role='button']:last-child {
   display: none;
 }
 
@@ -1146,11 +1267,17 @@ html.simpl.popout .wp {
 /* Move action bar over app bar */
 html.simpl.readingPane .G-atb[gh='tm'] {
   position: fixed;
-  top: 8px;
+  top: 5px;
   left: 60px;
   z-index: 7 !important;
   padding-right: 0px !important;
+  height: 54px;
 }
+/* Different top pos for when search chips are enabled */
+html.simpl.readingPane.inSearch .PY.G-atb[gh='tm'] {
+  top: 8px;
+}
+
 html.simpl.readingPane .G-atb[gh='tm']:before {
   box-shadow: none;
   -webkit-box-shadow: none;
@@ -1159,6 +1286,14 @@ html.simpl.readingPane .G-atb[gh='tm']:before {
   html.simpl.readingPane.navOpen.hideSearch:not(.noSplitPane) .G-atb[gh='tm'] {
     padding-left: 212px;
   }
+}
+
+/* Add border under app bar, remove for threadlist */
+html.simpl.readingPane header#gb {
+  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+}
+html.simpl.readingPane .UJ {
+  border-top: none;
 }
 
 /* Adjust width of action bar for small resolutions */
@@ -1282,13 +1417,13 @@ html.simpl.readingPane .Tm .ya {
 /* Center the inbox */
 html.simpl.noSplitPane div[gh='tl'] .ae4 {
   max-width: var(--content-width);
-  margin: auto;
+  margin: 0 auto;
 }
 @media only screen and (min-width: 1278.98px) {
   /* Inbox tabs */
   html.simpl.noSplitPane .aeF .aKh {
     max-width: var(--content-width);
-    margin: auto;
+    margin: 0 auto;
     position: relative;
     left: -8px;
   }
@@ -1303,6 +1438,18 @@ html.simpl.noSplitPane div[gh='tl'] .ae4 {
 /* Add padding below inbox */
 html.simpl.noSplitPane .aeF .Nu {
   padding-bottom: 150px;
+}
+
+/* Add padding above inbox if there are no tabs */
+html.simpl.noSplitPane .aeF .Nu {
+  padding-top: 35px;
+}
+/* More padding if there are search chips */
+html.simpl.noSplitPane .aeF .PY.G-atb ~ .UI > .Nu {
+  padding-top: 55px;
+}
+html.simpl.noSplitPane .aeF .aKh ~ .UI .Nu {
+  padding-top: initial;
 }
 
 /* Center the conversation */
