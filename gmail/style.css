@@ -104,8 +104,15 @@ html.simpl tr[date='earlier'] ~ tr[date='earlier']::before {
  * GLOBAL / APP-LEVEL
  */
 
-/* Hide footer */
-html.simpl .aeG {
+/* Hide footer
+html.simpl.multiBoxHorz .pfiaof,
+html.simpl.multiBoxVert .pfiaof,
+html.simpl .ae4 + .pfiaof,
+*/
+html.simpl .aeG,
+html.simpl .pfiaof,
+html.simpl.readingPane .apc,
+html.simpl.readingPane .apO {
   display: none;
 }
 
@@ -282,15 +289,21 @@ html.simpl.multiBoxHorz .aeF .G-atb[gh='tm'] {
   top: 8px;
   left: 60px;
   z-index: 6 !important;
-  width: calc(var(--action-bar-width) - 92px);
+  width: calc(var(--action-bar-width) - 128px);
   transition: width 0s ease-in 0s; /* was 0.15s - Looks bad with 3rd party extensions */
 }
 html.simpl.multiBoxHorz .aeF .G-atb[gh='tm']::before {
   box-shadow: none;
   -webkit-box-shadow: none;
 }
-html.simpl.multiBoxHorz.hideSearch .aeF .G-atb[gh='tm'] {
-  width: calc(100vw - 172px) !important;
+html.simpl.multiBoxHorz.hideSearch:not(.addOnsOpen) .aeF .G-atb[gh='tm'] {
+  width: calc(100vw - 206px) !important;
+}
+html.simpl.multiBoxHorz.hideSearch.addOnsOpen .aeF .G-atb[gh='tm'] {
+  width: calc(var(--action-bar-width) - 152px);
+}
+html.simpl.multiBoxHorz.addOnsOpen:not(.hideSearch) .aeF .G-atb[gh='tm'] {
+  width: calc(var(--action-bar-width) - 370px);
 }
 
 /* Further adjustments for side-by-side multiple inboxes */
@@ -679,6 +692,12 @@ html.simpl.searchFocused #gb form {
 html.simpl.searchFocused {
   --action-bar-width: 59%;
 }
+/* Hack fix b/c I'm not using --action-bar-width in all cases */
+html.simpl.searchFocused.readingPane .aeF .G-atb,
+html.simpl.searchFocused.textButtons .aeH .G-atb {
+  width: 40% !important;
+  overflow: hidden;
+}
 html.simpl.searchFocused .aeH .G-atb .aqJ,
 html.simpl.searchFocused .aeF .G-atb .aqJ,
 html.simpl.searchFocused .aeH .G-atb .adF {
@@ -769,16 +788,16 @@ html.simpl .aeH div[gh='tm'] div[role='toolbar'] {
 html.simpl.readingPane .G-atb[gh='tm'] > div.G6 {
   position: absolute;
   top: 60px;
-  height: 46px;
+  height: 54px;
+  margin-bottom: 14px;
   overflow-y: hidden;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: light;
 }
 html.simpl.readingPane .G-atb[gh='tm'] > div[role='toolbar'] > div:first-child {
   overflow-y: hidden;
   overflow-x: inherit;
-  height: 46px;
+  height: 54px;
+  margin-right: 0px;
 }
 /* No Split Pane only */
 html.simpl.noSplitPane .G-atb[gh='tm'] > div.G6,
@@ -1312,13 +1331,6 @@ html.simpl.readingPane .UJ {
   }
 }
 
-/* Hide footer & space usage in reading pane */
-html.simpl.readingPane .apc,
-html.simpl.readingPane .apO,
-html.simpl.readingPane div[role='contentinfo'] {
-  display: none;
-}
-
 /* Reduce left margin on main view */
 html.simpl.readingPane .bhZ + .bkK {
   margin-left: 12px !important;
@@ -1436,8 +1448,11 @@ html.simpl.noSplitPane div[gh='tl'] .ae4 {
 }
 
 /* Add padding below inbox */
-html.simpl.noSplitPane .aeF .Nu {
+html.simpl.noSplitPane:not(.multiBoxVert2) .aeF .Nu {
   padding-bottom: 150px;
+}
+html.simpl.noSplitPane.multiBoxVert2 .aeF .Nu {
+  padding-bottom: 40px;
 }
 
 /* Add padding above inbox if there are no tabs */
@@ -1458,10 +1473,11 @@ html.simpl.noSplitPane .aeF div[role='main'][class='nH'] {
   margin: 40px auto 200px auto;
 }
 
-/* Correctly position toolbar in Conversation view */
+/* Correctly position toolbar in Conversation view
 html.simpl.noSplitPane .aeH .G-atb[gh='tm'] {
   top: 0px !important;
 }
+*/
 
 /* Center "Select all?" butter bar */
 html.simpl.readingPane.noSplitPane .Tm .ya {
@@ -1481,7 +1497,7 @@ html.simpl.readingPane.noSplitPane .Tm .ya {
  * CONVERSATION VIEW
  */
 
-/* Not sure why, but sometimes this div below the conversation gets 440px bottom padding */
+/* Not sure why, but sometimes this div (the footer I believe) below the conversation gets 440px bottom padding */
 html.simpl .pfiaof {
   padding-bottom: 0px !important;
 }
