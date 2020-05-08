@@ -4,8 +4,8 @@ A browser extension that brings the simplicity of Google Inbox to Gmail.
 
 ## How to use Simplify
 Add the extension to your browser and refresh Gmail. Install the 
-[Chrome extension](https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj) 
-or [Firefox addon](https://addons.mozilla.org/firefox/addon/simplifygmail/).
+**[Chrome extension](https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj),
+[Firefox addon](https://addons.mozilla.org/firefox/addon/simplifygmail/), or [Edge addon](https://microsoftedge.microsoft.com/addons/detail/mpohnjhkncdalhjdhpiphajhiahmcapn)**.
 
 
 ## Who made Simplify
@@ -25,13 +25,13 @@ Gmail has a lot of features and even more 3rd party plug-ins. I've done my best 
 
 
 ## Screenshots
-![Screenshot 1](https://github.com/leggett/simplify/raw/master/screens/01.png)
-![Screenshot 2](https://github.com/leggett/simplify/raw/master/screens/02.png)
-![Screenshot 3](https://github.com/leggett/simplify/raw/master/screens/03.png)
-![Screenshot 4](https://github.com/leggett/simplify/raw/master/screens/04.png)
-![Screenshot 5](https://github.com/leggett/simplify/raw/master/screens/05.png)
-![Screenshot 6](https://github.com/leggett/simplify/raw/master/screens/06.png)
-![Screenshot 7](https://github.com/leggett/simplify/raw/master/screens/07.png)
-![Screenshot 8](https://github.com/leggett/simplify/raw/master/screens/08.png)
-![Screenshot 9](https://github.com/leggett/simplify/raw/master/screens/09.png)
-![Screenshot 10](https://github.com/leggett/simplify/raw/master/screens/10.png)
+![Inbox](https://github.com/leggett/simplify/raw/master/screens/01_inbox-2x.png)
+![Inbox - search and addons](https://github.com/leggett/simplify/raw/master/screens/02_inbox_sa-2x.png)
+![Inbox - nav](https://github.com/leggett/simplify/raw/master/screens/03_inbox_nav-2x.png)
+![Inbox - addons](https://github.com/leggett/simplify/raw/master/screens/04_inbox_addons-2x.png)
+![Inbox - themed](https://github.com/leggett/simplify/raw/master/screens/05_inbox_themed-2x.png)
+![Inbox - dark](https://github.com/leggett/simplify/raw/master/screens/06_inbox_dark-2x.png)
+![Conversation](https://github.com/leggett/simplify/raw/master/screens/07_convo-2x.png)
+![Conversation - themed](https://github.com/leggett/simplify/raw/master/screens/08_convo_themed-2x.png)
+![Conversation - dark](https://github.com/leggett/simplify/raw/master/screens/09_convo_dark-2x.png)
+![Reading pane](https://github.com/leggett/simplify/raw/master/screens/10_reading_pane-2x.png)
