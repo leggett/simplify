@@ -33,7 +33,7 @@ chrome.runtime.sendMessage({ action: 'activate_page_action' });
 // == SIMPLIFY SETTINGS =====================================================
 
 // Initialize debug as off
-let simplifyDebug = true;
+let simplifyDebug = false;
 
 // Load Simplify Settings
 let simplSettings = {};
@@ -290,6 +290,7 @@ const defaultParam = {
   addOns: null,
   addOnsCount: 3,
   otherExtensions: null,
+  chatClosed: null,
   elements: {
     searchParent: '.gb_pe',
     menuButton: '.gb_Dc.gb_Kc.gb_Lc > div:first-child',
@@ -458,6 +459,19 @@ if (simplify[u].addOns) {
 if (simplify[u].otherExtensions) {
   if (simplifyDebug) console.log('Loading with 3rd party extensions');
   htmlEl.classList.add('otherExtensions');
+}
+
+// Hide chat if it was last seen closed
+if (simplify[u].chatClosed === undefined) {
+  simplify[u].chatClosed = false;
+  htmlEl.classList.remove('chatClosed');
+  updateParam('chatClosed', false);
+  if (simplifyDebug) console.log('Initialized simplify.chatClosed');
+} else if (simplify[u].chatClosed) {
+  if (simplifyDebug) console.log('Loading with chat minimized');
+
+  // Hide it while Gmail finishes loading
+  htmlEl.classList.add('chatClosed');
 }
 
 // Add .popout if this is a popped out email
@@ -1571,6 +1585,24 @@ function detectAddOns() {
   }
 }
 
+// Helper function to simulate clicking on an element
+function simulateClick(el) {
+  const dispatchMouseEvent = function (targetEl, type) {
+    const event = new MouseEvent(type, {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
+    targetEl.dispatchEvent(event);
+  };
+  dispatchMouseEvent(el, 'mouseover');
+  dispatchMouseEvent(el, 'mousedown');
+  dispatchMouseEvent(el, 'click');
+  dispatchMouseEvent(el, 'mouseup');
+  dispatchMouseEvent(el, 'mouseout');
+  if (simplifyDebug) console.log('Just clicked on', el);
+}
+
 // Detect Right Side Chat (why hasn't Gmail killed this already?)
 let detectRightSideChatLoops = 0;
 function detectRightSideChat() {
@@ -1585,14 +1617,52 @@ function detectRightSideChat() {
     } else {
       htmlEl.classList.remove('rhsChat');
       updateParam('rhsChat', false);
+
+      // Close chat roster if it was closed last time
+      if (simplify[u].chatClosed) {
+        // Remove the temporary band-aid
+        htmlEl.classList.remove('chatClosed');
+
+        // Simulate clicking on the talk tab if it was supposed to be closed
+        const activeChatTab = document.querySelector(
+          '.aeN div[role="complementary"] div[gh="gt"] .J-KU-KO'
+        );
+        if (activeChatTab) simulateClick(activeChatTab);
+      }
+      /* Add event listener to save the minimized state of the chat roster */
+      const rosterParent = document.querySelector(
+        '.aeN div[role="complementary"]'
+      );
+      if (simplifyDebug && rosterParent) console.log('Chat roster found');
+      const rosterObserver = new MutationObserver((mutationsList, observer) => {
+        mutationsList.forEach((mutation) => {
+          if (
+            mutation.target.attributes.style.value.search('height: 0px') === -1
+          ) {
+            // Roster open
+            updateParam('chatClosed', false);
+            if (simplifyDebug) console.log('Chat roster opened');
+          } else {
+            // Roster minimized
+            updateParam('chatClosed', true);
+            if (simplifyDebug) console.log('Chat roster closed');
+          }
+        });
+      });
+      rosterObserver.observe(rosterParent, {
+        attributes: true,
+        attributeFilter: ['style'],
+        childList: false,
+        subtree: false,
+      });
     }
   } else {
     detectRightSideChatLoops++;
     if (simplifyDebug)
       console.log('detectRhsChat loop #' + detectRightSideChatLoops);
 
-    // only try 4 times and then assume no add-on pane
-    if (detectRightSideChatLoops < 5) {
+    // only try 10 times and then assume no add-on pane
+    if (detectRightSideChatLoops < 10) {
       // Call init function again if the add-on pane wasn't loaded yet
       setTimeout(detectRightSideChat, 500);
     } else {

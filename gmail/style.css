@@ -19,6 +19,20 @@ html.simpl div[gh='tl'] tr[labels*='Forums'] ~ tr[labels*='Forums'] {
 */
 
 /* ====================================================================
+ * KEEP CHAT ROSTER MINIMIZED AFTER RELOAD
+ */
+
+html.simpl.chatClosed .aeN div[role='complementary'] {
+  height: 0px !important;
+}
+html.simpl.chatClosed .aeN div[gh='ns'] {
+  display: none !important;
+}
+html.simpl.chatClosed .aeN div[role='navigation'] {
+  height: calc(100vh - 95px) !important;
+}
+
+/* ====================================================================
  * SHRINK FOOTPRINT OF MEET SECTION IN NAV TO ONE LINE
  */
 
