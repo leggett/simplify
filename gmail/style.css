@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.9
+ * SIMPLIFY GMAIL v1.7.11
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -17,6 +17,136 @@ html.simpl div[gh='tl'] tr[labels*='Forums'] ~ tr[labels*='Forums'] {
   display: none;
 }
 */
+
+/* ====================================================================
+ * SHRINK FOOTPRINT OF MEET SECTION IN NAV TO ONE LINE
+ */
+
+/* Hide "New" badge */
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:first-child
+  > span {
+  display: none;
+}
+
+/* Shrink width of title to make room for icons */
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:first-child {
+  float: left;
+  width: 122px;
+}
+
+/* Shrink two actions to icons and put them inline with the title */
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2) {
+  display: block;
+  position: absolute;
+  right: 12px;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim {
+  width: 40px;
+  float: left;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim
+  .TN {
+  padding: 0 10px;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim
+  .TO {
+  border-radius: 16px;
+}
+
+/* Change action label to something shown on hover */
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim
+  .aio {
+  display: none;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim:hover
+  .aio {
+  display: block !important;
+  position: absolute;
+  top: 0px;
+  left: -150px;
+  width: fit-content;
+  max-width: 130px;
+  border-radius: 4px;
+  padding: 5px 12px 7px 12px;
+  background-color: white;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim:nth-child(2):hover
+  .aio {
+  left: -190px;
+}
+html.simpl
+  .aeN
+  div[role='complementary']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim:hover
+  .aio
+  a {
+  color: #202124;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+/* Move start call buttons when chat is minimized */
+html.simpl
+  .aeN
+  div[role='complementary'][style*='height: 0px']
+  > div[role='navigation']
+  > div:nth-child(2) {
+  z-index: 999;
+  right: 48px;
+}
+html.simpl
+  .aeN
+  div[role='complementary'][style*='height: 0px']
+  > div[role='navigation']
+  > div:nth-child(2)
+  .aim:hover
+  .aio {
+  display: none !important;
+}
 
 /* ====================================================================
  * INBOX DATE GROUPING
@@ -1955,7 +2085,9 @@ html.simpl .streak__appToolbarButton_title {
 
 /* MIXMAX ------------------------------------------ */
 
-html.simpl div.G-atb div.mixmax-reminder-thread-button {
+/* Turn big blue buttons in action bar into subtle gray icon buttons */
+html.simpl div.G-atb div.mixmax-reminder-thread-button,
+html.simpl div.G-atb div.mixmax-collaborator-thread-button {
   font-size: 0 !important;
   background-image: linear-gradient(transparent, transparent) !important;
   background-color: transparent !important;
@@ -1964,9 +2096,47 @@ html.simpl div.G-atb div.mixmax-reminder-thread-button {
   border: none !important;
   box-shadow: none !important;
   width: 20px !important;
-  padding-left: 0px !important;
+  padding-left: 8px !important;
   min-width: 20px !important;
-  padding-right: 0px !important;
+  padding-right: 8px !important;
+}
+html.simpl div.G-atb div.mixmax-reminder-thread-button {
+  padding-left: 0px !important;
+}
+html.simpl div.G-atb div.mixmax-reminder-thread-button i,
+html.simpl div.G-atb div.mixmax-collaborator-thread-button i {
+  font-size: initial !important;
+  padding: 0 8px;
+}
+
+/* Turn labeled color buttons in the conversation into grey icons */
+html.simpl .mixmax-export-buttons .js-mixmax-export-menu-button-text {
+  display: none !important;
+}
+html.simpl .mixmax-export-buttons {
+  margin: 1px 8px 0 16px !important;
+}
+html.simpl .mixmax-export-buttons ~ .mixmax-reply-button,
+html.simpl .mixmax-export-buttons + div[role='button'] {
+  margin-left: 4px !important;
+}
+html.simpl .mixmax-export-buttons i.mixmax-icon-export {
+  background-color: #5f6368;
+}
+/* If/when I support a true dark theme...
+html.simpl.lightTheme .mixmax-export-buttons i.mixmax-icon-export {
+  background-color: #5f6368;
+}
+html.simpl.darkTheme .mixmax-export-buttons i.mixmax-icon-export,
+html.simpl.mediumTheme .mixmax-export-buttons i.mixmax-icon-export {
+  background-color: #fff;
+}
+*/
+html.simpl.mixmax
+  table[role='presentation']
+  div[role='listitem']
+  td[rowspan='2'] {
+  width: 123px !important;
 }
 
 /* MAIL TRACK ---------------------------------------- */

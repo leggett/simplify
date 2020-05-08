@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.9
+ * SIMPLIFY GMAIL v1.7.11
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -33,7 +33,7 @@ chrome.runtime.sendMessage({ action: 'activate_page_action' });
 // == SIMPLIFY SETTINGS =====================================================
 
 // Initialize debug as off
-let simplifyDebug = false;
+let simplifyDebug = true;
 
 // Load Simplify Settings
 let simplSettings = {};
@@ -192,21 +192,27 @@ function showNotification(msg, actions, hideAfter) {
   }
 
   // Add content to notification div
-  notificationBox.innerHTML = msg;
+  notificationBox.textContent = msg;
 
   // Add primary action to notification div
   if (actions == 'settingsLink') {
     notificationBox.innerHTML +=
       '<br><button id="openSettings">Open Simplify settings</button>';
-    document.querySelector('#simplNotification #openSettings').addEventListener(
-      'click',
-      function () {
-        window.open(optionsUrl, '_blank');
-        notificationBox.style.display = 'none';
-        clearTimeout(autoCloseNotification);
-      },
-      false
-    );
+    // TODO: Why do I have to delay this so the button is in the DOM and I can add the function?
+    setTimeout(function () {
+      document
+        .querySelector('#simplNotification #openSettings')
+        .addEventListener(
+          'click',
+          function () {
+            console.log(optionsUrl);
+            window.open(optionsUrl, '_blank');
+            notificationBox.style.display = 'none';
+            clearTimeout(autoCloseNotification);
+          },
+          false
+        );
+    }, 100);
   } else if (actions == 'inboxGmailSettings') {
     notificationBox.innerHTML +=
       '<br><button id="gmailSettings">Open Gmail settings</button>';
@@ -1892,6 +1898,9 @@ function detectOtherExtensions() {
         }
         extensionEl.style.setProperty('right', `${extensionsWidth}px`);
         extensionsWidth += extension[1].width;
+        if (extension[0].search('mixmax') !== -1) {
+          htmlEl.classList.add('mixmax');
+        }
         if (simplifyDebug)
           console.log(`Extensions - right position now: ${extensionsWidth}px`);
       } else {
