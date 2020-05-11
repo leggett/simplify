@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.11
+ * SIMPLIFY GMAIL v1.7.12
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -1029,6 +1029,11 @@ html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6::before {
   html.simpl.navOpen.addOnsOpen.noSplitPane div.G-atb[gh='tm'] div.G6 {
     left: 185px;
     max-width: calc(100vw - 566px);
+  }
+}
+@media only screen and (min-width: 1638.98px) {
+  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh='tm'] div.G6 {
+    left: 205px;
   }
 }
 
