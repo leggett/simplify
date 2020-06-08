@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.12
+ * SIMPLIFY GMAIL v1.7.13
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -22,13 +22,13 @@ html.simpl div[gh='tl'] tr[labels*='Forums'] ~ tr[labels*='Forums'] {
  * KEEP CHAT ROSTER MINIMIZED AFTER RELOAD
  */
 
-html.simpl.chatClosed .aeN div[role='complementary'] {
+html.simpl.chatClosed .aeN div[role="complementary"] {
   height: 0px !important;
 }
-html.simpl.chatClosed .aeN div[gh='ns'] {
+html.simpl.chatClosed .aeN div[gh="ns"] {
   display: none !important;
 }
-html.simpl.chatClosed .aeN div[role='navigation'] {
+html.simpl.chatClosed .aeN div[role="navigation"] {
   height: calc(100vh - 95px) !important;
 }
 
@@ -39,8 +39,8 @@ html.simpl.chatClosed .aeN div[role='navigation'] {
 /* Hide "New" badge */
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:first-child
   > span {
   display: none;
@@ -49,8 +49,8 @@ html.simpl
 /* Shrink width of title to make room for icons */
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:first-child {
   float: left;
   width: 122px;
@@ -59,8 +59,8 @@ html.simpl
 /* Shrink two actions to icons and put them inline with the title */
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2) {
   display: block;
   position: absolute;
@@ -68,8 +68,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim {
   width: 40px;
@@ -77,8 +77,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim
   .TN {
@@ -86,8 +86,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim
   .TO {
@@ -97,8 +97,8 @@ html.simpl
 /* Change action label to something shown on hover */
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim
   .aio {
@@ -106,8 +106,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim:hover
   .aio {
@@ -123,8 +123,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim:nth-child(2):hover
   .aio {
@@ -132,8 +132,8 @@ html.simpl
 }
 html.simpl
   .aeN
-  div[role='complementary']
-  > div[role='navigation']
+  div[role="complementary"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim:hover
   .aio
@@ -146,16 +146,16 @@ html.simpl
 /* Move start call buttons when chat is minimized */
 html.simpl
   .aeN
-  div[role='complementary'][style*='height: 0px']
-  > div[role='navigation']
+  div[role="complementary"][style*="height: 0px"]
+  > div[role="navigation"]
   > div:nth-child(2) {
   z-index: 999;
   right: 48px;
 }
 html.simpl
   .aeN
-  div[role='complementary'][style*='height: 0px']
-  > div[role='navigation']
+  div[role="complementary"][style*="height: 0px"]
+  > div[role="navigation"]
   > div:nth-child(2)
   .aim:hover
   .aio {
@@ -166,29 +166,29 @@ html.simpl
  * INBOX DATE GROUPING
  */
 
-html.simpl tr[date='today'],
-html.simpl tr[date='yesterday'],
-html.simpl tr[date='month0'],
-html.simpl tr[date='month1'],
-html.simpl tr[date='month2'],
-html.simpl tr[date='earlier'] {
+html.simpl tr[date="today"],
+html.simpl tr[date="yesterday"],
+html.simpl tr[date="month0"],
+html.simpl tr[date="month1"],
+html.simpl tr[date="month2"],
+html.simpl tr[date="earlier"] {
   margin-top: 3em;
 }
-html.simpl tr[date='today'] ~ tr[date='today'],
-html.simpl tr[date='yesterday'] ~ tr[date='yesterday'],
-html.simpl tr[date='month0'] ~ tr[date='month0'],
-html.simpl tr[date='month1'] ~ tr[date='month1'],
-html.simpl tr[date='month2'] ~ tr[date='month2'],
-html.simpl tr[date='earlier'] ~ tr[date='earlier'] {
+html.simpl tr[date="today"] ~ tr[date="today"],
+html.simpl tr[date="yesterday"] ~ tr[date="yesterday"],
+html.simpl tr[date="month0"] ~ tr[date="month0"],
+html.simpl tr[date="month1"] ~ tr[date="month1"],
+html.simpl tr[date="month2"] ~ tr[date="month2"],
+html.simpl tr[date="earlier"] ~ tr[date="earlier"] {
   margin-top: initial;
 }
 
-html.simpl tr[date='today']::before,
-html.simpl tr[date='yesterday']::before,
-html.simpl tr[date='month0']::before,
-html.simpl tr[date='month1']::before,
-html.simpl tr[date='month2']::before,
-html.simpl tr[date='earlier']::before {
+html.simpl tr[date="today"]::before,
+html.simpl tr[date="yesterday"]::before,
+html.simpl tr[date="month0"]::before,
+html.simpl tr[date="month1"]::before,
+html.simpl tr[date="month2"]::before,
+html.simpl tr[date="earlier"]::before {
   height: 0px;
   width: 0px;
   white-space: nowrap;
@@ -203,44 +203,44 @@ html.simpl tr[date='earlier']::before {
   left: 16px;
 }
 
-html.simpl.mediumTheme tr[date='today']::before,
-html.simpl.mediumTheme tr[date='yesterday']::before,
-html.simpl.mediumTheme tr[date='month0']::before,
-html.simpl.mediumTheme tr[date='month1']::before,
-html.simpl.mediumTheme tr[date='month2']::before,
-html.simpl.mediumTheme tr[date='earlier']::before,
-html.simpl.darkTheme tr[date='today']::before,
-html.simpl.darkTheme tr[date='yesterday']::before,
-html.simpl.darkTheme tr[date='month0']::before,
-html.simpl.darkTheme tr[date='month1']::before,
-html.simpl.darkTheme tr[date='month2']::before,
-html.simpl.darkTheme tr[date='earlier']::before {
+html.simpl.mediumTheme tr[date="today"]::before,
+html.simpl.mediumTheme tr[date="yesterday"]::before,
+html.simpl.mediumTheme tr[date="month0"]::before,
+html.simpl.mediumTheme tr[date="month1"]::before,
+html.simpl.mediumTheme tr[date="month2"]::before,
+html.simpl.mediumTheme tr[date="earlier"]::before,
+html.simpl.darkTheme tr[date="today"]::before,
+html.simpl.darkTheme tr[date="yesterday"]::before,
+html.simpl.darkTheme tr[date="month0"]::before,
+html.simpl.darkTheme tr[date="month1"]::before,
+html.simpl.darkTheme tr[date="month2"]::before,
+html.simpl.darkTheme tr[date="earlier"]::before {
   color: #ffffff;
 }
 
-html.simpl tr[date='today']::before {
-  content: 'TODAY';
+html.simpl tr[date="today"]::before {
+  content: "TODAY";
 }
-html.simpl tr[date='yesterday']::before {
-  content: 'YESTERDAY';
+html.simpl tr[date="yesterday"]::before {
+  content: "YESTERDAY";
 }
-html.simpl tr[date='month0']::before {
-  content: 'THIS MONTH';
+html.simpl tr[date="month0"]::before {
+  content: "THIS MONTH";
 }
-html.simpl tr[date='month1']::before {
-  content: 'LAST MONTH';
+html.simpl tr[date="month1"]::before {
+  content: "LAST MONTH";
 }
-html.simpl tr[date='earlier']::before {
-  content: 'EARLIER';
+html.simpl tr[date="earlier"]::before {
+  content: "EARLIER";
 }
 
-html.simpl tr[date='today'] ~ tr[date='today']::before,
-html.simpl tr[date='yesterday'] ~ tr[date='yesterday']::before,
-html.simpl tr[date='month0'] ~ tr[date='month0']::before,
-html.simpl tr[date='month1'] ~ tr[date='month1']::before,
-html.simpl tr[date='month2'] ~ tr[date='month2']::before,
-html.simpl tr[date='earlier'] ~ tr[date='earlier']::before {
-  content: '';
+html.simpl tr[date="today"] ~ tr[date="today"]::before,
+html.simpl tr[date="yesterday"] ~ tr[date="yesterday"]::before,
+html.simpl tr[date="month0"] ~ tr[date="month0"]::before,
+html.simpl tr[date="month1"] ~ tr[date="month1"]::before,
+html.simpl tr[date="month2"] ~ tr[date="month2"]::before,
+html.simpl tr[date="earlier"] ~ tr[date="earlier"]::before {
+  content: "";
   display: none;
 }
 
@@ -296,7 +296,7 @@ html.simpl .bir a {
  */
 
 /* Hide Gmail logo and name */
-html.simpl #gb a[href='#inbox'] {
+html.simpl #gb a[href="#inbox"] {
   display: none !important;
 }
 
@@ -350,7 +350,7 @@ html.simpl .aeH .G-atb {
 }
 
 /* Remove extra right margin from action bar so it is spaced correctly */
-html.simpl .aeH .G-atb[gh='tm'] {
+html.simpl .aeH .G-atb[gh="tm"] {
   margin-right: 0px !important;
   top: 0px;
 }
@@ -391,8 +391,8 @@ html.simpl .aeH .G-atb .adF .amG {
 
 /* Below 1350px, hide pagination when search and addOns are both open */
 @media only screen and (max-width: 1370.98px) {
-  html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh='s']),
-  html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh='s']) {
+  html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
+  html.simpl.addOnsOpen:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
     display: none;
   }
 }
@@ -407,8 +407,8 @@ html.simpl .aeH .G-atb .adF .amG {
 
 /* Below 1100px wide, when search is expanded, hide pagination controls even if AddOns aren't open */
 @media only screen and (max-width: 1100.98px) {
-  html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh='s']),
-  html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:not([gh='s']) {
+  html.simpl:not(.hideSearch) .aeH .G-atb .aqJ > div:not([gh="s"]),
+  html.simpl:not(.hideSearch) .aeH .G-atb .adF > div:not([gh="s"]) {
     display: none;
   }
 }
@@ -428,7 +428,7 @@ html.simpl .aeI .G-atb {
 }
 
 /* Move action bar for Horizontal Multiple Inboxes */
-html.simpl.multiBoxHorz .aeF .G-atb[gh='tm'] {
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"] {
   position: fixed;
   top: 8px;
   left: 60px;
@@ -436,22 +436,22 @@ html.simpl.multiBoxHorz .aeF .G-atb[gh='tm'] {
   width: calc(var(--action-bar-width) - 128px);
   transition: width 0s ease-in 0s; /* was 0.15s - Looks bad with 3rd party extensions */
 }
-html.simpl.multiBoxHorz .aeF .G-atb[gh='tm']::before {
+html.simpl.multiBoxHorz .aeF .G-atb[gh="tm"]::before {
   box-shadow: none;
   -webkit-box-shadow: none;
 }
-html.simpl.multiBoxHorz.hideSearch:not(.addOnsOpen) .aeF .G-atb[gh='tm'] {
+html.simpl.multiBoxHorz.hideSearch:not(.addOnsOpen) .aeF .G-atb[gh="tm"] {
   width: calc(100vw - 206px) !important;
 }
-html.simpl.multiBoxHorz.hideSearch.addOnsOpen .aeF .G-atb[gh='tm'] {
+html.simpl.multiBoxHorz.hideSearch.addOnsOpen .aeF .G-atb[gh="tm"] {
   width: calc(var(--action-bar-width) - 152px);
 }
-html.simpl.multiBoxHorz.addOnsOpen:not(.hideSearch) .aeF .G-atb[gh='tm'] {
+html.simpl.multiBoxHorz.addOnsOpen:not(.hideSearch) .aeF .G-atb[gh="tm"] {
   width: calc(var(--action-bar-width) - 370px);
 }
 
 /* Further adjustments for side-by-side multiple inboxes */
-html.simpl.multiBoxHorz div[role='main'] .byR {
+html.simpl.multiBoxHorz div[role="main"] .byR {
   margin-top: 0px;
 }
 
@@ -472,7 +472,7 @@ html.simpl.multiBoxHorz div[role='main'] .byR {
     max-width: 2200px !important;
   }
   /* ... while keeping the max-width of the conversation narrow */
-  html.simpl.multiBoxHorz .aeF > div.nH > div.nH[role='main']:not(.BltHke) {
+  html.simpl.multiBoxHorz .aeF > div.nH > div.nH[role="main"]:not(.BltHke) {
     max-width: 1100px !important;
     margin: 0 auto;
   }
@@ -533,6 +533,11 @@ States (text button labels)
 	Menu open, Add-ons open, Search open
  */
 
+@media only screen and (max-width: 1278.97px) {
+  html.simpl {
+    --content-width: 100%;
+  }
+}
 @media only screen and (min-width: 1278.98px) {
   /* DETAULT VIEWS: Move actions to left edge of content */
   html.simpl {
@@ -601,42 +606,42 @@ States (text button labels)
   }
 
   /* Adjust width of action bar for reading pane */
-  html.simpl.readingPane.hideSearch:not(.navOpen) .G-atb[gh='tm'] {
+  html.simpl.readingPane.hideSearch:not(.navOpen) .G-atb[gh="tm"] {
     width: calc(100vw - 204px);
   }
-  html.simpl.readingPane:not(.hideSearch):not(.navOpen) .G-atb[gh='tm'] {
+  html.simpl.readingPane:not(.hideSearch):not(.navOpen) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
   }
-  html.simpl.readingPane.navOpen.hideSearch .G-atb[gh='tm'] {
+  html.simpl.readingPane.navOpen.hideSearch .G-atb[gh="tm"] {
     width: calc(100vw - 400px);
   }
-  html.simpl.readingPane.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.readingPane.navOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
   }
 
   /* Correct width of action bar for No Split reading pane */
-  html.simpl.noSplitPane.hideSearch:not(.navOpen) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.hideSearch:not(.navOpen) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 140px);
   }
-  html.simpl.noSplitPane.hideSearch.navOpen .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.hideSearch.navOpen .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 266px);
   }
-  html.simpl.noSplitPane:not(.navOpen):not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane:not(.navOpen):not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 152px - 16%);
   }
-  html.simpl.noSplitPane.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.navOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 276px - 16%);
   }
-  html.simpl.noSplitPane.addOnsOpen:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.addOnsOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 253px - 16%);
   }
-  html.simpl.noSplitPane.hideSearch.addOnsOpen:not(.navOpen) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.hideSearch.addOnsOpen:not(.navOpen) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 294px);
   }
-  html.simpl.noSplitPane.hideSearch.addOnsOpen.navOpen .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.hideSearch.addOnsOpen.navOpen .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 416px);
   }
-  html.simpl.noSplitPane.addOnsOpen.navOpen:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.addOnsOpen.navOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 375px - 16%);
   }
 
@@ -738,8 +743,8 @@ States (text button labels)
 
 @media only screen and (min-width: 1278.98px) and (max-width: 1638.98px) {
   /* Don't align the actions if the nav and add-ons are both open */
-  html.simpl.noSplitPane.navOpen.addOnsOpen .aeF .G-atb[gh='tm'],
-  html.simpl.noSplitPane.navOpen.addOnsOpen .aeH .G-atb[gh='tm'] {
+  html.simpl.noSplitPane.navOpen.addOnsOpen .aeF .G-atb[gh="tm"],
+  html.simpl.noSplitPane.navOpen.addOnsOpen .aeH .G-atb[gh="tm"] {
     padding-left: initial;
     width: calc(100vw - 445px - 16%);
   }
@@ -785,7 +790,7 @@ States (text button labels)
     .G-atb,
   html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert)
     .aeF
-    .G-atb[gh='tm'] {
+    .G-atb[gh="tm"] {
     padding-left: calc(
       ((100vw - var(--content-width)) / 2) - var(--left-offset)
     );
@@ -880,7 +885,7 @@ html.simpl.hideSearch #gb form {
 html.simpl.hideSearch #gb form button {
   display: none;
 }
-html.simpl.hideSearch #gb form button[role='button']:not([gh='sda']) {
+html.simpl.hideSearch #gb form button[role="button"]:not([gh="sda"]) {
   display: block;
 }
 
@@ -914,8 +919,8 @@ html.simpl:not(.hideSearch) #gb form:hover button[gh="sda"] {
 */
 
 /* Hide "Search the web" option from search auto-complete */
-html.simpl #gb form td.gssb_e tr[role='separator'],
-html.simpl #gb form td.gssb_e tr[role='option']:last-child {
+html.simpl #gb form td.gssb_e tr[role="separator"],
+html.simpl #gb form td.gssb_e tr[role="option"]:last-child {
   display: none;
 }
 
@@ -924,12 +929,12 @@ html.simpl #gb form td.gssb_e tr[role='option']:last-child {
  */
 
 /* Move search refinement bar below action bar */
-html.simpl .aeH div[gh='tm'] div[role='toolbar'] {
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] {
   position: absolute;
   top: 44px;
 }
 /* Reading pane */
-html.simpl.readingPane .G-atb[gh='tm'] > div.G6 {
+html.simpl.readingPane .G-atb[gh="tm"] > div.G6 {
   position: absolute;
   top: 60px;
   height: 54px;
@@ -937,20 +942,20 @@ html.simpl.readingPane .G-atb[gh='tm'] > div.G6 {
   overflow-y: hidden;
   overflow-x: auto;
 }
-html.simpl.readingPane .G-atb[gh='tm'] > div[role='toolbar'] > div:first-child {
+html.simpl.readingPane .G-atb[gh="tm"] > div[role="toolbar"] > div:first-child {
   overflow-y: hidden;
   overflow-x: inherit;
   height: 54px;
   margin-right: 0px;
 }
 /* No Split Pane only */
-html.simpl.noSplitPane .G-atb[gh='tm'] > div.G6,
-html.simpl.noSplitPane .G-atb[gh='tm'] > div[role='toolbar'] {
+html.simpl.noSplitPane .G-atb[gh="tm"] > div.G6,
+html.simpl.noSplitPane .G-atb[gh="tm"] > div[role="toolbar"] {
   width: calc(var(--content-width) - 16px);
   max-width: calc(var(--content-width) - 16px);
 }
 /* Reading pane only */
-html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6 {
+html.simpl.readingPane:not(.noSplitPane) .G-atb[gh="tm"] > div.G6 {
   left: -32px;
   width: var(--readingPane-width);
 }
@@ -960,8 +965,8 @@ html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6 {
  * FIX: (More of a temporary hack): Hide the search refinement bar
  *      when search is focused because
  */
-html.simpl.searchFocused .G-atb[gh='tm'] > div.G6,
-html.simpl.searchFocused .G-atb[gh='tm'] > div[role='toolbar'] {
+html.simpl.searchFocused .G-atb[gh="tm"] > div.G6,
+html.simpl.searchFocused .G-atb[gh="tm"] > div[role="toolbar"] {
   display: none;
 }
 
@@ -1001,38 +1006,38 @@ html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6::before {
 /* Move search refinement bar over when nav and add-ons are open */
 /* TODO: set left to be dynamic when nav is closed below 1278px so it stays with the content */
 @media only screen and (max-width: 960.98px) {
-  html.simpl div[gh='tm'] div[role='toolbar'] {
+  html.simpl div[gh="tm"] div[role="toolbar"] {
     left: -36px;
   }
 }
 @media only screen and (max-width: 1278.98px) {
-  html.simpl.navOpen div[gh='tm'] div[role='toolbar'] {
+  html.simpl.navOpen div[gh="tm"] div[role="toolbar"] {
     left: 205px;
   }
 }
 @media only screen and (max-width: 1638.98px) {
   html.simpl.navOpen.readingPane:not(.noSplitPane)
-    div[gh='tm']
-    div[role='toolbar'],
-  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh='tm'] div.G6 {
+    div[gh="tm"]
+    div[role="toolbar"],
+  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh="tm"] div.G6 {
     left: 205px;
     max-width: calc(100vw - 266px);
   }
-  html.simpl.navOpen.addOnsOpen div[gh='tm'] div[role='toolbar'],
-  html.simpl.navOpen.addOnsOpen div[gh='tm'] div.G6 {
+  html.simpl.navOpen.addOnsOpen div[gh="tm"] div[role="toolbar"],
+  html.simpl.navOpen.addOnsOpen div[gh="tm"] div.G6 {
     left: 205px;
     max-width: calc(100vw - 566px);
   }
   html.simpl.navOpen.addOnsOpen.noSplitPane
-    div.G-atb[gh='tm']
-    div[role='toolbar'],
-  html.simpl.navOpen.addOnsOpen.noSplitPane div.G-atb[gh='tm'] div.G6 {
+    div.G-atb[gh="tm"]
+    div[role="toolbar"],
+  html.simpl.navOpen.addOnsOpen.noSplitPane div.G-atb[gh="tm"] div.G6 {
     left: 185px;
     max-width: calc(100vw - 566px);
   }
 }
 @media only screen and (min-width: 1638.98px) {
-  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh='tm'] div.G6 {
+  html.simpl.navOpen.readingPane:not(.noSplitPane) div[gh="tm"] div.G6 {
     left: 205px;
   }
 }
@@ -1040,21 +1045,21 @@ html.simpl.readingPane:not(.noSplitPane) .G-atb[gh='tm'] > div.G6::before {
 /* Hide search refinement bar when you scroll */
 /* .aeI is added to a parent Div when you are scrolled to the top */
 /* but not for Reading Pane = Vertical|Horizontal */
-html.simpl .aeI .aeH div.G-atb[gh='tm'] div[role='toolbar'],
-html.simpl .aeI .aeF div.G-atb[gh='tm'] div[role='toolbar'] {
+html.simpl .aeI .aeH div.G-atb[gh="tm"] div[role="toolbar"],
+html.simpl .aeI .aeF div.G-atb[gh="tm"] div[role="toolbar"] {
   display: none;
 }
 
 /* Move action bar into correct spot */
 /* Maybe add .inSearch for not reading pane? */
-html.simpl .aeH div[gh='tm'] div[role='toolbar'] + .aqK {
+html.simpl .aeH div[gh="tm"] div[role="toolbar"] + .aqK {
   margin-top: 22px;
 }
 /* Reading pane */
-html.simpl.readingPane.inSearch .G-atb[gh='tm'] > div.G6 ~ div.aqK,
+html.simpl.readingPane.inSearch .G-atb[gh="tm"] > div.G6 ~ div.aqK,
 html.simpl.readingPane.inSearch
-  .G-atb[gh='tm']
-  > div[role='toolbar']
+  .G-atb[gh="tm"]
+  > div[role="toolbar"]
   ~ div.aqK {
   margin-top: 14px;
 }
@@ -1069,27 +1074,27 @@ html.simpl.readingPane.inSearch:not(.noSplitPane) .aeF .G-atb.PY ~ .UI .ae4 {
 }
 
 /* Keep the action bar from covering the left nav */
-html.simpl.readingPane.inSearch .G-atb[gh='tm'] {
+html.simpl.readingPane.inSearch .G-atb[gh="tm"] {
   height: 54px;
 }
 
 /* Shift message list down to make space for search chips */
-html.simpl.inSearch .aeF div[role='main'] > .bX,
-html.simpl.inSearch .aeF div[role='main'] > .afn + .ae4 {
+html.simpl.inSearch .aeF div[role="main"] > .bX,
+html.simpl.inSearch .aeF div[role="main"] > .afn + .ae4 {
   margin-top: 72px;
 }
 
 /* Hide Advanced search link */
 html.simpl
-  div.G-atb[gh='tm']
-  div[role='toolbar']
-  div[data-impression-suffix='ADVANCED_SEARCH_LINK'],
+  div.G-atb[gh="tm"]
+  div[role="toolbar"]
+  div[data-impression-suffix="ADVANCED_SEARCH_LINK"],
 html.simpl
   .aeH
-  div[gh='tm']
-  div[role='toolbar']
+  div[gh="tm"]
+  div[role="toolbar"]
   div:first-child
-  > div[role='button']:last-child {
+  > div[role="button"]:last-child {
   display: none;
 }
 
@@ -1099,7 +1104,7 @@ html.simpl
 
 /* SHOW NAV ON HOVER */
 /* This is buggy b/c the animation is not instant and flipping between positions is */
-html.simpl .bhZ:not(.bym) div[role='navigation'] {
+html.simpl .bhZ:not(.bym) div[role="navigation"] {
   /* display: none; */
 }
 html.simpl .bhZ.bym {
@@ -1112,8 +1117,8 @@ html.simpl .bhZ.bym {
 html.simpl .bym {
   box-shadow: none !important;
 }
-html.simpl .bhZ div[role='complementary'],
-html.simpl .bhZ div[gh='ns'] {
+html.simpl .bhZ div[role="complementary"],
+html.simpl .bhZ div[gh="ns"] {
   display: none !important;
 }
 
@@ -1181,12 +1186,12 @@ html.simpl.inSettings .bAw {
 }
 
 /* Make the bottom Hangouts tabs a little less ugly */
-html.simpl div[gh='gt'] {
+html.simpl div[gh="gt"] {
   text-align: left;
   border-top: 0px;
   padding-left: 18px;
 }
-html.simpl.rhsChat div[gh='gt'] {
+html.simpl.rhsChat div[gh="gt"] {
   text-align: right;
   border-top: 0px;
   padding-left: 0px;
@@ -1258,7 +1263,7 @@ html.simpl.readingPane.inSettings .AO .aeF > .nH {
 }
 
 /* Add extra padding between inbox groups */
-html.simpl div[gh='tl'] div[role='tabpanel'] {
+html.simpl div[gh="tl"] div[role="tabpanel"] {
   padding-bottom: 1em;
 }
 /* TODO: Remove that extra padding if the section is hidden
@@ -1269,7 +1274,7 @@ html.simpl div[gh="tl"] div[role="tabpanel"] > div.afn {
 */
 
 /* Remove top border on TL */
-html.simpl:not(.readingPane) .aeF div[gh='tl'] {
+html.simpl:not(.readingPane) .aeF div[gh="tl"] {
   border-top: 0px;
 }
 
@@ -1279,7 +1284,7 @@ html.simpl.multiBoxVert .nH > .nK {
 }
 
 /* Hide toggle next to inbox groups */
-html.simpl div[gh='tl'] div[role='tabpanel'] h3 img {
+html.simpl div[gh="tl"] div[role="tabpanel"] h3 img {
   display: none;
 }
 
@@ -1303,8 +1308,8 @@ html.simpl.mediumTheme .yO .y2 {
 }
 
 /* Make sure minimized search icon is white for medium themes */
-html.simpl.mediumTheme.hideSearch #gb form button[role='button'] > svg,
-html.simpl.mediumTheme.hideSearch #gb form button[role='button'] > svg > path {
+html.simpl.mediumTheme.hideSearch #gb form button[role="button"] > svg,
+html.simpl.mediumTheme.hideSearch #gb form button[role="button"] > svg > path {
   color: rgba(255, 255, 255, 0.87);
 }
 
@@ -1343,12 +1348,12 @@ html.simpl .aKh:hover {
 }
 
 /* Further dim the non-active category tab */
-html.simpl .aKh .aAy[aria-selected='false'] {
+html.simpl .aKh .aAy[aria-selected="false"] {
   opacity: 0.5;
   transition: opacity 0.2s ease-in 0s;
 }
-html.simpl .aKh .aAy[aria-selected='false']:hover,
-html.simpl .aKh .aAy[aria-selected='true'] {
+html.simpl .aKh .aAy[aria-selected="false"]:hover,
+html.simpl .aKh .aAy[aria-selected="true"] {
   opacity: 1;
 }
 
@@ -1364,13 +1369,13 @@ html.simpl div[gh="tl"] div[role="tabpanel"] > div.Cp:first-child {
 }
 
 /* Dim attachment type icons on read messages */
-html.simpl div[gh='tl'] tr.yO img.brf {
+html.simpl div[gh="tl"] tr.yO img.brf {
   /* filter: grayscale(100%) brightness(135%); */
   opacity: 0.6;
 }
 
 /* Hide underlines on category tabs in default inbox */
-html.simpl div[role='main'] .J-KU-KO.aAy:before {
+html.simpl div[role="main"] .J-KU-KO.aAy:before {
   background-color: transparent !important;
 }
 
@@ -1387,12 +1392,12 @@ html.simpl.popout .aeF {
 html.simpl.popout .aeF > div {
   box-shadow: none !important;
 }
-html.simpl.popout .G-atb[gh='tm'] {
+html.simpl.popout .G-atb[gh="tm"] {
   max-width: 930px;
   margin: 0 auto !important;
 }
 @media only screen and (min-width: 799.98px) {
-  html.simpl.popout .G-atb[gh='tm'] {
+  html.simpl.popout .G-atb[gh="tm"] {
     min-width: 730px;
   }
 }
@@ -1400,7 +1405,7 @@ html.simpl.popout .G-atb[gh='tm'] {
   html.simpl.popout .aeF {
     max-width: 1100px;
   }
-  html.simpl.popout .G-atb[gh='tm'] {
+  html.simpl.popout .G-atb[gh="tm"] {
     max-width: 1070px;
   }
 }
@@ -1414,7 +1419,7 @@ html.simpl.popout .G-atb[gh='tm'] {
   html.simpl.popout .aDc {
     max-width: 100% !important;
   }
-  html.simpl.popout .G-atb[gh='tm'] {
+  html.simpl.popout .G-atb[gh="tm"] {
     max-width: calc(100% - 30px);
   }
 }
@@ -1433,7 +1438,7 @@ html.simpl.popout .wp {
  */
 
 /* Move action bar over app bar */
-html.simpl.readingPane .G-atb[gh='tm'] {
+html.simpl.readingPane .G-atb[gh="tm"] {
   position: fixed;
   top: 5px;
   left: 60px;
@@ -1442,16 +1447,16 @@ html.simpl.readingPane .G-atb[gh='tm'] {
   height: 54px;
 }
 /* Different top pos for when search chips are enabled */
-html.simpl.readingPane.inSearch .PY.G-atb[gh='tm'] {
+html.simpl.readingPane.inSearch .PY.G-atb[gh="tm"] {
   top: 8px;
 }
 
-html.simpl.readingPane .G-atb[gh='tm']:before {
+html.simpl.readingPane .G-atb[gh="tm"]:before {
   box-shadow: none;
   -webkit-box-shadow: none;
 }
 @media only screen and (min-width: 1278.98px) {
-  html.simpl.readingPane.navOpen.hideSearch:not(.noSplitPane) .G-atb[gh='tm'] {
+  html.simpl.readingPane.navOpen.hideSearch:not(.noSplitPane) .G-atb[gh="tm"] {
     padding-left: 212px;
   }
 }
@@ -1466,16 +1471,16 @@ html.simpl.readingPane .UJ {
 
 /* Adjust width of action bar for small resolutions */
 @media only screen and (max-width: 1278.98px) {
-  html.simpl.readingPane.hideSearch .G-atb[gh='tm'] {
+  html.simpl.readingPane.hideSearch .G-atb[gh="tm"] {
     width: calc(100vw - 204px);
   }
-  html.simpl.readingPane:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.readingPane:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
   }
-  html.simpl.readingPane.addOnsOpen.hideSearch .G-atb[gh='tm'] {
+  html.simpl.readingPane.addOnsOpen.hideSearch .G-atb[gh="tm"] {
     width: calc(100vw - 502px);
   }
-  html.simpl.readingPane.addOnsOpen:not(.hideSearch) .G-atb[gh='tm'] {
+  html.simpl.readingPane.addOnsOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 366px);
   }
 }
@@ -1548,12 +1553,12 @@ html.simpl.readingPane .aph {
     .aE3
     .G-atb
     .aqJ
-    > div:not([gh='s']) {
+    > div:not([gh="s"]) {
     display: none;
   }
 }
 @media only screen and (max-width: 1100.98px) {
-  html.simpl.readingPane:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh='s']) {
+  html.simpl.readingPane:not(.hideSearch) .aE3 .G-atb .aqJ > div:not([gh="s"]) {
     display: none;
   }
 }
@@ -1562,7 +1567,7 @@ html.simpl.readingPane .aph {
  * compose button doesn't cover them
  * TODO: Find a more elegant solution to this problem
  */
-html.simpl.readingPane div[role='listitem'] .btC > .az5 {
+html.simpl.readingPane div[role="listitem"] .btC > .az5 {
   padding-right: 50px;
 }
 
@@ -1576,7 +1581,7 @@ html.simpl.readingPane .Tm .ya {
  */
 
 /* Center the inbox */
-html.simpl.noSplitPane div[gh='tl'] .ae4 {
+html.simpl.noSplitPane div[gh="tl"] .ae4 {
   max-width: var(--content-width);
   margin: 0 auto;
 }
@@ -1617,7 +1622,7 @@ html.simpl.noSplitPane .aeF .aKh ~ .UI .Nu {
 }
 
 /* Center the conversation */
-html.simpl.noSplitPane .aeF div[role='main'][class='nH'] {
+html.simpl.noSplitPane .aeF div[role="main"][class="nH"] {
   max-width: var(--content-width);
   margin: 40px auto 200px auto;
 }
@@ -1666,7 +1671,7 @@ html.simpl .bAn .ade:hover {
 }
 
 /* Make the right gutter inside the card the same as the left */
-html.simpl div[role='listitem'] .a3s {
+html.simpl div[role="listitem"] .a3s {
   padding-right: 48px;
 }
 
@@ -1729,7 +1734,7 @@ html.simpl div[contenteditable="true"] [style*="font-size:0.874rem"] {
 */
 
 /* Dim from email address in conversation view */
-html.simpl div[role='listitem'] h3.iw .go {
+html.simpl div[role="listitem"] h3.iw .go {
   opacity: 0.5;
 }
 
@@ -1755,7 +1760,7 @@ html.simpl .ata-asE .ata-asJ {
 }
 
 /* Keep inline images from being wider than the current view */
-html.simpl table.Bs .gs > div:not(.gE) img:not([src*='cleardot.gif']) {
+html.simpl table.Bs .gs > div:not(.gE) img:not([src*="cleardot.gif"]) {
   max-width: 100%;
 
   /* Without this, large portrait images will be squished
@@ -1778,10 +1783,10 @@ html.simpl.readingPane table.Bs .gs img {
 
 /* Boost width of the cell that has the reply and more actions buttons */
 html.simpl
-  div[role='listitem']
-  div:not([dir='ltr'])
+  div[role="listitem"]
+  div:not([dir="ltr"])
   table
-  td:last-child[rowspan='2'] {
+  td:last-child[rowspan="2"] {
   width: 110px;
 }
 
@@ -1857,14 +1862,14 @@ html.simpl .bAw {
   transition: width 0s ease-out 0s;
   transition: right 0s ease-out 0s;
   background-color: rgba(255, 255, 255, 0.9);
-  background-image: url('https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png');
+  background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_grey600_24dp.png");
   background-repeat: no-repeat;
   background-position: 6px 7px;
   background-size: 24px;
 }
 html.simpl.darkTheme .bAw {
   background-color: rgba(51, 51, 51, 0.9);
-  background-image: url('https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png');
+  background-image: url("https://www.gstatic.com/images/icons/material/system/2x/more_horiz_white_24dp.png");
 }
 
 /* Hide add-ons chooser entirely if Simplify Setting enabled */
@@ -1899,12 +1904,12 @@ html.simpl .bAw > div:first-child > div {
 }
 
 /* Hide buttons other than add-ons */
-html.simpl .bAw div[role='tablist'] > div[role='tab'] {
+html.simpl .bAw div[role="tablist"] > div[role="tab"] {
   display: block !important;
 }
-html.simpl .bAw div[role='tablist'] > div[role='tab']:nth-last-child(-n + 2),
-html.simpl .bAw div[role='separator'],
-html.simpl .bAw div[role='presentation'] {
+html.simpl .bAw div[role="tablist"] > div[role="tab"]:nth-last-child(-n + 2),
+html.simpl .bAw div[role="separator"],
+html.simpl .bAw div[role="presentation"] {
   display: none !important;
 }
 
@@ -1919,10 +1924,10 @@ html.simpl .bAw .brC-by0-P6-I {
 }
 
 /* Style the add-ons pane */
-html.simpl.darkTheme .bAw div[role='navigation'] {
+html.simpl.darkTheme .bAw div[role="navigation"] {
   background-color: rgba(51, 51, 51, 0.9);
 }
-html.simpl .bAw div[role='navigation'] > div:first-child {
+html.simpl .bAw div[role="navigation"] > div:first-child {
   margin: -var(--add-on-height) 0px 0px -10px;
 }
 
@@ -1982,7 +1987,7 @@ html.simpl.addOnsOpen:not(.hideSearch):not(.noSplitPane) .aeH {
   width: calc(var(--action-bar-width) - 92px) !important;
 }
 html.simpl.addOnsOpen.readingPane:not(.hideSearch):not(.noSplitPane)
-  .G-atb[gh='tm'] {
+  .G-atb[gh="tm"] {
   width: calc(var(--action-bar-width) - 365px) !important;
 }
 
@@ -1990,12 +1995,12 @@ html.simpl.addOnsOpen.readingPane:not(.hideSearch):not(.noSplitPane)
 html.simpl.addOnsOpen.hideSearch:not(.noSplitPane) .aeH {
   width: calc(100vw - 470px) !important;
 }
-html.simpl.addOnsOpen.hideSearch.readingPane:not(.noSplitPane) .G-atb[gh='tm'] {
+html.simpl.addOnsOpen.hideSearch.readingPane:not(.noSplitPane) .G-atb[gh="tm"] {
   width: calc(100vw - 505px) !important;
 }
 @media only screen and (min-width: 1278.98px) {
   html.simpl.addOnsOpen.hideSearch.navOpen.readingPane:not(.noSplitPane)
-    .G-atb[gh='tm'] {
+    .G-atb[gh="tm"] {
     width: calc(100vw - 701px) !important;
   }
 }
@@ -2136,7 +2141,7 @@ html.simpl .mixmax-export-buttons {
   margin: 1px 8px 0 16px !important;
 }
 html.simpl .mixmax-export-buttons ~ .mixmax-reply-button,
-html.simpl .mixmax-export-buttons + div[role='button'] {
+html.simpl .mixmax-export-buttons + div[role="button"] {
   margin-left: 4px !important;
 }
 html.simpl .mixmax-export-buttons i.mixmax-icon-export {
@@ -2152,9 +2157,9 @@ html.simpl.mediumTheme .mixmax-export-buttons i.mixmax-icon-export {
 }
 */
 html.simpl.mixmax
-  table[role='presentation']
-  div[role='listitem']
-  td[rowspan='2'] {
+  table[role="presentation"]
+  div[role="listitem"]
+  td[rowspan="2"] {
   width: 123px !important;
 }
 
@@ -2214,7 +2219,7 @@ html.simpl.appSwitcher #gb .inboxsdk__appButton /* Streak */ {
 }
 
 /* Hide Search and Settings when showing extension buttons */
-html.simpl.appSwitcher.otherExtensions div[gh='tm'] div[gh='s'],
+html.simpl.appSwitcher.otherExtensions div[gh="tm"] div[gh="s"],
 html.simpl.appSwitcher.otherExtensions #gb form,
 html.simpl.appSwitcher.otherExtensions .aeH .aqJ,
 html.simpl.appSwitcher.otherExtensions .aeF .aqJ,
@@ -2222,7 +2227,7 @@ html.simpl.appSwitcher.otherExtensions .aeH .adF {
   display: none;
 }
 html.simpl.appSwitcher.otherExtensions .aeH,
-html.simpl.appSwitcher.otherExtensions div.G-atb[gh='tm'] {
+html.simpl.appSwitcher.otherExtensions div.G-atb[gh="tm"] {
   width: 50vw !important;
 }
 

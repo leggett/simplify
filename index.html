@@ -21,7 +21,7 @@
         box-sizing: border-box;
       }
       body {
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         font-size: 1.3em;
       }
       p {
@@ -42,7 +42,7 @@
         text-decoration: none;
       }
       .box {
-        width: 100vw;
+        width: 100%;
         padding: 4vw 10vw 6vw 10vw;
         border-bottom: 2px solid rgba(0, 0, 0, 0.04);
       }
@@ -83,7 +83,7 @@
       }
 
       .button {
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         font-size: 0.8em;
         font-weight: 600;
         color: white;
@@ -150,6 +150,7 @@
       >
       <a class="button secondary" href="#about">About</a>
       <a class="button secondary" href="#faq">FAQ</a>
+      <a class="button secondary" href="#newsletter">Newsletter</a>
     </div>
 
     <!-- prettier-ignore -->
@@ -366,38 +367,60 @@
         my best to respond.
       </p>
     </div>
+
+    <a name="newsletter"></a>
+    <div class="box title gray">
+      <h1>On Simplify, a newsletter</h1>
+      <p>
+        Follow the building of Simplify Gmail v2, future products, and the
+        company behind it all. <br />Check it out at
+        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a>
+      </p>
+      <iframe
+        src="https://simplify.substack.com/embed"
+        width="480"
+        height="320"
+        style="
+          border: 1px solid #eee;
+          background: #c7ddff;
+          margin-bottom: 40px;
+        "
+        frameborder="0"
+        scrolling="no"
+      ></iframe>
+    </div>
   </body>
   <script type="text/javascript">
     function toggleImg(img, which, shouldStop) {
-      if (which == 'inbox') {
-        if (img.src.indexOf('inbox_simplify.png') > 0) {
-          img.src = 'screens/inbox.png';
-          document.getElementById('label').classList.add('before');
-          document.getElementById('label').classList.remove('after');
+      if (which == "inbox") {
+        if (img.src.indexOf("inbox_simplify.png") > 0) {
+          img.src = "screens/inbox.png";
+          document.getElementById("label").classList.add("before");
+          document.getElementById("label").classList.remove("after");
         } else {
-          img.src = 'screens/inbox_simplify.png';
-          document.getElementById('label').classList.remove('before');
-          document.getElementById('label').classList.add('after');
+          img.src = "screens/inbox_simplify.png";
+          document.getElementById("label").classList.remove("before");
+          document.getElementById("label").classList.add("after");
         }
         if (shouldStop) clearInterval(autoCycleTL);
       } else {
-        if (img.src.indexOf('cv_simplify.png') > 0) {
-          img.src = 'screens/cv.png';
+        if (img.src.indexOf("cv_simplify.png") > 0) {
+          img.src = "screens/cv.png";
         } else {
-          img.src = 'screens/cv_simplify.png';
+          img.src = "screens/cv_simplify.png";
         }
         if (shouldStop) clearInterval(autoCycleCV);
       }
     }
 
     function autoCycleInbox() {
-      var img = document.getElementById('tl');
-      toggleImg(img, 'inbox', false);
+      var img = document.getElementById("tl");
+      toggleImg(img, "inbox", false);
     }
 
     function autoCycleCv() {
-      var img = document.getElementById('cv');
-      toggleImg(img, 'cv', false);
+      var img = document.getElementById("cv");
+      toggleImg(img, "cv", false);
     }
 
     var autoCycleTL = setInterval(autoCycleInbox, 3000);
