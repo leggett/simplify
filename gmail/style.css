@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.13
+ * SIMPLIFY GMAIL v1.7.14
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -311,6 +311,10 @@ html.simpl #gbwa {
 html.simpl.appSwitcher #gbwa {
   display: block !important;
 }
+html.simpl.appSwitcher.quickSettings #gb .FI,
+html.simpl.appSwitcher.quickSettings #gb div[data-tooltip="Settings"] {
+  display: none;
+}
 
 /* Remove padding around profile photo so settings is better spaced */
 /* UNSTABLE */
@@ -362,11 +366,18 @@ html.simpl .aeH .G-atb::before {
 }
 
 /* Make bar wider when search is hidden */
+html.simpl {
+  --quickSettingsGap: 0px;
+}
+html.simpl.quickSettings {
+  --quickSettingsGap: 42px;
+}
+
 html.simpl.hideSearch .aeH {
-  width: calc(100vw - 172px);
+  width: calc(100vw - 172px - var(--quickSettingsGap));
 }
 html.simpl.hideSearch.addOnsOpen .aeH {
-  width: calc(100vw - 172px - 300px);
+  width: calc(100vw - 172px - 300px - var(--quickSettingsGap));
 }
 
 /* Dim pagination controls unless hovered over
@@ -544,8 +555,14 @@ States (text button labels)
     --content-width: 960px;
     --left-offset: 60px;
   }
+  html.simpl.quickSettings {
+    --left-offset: 88px;
+  }
   html.simpl.navOpen {
     --left-offset: -32px;
+  }
+  html.simpl.navOpen.quickSettings {
+    --left-offset: -4px;
   }
   html.simpl.readingPane.navOpen:not(.noSplitPane) {
     --left-offset: -1px;
@@ -657,7 +674,6 @@ States (text button labels)
     --right-offset: 310px;
   }
   html.simpl.hideSearch.rhsChat {
-    /* --right-offset: -42px; */
     --right-offset: 58px;
   }
   html.simpl.hideSearch.rhsChat.navOpen {
@@ -667,7 +683,6 @@ States (text button labels)
     --right-offset: 208px;
   }
   html.simpl.hideSearch.navOpen.addOnsOpen {
-    /* --right-offset: 300px; */
     --right-offset: 400px;
   }
   html.simpl.hideSearch.navOpen.addOnsOpen.rhsChat {
@@ -686,6 +701,44 @@ States (text button labels)
   }
   html.simpl.hideSearch.noSplitPane.addOnsOpen.navOpen {
     --right-offset: 490px;
+  }
+
+  /* Quick Settings Alt */
+  html.simpl.hideSearch {
+    --right-offset: 132px;
+  }
+  html.simpl.hideSearch.navOpen.quickSettings {
+    --right-offset: 220px;
+  }
+  html.simpl.hideSearch.addOnsOpen.quickSettings {
+    --right-offset: 278px;
+  }
+  html.simpl.hideSearch.rhsChat.quickSettings {
+    --right-offset: 26px;
+  }
+  html.simpl.hideSearch.rhsChat.navOpen.quickSettings {
+    --right-offset: 118px;
+  }
+  html.simpl.hideSearch.addOnsOpen.rhsChat.quickSettings {
+    --right-offset: 176px;
+  }
+  html.simpl.hideSearch.navOpen.addOnsOpen.quickSettings {
+    --right-offset: 368px;
+  }
+  html.simpl.hideSearch.navOpen.addOnsOpen.rhsChat.quickSettings {
+    --right-offset: 268px;
+  }
+  html.simpl.hideSearch.noSplitPane.quickSettings {
+    --right-offset: 186px;
+  }
+  html.simpl.hideSearch.noSplitPane.navOpen.quickSettings {
+    --right-offset: 308px;
+  }
+  html.simpl.hideSearch.noSplitPane.addOnsOpen.quickSettings {
+    --right-offset: 336px;
+  }
+  html.simpl.hideSearch.noSplitPane.addOnsOpen.navOpen.quickSettings {
+    --right-offset: 458px;
   }
 
   /* Apply variables to align right edge with content */
@@ -829,6 +882,9 @@ html.simpl #gb form {
   position: relative;
   right: 0px;
   transition: width 0s;
+}
+html.simpl.quickSettings #gb form {
+  width: 16%;
 }
 html.simpl {
   --action-bar-width: 79%;
@@ -1946,12 +2002,24 @@ html.simpl .aT5-aOt-I-JX-Jw {
   background-color: #fff !important;
 }
 
-/* Move Add-ons chooser over when Add-ons pane is open */
+/* Move Add-ons chooser over when Add-ons pane and/or quick settings are open */
 html.simpl.addOnsOpen .bAw {
   right: 347px !important;
 }
 html.simpl.addOnsOpen .bAw:hover {
   right: 338px !important;
+}
+html.simpl.addOnsOpen.quickSettingsOpen .bAw {
+  right: 637px !important;
+}
+html.simpl.addOnsOpen.quickSettingsOpen .bAw:hover {
+  right: 628px !important;
+}
+html.simpl.quickSettingsOpen .bAw {
+  right: 337px !important;
+}
+html.simpl.quickSettingsOpen .bAw:hover {
+  right: 326px !important;
 }
 
 /* Move Add-ons chooser over when Right side chat is enabled */
@@ -1962,9 +2030,15 @@ html.simpl.rhsChat:not(.addOnsOpen) .bAw:hover {
   right: 219px !important;
 }
 
-/* Move the compose button over when the add on pane is open */
+/* Move the compose button over when the add on pane and/or quick settings are open */
 html.simpl.addOnsOpen .z0 {
   left: calc(100vw - 392px);
+}
+html.simpl.quickSettingsOpen .z0 {
+  left: calc(100vw - 382px);
+}
+html.simpl.addOnsOpen.quickSettingsOpen .z0 {
+  left: calc(100vw - 682px);
 }
 
 /* Less shadow on the button to show the add-ons pane */
@@ -2003,6 +2077,16 @@ html.simpl.addOnsOpen.hideSearch.readingPane:not(.noSplitPane) .G-atb[gh="tm"] {
     .G-atb[gh="tm"] {
     width: calc(100vw - 701px) !important;
   }
+}
+
+/* Quick Settings changes */
+html.simpl .bkK ~ .nH.nn[style*="width: 56px"]:not(.bAw) {
+  width: 0px !important;
+  min-width: 0px !important;
+}
+html.simpl .bkK ~ .nH.nn[style*="width: 356px"]:not(.bAw) {
+  width: 300px !important;
+  min-width: 300px !important;
 }
 
 /* ====================================================================

@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.13
+ * SIMPLIFY GMAIL v1.7.14
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -33,7 +33,7 @@ chrome.runtime.sendMessage({ action: "activate_page_action" });
 // == SIMPLIFY SETTINGS =====================================================
 
 // Initialize debug as off
-let simplifyDebug = false;
+let simplifyDebug = true;
 
 // Load Simplify Settings
 let simplSettings = {};
@@ -291,6 +291,7 @@ const defaultParam = {
   addOnsCount: 3,
   otherExtensions: null,
   chatClosed: null,
+  quickSettings: false,
   elements: {
     searchParent: ".gb_pe",
     menuButton: ".gb_Dc.gb_Kc.gb_Lc > div:first-child",
@@ -412,6 +413,15 @@ if (simplify[u].navOpen) {
 } else {
   if (simplifyDebug) console.log("Loading with nav menu closed");
   htmlEl.classList.remove("navOpen");
+}
+
+// Init quick settings
+if (simplify[u].quickSettings) {
+  if (simplifyDebug) console.log("Loading with new quick settings menu");
+  htmlEl.classList.add("quickSettings");
+} else {
+  if (simplifyDebug) console.log("Loading with nav menu closed");
+  htmlEl.classList.remove("quickSettings");
 }
 
 // Init density
@@ -745,10 +755,21 @@ function detectClassNames() {
     }
     simplify[u].elements["supportButton"] = supportButton
       ? "." +
-        supportButton.parentElement.parentElement.parentElement.parentElement.classList.value
+        supportButton.parentElement.parentElement.parentElement.classList.value
           .trim()
           .replace(/ /g, ".")
       : simplify[u].elements["supportButton"];
+
+    // New Quick Settings
+    const quickSettings = document.querySelector(
+      "path[d*='M13.85 22.25h-3.7c-.74 0-1.36-']"
+    );
+    updateParam("quickSettings", quickSettings !== null);
+
+    // Only calling this here so you don't have to refresh Gmail twice the first time it is detected
+    if (simplify[u].quickSettings) {
+      htmlEl.classList.add("quickSettings");
+    }
 
     // Account switcher (profile pic/name)
     const accountButton = document.querySelector(
@@ -840,6 +861,13 @@ function addStyles() {
   if (simplify[u].elements["supportButton"]) {
     addCSS(
       `html.simpl #gb ${simplify[u].elements.supportButton} { display: none !important; }`
+    );
+  }
+
+  // Move quick settings
+  if (simplify[u].elements["quickSettings"]) {
+    addCSS(
+      `html.simpl #gb ${simplify[u].elements.quickSettings} { display: none !important; }`
     );
   }
 
@@ -2184,6 +2212,72 @@ attributes: An attribute value changed on the element in mutation.target; the at
 subtree: Omit or set to false to observe only changes to the parent node.
  */
 
+/** ============================================================================
+ * QUICK SETTINGS
+ */
+
+const quickSettingsObserver = {
+  obs: null,
+  element: null,
+  tries: 0,
+  config: {
+    attributes: true,
+    attributeFilter: ["style"],
+    childList: false,
+    subtree: false,
+  },
+
+  start() {
+    if (!simplify[u].quickSettings) {
+      if (simplifyDebug)
+        console.log(
+          "Quick Settings isn't enabled for this account. Not observing."
+        );
+      return;
+    }
+
+    // Only try so many times
+    if (this.tries > 30) {
+      if (simplifyDebug) console.log("Cound't find Quick Settings.");
+      this.tries = 0;
+      this.disconnect();
+      return;
+    }
+
+    // Find element to observe (style tag with theme css in it)
+    this.element = document.querySelector('.bkK ~ .nH.nn[style*="min-width"]');
+    if (!this.element) {
+      this.tries += 1;
+      setTimeout(this.start.bind(this), 100);
+    } else {
+      this.obs = new MutationObserver((mutations) => {
+        if (mutations.some((m) => parseInt(m.target.style.width) < 60)) {
+          console.log("Quick Settings closed");
+          document.documentElement.classList.remove("quickSettingsOpen");
+        }
+        if (mutations.some((m) => parseInt(m.target.style.width) > 290)) {
+          console.log("Quick Settings open");
+          document.documentElement.classList.add("quickSettingsOpen");
+        }
+      });
+      this.observe();
+    }
+  },
+
+  observe() {
+    if (simplifyDebug) console.log("Starting quick settings observer");
+    this.obs.observe(this.element, this.config);
+  },
+
+  disconnect() {
+    if (this.obs !== null) {
+      this.obs.disconnect();
+      this.obs = null;
+      this.tries = 0;
+    }
+  },
+};
+
 /* ========================================================================================== */
 
 // Initialize styles as soon as head is ready
@@ -2224,6 +2318,7 @@ function initOnPageLoad() {
   initAppSwitcher();
   testPagination();
   observePagination();
+  quickSettingsObserver.start();
   checkLocalVar();
 
   // 3rd party extensions take a few seconds to load
