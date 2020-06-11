@@ -8,11 +8,11 @@
     />
     <link
       rel="shortcut icon"
-      href="../img/favicon.ico"
+      href="img/favicon.ico"
       type="image/x-icon"
       sizes="48x48"
     />
-    <link rel="icon" href="../img/favicon_192.png" sizes="192x192" />
+    <link rel="icon" href="img/favicon_192.png" sizes="192x192" />
 
     <style type="text/css">
       * {
@@ -46,7 +46,7 @@
         padding: 4vw 10vw 6vw 10vw;
         border-bottom: 2px solid rgba(0, 0, 0, 0.04);
       }
-      .box p {
+      .box p:not(.label) {
         max-width: 850px;
       }
       body .box.title:first-child {
@@ -123,8 +123,8 @@
         border-radius: 8px;
         cursor: pointer;
       }
-      #label.before span.after,
-      #label.after span.before {
+      .label.before span.after,
+      .label.after span.before {
         display: none;
       }
     </style>
@@ -159,7 +159,7 @@
 
     <!-- prettier-ignore -->
     <div id="screens" class="box">
-      <p id="label" class="after">
+      <p id="mainLabel" class="label after">
         <span class="before"><b>Before</b> vs after</span>
         <span class="after">Before vs <b>after</b></span>
       </p>
@@ -174,7 +174,7 @@
         id="cv"
       /><br /><br />
 
-			<p id="label">More screenshots</p>
+			<p class="label">More screenshots</p>
 			<img srcset="screens/01_inbox.png 1x, screens/01_inbox-2x.png 2x" /><br />
       <img srcset="screens/02_inbox_sa.png 1x, screens/02_inbox_sa-2x.png 2x" /><br />
       <img srcset="screens/03_inbox_nav.png 1x, screens/03_inbox_nav-2x.png 2x" /><br />
@@ -413,12 +413,12 @@
       if (which == "inbox") {
         if (img.src.indexOf("inbox_simplify.png") > 0) {
           img.src = "screens/inbox.png";
-          document.getElementById("label").classList.add("before");
-          document.getElementById("label").classList.remove("after");
+          document.getElementById("mainLabel").classList.add("before");
+          document.getElementById("mainLabel").classList.remove("after");
         } else {
           img.src = "screens/inbox_simplify.png";
-          document.getElementById("label").classList.remove("before");
-          document.getElementById("label").classList.add("after");
+          document.getElementById("mainLabel").classList.remove("before");
+          document.getElementById("mainLabel").classList.add("after");
         }
         if (shouldStop) clearInterval(autoCycleTL);
       } else {
