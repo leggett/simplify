@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.14
+ * SIMPLIFY GMAIL v1.7.15
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -2067,15 +2067,15 @@ html.simpl.addOnsOpen.readingPane:not(.hideSearch):not(.noSplitPane)
 
 /* Shrink the action bar when the AddOnsPane is open BUT NOT Search */
 html.simpl.addOnsOpen.hideSearch:not(.noSplitPane) .aeH {
-  width: calc(100vw - 470px) !important;
+  width: calc(100vw - 540px) !important;
 }
 html.simpl.addOnsOpen.hideSearch.readingPane:not(.noSplitPane) .G-atb[gh="tm"] {
-  width: calc(100vw - 505px) !important;
+  width: calc(100vw - 535px) !important;
 }
 @media only screen and (min-width: 1278.98px) {
   html.simpl.addOnsOpen.hideSearch.navOpen.readingPane:not(.noSplitPane)
     .G-atb[gh="tm"] {
-    width: calc(100vw - 701px) !important;
+    width: calc(100vw - 731px) !important;
   }
 }
 

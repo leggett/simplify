@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.14
+ * SIMPLIFY GMAIL v1.7.15
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -33,7 +33,7 @@ chrome.runtime.sendMessage({ action: "activate_page_action" });
 // == SIMPLIFY SETTINGS =====================================================
 
 // Initialize debug as off
-let simplifyDebug = true;
+let simplifyDebug = false;
 
 // Load Simplify Settings
 let simplSettings = {};
