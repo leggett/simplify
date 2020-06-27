@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.15
+ * SIMPLIFY GMAIL v1.7.16
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -624,13 +624,13 @@ States (text button labels)
 
   /* Adjust width of action bar for reading pane */
   html.simpl.readingPane.hideSearch:not(.navOpen) .G-atb[gh="tm"] {
-    width: calc(100vw - 204px);
+    width: calc(100vw - 234px);
   }
   html.simpl.readingPane:not(.hideSearch):not(.navOpen) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
   }
   html.simpl.readingPane.navOpen.hideSearch .G-atb[gh="tm"] {
-    width: calc(100vw - 400px);
+    width: calc(100vw - 430px);
   }
   html.simpl.readingPane.navOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
@@ -638,10 +638,10 @@ States (text button labels)
 
   /* Correct width of action bar for No Split reading pane */
   html.simpl.noSplitPane.hideSearch:not(.navOpen) .G-atb[gh="tm"] {
-    width: calc(var(--content-width) / 2 + 50vw - 140px);
+    width: calc(var(--content-width) / 2 + 50vw - 170px);
   }
   html.simpl.noSplitPane.hideSearch.navOpen .G-atb[gh="tm"] {
-    width: calc(var(--content-width) / 2 + 50vw - 266px);
+    width: calc(var(--content-width) / 2 + 50vw - 294px);
   }
   html.simpl.noSplitPane:not(.navOpen):not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 152px - 16%);
