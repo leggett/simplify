@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.16
+ * SIMPLIFY GMAIL v1.7.17
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -297,7 +297,7 @@ const defaultParam = {
     menuButton: ".gb_Dc.gb_Kc.gb_Lc > div:first-child",
     menuContainer: ".gb_Dc.gb_Kc.gb_Lc",
     backButton: ".gb_cc.gb_fc.gb_va",
-    supportButton: ".gb_fe.gb_de",
+    supportButton: ".gb_Le.gb_Je",
     accountButton: ".gb_x.gb_Ea.gb_f",
     accountWrapper: false,
     gsuiteLogo: false,
@@ -745,6 +745,7 @@ function detectClassNames() {
       .parentElement.parentElement.classList.value.trim();
     simplify[u].elements["backButton"] = "." + backButton.replace(/ /g, ".");
 
+    /*
     // Support button (usually added about 2 seconds after page is loaded)
     const supportButton = document.querySelector(
       '#gb path[d*="18h2v-2h-2v2zm1-16C6.48"]'
@@ -759,6 +760,7 @@ function detectClassNames() {
           .trim()
           .replace(/ /g, ".")
       : simplify[u].elements["supportButton"];
+    */
 
     // New Quick Settings
     const quickSettings = document.querySelector(
@@ -857,19 +859,23 @@ function addStyles() {
     );
   }
 
+  /*
   // Hide the support button if it is there
   if (simplify[u].elements["supportButton"]) {
     addCSS(
       `html.simpl #gb ${simplify[u].elements.supportButton} { display: none !important; }`
     );
   }
+  */
 
   // Move quick settings
+  /*
   if (simplify[u].elements["quickSettings"]) {
     addCSS(
       `html.simpl #gb ${simplify[u].elements.quickSettings} { display: none !important; }`
     );
   }
+  */
 
   // Restyle the profile name into an icon for delegated accounts
   if (simplify[u].elements["accountButton"]) {
@@ -2252,11 +2258,11 @@ const quickSettingsObserver = {
     } else {
       this.obs = new MutationObserver((mutations) => {
         if (mutations.some((m) => parseInt(m.target.style.width) < 60)) {
-          console.log("Quick Settings closed");
+          if (simplifyDebug) console.log("Quick Settings closed");
           document.documentElement.classList.remove("quickSettingsOpen");
         }
         if (mutations.some((m) => parseInt(m.target.style.width) > 290)) {
-          console.log("Quick Settings open");
+          if (simplifyDebug) console.log("Quick Settings open");
           document.documentElement.classList.add("quickSettingsOpen");
         }
       });

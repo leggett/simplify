@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.16
+ * SIMPLIFY GMAIL v1.7.17
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -335,6 +335,12 @@ html.simpl.addOnsOpen header#gb {
   width: calc(100vw - 300px);
 }
 
+/* Hide Support button */
+html.simpl #gb .zo,
+html.simpl #gb img[src*="help_outline"] {
+  display: none;
+}
+
 /* ====================================================================
  * ACTION BAR (actions, pagination, and settings)
  */
@@ -556,13 +562,13 @@ States (text button labels)
     --left-offset: 60px;
   }
   html.simpl.quickSettings {
-    --left-offset: 88px;
+    --left-offset: 60px; /* was 88px */
   }
   html.simpl.navOpen {
     --left-offset: -32px;
   }
   html.simpl.navOpen.quickSettings {
-    --left-offset: -4px;
+    --left-offset: -32px; /* was -4px */
   }
   html.simpl.readingPane.navOpen:not(.noSplitPane) {
     --left-offset: -1px;
@@ -610,17 +616,31 @@ States (text button labels)
   html.simpl:not(.readingPane):not(.multiBoxHorz):not(.multiBoxVert):not(.navOpen):not(.textButtons)
     .aeH
     .G-atb,
-  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons) /* :not(.multiBoxVert2):not(.readingPane) */
     .aeF
     .G-atb,
-  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons)
+  html.simpl.noSplitPane:not(.multiBoxHorz):not(.multiBoxVert):not(.textButtons) /* :not(.multiBoxVert2):not(.readingPane) */
     .aeH
     .G-atb {
     padding-left: calc(
       ((100vw - var(--content-width)) / 2) - var(--left-offset)
     );
+    margin-left: 16px !important; /* 44px */
+  }
+  /*
+  html.simpl.multiBoxVert2 .G-atb[gh="tm"] {
+    padding-left: calc(
+      ((100vw - var(--content-width)) / 2) - var(--left-offset)
+    );
+    margin-left: 18px !important;
+  }
+  html.simpl.readingPane.noSplitPane .G-atb {
+    padding-left: calc(
+      ((100vw - var(--content-width)) / 2) - var(--left-offset)
+    );
     margin-left: 16px !important;
   }
+  */
 
   /* Adjust width of action bar for reading pane */
   html.simpl.readingPane.hideSearch:not(.navOpen) .G-atb[gh="tm"] {
@@ -653,10 +673,10 @@ States (text button labels)
     width: calc(var(--content-width) / 2 + 50vw - 253px - 16%);
   }
   html.simpl.noSplitPane.hideSearch.addOnsOpen:not(.navOpen) .G-atb[gh="tm"] {
-    width: calc(var(--content-width) / 2 + 50vw - 294px);
+    width: calc(var(--content-width) / 2 + 50vw - 324px);
   }
   html.simpl.noSplitPane.hideSearch.addOnsOpen.navOpen .G-atb[gh="tm"] {
-    width: calc(var(--content-width) / 2 + 50vw - 416px);
+    width: calc(var(--content-width) / 2 + 50vw - 446px);
   }
   html.simpl.noSplitPane.addOnsOpen.navOpen:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--content-width) / 2 + 50vw - 375px - 16%);
@@ -1129,6 +1149,22 @@ html.simpl.readingPane.inSearch:not(.noSplitPane) .aeF .G-atb.PY ~ .UI .ae4 {
   padding-top: 70px;
 }
 
+/* Make space for the Did you mean bar when it comes up */
+html.simpl.inSearch .Wz {
+  margin-top: 70px;
+  margin-bottom: -50px;
+}
+html.simpl.inSearch.noSplitPane .Wz {
+  margin-top: 70px;
+  margin-bottom: -50px;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+html.simpl.inSearch.readingPane:not(.noSplitPane) .Wz {
+  max-width: var(--readingPane-width);
+}
+
 /* Keep the action bar from covering the left nav */
 html.simpl.readingPane.inSearch .G-atb[gh="tm"] {
   height: 54px;
@@ -1420,7 +1456,8 @@ html.simpl .aKh .aDG {
 
 /* Hide ads in top of inbox tabs */
 html.simpl div[gh="tl"] .aKB, /* old way */
-html.simpl div[gh="tl"] div[role="tabpanel"] > div.Cp:first-child {
+html.simpl div[gh="tl"] div[role="tabpanel"] > div.Cp:first-child,
+html.simpl div[gh="tl"] .U9:first-child + .Cp + .Cp {
   display: none;
 }
 
@@ -1528,7 +1565,7 @@ html.simpl.readingPane .UJ {
 /* Adjust width of action bar for small resolutions */
 @media only screen and (max-width: 1278.98px) {
   html.simpl.readingPane.hideSearch .G-atb[gh="tm"] {
-    width: calc(100vw - 204px);
+    width: calc(100vw - 234px);
   }
   html.simpl.readingPane:not(.hideSearch) .G-atb[gh="tm"] {
     width: calc(var(--action-bar-width) - 126px);
