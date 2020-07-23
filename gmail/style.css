@@ -1156,13 +1156,14 @@ html.simpl.inSearch .Wz {
 }
 html.simpl.inSearch.noSplitPane .Wz {
   margin-top: 70px;
-  margin-bottom: -50px;
+  margin-bottom: -28px;
   max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
 }
 html.simpl.inSearch.readingPane:not(.noSplitPane) .Wz {
   max-width: var(--readingPane-width);
+  margin-bottom: 0px;
 }
 
 /* Keep the action bar from covering the left nav */
