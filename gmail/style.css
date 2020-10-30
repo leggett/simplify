@@ -161,6 +161,10 @@ html.simpl
   .aio {
   display: none !important;
 }
+html.simpl
+  .gb_ma {
+  display: none !important;
+}
 
 /* ====================================================================
  * INBOX DATE GROUPING
