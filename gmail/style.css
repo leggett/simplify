@@ -1,5 +1,5 @@
 /* ====================================================================
- * SIMPLIFY GMAIL v1.7.17
+ * SIMPLIFY GMAIL v1.7.19
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -314,6 +314,14 @@ html.simpl.appSwitcher #gbwa {
 html.simpl.appSwitcher.quickSettings #gb .FI,
 html.simpl.appSwitcher.quickSettings #gb div[data-tooltip="Settings"] {
   display: none;
+}
+
+html.simpl #gb .Yb {
+  display: none;
+}
+html.simpl.appSwitcher #gb .Yb {
+  display: inline-block;
+  margin-right: 54px;
 }
 
 /* Remove padding around profile photo so settings is better spaced */
@@ -1238,6 +1246,7 @@ html.simpl .z0 > .L3 {
   height: 56px;
   padding: 0;
   width: 56px;
+  min-width: 56px;
 }
 
 /* Make FAB dark in dark themes */
@@ -1264,6 +1273,10 @@ html.simpl.rhsChat .z0 {
 /* Add some padding above the nav that the compose button used to provide */
 html.simpl .wT {
   padding-top: 20px;
+}
+/* But not for the new Gmail */
+html.simpl .V3 .wT {
+  padding-top: 0px;
 }
 
 /* Hide top shadow when you scroll long label list */

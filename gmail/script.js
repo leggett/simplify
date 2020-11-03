@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.17
+ * SIMPLIFY GMAIL v1.7.19
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -312,7 +312,7 @@ function resetLocalStorage(userNum) {
     simplify[u] = defaultParam;
     window.localStorage.simplify = JSON.stringify(simplify);
   } else {
-    window.localStorage.simplify = JSON.stringify({ "0": defaultParam });
+    window.localStorage.simplify = JSON.stringify({ 0: defaultParam });
   }
 }
 
@@ -791,7 +791,7 @@ function detectClassNames() {
 
     // Gsuite company logo
     const gsuiteLogo = document.querySelector(
-      '#gb img[src^="https://www.google.com/a/"]'
+      '#gb img[src^="https://admin.google.com"], #gb img[src*="/a/cpanel"]'
     );
     simplify[u].elements["gsuiteLogo"] = gsuiteLogo
       ? "." + gsuiteLogo.parentElement.classList.value.trim().replace(/ /g, ".")
@@ -1432,7 +1432,12 @@ function detectReadingPane() {
           "Adding mutation observer for Reading Pane",
           readingPaneToggle
         );
-      readingPaneObserver.observe(readingPaneToggle, readingPaneObserverConfig);
+      if (readingPaneToggle) {
+        readingPaneObserver.observe(
+          readingPaneToggle,
+          readingPaneObserverConfig
+        );
+      }
 
       // Multiple Inboxes only works when Reading pane is disabled
       updateParam("multipleInboxes", "none");
@@ -1683,12 +1688,14 @@ function detectRightSideChat() {
           }
         });
       });
-      rosterObserver.observe(rosterParent, {
-        attributes: true,
-        attributeFilter: ["style"],
-        childList: false,
-        subtree: false,
-      });
+      if (rosterParent) {
+        rosterObserver.observe(rosterParent, {
+          attributes: true,
+          attributeFilter: ["style"],
+          childList: false,
+          subtree: false,
+        });
+      }
     }
   } else {
     detectRightSideChatLoops++;
