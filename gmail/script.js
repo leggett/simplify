@@ -1,5 +1,5 @@
 /* ==================================================
- * SIMPLIFY GMAIL v1.7.19
+ * SIMPLIFY GMAIL v1.7.21
  * By Michael Leggett: leggett.org
  * Copyright (c) 2020 Michael Hart Leggett
  * Repo: github.com/leggett/simplify/blob/master/gmail/
@@ -51,8 +51,9 @@ chrome.storage.local.get(null, function (results) {
 });
 
 // Print Simplify version number if debug is running
-if (simplifyDebug)
-  console.log("Simplify version " + chrome.runtime.getManifest().version);
+console.log(
+  "Simplify version " + chrome.runtime.getManifest().version + " loaded"
+);
 
 // Apply setting
 function applySettings(settings) {
@@ -721,15 +722,21 @@ window.onhashchange = function () {
 // Detect and cache classNames that often change so we can inject CSS
 let detectClassNamesLoops = 0;
 function detectClassNames() {
-  const searchForm = document.querySelector('form[role="search"]');
+  const searchForm = document.querySelector("header form"); // [role="search"]
 
   if (searchForm) {
     if (simplifyDebug) console.log("Detecting class names...");
 
+    if (!simplify[u].elements) {
+      simplify[u].elements = {};
+    }
+
     // Search parent
     const searchParent = searchForm.parentElement.classList.value.trim();
-    simplify[u].elements["searchParent"] =
-      "." + searchParent.replace(/ /g, ".");
+    if (searchParent) {
+      simplify[u].elements["searchParent"] =
+        "." + searchParent.replace(/ /g, ".");
+    }
 
     // Main menu
     const menuButton = document
@@ -839,27 +846,28 @@ function addCSS(css, pos) {
 // This is all CSS that I need to add dynamically as the classNames often change for these elements
 // and I couldn't find a stable way to select the elements other than their classnames
 function addStyles() {
-  // Remove right padding from action bar so search is always correctly placed
-  addCSS(
-    `html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`
-  );
-
-  // Switch menu button for back button when in Settings
-  addCSS(
-    `html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`
-  );
-  addCSS(
-    `html.simpl.inSettings #gb ${simplify[u].elements.backButton} { display: block !important; }`
-  );
-
-  // Hide the oneGoogle Ring if it is there
-  if (simplify[u].elements["oneGoogleRing"]) {
+  if (simplify[u].elements) {
+    // Remove right padding from action bar so search is always correctly placed
     addCSS(
-      `html.simpl #gb ${simplify[u].elements.oneGoogleRing} { display: none !important; }`
+      `html.simpl #gb ${simplify[u].elements.searchParent} { padding-right: 0px !important; }`
     );
-  }
 
-  /*
+    // Switch menu button for back button when in Settings
+    addCSS(
+      `html.simpl.inSettings #gb ${simplify[u].elements.menuButton} { display: none !important; }`
+    );
+    addCSS(
+      `html.simpl.inSettings #gb ${simplify[u].elements.backButton} { display: block !important; }`
+    );
+
+    // Hide the oneGoogle Ring if it is there
+    if (simplify[u].elements["oneGoogleRing"]) {
+      addCSS(
+        `html.simpl #gb ${simplify[u].elements.oneGoogleRing} { display: none !important; }`
+      );
+    }
+
+    /*
   // Hide the support button if it is there
   if (simplify[u].elements["supportButton"]) {
     addCSS(
@@ -868,8 +876,8 @@ function addStyles() {
   }
   */
 
-  // Move quick settings
-  /*
+    // Move quick settings
+    /*
   if (simplify[u].elements["quickSettings"]) {
     addCSS(
       `html.simpl #gb ${simplify[u].elements.quickSettings} { display: none !important; }`
@@ -877,46 +885,46 @@ function addStyles() {
   }
   */
 
-  // Restyle the profile name into an icon for delegated accounts
-  if (simplify[u].elements["accountButton"]) {
-    let delegatedAccountButtonCss =
-      "font-size:0px; width:32px; height:32px; margin:4px 6px 0 6px; line-height:26px; ";
-    delegatedAccountButtonCss +=
-      "border-radius:18px; background-color:rgba(0,0,0,0.85); font-weight:bold; ";
-    delegatedAccountButtonCss +=
-      "text-align:center; text-transform:uppercase; overflow:hidden;";
+    // Restyle the profile name into an icon for delegated accounts
+    if (simplify[u].elements["accountButton"]) {
+      let delegatedAccountButtonCss =
+        "font-size:0px; width:32px; height:32px; margin:4px 6px 0 6px; line-height:26px; ";
+      delegatedAccountButtonCss +=
+        "border-radius:18px; background-color:rgba(0,0,0,0.85); font-weight:bold; ";
+      delegatedAccountButtonCss +=
+        "text-align:center; text-transform:uppercase; overflow:hidden;";
+      addCSS(
+        `html.simpl.delegate #gb ${simplify[u].elements.accountButton} { ${delegatedAccountButtonCss} }`
+      );
+      addCSS(
+        `html.simpl.delegate #gb ${simplify[u].elements.accountButton}::first-letter { font-size: initial; color: white; }`
+      );
+      addCSS(
+        `html.simpl.delegate #gb ${simplify[u].elements.accountButton} span { display:none; }`
+      );
+    }
+
+    // Restyle profile pic itself
+    if (simplify[u].elements["accountWrapper"]) {
+      const accountWrapperCss =
+        "width:48px !important; margin-left:0px; border:none !important; background-color:transparent; box-shadow:none !important;";
+      addCSS(
+        `html.simpl #gb ${simplify[u].elements.accountWrapper} { ${accountWrapperCss} }`
+      );
+    }
+
+    // Hide Gsuite company logo if it exists
+    if (simplify[u].elements["gsuiteLogo"]) {
+      addCSS(
+        `html.simpl #gb ${simplify[u].elements.gsuiteLogo} { display:none; }`
+      );
+    }
+
+    // Adjust size of menu button container
     addCSS(
-      `html.simpl.delegate #gb ${simplify[u].elements.accountButton} { ${delegatedAccountButtonCss} }`
-    );
-    addCSS(
-      `html.simpl.delegate #gb ${simplify[u].elements.accountButton}::first-letter { font-size: initial; color: white; }`
-    );
-    addCSS(
-      `html.simpl.delegate #gb ${simplify[u].elements.accountButton} span { display:none; }`
+      `html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`
     );
   }
-
-  // Restyle profile pic itself
-  if (simplify[u].elements["accountWrapper"]) {
-    const accountWrapperCss =
-      "width:48px !important; margin-left:0px; border:none !important; background-color:transparent; box-shadow:none !important;";
-    addCSS(
-      `html.simpl #gb ${simplify[u].elements.accountWrapper} { ${accountWrapperCss} }`
-    );
-  }
-
-  // Hide Gsuite company logo if it exists
-  if (simplify[u].elements["gsuiteLogo"]) {
-    addCSS(
-      `html.simpl #gb ${simplify[u].elements.gsuiteLogo} { display:none; }`
-    );
-  }
-
-  // Adjust size of menu button container
-  addCSS(
-    `html.simpl #gb ${simplify[u].elements.menuContainer} { min-width: 58px !important; padding-right: 0px; }`
-  );
-
   // Add correct label for date cluster in inbox for two months ago
   let now = new Date();
   let month2 = new Date(now.getFullYear(), now.getMonth() - 2, 1);
@@ -2293,6 +2301,12 @@ const quickSettingsObserver = {
 
 /* ========================================================================================== */
 
+function announceSimplifyV2() {
+  showNotification("Simplify Gmail v2 is coming!", "settingsLink", 30);
+}
+
+/* ========================================================================================== */
+
 // Initialize styles as soon as head is ready
 const initStyleObserver = new MutationObserver(initStyle);
 function observeHead() {
@@ -2333,6 +2347,9 @@ function initOnPageLoad() {
   observePagination();
   quickSettingsObserver.start();
   checkLocalVar();
+
+  // Announce Simplify v2!
+  announceSimplifyV2();
 
   // 3rd party extensions take a few seconds to load
   setTimeout(detectOtherExtensions, 5000);

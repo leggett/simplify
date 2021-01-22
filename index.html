@@ -192,6 +192,7 @@
   </head>
 
   <body>
+    <!-- HEADER =================================================== -->
     <div class="box title gray">
       <h1>Simplify <em>/</em> Gmail</h1>
       <p>
@@ -225,6 +226,7 @@
       <a class="button secondary" href="#newsletter">Newsletter</a>
     </div>
 
+    <!-- SCREENSHOTS =================================================== -->
     <a name="screens"></a>
     <!-- prettier-ignore -->
     <div id="screens" class="box">
@@ -242,7 +244,7 @@
         onclick="toggleImg(this, 'cv', true)"
         id="cv"
       /><br />
-
+      
 			<p class="label">More screenshots</p>
 			<img srcset="screens/01_inbox.png 1x, screens/01_inbox-2x.png 2x" /><br />
       <img srcset="screens/02_inbox_sa.png 1x, screens/02_inbox_sa-2x.png 2x" /><br />
@@ -256,6 +258,7 @@
       <img srcset="screens/10_reading_pane.png 1x, screens/10_reading_pane-2x.png 2x" />
 		</div>
 
+    <!-- ABOUT =================================================== -->
     <a name="about"></a>
     <div class="box gray title">
       <h1>About Simplify</h1>
@@ -273,10 +276,11 @@
           href="https://simplify.substack.com/p/the-future-of-simplify"
           target="_new"
           >Read more about the future of Simplify</a
-        >.
+        >.<br /><br />
       </p>
     </div>
 
+    <!-- PRIVACY =================================================== -->
     <a name="privacy"></a>
     <div class="box gray title">
       <h1>Privacy Policy</h1>
@@ -291,13 +295,15 @@
         <b>and no use of cookies</b>. <br /><br />
 
         Simplify <b>does not send or receive data of any kind</b> from a user's
-        account or device.
+        account or device.<br /><br />
       </p>
     </div>
 
+    <!-- FAQ =================================================== -->
     <a name="faq"></a>
     <div class="box title">
       <h1>Simplify FAQ</h1>
+      <br />
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
@@ -385,21 +391,6 @@
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Where did the app switcher go?</h2>
-      <p>
-        I've gotten a fair number of requests to put back the app switcher. It
-        isn't something I use and I need all the space I can get to merge the
-        app and action bars... but I'm going to try and figure something out.
-      </p>
-      <p>
-        You can track progress on this
-        <a href="https://github.com/leggett/simplify/issues/31" target="_new"
-          >GitHub issue</a
-        >.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
       <h2>
         How do I enable the preview pane view in some of your screenshots?
       </h2>
@@ -415,27 +406,14 @@
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Why all the white space? Also, the actions are too far away.</h2>
+      <h2>Why all the white space?</h2>
       <p>
         One of my biggest complaints with Gmail's design is there is no
         max-width on content. Long line lengths dramatically reduce readability.
-        But while this change improves readability, it hasn't been a total win.
-      </p>
-      <p>
-        I agree that the actions in the top left on wide monitors is subpar,
-        especially for those that do not use
-        <a href="https://support.google.com/mail/answer/6594"
-          >keyboard shortcuts</a
-        >
-        or right click on items in the inbox. There are some ideas on how to
-        improve this. Tracking progress
-        <a href="https://github.com/leggett/simplify/issues/101" target="_new"
-          >here</a
-        >.
       </p>
       <p>
         If you want a wider view now, I allow a much wider max-width for the
-        Preview Pane as you can resize the message list and keep the
+        Reading Pane as you can resize the message list and keep the
         conversation view at a reasonable width. I will look for other ways to
         improve the experience on large displays.
       </p>
@@ -449,21 +427,139 @@
         update the extension as Gmail's code changes and hope to simplify other
         apps in the future. You can send feedback by posting an issue on
         <a href="https://github.com/leggett/simplify/issues">GitHub</a>,
-        emailing
-        <a href="mailto:hi.simplify@gmail.com">hi.simplify@gmail.com</a> or
-        Tweeting <a href="https://twitter.com/leggett">@leggett</a>, and I'll do
-        my best to respond.
+        emailing <a href="mailto:hi@simpl.fyi">hi@simpl.fyi</a> or Tweeting
+        <a href="https://twitter.com/leggett">@leggett</a>, and I'll do my best
+        to respond.
       </p>
     </div>
 
+    <!-- NEWSLETTER =================================================== -->
     <a name="newsletter"></a>
     <div class="box title gray">
-      <h1>On Simplify, a newsletter</h1>
+      <h1>The Simplify Newsletter</h1>
+      Posts go out once a month on average.<br /><br />
+      <iframe
+        src="https://simplify.substack.com/embed"
+        width="480"
+        height="320"
+        style="border: 1px solid #ccc; background: #c7ddff; margin-bottom: 40px"
+        frameborder="0"
+        scrolling="no"
+      ></iframe
+      ><br />
+
+      <b>RECENT POSTS</b><br /><br /><br />
+      <!-- <p>
+        Get updates on Simplify Gmail v2, future products, and the company
+        behind it all at
+        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a
+        >.<br /><br />
+      </p> -->
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>The Future of Simplify</h2>
       <p>
-        Get updates on Simplify Gmail v2 (in development), future products, and
-        the company behind it all at
-        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a>.
+        Since Simplify Gmail launched over a year ago, more than 150,000 people
+        have tried it, and about half of them are still active users. I’m
+        delighted with how many people I’ve reached and what I’ve been able to
+        do so far. But I want to expand what Simplify can do, and do it better.
+        <a
+          href="https://simplify.substack.com/p/the-future-of-simplify"
+          target="_new"
+          >Continue reading</a
+        >
       </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Simplify v2: A Sneak Peek</h2>
+      <p>
+        There are so many improvements in Simplify v2, I’m seriously struggling
+        with where to start. I also want to get into the details and explain the
+        changes I’m making, but that takes time away from finishing Simplify v2.
+        <a
+          href="https://simplify.substack.com/p/simplify-gmail-v2-sneak-peak"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>An Even Better Compose Experience</h2>
+      <p>
+        Once upon a time, Gmail had a simple compose experience. But it was lost
+        due to many years of launches. Simplify v2 is bringing it back and
+        making compose better than ever.
+        <a
+          href="https://simplify.substack.com/p/simplify-gmail-compose"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Search, Navigation, & Add-ons, oh my!</h2>
+      <p>
+        How Simplify v2 wrangles everything around your content.
+        <a
+          href="https://simplify.substack.com/p/search-navigation-and-add-ons-oh"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>An Even Better Reading Experience</h2>
+      <p>
+        Reading email in Gmail is not great. From line lengths that span the
+        entire screen to distracting bling all around the message to no full
+        dark mode. Simplify v2 fixes this.
+        <a
+          href="https://simplify.substack.com/p/simplify-v2-conversation-view"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Email trackers are spying on you—Simplify v2 blocks them</h2>
+      <p>
+        What's an email tracker, why you should care about blocking them, and
+        most importantly, how to block them in Gmail with Simplify Gmail v2.
+        <a
+          href="https://simplify.substack.com/p/email-trackers-are-spying-on-yousimplify"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <!-- 
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
       <p>
         <b
           ><a
@@ -501,19 +597,17 @@
         due to many years of launches. Simplify v2 is bringing it back and
         making compose better than ever.
       </p>
+    <div class="box gray">
       <iframe
         src="https://simplify.substack.com/embed"
         width="480"
         height="320"
-        style="
-          border: 1px solid #eee;
-          background: #c7ddff;
-          margin-bottom: 40px;
-        "
+        style="border: 1px solid #eee; background: #c7ddff; margin-bottom: 40px"
         frameborder="0"
         scrolling="no"
       ></iframe>
     </div>
+    -->
     <div class="box gray footer">Copyright © 2020, Michael Leggett</div>
   </body>
   <script type="text/javascript">

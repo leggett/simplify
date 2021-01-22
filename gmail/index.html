@@ -15,6 +15,10 @@
     <link rel="icon" href="../img/favicon_192.png" sizes="192x192" />
 
     <style type="text/css">
+      :root {
+        font-size: 62.5%;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -22,7 +26,7 @@
       }
       body {
         font-family: "Source Sans Pro", sans-serif;
-        font-size: 1.3em;
+        font-size: 2.1rem;
       }
       p {
         line-height: 3em;
@@ -37,30 +41,34 @@
       }
       h2 {
         font-weight: 600;
-        font-size: 24px;
+        font-size: 2.4rem;
         padding-bottom: 0.5em;
         text-decoration: none;
       }
       .box {
         width: 100%;
-        padding: 4vw 10vw 6vw 10vw;
+        padding: 4rem 10vw 4rem 10vw;
         border-bottom: 2px solid rgba(0, 0, 0, 0.04);
       }
       .box p:not(.label) {
         max-width: 850px;
       }
       body .box.title:first-child {
-        padding: 6vw 10vw 10vw 10vw;
+        padding: 16rem 10vw 18rem 10vw;
       }
       .box.title {
-        padding: 4vw 10vw 2vw 10vw;
+        padding: 6rem 10vw 0 10vw;
         border-bottom: none;
+        overflow: auto;
+      }
+      .box.title + .box {
+        padding-top: 1rem;
       }
       .box.gray {
         background-color: rgba(0, 0, 0, 0.04);
       }
       .box.closed {
-        padding: 4vw 10vw 3vw 10vw;
+        padding: 4rem 10vw 4rem 10vw;
       }
       .box.closed h2 {
         color: blue;
@@ -70,11 +78,16 @@
       .box.closed p {
         display: none;
       }
+      .box.footer {
+        padding-top: 100px;
+        padding-bottom: 40px;
+        color: #999;
+      }
 
       #screens {
         background-color: white;
         padding: 5vw 10vw;
-        font-size: 15px;
+        font-size: 1.5rem;
         text-transform: uppercase;
         text-align: center;
         color: #ccc;
@@ -82,31 +95,37 @@
       #screens img {
         width: 100%;
         max-width: 1400px;
-        margin: 0 auto 10vh auto;
+        margin: 0 auto 3rem auto;
+      }
+      #screens img[onclick] {
+        margin-bottom: 20rem;
       }
 
       .button {
         font-family: "Source Sans Pro", sans-serif;
-        font-size: 0.8em;
+        font-size: 1.8rem;
         font-weight: 600;
         color: white;
-        padding: 16px 24px;
+        padding: 12px 20px;
         background: #0a6cdd;
-        /* background: linear-gradient(155deg, rgba(26,35,126,1) 0%, rgba(0,150,136,1) 100%); */
         border-radius: 8px;
         border: 2px solid #0a6cdd;
         text-decoration: none;
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
         box-shadow: inset 0 -1px 0 rgba(100, 121, 143, 0.122),
           0 3px 4px -2px rgba(0, 0, 0, 0.3);
-        margin-right: 16px;
+        margin: 0 0.75em 0.75em 0;
+        float: left;
+        white-space: nowrap;
       }
       .button.secondary {
         color: #0a6cdd;
         background: #fff;
-        /*border: 2px solid rgba(10,108,221,0.7);*/
         border: 2px solid rgba(0, 0, 0, 0.12);
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+      }
+      .button.mobileOnly {
+        display: none;
       }
 
       p {
@@ -126,6 +145,48 @@
       .label.before span.after,
       .label.after span.before {
         display: none;
+      }
+
+      @media screen and (max-device-width: 420px) {
+        :root {
+          font-size: 180%;
+        }
+
+        body .box.title:first-child {
+          padding: 4rem 10vw 6rem 10vw;
+        }
+
+        .button {
+          float: none;
+          display: block;
+          width: 70vw;
+          text-align: center;
+          margin: 1em auto;
+          padding: 0.5em 2em;
+        }
+        .button.mobileOnly {
+          display: block;
+        }
+        html:not(.showInstallButtons) .button.install {
+          display: none;
+        }
+        html.showInstallButtons .button.showInstall {
+          display: none;
+        }
+
+        #screens img[onclick] {
+          margin-bottom: 6rem;
+        }
+        #screens {
+          padding: 5rem 0;
+        }
+
+        .box.title {
+          padding: 6rem 10vw 2rem 10vw;
+        }
+        iframe {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -204,7 +265,7 @@
           href="https://simplify.substack.com/p/the-future-of-simplify"
           target="_new"
           >Read more about the future of Simplify</a
-        >.
+        >.<br /><br />
       </p>
     </div>
 
@@ -222,13 +283,15 @@
         <b>and no use of cookies</b>. <br /><br />
 
         Simplify <b>does not send or receive data of any kind</b> from a user's
-        account or device.
+        account or device.<br /><br />
       </p>
     </div>
 
+    <!-- FAQ =================================================== -->
     <a name="faq"></a>
     <div class="box title">
       <h1>Simplify FAQ</h1>
+      <br />
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
@@ -316,21 +379,6 @@
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Where did the app switcher go?</h2>
-      <p>
-        I've gotten a fair number of requests to put back the app switcher. It
-        isn't something I use and I need all the space I can get to merge the
-        app and action bars... but I'm going to try and figure something out.
-      </p>
-      <p>
-        You can track progress on this
-        <a href="https://github.com/leggett/simplify/issues/31" target="_new"
-          >GitHub issue</a
-        >.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
       <h2>
         How do I enable the preview pane view in some of your screenshots?
       </h2>
@@ -346,27 +394,14 @@
     </div>
 
     <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Why all the white space? Also, the actions are too far away.</h2>
+      <h2>Why all the white space?</h2>
       <p>
         One of my biggest complaints with Gmail's design is there is no
         max-width on content. Long line lengths dramatically reduce readability.
-        But while this change improves readability, it hasn't been a total win.
-      </p>
-      <p>
-        I agree that the actions in the top left on wide monitors is subpar,
-        especially for those that do not use
-        <a href="https://support.google.com/mail/answer/6594"
-          >keyboard shortcuts</a
-        >
-        or right click on items in the inbox. There are some ideas on how to
-        improve this. Tracking progress
-        <a href="https://github.com/leggett/simplify/issues/101" target="_new"
-          >here</a
-        >.
       </p>
       <p>
         If you want a wider view now, I allow a much wider max-width for the
-        Preview Pane as you can resize the message list and keep the
+        Reading Pane as you can resize the message list and keep the
         conversation view at a reasonable width. I will look for other ways to
         improve the experience on large displays.
       </p>
@@ -380,34 +415,188 @@
         update the extension as Gmail's code changes and hope to simplify other
         apps in the future. You can send feedback by posting an issue on
         <a href="https://github.com/leggett/simplify/issues">GitHub</a>,
-        emailing
-        <a href="mailto:hi.simplify@gmail.com">hi.simplify@gmail.com</a> or
-        Tweeting <a href="https://twitter.com/leggett">@leggett</a>, and I'll do
-        my best to respond.
+        emailing <a href="mailto:hi@simpl.fyi">hi@simpl.fyi</a> or Tweeting
+        <a href="https://twitter.com/leggett">@leggett</a>, and I'll do my best
+        to respond.
       </p>
     </div>
 
+    <!-- NEWSLETTER =================================================== -->
     <a name="newsletter"></a>
     <div class="box title gray">
-      <h1>On Simplify, a newsletter</h1>
-      <p>
-        Follow the building of Simplify Gmail v2, future products, and the
-        company behind it all. <br />Check it out at
-        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a>
-      </p>
+      <h1>The Simplify Newsletter</h1>
+      Posts go out once a month on average.<br /><br />
       <iframe
         src="https://simplify.substack.com/embed"
         width="480"
         height="320"
-        style="
-          border: 1px solid #eee;
-          background: #c7ddff;
-          margin-bottom: 40px;
-        "
+        style="border: 1px solid #ccc; background: #c7ddff; margin-bottom: 40px"
+        frameborder="0"
+        scrolling="no"
+      ></iframe
+      ><br />
+
+      <b>RECENT POSTS</b><br /><br /><br />
+      <!-- <p>
+        Get updates on Simplify Gmail v2, future products, and the company
+        behind it all at
+        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a
+        >.<br /><br />
+      </p> -->
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>The Future of Simplify</h2>
+      <p>
+        Since Simplify Gmail launched over a year ago, more than 150,000 people
+        have tried it, and about half of them are still active users. I’m
+        delighted with how many people I’ve reached and what I’ve been able to
+        do so far. But I want to expand what Simplify can do, and do it better.
+        <a
+          href="https://simplify.substack.com/p/the-future-of-simplify"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Simplify v2: A Sneak Peek</h2>
+      <p>
+        There are so many improvements in Simplify v2, I’m seriously struggling
+        with where to start. I also want to get into the details and explain the
+        changes I’m making, but that takes time away from finishing Simplify v2.
+        <a
+          href="https://simplify.substack.com/p/simplify-gmail-v2-sneak-peak"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>An Even Better Compose Experience</h2>
+      <p>
+        Once upon a time, Gmail had a simple compose experience. But it was lost
+        due to many years of launches. Simplify v2 is bringing it back and
+        making compose better than ever.
+        <a
+          href="https://simplify.substack.com/p/simplify-gmail-compose"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Search, Navigation, & Add-ons, oh my!</h2>
+      <p>
+        How Simplify v2 wrangles everything around your content.
+        <a
+          href="https://simplify.substack.com/p/search-navigation-and-add-ons-oh"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>An Even Better Reading Experience</h2>
+      <p>
+        Reading email in Gmail is not great. From line lengths that span the
+        entire screen to distracting bling all around the message to no full
+        dark mode. Simplify v2 fixes this.
+        <a
+          href="https://simplify.substack.com/p/simplify-v2-conversation-view"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2>Email trackers are spying on you—Simplify v2 blocks them</h2>
+      <p>
+        What's an email tracker, why you should care about blocking them, and
+        most importantly, how to block them in Gmail with Simplify Gmail v2.
+        <a
+          href="https://simplify.substack.com/p/email-trackers-are-spying-on-yousimplify"
+          target="_new"
+          >Continue reading</a
+        >
+      </p>
+    </div>
+
+    <!-- 
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
+
+    <div class="box gray closed" onclick="this.classList.remove('closed')">
+      <h2></h2>
+      <p>
+        <a href="" target="_new">Continue reading</a>
+      </p>
+    </div>
+      <p>
+        <b
+          ><a
+            href="https://simplify.substack.com/p/the-future-of-simplify"
+            target="_new"
+            >The Future of Simplify</a
+          ></b
+        ><br />
+        Since Simplify Gmail launched over a year ago, more than 150,000 people
+        have tried it, and about half of them are still active users. I’m
+        delighted with how many people I’ve reached and what I’ve been able to
+        do so far. But I want to expand what Simplify can do, and do it better.
+      </p>
+      <p>
+        <b
+          ><a
+            href="https://simplify.substack.com/p/simplify-gmail-v2-sneak-peak"
+            target="_new"
+            >Simplify Gmail v2: Sneak Peek</a
+          ></b
+        ><br />
+        There are so many improvements in Simplify v2, I’m seriously struggling
+        with where to start. I also want to get into the details and explain the
+        changes I’m making, but that takes time away from finishing Simplify v2.
+      </p>
+      <p>
+        <b
+          ><a
+            href="https://simplify.substack.com/p/simplify-gmail-compose"
+            target="_new"
+            >Simplify Gmail v2: Compose</a
+          ></b
+        ><br />
+        Once upon a time, Gmail had a simple compose experience. But it was lost
+        due to many years of launches. Simplify v2 is bringing it back and
+        making compose better than ever.
+      </p>
+    <div class="box gray">
+      <iframe
+        src="https://simplify.substack.com/embed"
+        width="480"
+        height="320"
+        style="border: 1px solid #eee; background: #c7ddff; margin-bottom: 40px"
         frameborder="0"
         scrolling="no"
       ></iframe>
     </div>
+    -->
+    <div class="box gray footer">Copyright © 2020, Michael Leggett</div>
   </body>
   <script type="text/javascript">
     function toggleImg(img, which, shouldStop) {
