@@ -1,17 +1,30 @@
 <html>
   <head>
     <script>
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const system = urlParams.get("system");
-      console.log(system);
+      const init = () => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const system = urlParams.get("system");
+        console.log(system);
+
+        document.querySelector("#email").href =
+          "mailto:hi@simpl.fyi?body=" + system;
+
+        document.querySelector("#form").href =
+          "https://docs.google.com/forms/d/e/1FAIpQLSfdP7AV-LlankOxrNe9t45KsriaxxB0Ef2owkv-TZmATHU5wQ/viewform?usp=pp_url&entry.655050101=" +
+          system;
+
+        document.querySelector("#github").href =
+          "https://issues.simpl.fyi/new?body=" + system;
+      };
     </script>
   </head>
 
-  <body>
-    Three ways to report an issue:<br />
-    1. Email me<br />
-    2. Fill out Google Form<br />
-    3. Create an issue on GitHub<br />
+  <body onload="init()">
+    Three ways to report an issue:<br /><br />
+
+    <a href="" id="email">Email me</a><br />
+    <a href="" id="form">Fill out Google Form</a><br />
+    <a href="" id="github">Create an issue on GitHub</a><br />
   </body>
 </html>
