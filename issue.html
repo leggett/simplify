@@ -5,23 +5,33 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const system = urlParams.get("system");
-        console.log(system);
+        const body =
+          "Please%20describe%20the%20issue%20and%20the%20steps%20to%20reproduce%20it.%0D%0A%0D%0A---%0D%0A" +
+          system;
 
         document.querySelector("#email").href =
-          "mailto:hi@simpl.fyi?body=" + system;
+          "mailto:hi@simpl.fyi?body=" + body;
 
         document.querySelector("#form").href =
           "https://docs.google.com/forms/d/e/1FAIpQLSfdP7AV-LlankOxrNe9t45KsriaxxB0Ef2owkv-TZmATHU5wQ/viewform?usp=pp_url&entry.655050101=" +
           system;
 
         document.querySelector("#github").href =
-          "https://issues.simpl.fyi/new?body=" + system;
+          "https://issues.simpl.fyi/new?body=" + body;
       };
     </script>
+    <style>
+      body {
+        padding: 100px;
+        text-align: center;
+        font-size: 200%;
+        line-height: 2em;
+      }
+    </style>
   </head>
 
   <body onload="init()">
-    Three ways to report an issue:<br /><br />
+    Three ways to report a Simplify issue:<br /><br />
 
     <a href="" id="email">Email me</a><br />
     <a href="" id="form">Fill out Google Form</a><br />
