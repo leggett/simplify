@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const system = urlParams.get("system");
+      console.log(system);
+    </script>
+  </head>
+
+  <body>
+    Three ways to report an issue:<br />
+    1. Email me<br />
+    2. Fill out Google Form<br />
+    3. Create an issue on GitHub<br />
+  </body>
+</html>
