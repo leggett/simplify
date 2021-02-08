@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simplify Gmail</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
+    <style>
+      :root {
+        font-size: 62.5%;
+      }
+
+      body {
+        padding: 0 72px;
+        font-family: "Poppins", sans-serif;
+        font-size: 2.1rem;
+      }
+
+      .screenshot {
+        background-color: #f5f5f5;
+        position: relative;
+        width: 100%;
+        padding-top: min(55%, 795px); /* 16:9 Aspect Ratio */
+        max-width: 1440px;
+        margin: 10% auto;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+      }
+
+      .browser {
+        height: 6%;
+        background: center top / cover no-repeat url("./screens/v2/_bar.png");
+        border-radius: 8px 8px 0 0;
+      }
+
+      .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        text-align: center;
+        font-size: 25px;
+        color: white;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 8px;
+      }
+
+      .image.s01 {
+        background-image: url("./screens/v2/01-inbox-zero.jpg");
+      }
+      .image.s02 {
+        background-image: url("./screens/v2/02-inbox-theme.jpg");
+      }
+      .image.s03 {
+        background-image: url("./screens/v2/03-inbox-readingPane-theme.jpg");
+      }
+      .image.s04 {
+        background-image: url("./screens/v2/04-readingPane.png");
+      }
+      .image.s05 {
+        background-image: url("./screens/v2/05-inbox.png");
+      }
+      .image.s06 {
+        background-image: url("./screens/v2/06-inbox-nav.png");
+      }
+      .image.s07 {
+        background-image: url("./screens/v2/07-inbox-nav-addons.png");
+      }
+      .image.s08 {
+        background-image: url("./screens/v2/08-conversation.png");
+      }
+      .image.s09 {
+        background-image: url("./screens/v2/09-compose.png");
+      }
+      .image.s10 {
+        background-image: url("./screens/v2/10-compose-pop.png");
+      }
+      .image.s11 {
+        background-image: url("./screens/v2/11-inbox-dark.png");
+      }
+      .image.s12 {
+        background-image: url("./screens/v2/12-inbox-addons-dark.png");
+      }
+      .image.s13 {
+        background-image: url("./screens/v2/13-conversation-dark.png");
+      }
+      .image.s14 {
+        background-image: url("./screens/v2/14-readingPane-dark.png");
+      }
+      .image.s15 {
+        background-image: url("./screens/v2/15-settings.png");
+      }
+      .image.s16 {
+        background-image: url("./screens/v2/16-keyboard.png");
+      }
+      .image.s17 {
+        background-image: url("./screens/v2/17-options.png");
+      }
+
+      /* TODO: Invert site for OS dark mode */
+      @media (prefers-color-scheme: dark) {
+      }
+
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      .box {
+        max-width: 650px;
+      }
+      .box.title {
+        margin-top: 15vh;
+        margin-bottom: 20vh;
+      }
+      p.tagline {
+        font-size: 2.8rem;
+        line-height: 1.5em;
+      }
+
+      .button {
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: 400;
+        color: white;
+        padding: 12px 20px;
+        background: #0a6cdd;
+        border-radius: 30px;
+        border: 2px solid #0a6cdd;
+        text-decoration: none;
+        text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
+        box-shadow: inset 0 -1px 0 rgb(100 121 143 / 12%),
+          0 3px 4px -2px rgb(0 0 0 / 30%);
+        margin: 40px 0.75em 0.75em 0;
+        white-space: nowrap;
+        width: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box title center">
+      <img src="img/logo_v2b.png" width="420" />
+      <p class="tagline">
+        A browser extension that makes Gmail even more <b>simple</b>,
+        <b>capable</b>, and <b>respectful</b>.
+      </p>
+      <a
+        class="button install"
+        href="https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj"
+        >For Chrome</a
+      >
+      <a class="button install" href="https://apps.apple.com/app/id1544668450"
+        >For Safari</a
+      >
+      <!-- <p class="label">
+        Scroll to learn more &#8212; Launching as an update to
+        <a href="https://simpl.fyi">Simplify Gmail</a> in February, 2021.
+      </p> -->
+    </div>
+
+    <div class="screenshot">
+      <div class="image s01">
+        <!-- <div class="browser">Browser bar</div> -->
+      </div>
+    </div>
+
+    <div class="screenshot"><div class="image s02"></div></div>
+    <div class="screenshot"><div class="image s03"></div></div>
+    <div class="screenshot"><div class="image s04"></div></div>
+    <div class="screenshot"><div class="image s05"></div></div>
+    <div class="screenshot"><div class="image s06"></div></div>
+    <div class="screenshot"><div class="image s07"></div></div>
+    <div class="screenshot"><div class="image s08"></div></div>
+    <div class="screenshot"><div class="image s09"></div></div>
+    <div class="screenshot"><div class="image s10"></div></div>
+    <div class="screenshot"><div class="image s11"></div></div>
+    <div class="screenshot"><div class="image s12"></div></div>
+    <div class="screenshot"><div class="image s13"></div></div>
+    <div class="screenshot"><div class="image s14"></div></div>
+    <div class="screenshot"><div class="image s15"></div></div>
+    <div class="screenshot"><div class="image s16"></div></div>
+    <div class="screenshot"><div class="image s17"></div></div>
+  </body>
+</html>

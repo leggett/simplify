@@ -2,17 +2,18 @@
 <html>
   <head>
     <title>Simplify Gmail</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,900"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="shortcut icon"
-      href="img/favicon.ico"
+      href="img/favicon_v2-48.png"
       type="image/x-icon"
       sizes="48x48"
     />
-    <link rel="icon" href="img/favicon_192.png" sizes="192x192" />
+    <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
 
     <style type="text/css">
       :root {
@@ -25,12 +26,54 @@
         box-sizing: border-box;
       }
       body {
-        font-family: "Source Sans Pro", sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 2.1rem;
       }
       p {
         line-height: 3em;
       }
+      p.tagLine {
+        font-size: 2.8rem;
+        margin: 20px auto;
+        max-width: 650px !important;
+        padding-bottom: 3em;
+      }
+
+      /* POSTS */
+      .box.title.posts {
+        height: 550px;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 0 0 0 48px;
+      }
+      p.post {
+        display: block;
+        float: left;
+        width: 350px;
+        height: 450px;
+        border-radius: 16px;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+        margin: 20px 0px 100px 50px;
+        padding: 24px;
+        font-size: 1.7rem;
+        line-height: 1.8em;
+        color: #222;
+        transition: all 150ms ease-in-out;
+        overflow: hidden;
+      }
+      p.post:hover {
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+      }
+      p.post img {
+        margin: -24px -24px 16px -24px;
+        border-radius: 16px 16px 0 0;
+      }
+      p.post b {
+        display: block;
+        font-size: 2.4rem;
+        padding-bottom: 0.3em;
+      }
+
       h1 {
         padding-bottom: 0.3em;
       }
@@ -50,11 +93,23 @@
         padding: 4rem 10vw 4rem 10vw;
         border-bottom: 2px solid rgba(0, 0, 0, 0.04);
       }
+      .box.center {
+        text-align: center;
+      }
+      .box.title > p.label,
+      .box.title > p.label a {
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        text-align: center;
+        color: #aaa;
+      }
       .box p:not(.label) {
         max-width: 850px;
       }
       body .box.title:first-child {
-        padding: 16rem 10vw 18rem 10vw;
+        min-height: 70vh;
+        max-height: 70vh;
+        margin: auto;
       }
       .box.title {
         padding: 6rem 10vw 0 10vw;
@@ -86,7 +141,7 @@
 
       #screens {
         background-color: white;
-        padding: 5vw 10vw;
+        padding: 0 10vw 5vw;
         font-size: 1.5rem;
         text-transform: uppercase;
         text-align: center;
@@ -108,7 +163,7 @@
         color: white;
         padding: 12px 20px;
         background: #0a6cdd;
-        border-radius: 8px;
+        border-radius: 25px;
         border: 2px solid #0a6cdd;
         text-decoration: none;
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
@@ -127,7 +182,9 @@
       .button.mobileOnly {
         display: none;
       }
-
+      .box.center .button {
+        float: none;
+      }
       p {
         line-height: 1.5em;
         padding-bottom: 2em;
@@ -188,86 +245,207 @@
           display: none;
         }
       }
+
+      /* NEW DESIGN */
+      .screenshot {
+        display: block;
+        margin: 25px auto;
+        height: 0;
+        max-width: min(calc(1.6 * 90vh), 1920px);
+        overflow: hidden;
+        position: relative;
+        padding-top: min(62.5%, 1200px);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      .screenshot.s01 {
+        background-image: url("./screens/v2/01-inbox-zero.png");
+      }
+      .screenshot.s02 {
+        background-image: url("./screens/v2/02-inbox-theme.png");
+      }
+      .screenshot.s03 {
+        background-image: url("./screens/v2/03-inbox-readingPane-theme.png");
+      }
+      .screenshot.s04 {
+        background-image: url("./screens/v2/04-readingPane.png");
+      }
+      .screenshot.s05 {
+        background-image: url("./screens/v2/05-inbox.png");
+      }
+      .screenshot.s06 {
+        background-image: url("./screens/v2/06-inbox-nav.png");
+      }
+      .screenshot.s07 {
+        background-image: url("./screens/v2/07-inbox-nav-addons.png");
+      }
+      .screenshot.s08 {
+        background-image: url("./screens/v2/08-conversation.png");
+      }
+      .screenshot.s09 {
+        background-image: url("./screens/v2/09-compose.png");
+      }
+      .screenshot.s10 {
+        background-image: url("./screens/v2/10-compose-pop.png");
+      }
+      .screenshot.s11 {
+        background-image: url("./screens/v2/11-inbox-dark.png");
+      }
+      .screenshot.s12 {
+        background-image: url("./screens/v2/12-conversation-dark.png");
+      }
+      .screenshot.s13 {
+        background-image: url("./screens/v2/13-inbox-addons-dark.png");
+      }
+      .screenshot.s14 {
+        background-image: url("./screens/v2/14-readingPane-dark.png");
+      }
+      .screenshot.s15 {
+        background-image: url("./screens/v2/15-settings.png");
+      }
+      .screenshot.s16 {
+        background-image: url("./screens/v2/16-keyboard.png");
+      }
+      .screenshot.s17 {
+        background-image: url("./screens/v2/17-options.png");
+      }
+
+      #nav {
+        background: red;
+        width: 100%;
+        height: 54px;
+        position: sticky;
+        top: -8px;
+        max-width: 90vw;
+        margin: 0 auto;
+        z-index: 2;
+        border-radius: 8px;
+        padding: 10px;
+      }
     </style>
   </head>
 
   <body>
     <!-- HEADER =================================================== -->
-    <div class="box title gray">
-      <h1>Simplify <em>/</em> Gmail</h1>
-      <p>
-        A browser extension that makes Gmail more simple, capable, and
-        respectful.
+    <div class="box title center">
+      <img src="img/logo_v2b.png" width="420" />
+      <p class="tagLine">
+        A browser extension that makes Gmail even more <b>simple</b>,
+        <b>capable</b>, and <b>respectful</b>.
       </p>
-      <a class="button mobileOnly" href="#screens">Screenshots</a>
-      <a
-        class="button mobileOnly showInstall"
-        onclick="document.documentElement.classList.add('showInstallButtons')"
-        >Install</a
-      >
       <a
         class="button install"
         href="https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj"
-        >Chrome (v2)</a
+        >For Chrome</a
       >
       <a class="button install" href="https://apps.apple.com/app/id1544668450"
-        >Safari (v2)</a
+        >For Safari</a
       >
-      <a
-        class="button install"
-        href="https://addons.mozilla.org/firefox/addon/simplifygmail/"
-        >Firefox (v1)</a
-      >
-      <a
-        class="button install"
-        href="https://microsoftedge.microsoft.com/addons/detail/mpohnjhkncdalhjdhpiphajhiahmcapn"
-        >Edge (v1)</a
-      ><br /><br /><br />
-      <a
-        class="button secondary"
-        href="https://on.simpl.fyi/p/choosing-a-business-model"
-        >v2 Pricing</a
-      >
-      <a class="button secondary" href="v2.html">v2 Screenshots</a>
-      <a class="button secondary" href="#about">About</a>
-      <a class="button secondary" href="#privacy">Privacy</a>
-      <a class="button secondary" href="#faq">FAQ</a>
-      <a class="button secondary" href="#newsletter">Newsletter</a>
+      <!-- <p class="label">
+        Scroll to learn more &#8212; Launching as an update to
+        <a href="https://simpl.fyi">Simplify Gmail</a> in February, 2021.
+      </p> -->
     </div>
+
+    <!-- <div id="nav">Test</div> -->
 
     <!-- SCREENSHOTS =================================================== -->
     <a name="screens"></a>
     <!-- prettier-ignore -->
     <div id="screens" class="box">
-      <p id="mainLabel" class="label after">
-        <span class="before"><b>Before</b> vs after</span>
-        <span class="after">Before vs <b>after</b></span>
-      </p>
-      <img
-        src="screens/inbox_simplify.png"
-        onclick="toggleImg(this, 'inbox', true)"
-        id="tl"
-      /><br />
-      <img
-        src="screens/cv_simplify.png"
-        onclick="toggleImg(this, 'cv', true)"
-        id="cv"
-      /><br />
-      
-			<p class="label">More screenshots</p>
-			<img srcset="screens/01_inbox.png 1x, screens/01_inbox-2x.png 2x" /><br />
-      <img srcset="screens/02_inbox_sa.png 1x, screens/02_inbox_sa-2x.png 2x" /><br />
-      <img srcset="screens/03_inbox_nav.png 1x, screens/03_inbox_nav-2x.png 2x" /><br />
-      <img srcset="screens/04_inbox_addons.png 1x, screens/04_inbox_addons-2x.png 2x" /><br />
-      <img srcset="screens/05_inbox_themed.png 1x, screens/05_inbox_themed-2x.png 2x" /><br />
-      <img srcset="screens/06_inbox_dark.png 1x, screens/06_inbox_dark-2x.png 2x" /><br />
-      <img srcset="screens/07_convo.png 1x, screens/07_convo-2x.png 2x" /><br />
-      <img srcset="screens/08_convo_themed.png 1x, screens/08_convo_themed-2x.png 2x" /><br />
-      <img srcset="screens/09_convo_dark.png 1x, screens/09_convo_dark-2x.png 2x" /><br />
-      <img srcset="screens/10_reading_pane.png 1x, screens/10_reading_pane-2x.png 2x" />
+      <div class="screenshot s01"></div>
+      <div class="screenshot s02"></div>
+      <div class="screenshot s03"></div>
+      <div class="screenshot s04"></div>
+      <div class="screenshot s05"></div>
+      <div class="screenshot s06"></div>
+      <div class="screenshot s07"></div>
+      <div class="screenshot s08"></div>
+      <div class="screenshot s09"></div>
+      <div class="screenshot s10"></div>
+      <div class="screenshot s11"></div>
+      <div class="screenshot s12"></div>
+      <div class="screenshot s13"></div>
+      <div class="screenshot s14"></div>
+      <div class="screenshot s15"></div>
+      <div class="screenshot s16"></div>
+      <div class="screenshot s17"></div>
+
+      <!--       
+      <img srcset="screens/v2/01_inbox.png 1x, screens/01_inbox-2x.png 2x" /><br />
+      <img srcset="screens/v2/02_inbox_sa.png 1x, screens/02_inbox_sa-2x.png 2x" /><br />
+      <img srcset="screens/v2/03_inbox_nav.png 1x, screens/03_inbox_nav-2x.png 2x" /><br />
+      <img srcset="screens/v2/04_inbox_addons.png 1x, screens/04_inbox_addons-2x.png 2x" /><br />
+      <img srcset="screens/v2/05_inbox_themed.png 1x, screens/05_inbox_themed-2x.png 2x" /><br />
+      <img srcset="screens/v2/06_inbox_dark.png 1x, screens/06_inbox_dark-2x.png 2x" /><br />
+      <img srcset="screens/v2/07_convo.png 1x, screens/07_convo-2x.png 2x" /><br />
+      <img srcset="screens/v2/08_convo_themed.png 1x, screens/08_convo_themed-2x.png 2x" /><br />
+      <img srcset="screens/v2/09_convo_dark.png 1x, screens/09_convo_dark-2x.png 2x" /><br />
+      <img srcset="screens/v2/10_reading_pane.png 1x, screens/10_reading_pane-2x.png 2x" />
+       -->
 		</div>
 
+    <!-- POSTS =================================================== -->
+    <div class="box title posts">
+      <!-- INBOX -->
+      <a
+        href="https://simplify.substack.com/p/inbox-and-shortcuts"
+        target="_new"
+      >
+        <p class="post">
+          <img src="img/post-inbox.png" width="350" />
+          <b>The inbox and keyboard shortcuts</b>
+          Simplify brings peace and enhanced productivity to the inbox with
+          message grouping, new keyboard shortcuts, an inbox zero reward, and
+          more.
+        </p>
+      </a>
+
+      <!-- BUSINESS -->
+      <a
+        href="https://simplify.substack.com/p/choosing-a-business-model"
+        target="_new"
+      >
+        <p class="post">
+          <img src="img/post-business.png" width="350" />
+          <b>Choosing a business model for Simplify</b>
+          Simplify cannot continue to exist for free. It’s not sustainable.
+          Building high quality modifications on top of software by other
+          companies requires a lot of skill...
+        </p>
+      </a>
+
+      <!-- TRACKERS -->
+      <a
+        href="https://simplify.substack.com/p/email-trackers-are-spying-on-yousimplify"
+        target="_new"
+      >
+        <p class="post">
+          <img src="img/post-trackers.png" width="350" />
+          <b>Email trackers are spying on you—Simplify v2 blocks them</b>
+          What's an email tracker, why you should care about blocking them, and
+          most importantly, how to block them in Gmail with Simplify...
+        </p>
+      </a>
+
+      <!-- READING -->
+      <a
+        href="https://simplify.substack.com/p/simplify-v2-conversation-view"
+        target="_new"
+      >
+        <p class="post">
+          <img src="img/post-reading.png" width="350" />
+          <b>An Even Better Reading Experience</b>
+          Reading email in Gmail is not great. From line lengths that span the
+          entire screen to distracting bling all around the message to no full
+          dark mode. Simplify v2 addresses...
+        </p>
+      </a>
+    </div>
+
     <!-- ABOUT =================================================== -->
+    <!-- 
     <a name="about"></a>
     <div class="box gray title">
       <h1>About Simplify</h1>
@@ -287,9 +465,11 @@
           >Read more about the future of Simplify</a
         >.<br /><br />
       </p>
-    </div>
+    </div> 
+    -->
 
     <!-- PRIVACY =================================================== -->
+    <!--
     <a name="privacy"></a>
     <div class="box gray title">
       <h1>Privacy Policy</h1>
@@ -307,8 +487,10 @@
         account or device.<br /><br />
       </p>
     </div>
+    -->
 
     <!-- FAQ =================================================== -->
+    <!--
     <a name="faq"></a>
     <div class="box title">
       <h1>Simplify FAQ</h1>
@@ -441,8 +623,10 @@
         to respond.
       </p>
     </div>
+    -->
 
     <!-- NEWSLETTER =================================================== -->
+    <!--
     <a name="newsletter"></a>
     <div class="box title gray">
       <h1>The Simplify Newsletter</h1>
@@ -458,12 +642,6 @@
       ><br />
 
       <b>RECENT POSTS</b><br /><br /><br />
-      <!-- <p>
-        Get updates on Simplify Gmail v2, future products, and the company
-        behind it all at
-        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a
-        >.<br /><br />
-      </p> -->
     </div>
 
     <div class="box gray closed" onclick="this.classList.remove('closed')">
@@ -547,79 +725,20 @@
         >
       </p>
     </div>
-
-    <!-- 
-    <div class="box gray closed" onclick="this.classList.remove('closed')">
-      <h2></h2>
-      <p>
-        <a href="" target="_new">Continue reading</a>
-      </p>
-    </div>
-
-    <div class="box gray closed" onclick="this.classList.remove('closed')">
-      <h2></h2>
-      <p>
-        <a href="" target="_new">Continue reading</a>
-      </p>
-    </div>
-
-    <div class="box gray closed" onclick="this.classList.remove('closed')">
-      <h2></h2>
-      <p>
-        <a href="" target="_new">Continue reading</a>
-      </p>
-    </div>
-      <p>
-        <b
-          ><a
-            href="https://simplify.substack.com/p/the-future-of-simplify"
-            target="_new"
-            >The Future of Simplify</a
-          ></b
-        ><br />
-        Since Simplify Gmail launched over a year ago, more than 150,000 people
-        have tried it, and about half of them are still active users. I’m
-        delighted with how many people I’ve reached and what I’ve been able to
-        do so far. But I want to expand what Simplify can do, and do it better.
-      </p>
-      <p>
-        <b
-          ><a
-            href="https://simplify.substack.com/p/simplify-gmail-v2-sneak-peak"
-            target="_new"
-            >Simplify Gmail v2: Sneak Peek</a
-          ></b
-        ><br />
-        There are so many improvements in Simplify v2, I’m seriously struggling
-        with where to start. I also want to get into the details and explain the
-        changes I’m making, but that takes time away from finishing Simplify v2.
-      </p>
-      <p>
-        <b
-          ><a
-            href="https://simplify.substack.com/p/simplify-gmail-compose"
-            target="_new"
-            >Simplify Gmail v2: Compose</a
-          ></b
-        ><br />
-        Once upon a time, Gmail had a simple compose experience. But it was lost
-        due to many years of launches. Simplify v2 is bringing it back and
-        making compose better than ever.
-      </p>
-    <div class="box gray">
-      <iframe
-        src="https://simplify.substack.com/embed"
-        width="480"
-        height="320"
-        style="border: 1px solid #eee; background: #c7ddff; margin-bottom: 40px"
-        frameborder="0"
-        scrolling="no"
-      ></iframe>
-    </div>
     -->
     <div class="box gray footer">Copyright © 2020, Michael Leggett</div>
   </body>
   <script type="text/javascript">
+    // Browser sniffing to point to correct app store
+    const UA = navigator.userAgent;
+    const is = {
+      chrome: / Chrome\//.test(UA),
+      safari: / Safari\//.test(UA) && !/ Chrome\//.test(UA),
+      firefox: / Firefox\//.test(UA),
+      edge: / Edg\//.test(UA),
+      ios: /\b(iPad|iPhone|iPod)\b/.test(UA),
+    };
+
     function toggleImg(img, which, shouldStop) {
       if (which == "inbox") {
         if (img.src.indexOf("inbox_simplify.png") > 0) {
