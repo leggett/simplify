@@ -2,3 +2,5 @@
 .DS_Store
 *.sh
 *.zip
+*.js
+*.css
