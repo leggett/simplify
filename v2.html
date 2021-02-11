@@ -11,9 +11,19 @@
     <style>
       :root {
         font-size: 62.5%;
+        scrollbar-color: #ccc transparent !important;
+      }
+      :root::-webkit-scrollbar {
+        background-color: white;
+        width: 16px;
+      }
+      :root::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 8px;
       }
 
       body {
+        margin: 0;
         padding: 0 72px;
         font-family: "Poppins", sans-serif;
         font-size: 2.1rem;
@@ -26,7 +36,8 @@
         padding-top: min(55%, 795px); /* 16:9 Aspect Ratio */
         max-width: 1440px;
         margin: 10% auto;
-        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 16px rgba(60 64 67 / 30%),
+          0 12px 48px rgba(60 64 67 / 15%);
         border-radius: 16px;
       }
 
