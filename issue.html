@@ -29,16 +29,29 @@
         text-align: center;
       }
       .box {
-        max-width: 800px;
+        max-width: 1000px;
       }
       .box.title {
-        margin-top: 15vh;
-        margin-bottom: 20vh;
+        margin-top: 5vh;
+        margin-bottom: 150px;
       }
       p.tagline {
         font-size: 2.8rem;
         line-height: 1.5em;
         padding-top: 2em;
+      }
+
+      .box:not(.title) img {
+        max-width: 100%;
+        box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
+      }
+      .box.left {
+        text-align: left;
+      }
+      .box.warning p {
+        background-color: #f1f1f1;
+        padding: 1em;
+        border-radius: 16px;
       }
 
       .button {
@@ -57,6 +70,31 @@
         margin: 0px 0.75em 0.75em 0;
         white-space: nowrap;
         width: fit-content;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      kbd {
+        background-color: #eee;
+        border-radius: 3px;
+        border: 1px solid #b4b4b4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+          0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+        color: #333;
+        display: inline-block;
+        font-size: 1em;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+        line-height: 1;
+        padding: 4px 6px;
+        margin: 0 4px;
+        white-space: nowrap;
+        min-width: 1em;
+        text-align: center;
       }
     </style>
     <script>
@@ -77,16 +115,38 @@
 
         document.querySelector("#github").href =
           "https://issues.simpl.fyi/new?body=" + body;
+
+        if (!system) {
+          document.querySelectorAll(".hide").forEach((el) => {
+            el.classList.remove("hide");
+          });
+        }
+
+        if (navigator.platform.indexOf("Mac") > -1) {
+          document.querySelector("#altKey").innerText = "⌥";
+        }
       };
     </script>
   </head>
   <body onload="init()">
     <div class="box title center">
       <img src="img/logo_v2b.png" width="420" />
-      <p class="tagline"><b>Report an issue with Simplify v2:</b><br /></p>
-      <a href="" id="email" class="button">Email me</a>
+      <p class="tagline">
+        <b>Report an issue<span class="hide"> without a system report</span>:</b
+        ><br />
+      </p>
+      <a href="" id="email" class="button">Email</a>
       <a href="" id="form" class="button">Google Form</a>
       <a href="" id="github" class="button">GitHub issue</a>
+    </div>
+    <div class="box center hide left warning">
+      <p>
+        <b>No system report attached.</b><br />A system report is optional but
+        helpful. To attach one, go to Gmail with Simplify enabled and press
+        <kbd id="altKey">ALT</kbd><kbd>I</kbd> or select "Report issue" from the
+        Simplify menu:
+      </p>
+      <img src="img/report_issue.png" />
     </div>
   </body>
 </html>
