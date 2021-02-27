@@ -59,7 +59,7 @@ header.edge a.edge {
 
 .links {
   position: fixed;
-  bottom: 0px;
+  top: 0px;
   right: 0px;
   left: 0px;
   padding: 16px 24px;
@@ -78,20 +78,26 @@ html.scrolled .links {
 
 .links #logo {
   float: left;
-  background: center / contain no-repeat url("img/logo_mark.png");
+  background: left center / contain no-repeat url("img/logo_mark.png");
   height: 44px;
   width: 44px;
   opacity: 0;
   cursor: pointer;
   transition: all 200ms ease-in-out;
+  padding-left: 48px;
+  padding-top: 4px;
+  line-height: 1em;
+  font-size: 20px;
+  color: #333;
 }
+
 html.scrolled .links #logo {
   opacity: 1;
 }
 
 .links a {
   display: inline-block;
-  color: #888;
+  color: #bbb;
   margin: 0 8px;
   font-size: 1.5rem;
   text-decoration: none;
@@ -167,7 +173,7 @@ html:not(.scrolled) .links a[href="#top"] {
 }
 .box.title {
   padding-top: 10vh;
-  padding-bottom: 12vh;
+  padding-bottom: 10vh;
 }
 p.tagline {
   font-size: 2.8rem;
