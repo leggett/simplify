@@ -1,470 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html class="scrolled">
   <head>
     <title>Simplify Gmail</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,900"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="shortcut icon"
-      href="img/favicon.ico"
-      type="image/x-icon"
-      sizes="48x48"
-    />
-    <link rel="icon" href="img/favicon_192.png" sizes="192x192" />
-
-    <style type="text/css">
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Source Sans Pro", sans-serif;
-        font-size: 1.3em;
-      }
-      p {
-        line-height: 3em;
-      }
-      h1 {
-        padding-bottom: 0.3em;
-      }
-      h1 em {
-        text-decoration: none;
-        font-weight: 400;
-        padding: 0 0.2em;
-      }
-      h2 {
-        font-weight: 600;
-        font-size: 24px;
-        padding-bottom: 0.5em;
-        text-decoration: none;
-      }
-      .box {
-        width: 100%;
-        padding: 4vw 10vw 6vw 10vw;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.04);
-      }
-      .box p:not(.label) {
-        max-width: 850px;
-      }
-      body .box.title:first-child {
-        padding: 6vw 10vw 10vw 10vw;
-      }
-      .box.title {
-        padding: 4vw 10vw 2vw 10vw;
-        border-bottom: none;
-      }
-      .box.gray {
-        background-color: rgba(0, 0, 0, 0.04);
-      }
-      .box.closed {
-        padding: 4vw 10vw 3vw 10vw;
-      }
-      .box.closed h2 {
-        color: blue;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-      .box.closed p {
-        display: none;
-      }
-
-      #screens {
-        background-color: white;
-        padding: 5vw 10vw;
-        font-size: 15px;
-        text-transform: uppercase;
-        text-align: center;
-        color: #ccc;
-      }
-      #screens img {
-        width: 100%;
-        max-width: 1400px;
-        margin: 0 auto 10vh auto;
-      }
-
-      .button {
-        font-family: "Source Sans Pro", sans-serif;
-        font-size: 0.8em;
-        font-weight: 600;
-        color: white;
-        padding: 16px 24px;
-        background: #0a6cdd;
-        /* background: linear-gradient(155deg, rgba(26,35,126,1) 0%, rgba(0,150,136,1) 100%); */
-        border-radius: 8px;
-        border: 2px solid #0a6cdd;
-        text-decoration: none;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-        box-shadow: inset 0 -1px 0 rgba(100, 121, 143, 0.122),
-          0 3px 4px -2px rgba(0, 0, 0, 0.3);
-        margin-right: 16px;
-      }
-      .button.secondary {
-        color: #0a6cdd;
-        background: #fff;
-        /*border: 2px solid rgba(10,108,221,0.7);*/
-        border: 2px solid rgba(0, 0, 0, 0.12);
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
-      }
-
-      p {
-        line-height: 1.5em;
-        padding-bottom: 2em;
-      }
-      .box p:last-child {
-        padding-bottom: 0px;
-      }
-      img#tl,
-      img#cv {
-        max-width: 935px;
-        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
-        border-radius: 8px;
-        cursor: pointer;
-      }
-      .label.before span.after,
-      .label.after span.before {
-        display: none;
-      }
-    </style>
+    <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
-
   <body>
-    <div class="box title gray">
-      <h1>Privacy Policy for Simplify Gmail</h1>
-      <p style="max-width: 750px; margin-bottom: 1.5em;">
-        Your privacy and the security of your account and data is of the utmost
-        importance to Simplify. We have taken the strictest stance on privacy
-        possible. <br /><br />
-
-        Simplify has <b>no ads</b>, <b>no analytics</b>, <b>no trackers</b>,
-        <b>and no use of cookies</b>. <br /><br />
-
-        Simplify <b>does not send or receive data of any kind</b> from a user's
-        account or device.
-      </p>
-
-      <h2 style="margin-bottom: 0.5em;">Install Simplify Gmail</h2>
-      <p style="margin-bottom: 1.5em;">
-        <a
-          class="button"
-          href="https://chrome.google.com/webstore/detail/simplify-gmail/pbmlfaiicoikhdbjagjbglnbfcbcojpj"
-          >For Chrome</a
+    <a name="top"></a>
+    <header>
+      <div class="links">
+        <div id="logo"><b>Simplify</b><br />Gmail</div>
+        <!-- <a href="#top">Back to top</a> -->
+        <a href="https://simpl.fyi/#about">About</a>
+        <a href="https://simpl.fyi/#pricing">Pricing</a>
+        <a href="https://on.simpl.fyi/?no_cover=true" target="_new"
+          >Newsletter</a
         >
-        <a
-          class="button"
-          href="https://addons.mozilla.org/firefox/addon/simplifygmail/"
-          >For Firefox</a
-        >
-        <a
-          class="button"
-          href="https://microsoftedge.microsoft.com/addons/detail/mpohnjhkncdalhjdhpiphajhiahmcapn"
-          >For Edge</a
-        >
+        <a href="https://simpl.fyi/support">Support</a>
+        <a href="#" id="installLink" target="_new">Try it for free</a>
+      </div>
+    </header>
+
+    <div class="box">
+      <!-- PRIVACY ---------------------------------------------------- -->
+      <a name="privacy"></a><br /><br />
+      <h2>Privacy Policy</h2>
+      <p>
+        Simplify has
+        <b>no ads, no analytics, no trackers, and no use of cookies</b>.
+        Furthermore, Simplify's products
+        <b>do not send or receive data of any kind</b> from your account or
+        device.
+      </p>
+      <p>
+        We aim to make software worth paying for and taking strictest stance on
+        privacy possible. Your privacy and the security of your account and data
+        is of the utmost importance to us.
       </p>
 
-      <h2 style="margin-bottom: 0.5em;">Learn more</h2>
-      <p style="margin-bottom: 1.5em;">
-        <a class="button secondary" href="#screens">Screenshots</a>
-        <a class="button secondary" href="#about">About</a>
-        <a class="button secondary" href="#faq">FAQ</a>
-        <a class="button secondary" href="#newsletter">Newsletter</a>
-      </p>
-    </div>
-
-    <!-- prettier-ignore -->
-    <a name="screens"></a>
-    <div id="screens" class="box">
-      <p id="mainLabel" class="after label">
-        <span class="before"><b>Before</b> vs after</span>
-        <span class="after">Before vs <b>after</b></span>
-      </p>
-      <img
-        src="screens/inbox_simplify.png"
-        onclick="toggleImg(this, 'inbox', true)"
-        id="tl"
-      /><br /><br /><br /><br />
-      <img
-        src="screens/cv_simplify.png"
-        onclick="toggleImg(this, 'cv', true)"
-        id="cv"
-      /><br /><br />
-
-      <p class="label">More screenshots</p>
-      <img srcset="screens/01_inbox.png 1x, screens/01_inbox-2x.png 2x" /><br />
-      <img
-        srcset="screens/02_inbox_sa.png 1x, screens/02_inbox_sa-2x.png 2x"
-      /><br />
-      <img
-        srcset="screens/03_inbox_nav.png 1x, screens/03_inbox_nav-2x.png 2x"
-      /><br />
-      <img
-        srcset="
-          screens/04_inbox_addons.png    1x,
-          screens/04_inbox_addons-2x.png 2x
-        "
-      /><br />
-      <img
-        srcset="
-          screens/05_inbox_themed.png    1x,
-          screens/05_inbox_themed-2x.png 2x
-        "
-      /><br />
-      <img
-        srcset="screens/06_inbox_dark.png 1x, screens/06_inbox_dark-2x.png 2x"
-      /><br />
-      <img srcset="screens/07_convo.png 1x, screens/07_convo-2x.png 2x" /><br />
-      <img
-        srcset="
-          screens/08_convo_themed.png    1x,
-          screens/08_convo_themed-2x.png 2x
-        "
-      /><br />
-      <img
-        srcset="screens/09_convo_dark.png 1x, screens/09_convo_dark-2x.png 2x"
-      /><br />
-      <img
-        srcset="
-          screens/10_reading_pane.png    1x,
-          screens/10_reading_pane-2x.png 2x
-        "
-      />
-    </div>
-
-    <a name="about"></a>
-    <div class="box gray title">
-      <h1>About Simplify</h1>
-    </div>
-    <div class="box gray">
-      <p>
-        Simplify was made by me,
-        <a href="https://leggett.org">Michael Leggett</a>. I was Gmail's lead
-        designer from 2008 to 2012 and co-founded Google Inbox. I've been
-        writing Chrome extensions for years to simplify the apps I use but have
-        only ever shared them with friends. With the unfortunate demise of
-        Google Inbox, I wanted to offer a more simplified Gmail experience to
-        everyone.
-      </p>
-    </div>
-
-    <a name="faq"></a>
-    <div class="box title">
-      <h1>Simplify FAQ</h1>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Is this safe?</h2>
-      <p>
-        I'm glad you asked. You should always be super careful what extensions
-        or apps you use with your email. Simplify is mostly some CSS plus a
-        little Javascript to apply the CSS. There are no trackers. No
-        information is sent, collected, or shared. And no ads ever. Promise. And
-        all the code can be inspected on
-        <a href="https://github.com/leggett/simplify/tree/master/gmail"
-          >Github</a
-        >.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>I added it, but it isn't working.</h2>
-      <p>
-        It also may already be working. Once you've added it to your browser,
-        you should only need to go to gmail.com and reload the window.
-      </p>
-      <p>
-        If the Gmail logo is hidden, it is working. Sometimes the difference is
-        subtle. If you have the nav visible and/or are using advanced settings
-        like Right-side chat, your Gmail will still look pretty cluttered. To
-        achieve full simplicity, you can hide the nav by clicking on the menu
-        button in the top right and you can turn off
-        <a href="https://mail.google.com/mail/#settings/labs" target="_new"
-          >advanced features</a
-        >
-        you don't use.
-      </p>
-      <p>
-        If the logo is not hidden, It should only require a reload of Gmail
-        after it is installed. Sometimes, you have to fully restart your browser
-        to get it to work.
-      </p>
-      <p>
-        In rare instances, I've also seen people unable to use it b/c they are
-        on company computers and their employer blocks any extension that gets
-        access to their email.
-      </p>
-      <p>
-        Finally, Simplify isn't compatible with all other chrome extensions that
-        modify Gmail. I haven't seen one that totally blocked Simplify but some
-        cause unintended consequences.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Can I toggle Simplify on/off without disabling it?</h2>
-      <p>
-        Yes! As of v1.2.8, you can click on the Simplify icon in the browser bar
-        to toggle Simplify on/off. You can also press Command+J (on Mac) or
-        Windows+J (on Windows) to toggle Simplify on/off.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Simplify clashes with another browser extension for Gmail.</h2>
-      <p>
-        Sorry. Supporting other extensions is hard and isn't high on my list but
-        I am keeping a list of them in case I can get around to trying to
-        support them. You can see that list and track progress on this
-        <a href="https://github.com/leggett/simplify/issues/83" target="_new"
-          >GitHub issue</a
-        >.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Where is search?</h2>
-      <p>
-        It is in the top right corner of the screen. It is minimized by default
-        into a button (with a magnifying glass icon). Once you expand it, it
-        will stay expanded until you minimize it.
-      </p>
-      <p>
-        If you still don't see it or can't use it, it might be you have other
-        extensions installed that conflict with Simplify. Trying to play nicely
-        with other extensions is on my list but it is very low on my list as it
-        is likely not easy.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Where did the app switcher go?</h2>
-      <p>
-        I've gotten a fair number of requests to put back the app switcher. It
-        isn't something I use and I need all the space I can get to merge the
-        app and action bars... but I'm going to try and figure something out.
-      </p>
-      <p>
-        You can track progress on this
-        <a href="https://github.com/leggett/simplify/issues/31" target="_new"
-          >GitHub issue</a
-        >.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>
-        How do I enable the preview pane view in some of your screenshots?
-      </h2>
-      <p>
-        This is a Gmail feature, not a Simplify feature. To enable, go to
-        <a href="https://mail.google.com/mail/#settings/labs" target="_new"
-          >Gmail's Advanced Settings</a
-        >
-        and enable Preview Pane. Once enabled, a new button will appear in your
-        app bar that lets you choose which mode. Make sure you use the Vertical
-        split.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>Why all the white space? Also, the actions are too far away.</h2>
-      <p>
-        One of my biggest complaints with Gmail's design is there is no
-        max-width on content. Long line lengths dramatically reduce readability.
-        But while this change improves readability, it hasn't been a total win.
-      </p>
-      <p>
-        I agree that the actions in the top left on wide monitors is subpar,
-        especially for those that do not use
-        <a href="https://support.google.com/mail/answer/6594"
-          >keyboard shortcuts</a
-        >
-        or right click on items in the inbox. There are some ideas on how to
-        improve this. Tracking progress
-        <a href="https://github.com/leggett/simplify/issues/101" target="_new"
-          >here</a
-        >.
-      </p>
-      <p>
-        If you want a wider view now, I allow a much wider max-width for the
-        Preview Pane as you can resize the message list and keep the
-        conversation view at a reasonable width. I will look for other ways to
-        improve the experience on large displays.
-      </p>
-    </div>
-
-    <div class="box closed" onclick="this.classList.remove('closed')">
-      <h2>I've got feedback</h2>
-      <p>
-        Gmail has a lot of features and even more 3rd party plug-ins. This may
-        not work for you and that's ok. For everyone else, I'll do my best to
-        update the extension as Gmail's code changes and hope to simplify other
-        apps in the future. You can send feedback by posting an issue on
-        <a href="https://github.com/leggett/simplify/issues">GitHub</a>,
-        emailing
-        <a href="mailto:hi.simplify@gmail.com">hi.simplify@gmail.com</a> or
-        Tweeting <a href="https://twitter.com/leggett">@leggett</a>, and I'll do
-        my best to respond.
-      </p>
-    </div>
-
-    <a name="newsletter"></a>
-    <div class="box title gray">
-      <h1>On Simplify, a newsletter</h1>
-      <p>
-        Follow the building of Simplify Gmail v2, future products, and the
-        company behind it all. <br />Check it out at
-        <a href="https://on.simpl.fyi" target="_blank">on.simpl.fyi</a>
-      </p>
-      <iframe
-        src="https://simplify.substack.com/embed"
-        width="480"
-        height="320"
-        style="
-          border: 1px solid #eee;
-          background: #c7ddff;
-          margin-bottom: 40px;
-        "
-        frameborder="0"
-        scrolling="no"
-      ></iframe>
+      <!-- TEAM ---------------------------------------------------- -->
+      <a name="about"></a>
+      <h2>Learn more about Simplify</h2>
+      <ul class="TOC">
+        <li><a href="#" id="installLink2" target="_new">Try it for free</a></li>
+        <li><a href="https://simpl.fyi">Screenshots</a></li>
+        <li>
+          <a href="https://on.simpl.fyi/?no_cover=true" target="_new"
+            >Newsletter</a
+          >
+        </li>
+        <li>
+          <a href="https://simpl.fyi/support">Support</a> - Report an issue with
+          Simplify
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#team">Team</a> – Who is behind Simplify?
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#privacy">Privacy Policy</a> – Completely
+          private.
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#mission">Mission</a> - The big picture.
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#purpose">Purpose</a> – What problems does
+          this solve?
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#product">Product</a> - How does it solve
+          them?
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#customer">Customer</a> - Who is this for?
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#pricing">Pricing</a> - Fair, simple, and
+          flexible.
+        </li>
+      </ul>
     </div>
   </body>
-  <script type="text/javascript">
-    function toggleImg(img, which, shouldStop) {
-      if (which == "inbox") {
-        if (img.src.indexOf("inbox_simplify.png") > 0) {
-          img.src = "screens/inbox.png";
-          document.getElementById("mainLabel").classList.add("before");
-          document.getElementById("mainLabel").classList.remove("after");
-        } else {
-          img.src = "screens/inbox_simplify.png";
-          document.getElementById("mainLabel").classList.remove("before");
-          document.getElementById("mainLabel").classList.add("after");
-        }
-        if (shouldStop) clearInterval(autoCycleTL);
+
+  <script>
+    // Shorthand for getting first matching element; returns Node
+    const get = (selector, parent = "") => {
+      if (parent === "") {
+        return document.querySelector(selector);
       } else {
-        if (img.src.indexOf("cv_simplify.png") > 0) {
-          img.src = "screens/cv.png";
-        } else {
-          img.src = "screens/cv_simplify.png";
-        }
-        if (shouldStop) clearInterval(autoCycleCV);
+        return parent.querySelector(selector);
       }
+    };
+
+    // Shorthand for getting elements; returns NodeList
+    const gets = (selector, parent = "") => {
+      if (parent === "") {
+        return document.querySelectorAll(selector);
+      } else {
+        return parent.querySelectorAll(selector);
+      }
+    };
+
+    const htmlEl = get("html");
+
+    // User agent for sniffing browsers
+    const UA = navigator.userAgent;
+
+    const is = {
+      safari: / Safari/.test(UA) && !/Chrome/.test(UA),
+      firefox: / Firefox/.test(UA),
+      edge: / Edg/.test(UA),
+      windows: navigator.platform.indexOf("Win") > -1,
+      mac: navigator.platform.indexOf("Mac") > -1,
+    };
+
+    if (is.safari) {
+      get("#installLink").href = "https://safari.simpl.fyi";
+      get("#installLink2").href = "https://safari.simpl.fyi";
+    } else if (is.firefox) {
+      get("#installLink").href = "https://firefox.simpl.fyi";
+      get("#installLink2").href = "https://firefox.simpl.fyi";
+    } else if (is.edge) {
+      get("#installLink").href = "https://edge.simpl.fyi";
+      get("#installLink2").href = "https://edge.simpl.fyi";
+    } else {
+      get("#installLink").href = "https://chrome.simpl.fyi";
+      get("#installLink2").href = "https://chrome.simpl.fyi";
     }
 
-    function autoCycleInbox() {
-      var img = document.getElementById("tl");
-      toggleImg(img, "inbox", false);
-    }
-
-    function autoCycleCv() {
-      var img = document.getElementById("cv");
-      toggleImg(img, "cv", false);
-    }
-
-    var autoCycleTL = setInterval(autoCycleInbox, 3000);
-    var autoCycleCV = setInterval(autoCycleCv, 3000);
+    get("#logo").addEventListener("click", () => {
+      location.href = "https://simpl.fyi";
+    });
   </script>
 </html>
