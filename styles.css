@@ -129,8 +129,16 @@ html:not(.scrolled) .links a[href="#top"] {
 .screen {
   background-color: #f5f5f5;
   position: relative;
+
+  /* 16:9 Aspect Ratio NEW */
+  width: min(100%, 144vh);
+  padding-top: min(55%, 80vh, 795px);
+
+  /* 16:9 Aspect Ratio OLD
   width: 100%;
-  padding-top: min(55%, 795px); /* 16:9 Aspect Ratio */
+  padding-top: min(55%, 795px); 
+  */
+
   max-width: 1440px;
   margin: 10% auto;
   box-shadow: 0 4px 16px rgba(60 64 67 / 30%), 0 12px 48px rgba(60 64 67 / 15%);
