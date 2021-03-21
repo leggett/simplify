@@ -8,6 +8,7 @@
       data-data-callback="dataCallbackFunction"
       data-popup-closed="onPopupClose"
       data-error-callback="errorCallback"
+      data-popup-webhook-received="popupWebhookReceived"
       data-debug="true"
     ></script>
     <!-- Documentation: https://fastspring.com/docs/get-started-with-store-builder-library/
@@ -17,25 +18,27 @@
       data-after-markup-callback="afterMarkupCallbackFunction"
       data-decorate-callback="decorateURLFunction"
       data-popup-event-received="popupEventReceived"
-      data-popup-webhook-received="popupWebhookReceived"
       data-access-key=".. access key .."
       data-continuous="true"
     -->
 
     <script>
       function dataCallbackFunction(order) {
-        console.log("Order successful", order);
+        console.log("[Simplify] Order received", order);
       }
       function errorCallback(code, string) {
-        console.log("Error: ", code, string);
+        console.log("[Simplify] Error: ", code, string);
       }
       function onPopupClose(order) {
-        console.log("Popup closed", order);
+        console.log("[Simplify] Popup closed", order);
+      }
+      function popupWebhookReceived(order) {
+        console.log("[Simplify] Order received?", order);
       }
     </script>
   </head>
   <body>
-    <b>Pricing v1.1</b><br />
+    <b>Pricing v1.2</b><br />
     In testing. Not for real use.<br /><br />
 
     <a
