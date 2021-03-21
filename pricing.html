@@ -72,25 +72,26 @@
         lastName: "Leggett",
       });
 
-      function updateSession(product, quantity) {
-        return;
+      function updateSession(product, qty) {
+        fastspring.builder.update(product, qty);
+        // return;
 
-        let fscSessionUpdate = {
-          reset: true, // reset the cart and session (will remove everything added to the cart or passed to the session prior to this)
-          products: [
-            {
-              path: product,
-              quantity: quantity,
-            },
-          ],
-          paymentContact: {
-            email: "hi.simplify@gmail.com",
-            firstName: "Michael",
-            lastName: "Leggett",
-          },
-        };
+        // let fscSessionUpdate = {
+        //   reset: true, // reset the cart and session (will remove everything added to the cart or passed to the session prior to this)
+        //   products: [
+        //     {
+        //       path: product,
+        //       quantity: quantity,
+        //     },
+        //   ],
+        //   paymentContact: {
+        //     email: "hi.simplify@gmail.com",
+        //     firstName: "Michael",
+        //     lastName: "Leggett",
+        //   },
+        // };
 
-        fastspring.builder.push(fscSessionUpdate);
+        // fastspring.builder.push(fscSessionUpdate);
       }
     </script>
     <style>
@@ -105,26 +106,24 @@
     </style>
   </head>
   <body>
-    <b>Pricing v1.6</b> - In testing. Not for real use.
+    <b>Pricing v1.7</b> - In testing. Not for real use.
 
     <ul>
       <li>
         Individual:
         <a
           href="#"
-          data-fsc-action="Add,Checkout"
+          data-fsc-action="Reset,Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-annual"
-          data-fsc-item-quantity="1"
-          onmouseover="updateSession('simplify-gmail-annual', 1)"
+          onmousedown="updateSession('simplify-gmail-annual', 1)"
           >Annual ($24)</a
         >
         |
         <a
           href="#"
-          data-fsc-action="Add,Checkout"
+          data-fsc-action="Reset,Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-monthly"
-          data-fsc-item-quantity="1"
-          onmouseover="updateSession('simplify-gmail-monthly', 1)"
+          onmousedown="updateSession('simplify-gmail-monthly', 1)"
           >Monthly ($3)</a
         >
       </li>
@@ -132,22 +131,51 @@
         Group of 2:
         <a
           href="#"
-          data-fsc-action="Add,Checkout"
+          data-fsc-action="Reset,Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-annual"
-          data-fsc-item-quantity="2"
-          onmouseover="updateSession('simplify-gmail-annual', 2)"
+          onmousedown="updateSession('simplify-gmail-annual', 2)"
           >Annual ($36)</a
         >
         |
         <a
           href="#"
-          data-fsc-action="Add,Checkout"
+          data-fsc-action="Reset,Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-monthly"
-          data-fsc-item-quantity="2"
-          onmouseover="updateSession('simplify-gmail-monthly', 2)"
+          onmousedown="updateSession('simplify-gmail-monthly', 2)"
           >Monthly ($4)</a
         >
       </li>
     </ul>
+    <!-- <div id="plan">
+      <span class="annual"
+        ><b>Annual</b> |
+        <a href="#" onclick="updatePlan('monthly')">Monthly</a></span
+      >
+      <span class="monthly"
+        ><a href="#" onclick="updatePlan('annual')">Annual</a> |
+        <b>Monthly</b></span
+      >
+    </div>
+    <div id="quantity">
+      <input
+        type="number"
+        id="quantity-value"
+        min="1"
+        max="20"
+        step="1"
+        data-fsc-item-quantity-value="1"
+        value="1"
+      />
+      <div class="quantity-nav">
+        <div class="quantity-button quantity-up">+</div>
+        <div class="quantity-button quantity-down">-</div>
+      </div>
+    </div>
+    <button
+      data-fsc-action="Reset,Add,Checkout"
+      data-fsc-item-path-value="simplify-gmail-annual"
+    >
+      Checkout
+    </button> -->
   </body>
 </html>
