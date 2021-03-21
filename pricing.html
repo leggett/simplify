@@ -9,7 +9,7 @@
       data-popup-closed="onPopupClose"
       data-error-callback="errorCallback"
       data-popup-webhook-received="popupWebhookReceived"
-      data-debug="true"
+      data-debug="false"
     ></script>
     <!-- Documentation: https://fastspring.com/docs/get-started-with-store-builder-library/
       data-before-requests-callback="beforeRequestsCallbackFunction"
@@ -89,7 +89,7 @@
     </ul> -->
 
     <div id="simplify">
-      <b>Pricing v1.12</b> - In testing. Not for real use.
+      <b>Pricing v1.13</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -115,6 +115,7 @@
       </div>
       <button
         id="checkoutButton"
+        data-fsc-item-quantity
         data-fsc-action="Reset,Add,Checkout"
         data-fsc-item-path-value="simplify-gmail-annual"
       >
