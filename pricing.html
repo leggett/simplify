@@ -24,7 +24,7 @@
 
     <script>
       function dataCallbackFunction(order) {
-        console.log("[Simplify] Order received", order);
+        console.log("[Simplify] Order data retrieved", order);
       }
       function errorCallback(code, string) {
         console.log("[Simplify] Error: ", code, string);
@@ -40,22 +40,56 @@
         console.log("[Simplify] Order received?", order);
       }
     </script>
+    <style>
+      body {
+        padding: 100px;
+        line-height: 1.7em;
+        font-size: 16px;
+      }
+      li {
+        padding-bottom: 0.7em;
+      }
+    </style>
   </head>
   <body>
-    <b>Pricing v1.3</b><br />
+    <b>Pricing v1.4</b><br />
     In testing. Not for real use.<br /><br />
 
-    <a
-      href="#"
-      data-fsc-action="Add,Checkout"
-      data-fsc-item-path-value="simplify-gmail-annual"
-      >Annual individual ($24)</a
-    ><br />
-    <a
-      href="#"
-      data-fsc-action="Add,Checkout"
-      data-fsc-item-path-value="simplify-gmail-monthly"
-      >Monthly individual ($3)</a
-    ><br />
+    <ul>
+      <li>
+        Individual:
+        <a
+          href="#"
+          data-fsc-action="Add,Checkout"
+          data-fsc-item-path-value="simplify-gmail-annual"
+          >Annual ($24)</a
+        >
+        |
+        <a
+          href="#"
+          data-fsc-action="Add,Checkout"
+          data-fsc-item-path-value="simplify-gmail-monthly"
+          >Monthly ($3)</a
+        >
+      </li>
+      <li>
+        Group of 2:
+        <a
+          href="#"
+          data-fsc-action="Add,Checkout"
+          data-fsc-item-path-value="simplify-gmail-annual"
+          data-fsc-item-quantity="2"
+          >Annual ($36)</a
+        >
+        |
+        <a
+          href="#"
+          data-fsc-action="Add,Checkout"
+          data-fsc-item-path-value="simplify-gmail-monthly"
+          data-fsc-item-quantity="2"
+          >Monthly ($4)</a
+        >
+      </li>
+    </ul>
   </body>
 </html>
