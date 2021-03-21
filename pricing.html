@@ -1,5 +1,30 @@
 <html>
   <head>
+    <script>
+      let fscSession = {
+        reset: true, // reset the cart and session (will remove everything added to the cart or passed to the session prior to this)
+        // products: [
+        //   {
+        //     path: "simplify-gmail-annual",
+        //     quantity: 1,
+        //   },
+        // ],
+        paymentContact: {
+          email: "hi.simplify@gmail.com",
+          firstName: "Michael",
+          lastName: "Leggett",
+        },
+      };
+
+      let customer = {
+        // customer details - optional unless you pass accountCustomKey (below); if you pass customer contact info, the Storefront does not prompt the customer to provide it during checkout
+        contact: {
+          firstName: "Michael", // customer first name - required when passing contact info
+          lastName: "Leggett", // customer last name - required when passing contact info
+          email: "hi.simplify@gmail.com", // customer email address - required when passing contact info
+        },
+      };
+    </script>
     <script
       id="fsc-api"
       src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.5/fastspring-builder.min.js"
@@ -39,6 +64,32 @@
       function popupWebhookReceived(order) {
         console.log("[Simplify] Order received?", order);
       }
+
+      // Init customer data
+      // fastspring.builder.recognize({
+      //   email: "hi.simplify@gmail.com",
+      //   firstName: "Michael",
+      //   lastName: "Leggett",
+      // });
+
+      function updateSession(product, quantity) {
+        let fscSessionUpdate = {
+          reset: true, // reset the cart and session (will remove everything added to the cart or passed to the session prior to this)
+          products: [
+            {
+              path: product,
+              quantity: quantity,
+            },
+          ],
+          paymentContact: {
+            email: "hi.simplify@gmail.com",
+            firstName: "Michael",
+            lastName: "Leggett",
+          },
+        };
+
+        fastspring.builder.push(fscSessionUpdate);
+      }
     </script>
     <style>
       body {
@@ -52,8 +103,7 @@
     </style>
   </head>
   <body>
-    <b>Pricing v1.4</b><br />
-    In testing. Not for real use.<br /><br />
+    <b>Pricing v1.5</b> - In testing. Not for real use.
 
     <ul>
       <li>
@@ -62,6 +112,7 @@
           href="#"
           data-fsc-action="Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-annual"
+          onmouseover="updateSession('simplify-gmail-annual', 1)"
           >Annual ($24)</a
         >
         |
@@ -69,6 +120,7 @@
           href="#"
           data-fsc-action="Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-monthly"
+          onmouseover="updateSession('simplify-gmail-monthly', 1)"
           >Monthly ($3)</a
         >
       </li>
@@ -79,6 +131,7 @@
           data-fsc-action="Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-annual"
           data-fsc-item-quantity="2"
+          onmouseover="updateSession('simplify-gmail-annual', 2)"
           >Annual ($36)</a
         >
         |
@@ -87,6 +140,7 @@
           data-fsc-action="Add,Checkout"
           data-fsc-item-path-value="simplify-gmail-monthly"
           data-fsc-item-quantity="2"
+          onmouseover="updateSession('simplify-gmail-monthly', 2)"
           >Monthly ($4)</a
         >
       </li>
