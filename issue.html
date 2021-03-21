@@ -1,162 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Report an issue with Simplify Gmail v2</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
+    <title>Simplify Gmail</title>
+    <meta http-equiv="refresh" content="5;url=https://simpl.fyi/support" />
     <style>
-      :root {
-        font-size: 62.5%;
-      }
-
       body {
-        padding: 0 72px;
-        font-family: "Poppins", sans-serif;
-        font-size: 2.1rem;
+        font-family: sans-serif;
+        color: #999;
       }
-
-      /* TODO: Invert site for OS dark mode */
-      @media (prefers-color-scheme: dark) {
-      }
-
-      .center {
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-      }
-      .box {
-        max-width: 1000px;
-      }
-      .box.title {
-        margin-top: 5vh;
-        margin-bottom: 150px;
-      }
-      p.tagline {
-        font-size: 2.8rem;
-        line-height: 1.5em;
-        padding-top: 2em;
-      }
-
-      .box:not(.title) img {
-        max-width: 100%;
-        /* box-shadow: 0 5px 10px rgb(0 0 0 / 10%); */
-        border: 2px solid #dee1e5;
-        border-radius: 14px;
-      }
-      .box.left {
-        text-align: left;
-      }
-      .box.warning p {
-        background-color: #f1f1f1;
-        padding: 1em;
-        border-radius: 16px;
-      }
-
-      .button {
-        display: inline-block;
-        font-size: 2rem;
-        font-weight: 400;
-        color: white;
-        padding: 12px 20px;
-        background: #0a6cdd;
-        border-radius: 30px;
-        border: 2px solid #0a6cdd;
-        text-decoration: none;
-        text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
-        box-shadow: inset 0 -1px 0 rgb(100 121 143 / 12%),
-          0 3px 4px -2px rgb(0 0 0 / 30%);
-        margin: 0px 0.75em 0.75em 0;
-        white-space: nowrap;
-        width: fit-content;
-      }
-
-      .hide {
-        display: none;
-      }
-
-      kbd {
-        background-color: #eee;
-        border-radius: 3px;
-        border: 1px solid #b4b4b4;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-          0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
-        color: #333;
-        display: inline-block;
-        font-size: 1em;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-          "Helvetica Neue", Arial, sans-serif;
-        font-weight: 500;
-        line-height: 1;
-        padding: 4px 6px;
-        margin: 0 4px;
-        white-space: nowrap;
-        min-width: 1em;
-        text-align: center;
+      a {
+        color: #999;
       }
     </style>
-    <script>
-      const init = () => {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        let system = urlParams.get("system");
-
-        if (!system) {
-          document.querySelectorAll(".hide").forEach((el) => {
-            el.classList.remove("hide");
-          });
-
-          // Create reduced system report here
-          system =
-            `System: ${navigator.userAgent} - Window: ` +
-            `${window.outerWidth} x ${window.outerHeight} (` +
-            `${Math.round((window.outerWidth / window.innerWidth) * 100)}` +
-            `pct zoom) - Language: ${navigator.language}`.replace(/;/g, "");
-        }
-
-        const body =
-          "Please describe the issue and the steps to reproduce it. Screenshots are useful.%0D%0A%0D%0A---%0D%0A" +
-          system;
-
-        document.querySelector("#email").href =
-          "mailto:hi@simpl.fyi?body=" + body;
-
-        document.querySelector("#form").href =
-          "https://docs.google.com/forms/d/e/1FAIpQLSfdP7AV-LlankOxrNe9t45KsriaxxB0Ef2owkv-TZmATHU5wQ/viewform?usp=pp_url&entry.655050101=" +
-          system;
-
-        document.querySelector("#github").href =
-          "https://issues.simpl.fyi/new?body=" + body;
-
-        if (navigator.platform.indexOf("Mac") > -1) {
-          document.querySelector("#altKey").innerText = "⌥";
-        }
-      };
-    </script>
   </head>
-  <body onload="init()">
-    <div class="box title center">
-      <img src="img/logo_v2b.png" width="420" />
-      <p class="tagline">
-        <b>Report an issue<span class="hide"> without a system report</span>:</b
-        ><br />
-      </p>
-      <a href="" id="email" class="button">Email</a>
-      <a href="" id="form" class="button">Google Form</a>
-      <a href="" id="github" class="button">GitHub issue</a>
-    </div>
-    <div class="box center hide left warning">
-      <p>
-        <b>No system report attached.</b><br />A system report is optional but
-        helpful. To attach one, go to Gmail with Simplify enabled and press
-        <kbd id="altKey">ALT</kbd><kbd>I</kbd> or select "Report issue" from the
-        Simplify menu:
-      </p>
-      <img src="img/report_issue.png" />
-    </div>
+
+  <body onload="forwardToSupport()">
+    This page has moved to
+    <a href="https://simpl.fyi/support">simpl.fyi/support</a>.
   </body>
+
+  <script>
+    function forwardToSupport() {
+      location.href = "https://simpl.fyi/support" + location.search;
+    }
+  </script>
 </html>
