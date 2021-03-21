@@ -5,7 +5,34 @@
       src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.5/fastspring-builder.min.js"
       type="text/javascript"
       data-storefront="simplify.test.onfastspring.com/popup-simplify"
+      data-data-callback="dataCallbackFunction"
+      data-popup-closed="onPopupClose"
+      data-error-callback="errorCallback"
+      data-debug="true"
     ></script>
+    <!-- Documentation: https://fastspring.com/docs/get-started-with-store-builder-library/
+      data-before-requests-callback="beforeRequestsCallbackFunction"
+      data-after-requests-callback="afterRequestsCallbackFunction"
+      data-before-markup-callback="beforeMarkupCallbackFunction"
+      data-after-markup-callback="afterMarkupCallbackFunction"
+      data-decorate-callback="decorateURLFunction"
+      data-popup-event-received="popupEventReceived"
+      data-popup-webhook-received="popupWebhookReceived"
+      data-access-key=".. access key .."
+      data-continuous="true"
+    -->
+
+    <script>
+      function dataCallbackFunction(order) {
+        console.log("Order successful", order);
+      }
+      function errorCallback(code, string) {
+        console.log("Error: ", code, string);
+      }
+      function onPopupClose(order) {
+        console.log("Popup closed", order);
+      }
+    </script>
   </head>
   <body>
     <b>Pricing</b><br />
