@@ -9,7 +9,7 @@
       data-popup-closed="onPopupClose"
       data-error-callback="errorCallback"
       data-popup-webhook-received="popupWebhookReceived"
-      data-debug="false"
+      data-debug="true"
     ></script>
     <!-- Documentation: https://fastspring.com/docs/get-started-with-store-builder-library/
       data-before-requests-callback="beforeRequestsCallbackFunction"
@@ -89,7 +89,7 @@
     </ul> -->
 
     <div id="simplify">
-      <b>Pricing v1.11</b> - In testing. Not for real use.
+      <b>Pricing v1.12</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -178,13 +178,10 @@
 
     let currentPlan = "simplify-gmail-annual";
     let currentQty = 1;
-    let qtyEl = get("#quantity-value");
-    let checkoutButton = get("#checkoutButton");
     let planEl = get("#plan");
 
     function updateQty() {
-      currentQty = qtyEl.value;
-      // qtyEl.setAttribute("data-fsc-item-quantity-value", currentQty);
+      currentQty = get("#quantity-value").value;
       console.log("Quantiy updated", currentQty);
       fastspring.builder.update(currentPlan, currentQty);
     }
@@ -194,14 +191,13 @@
         planEl.classList.remove("monthly");
         planEl.classList.add("annual");
         currentPlan = "simplify-gmail-annual";
-        checkoutButton.dataset.fscItemPathValue = currentPlan;
+        get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
         fastspring.builder.update(currentPlan, currentQty);
       } else if (newPlan === "monthly") {
         planEl.classList.remove("annual");
         planEl.classList.add("monthly");
         currentPlan = "simplify-gmail-monthly";
-        checkoutButton.dataset.fscItemPathValue = currentPlan;
-        //setAttribute("data-fsc-item-path-value",
+        get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
         fastspring.builder.update(currentPlan, currentQty);
       }
     }
