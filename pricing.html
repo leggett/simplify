@@ -30,7 +30,11 @@
         console.log("[Simplify] Error: ", code, string);
       }
       function onPopupClose(order) {
-        console.log("[Simplify] Popup closed", order);
+        if (order === null) {
+          console.log("[Simplify] Popup closed: Order failed", order);
+        } else {
+          console.log("[Simplify] Popup closed: Order succeeded?", order);
+        }
       }
       function popupWebhookReceived(order) {
         console.log("[Simplify] Order received?", order);
@@ -38,7 +42,7 @@
     </script>
   </head>
   <body>
-    <b>Pricing v1.2</b><br />
+    <b>Pricing v1.3</b><br />
     In testing. Not for real use.<br /><br />
 
     <a
