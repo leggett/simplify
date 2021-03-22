@@ -89,7 +89,7 @@
     </ul> -->
 
     <div id="simplify">
-      <b>Pricing v1.13</b> - In testing. Not for real use.
+      <b>Pricing v1.14</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -183,6 +183,7 @@
 
     function updateQty() {
       currentQty = get("#quantity-value").value;
+      get("#quantity-value").setAttribute("value", currentQty);
       console.log("Quantiy updated", currentQty);
       fastspring.builder.update(currentPlan, currentQty);
     }
