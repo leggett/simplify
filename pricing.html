@@ -50,7 +50,7 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.16</b> - In testing. Not for real use.
+      <b>Pricing v1.17</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -122,14 +122,14 @@
       console.log("[Simplify] Order received?", order);
     }
 
-    // Re-init customer data on load
-    document.addEventListener("DOMContentLoaded", function () {
-      fastspring.builder.recognize({
-        email: "hi.simplify@gmail.com",
-        firstName: "Michael",
-        lastName: "Leggett",
-      });
-    });
+    // // Re-init customer data on load
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   fastspring.builder.recognize({
+    //     email: "hi.simplify@gmail.com",
+    //     firstName: "Michael",
+    //     lastName: "Leggett",
+    //   });
+    // });
 
     let currentPlan = "annual";
     let currentQty = 1;
@@ -151,11 +151,11 @@
             quantity: qty,
           },
         ],
-        // paymentContact: {
-        //   email: "hi.simplify@gmail.com",
-        //   firstName: "Michael",
-        //   lastName: "Leggett",
-        // },
+        paymentContact: {
+          email: "hi.simplify@gmail.com",
+          firstName: "Michael",
+          lastName: "Leggett",
+        },
       };
       fastspring.builder.push(cart);
     }
