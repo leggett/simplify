@@ -73,8 +73,8 @@
           onchange="updateCart()"
         />
       </div>
-      <!-- Reset,Add, -->
-      <button id="checkoutButton" data-fsc-action="Checkout">Checkout</button>
+
+      <button id="checkoutButton" onclick="checkout()">Checkout</button>
     </div>
   </body>
 
@@ -136,16 +136,14 @@
     let currentQty = 1;
     let planEl = get("#plan");
 
-    function updateCart(newPlan) {
+    function updateCart(newPlan, checkout = false) {
       let qty = get("#quantity-value").value;
       currentPlan = newPlan ? newPlan : currentPlan;
       planEl.classList.remove("annual", "monthly");
       planEl.classList.add(currentPlan);
 
-      let cart = {
-        //Reset the cart session  to remove everything added to the cart previously.
+      let session = {
         reset: true,
-        //Define the product path(s) and the quantity to add.
         products: [
           {
             path: `simplify-gmail-${currentPlan}-${qty}`,
@@ -158,11 +156,18 @@
           lastName: "Leggett",
         },
       };
-      fastspring.builder.push(cart);
+      if (checkout) {
+        cart.checkout = true;
+      }
+      fastspring.builder.push(session);
     }
     document.addEventListener("DOMContentLoaded", function () {
       updateCart("annual");
     });
+
+    function checkout() {
+      updateCart(currentPlan, true);
+    }
 
     // function updateQty() {
     //   currentQty = get("#quantity-value").value;
