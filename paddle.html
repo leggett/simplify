@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+    <script type="text/javascript">
+      Paddle.Setup({ vendor: 128382 });
+    </script>
+
+    <style>
+      body {
+        padding: 100px;
+        line-height: 1.7em;
+        font-size: 16px;
+      }
+      li {
+        padding-bottom: 0.7em;
+      }
+      .annual .monthly,
+      .monthly .annual {
+        display: none;
+      }
+
+      #simplify div {
+        margin: 10px;
+        padding: 5px 10px;
+      }
+      #simplify input {
+        padding: 5px;
+      }
+      #simplify button {
+        margin: 10px 20px;
+        padding: 5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="simplify">
+      <b>Paddle Checkout v1.0</b> - In testing. Not for real use.
+
+      <!-- 
+      <div id="plan" class="annual">
+        <span class="annual"
+          ><b>Annual</b> |
+          <a href="#" onclick="updatePlan('monthly')">Monthly</a></span
+        >
+        <span class="monthly"
+          ><a href="#" onclick="updatePlan('annual')">Annual</a> |
+          <b>Monthly</b></span
+        >
+      </div>
+      <div id="quantity">
+        <input
+          type="number"
+          id="quantity-value"
+          min="1"
+          max="20"
+          step="1"
+          value="1"
+          data-fsc-item-quantity-value
+          onchange="updateQty()"
+        />
+      </div> 
+      <button
+        id="checkoutButton"
+        data-fsc-item-quantity
+        data-fsc-action="Reset,Add,Checkout"
+        data-fsc-item-path-value="simplify-gmail-annual"
+      >
+        Checkout
+      </button>
+      -->
+      <br /><br />
+      <a href="#!" class="paddle_button" data-product="649200">Buy Now!</a>
+    </div>
+  </body>
+
+  <script>
+    // UTILITIES
+    const get = (selector, parent = "") => {
+      if (parent === "") {
+        return document.querySelector(selector);
+      } else {
+        return parent.querySelector(selector);
+      }
+    };
+
+    const gets = (selector, parent = "") => {
+      if (parent === "") {
+        return document.querySelectorAll(selector);
+      } else {
+        return parent.querySelectorAll(selector);
+      }
+    };
+
+    const count = (selector, parent = "") => {
+      if (parent === "") {
+        return document.querySelectorAll(selector).length;
+      } else {
+        return parent.querySelectorAll(selector).length;
+      }
+    };
+
+    // PADDLE
+  </script>
+</html>
