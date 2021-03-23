@@ -50,15 +50,15 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.15</b> - In testing. Not for real use.
+      <b>Pricing v1.16</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
           ><b>Annual</b> |
-          <a href="#" onclick="updatePlan('monthly')">Monthly</a></span
+          <a href="#" onclick="updateCart('monthly')">Monthly</a></span
         >
         <span class="monthly"
-          ><a href="#" onclick="updatePlan('annual')">Annual</a> |
+          ><a href="#" onclick="updateCart('annual')">Annual</a> |
           <b>Monthly</b></span
         >
       </div>
@@ -70,18 +70,11 @@
           max="20"
           step="1"
           value="1"
-          data-fsc-item-quantity-value
-          onchange="updateQty()"
+          onchange="updateCart()"
         />
       </div>
-      <button
-        id="checkoutButton"
-        data-fsc-item-quantity
-        data-fsc-action="Reset,Add,Checkout"
-        data-fsc-item-path-value="simplify-gmail-annual"
-      >
-        Checkout
-      </button>
+      <!-- Reset,Add, -->
+      <button id="checkoutButton" data-fsc-action="Checkout">Checkout</button>
     </div>
   </body>
 
@@ -129,40 +122,65 @@
       console.log("[Simplify] Order received?", order);
     }
 
-    function setCustomer() {
-      // Re-init customer data
+    // Re-init customer data on load
+    document.addEventListener("DOMContentLoaded", function () {
       fastspring.builder.recognize({
         email: "hi.simplify@gmail.com",
         firstName: "Michael",
         lastName: "Leggett",
       });
-    }
+    });
 
-    let currentPlan = "simplify-gmail-annual";
+    let currentPlan = "annual";
     let currentQty = 1;
     let planEl = get("#plan");
 
-    function updateQty() {
-      currentQty = get("#quantity-value").value;
-      get("#quantity-value").setAttribute("value", currentQty);
-      console.log("Quantiy updated", currentQty);
-      fastspring.builder.update(currentPlan, currentQty);
+    function updateCart(newPlan) {
+      let qty = get("#quantity-value").value;
+      currentPlan = newPlan ? newPlan : currentPlan;
+      planEl.classList.remove("annual", "monthly");
+      planEl.classList.add(currentPlan);
+
+      let cart = {
+        //Reset the cart session  to remove everything added to the cart previously.
+        reset: true,
+        //Define the product path(s) and the quantity to add.
+        products: [
+          {
+            path: `simplify-gmail-${currentPlan}`,
+            quantity: qty,
+          },
+        ],
+        // paymentContact: {
+        //   email: "hi.simplify@gmail.com",
+        //   firstName: "Michael",
+        //   lastName: "Leggett",
+        // },
+      };
+      fastspring.builder.push(cart);
     }
 
-    function updatePlan(newPlan) {
-      if (newPlan === "annual") {
-        planEl.classList.remove("monthly");
-        planEl.classList.add("annual");
-        currentPlan = "simplify-gmail-annual";
-        get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
-        fastspring.builder.update(currentPlan, currentQty);
-      } else if (newPlan === "monthly") {
-        planEl.classList.remove("annual");
-        planEl.classList.add("monthly");
-        currentPlan = "simplify-gmail-monthly";
-        get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
-        fastspring.builder.update(currentPlan, currentQty);
-      }
-    }
+    // function updateQty() {
+    //   currentQty = get("#quantity-value").value;
+    //   get("#quantity-value").setAttribute("value", currentQty);
+    //   console.log("Quantiy updated", currentQty);
+    //   fastspring.builder.update(currentPlan, currentQty);
+    // }
+
+    // function updatePlan(newPlan) {
+    //   if (newPlan === "annual") {
+    //     planEl.classList.remove("monthly");
+    //     planEl.classList.add("annual");
+    //     currentPlan = "simplify-gmail-annual";
+    //     get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
+    //     fastspring.builder.update(currentPlan, currentQty);
+    //   } else if (newPlan === "monthly") {
+    //     planEl.classList.remove("annual");
+    //     planEl.classList.add("monthly");
+    //     currentPlan = "simplify-gmail-monthly";
+    //     get("#checkoutButton").dataset.fscItemPathValue = currentPlan;
+    //     fastspring.builder.update(currentPlan, currentQty);
+    //   }
+    // }
   </script>
 </html>
