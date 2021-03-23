@@ -50,7 +50,7 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.17</b> - In testing. Not for real use.
+      <b>Pricing v1.18</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -147,8 +147,8 @@
         //Define the product path(s) and the quantity to add.
         products: [
           {
-            path: `simplify-gmail-${currentPlan}`,
-            quantity: qty,
+            path: `simplify-gmail-${currentPlan}-${qty}`,
+            quantity: 1,
           },
         ],
         paymentContact: {
@@ -159,6 +159,9 @@
       };
       fastspring.builder.push(cart);
     }
+    document.addEventListener("DOMContentLoaded", function () {
+      updateCart("annual");
+    });
 
     // function updateQty() {
     //   currentQty = get("#quantity-value").value;
