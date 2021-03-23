@@ -50,7 +50,7 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.18</b> - In testing. Not for real use.
+      <b>Pricing v1.19</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -114,6 +114,7 @@
     function onPopupClose(order) {
       if (order === null) {
         console.log("[Simplify] Popup closed: Order failed", order);
+        updateCart();
       } else {
         console.log("[Simplify] Popup closed: Order succeeded?", order);
       }
