@@ -1,8 +1,8 @@
 <html>
   <head>
     <script
-      id="fsc-api"
       src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.5/fastspring-builder.min.js"
+      id="fsc-api"
       type="text/javascript"
       data-storefront="simplify.test.onfastspring.com/popup-simplify"
       data-data-callback="dataCallbackFunction"
@@ -50,7 +50,7 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.21</b> - In testing. Not for real use.
+      <b>Pricing v1.22</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
@@ -104,7 +104,7 @@
       }
     };
 
-    const fastspring = {
+    const fsUtil = {
       dataCallbackFunction(order) {
         console.log("[Simplify] Order data retrieved", order);
       },
