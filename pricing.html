@@ -1,9 +1,9 @@
 <html>
   <head>
     <script
-      id="fsc-api"
       src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.5/fastspring-builder.min.js"
       type="text/javascript"
+      id="fsc-api"
       data-storefront="simplify.test.onfastspring.com/popup-simplify"
       data-data-callback="dataCallbackFunction"
       data-popup-closed="onPopupClose"
@@ -55,10 +55,10 @@
       <div id="plan" class="annual">
         <span class="annual"
           ><b>Annual</b> |
-          <a href="#!" onclick="updateCart('monthly')">Monthly</a></span
+          <a href="#" onclick="updateCart('monthly')">Monthly</a></span
         >
         <span class="monthly"
-          ><a href="#!" onclick="updateCart('annual')">Annual</a> |
+          ><a href="#" onclick="updateCart('annual')">Annual</a> |
           <b>Monthly</b></span
         >
       </div>
@@ -102,6 +102,27 @@
       } else {
         return parent.querySelectorAll(selector).length;
       }
+    };
+
+    const fastspring = {
+      dataCallbackFunction(order) {
+        console.log("[Simplify] Order data retrieved", order);
+      },
+
+      errorCallback(code, string) {
+        console.log("[Simplify] Error: ", code, string);
+      },
+      onPopupClose(order) {
+        if (order === null) {
+          console.log("[Simplify] Popup closed: Order failed", order);
+          updateCart();
+        } else {
+          console.log("[Simplify] Popup closed: Order succeeded?", order);
+        }
+      },
+      popupWebhookReceived(order) {
+        console.log("[Simplify] Order received?", order);
+      },
     };
 
     // FASTSPRING UTILS
@@ -191,5 +212,29 @@
     //     fastspring.builder.update(currentPlan, currentQty);
     //   }
     // }
+
+    // CREATE VARIATIONS
+    /*
+    let lastNum = 2;
+    let maxNum = 21;
+    let plan = "annual";
+
+    function showVariant() {
+      if (lastNum >= maxNum) return;
+
+      if (count('#dynamicDialog.in') === 0) {
+        // Show variant for lastNum
+        onSelectVariation(`simplify-gmail-${plan}-${lastNum}`, `simplify-gmail-${plan}-${lastNum}`);
+
+        // Check price, has it been changed?
+        let sel = `tr[data-dialog-title="Pricing"][data-dialog-link*="gmail-${plan}-${lastNum}"] .valueMoney`
+        let price = get(sel)?.innerText
+        if (price !== "$24.00 USD") lastNum += 1;
+      }
+
+      setTimeout(showVariant, 1000);
+    }
+    showVariant();
+    */
   </script>
 </html>
