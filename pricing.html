@@ -50,15 +50,15 @@
   </head>
   <body>
     <div id="simplify">
-      <b>Pricing v1.22</b> - In testing. Not for real use.
+      <b>Pricing v1.23</b> - In testing. Not for real use.
 
       <div id="plan" class="annual">
         <span class="annual"
           ><b>Annual</b> |
-          <a href="#" onclick="updateCart('monthly')">Monthly</a></span
+          <a href="#" onclick="togglePlan('monthly')">Monthly</a></span
         >
         <span class="monthly"
-          ><a href="#" onclick="updateCart('annual')">Annual</a> |
+          ><a href="#" onclick="togglePlan('annual')">Annual</a> |
           <b>Monthly</b></span
         >
       </div>
@@ -70,7 +70,6 @@
           max="20"
           step="1"
           value="1"
-          onchange="updateCart()"
         />
       </div>
 
@@ -110,12 +109,11 @@
       },
 
       errorCallback(code, string) {
-        console.log("[Simplify] Error: ", code, string);
+        console.log("Error from Fastspring: ", code, string);
       },
       onPopupClose(order) {
         if (order === null) {
           console.log("[Simplify] Popup closed: Order failed", order);
-          updateCart();
         } else {
           console.log("[Simplify] Popup closed: Order succeeded?", order);
         }
@@ -135,7 +133,7 @@
     function onPopupClose(order) {
       if (order === null) {
         console.log("[Simplify] Popup closed: Order failed", order);
-        updateCart();
+        // updateCart();
       } else {
         console.log("[Simplify] Popup closed: Order succeeded?", order);
       }
@@ -145,19 +143,20 @@
     }
 
     // FASTSPRING CHECKOUT
-    let currentPlan = "annual";
-    let planEl = get("#plan");
-
-    function updateCart(newPlan, checkout = false) {
-      let qty = get("#quantity-value").value;
-      currentPlan = newPlan ? newPlan : currentPlan;
+    function togglePlan(newPlan) {
+      let planEl = get("#plan");
       planEl.classList.remove("annual", "monthly");
-      planEl.classList.add(currentPlan);
+      planEl.classList.add(newPlan);
+    }
+
+    function checkout(newPlan, checkout = false) {
+      let qty = get("#quantity-value").value;
+      let plan = get("#plan").className;
 
       let session = {
         products: [
           {
-            path: `simplify-gmail-${currentPlan}-${qty}`,
+            path: `simplify-gmail-${plan}-${qty}`,
             quantity: 1,
           },
         ],
@@ -166,20 +165,9 @@
           firstName: "Michael",
           lastName: "Leggett",
         },
+        checkout: true,
       };
-      if (checkout) {
-        session.checkout = true;
-      }
-
-      console.log(session);
       fastspring.builder.push(session);
-    }
-    document.addEventListener("DOMContentLoaded", function () {
-      updateCart("annual");
-    });
-
-    function checkout() {
-      updateCart(currentPlan, true);
     }
 
     // CREATE VARIATIONS
