@@ -172,6 +172,37 @@
       fastspring.builder.push(session);
     }
 
+    const header = new Headers();
+    header.append(
+      "Authorization",
+      "Basic LVFIWFU0TlhRN0NZX1JNV1lBMUQ5QTpmUDV5RmVGM1E4MmFVMjFqTnNkYzNn"
+    );
+    header.append("User-Agent", window.navigator.userAgent);
+    // header.append("Connection", "keep-live");
+    // header.append("Accept", "application/json"); // */*
+    // header.append("Accept-Language", "*");
+    // header.append("Accept-Encoding", "gzip, deflate, br");
+    // header.append("Content-Language", "en");
+    // header.append("Content-Type", "application/json"); // text/plain
+    // header.append("Cache-Control", "no-cache");
+    // header.append("Host", "http://localhost:3000");
+    // header.append("Access-Control-Allow-Origin", "*");
+
+    const requestOptions = {
+      method: "GET",
+      headers: header,
+      redirect: "follow",
+      // mode: "cors",
+    };
+
+    fetch(
+      "https://api.fastspring.com/accounts/L-fUsHU3RyuDh1J2D9z8Pw/authenticate",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
     // CREATE VARIATIONS
     /*
     let lastNum = 2;
