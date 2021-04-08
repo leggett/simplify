@@ -110,10 +110,12 @@ html.scrolled .links a {
   color: #333;
 }
 
-.links a:hover,
-html.scrolled .links a#installLink {
-  background-color: #0a6cdd;
-  color: #fff !important;
+@media only screen and (min-width: 750px) {
+  .links a:hover,
+  html.scrolled .links a#installLink {
+    background-color: #0a6cdd;
+    color: #fff !important;
+  }
 }
 .links a[href="#top"] {
   float: left;
@@ -283,4 +285,37 @@ blockquote {
 
 /* TODO: Invert site for OS dark mode */
 @media (prefers-color-scheme: dark) {
+}
+
+@media only screen and (max-width: 750px) {
+  header,
+  body > div.box {
+    padding: 36px;
+    box-sizing: border-box;
+  }
+
+  .box.title {
+    padding: 36px 0;
+  }
+
+  header .links {
+    top: auto;
+    bottom: 0px;
+    text-align: center;
+  }
+
+  header .links a {
+    color: #333;
+  }
+
+  header .links #logo,
+  header .links a[href*="support"],
+  header .links #installLink {
+    display: none;
+  }
+
+  a[name]:not([name="top"]) {
+    display: block;
+    height: 36px;
+  }
 }
