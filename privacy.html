@@ -9,11 +9,24 @@
     />
     <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      @media only screen and (min-width: 750px) {
+        header > img {
+          display: none;
+        }
+        .links {
+          display: block !important;
+        }
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
   </head>
   <body>
     <a name="top"></a>
     <header>
-      <div class="links">
+      <img src="img/logo_v2b.png" width="100%" />
+      <div class="links" style="display: none">
         <div id="logo"><b>Simplify</b><br />Gmail</div>
         <!-- <a href="#top">Back to top</a> -->
         <a href="https://simpl.fyi/#about">About</a>
@@ -28,7 +41,6 @@
 
     <div class="box">
       <!-- PRIVACY ---------------------------------------------------- -->
-      <a name="privacy"></a><br /><br />
       <h2>Privacy Policy</h2>
       <p>
         Simplify has
@@ -50,27 +62,14 @@
         <li><a href="#" id="installLink2" target="_new">Try it for free</a></li>
         <li><a href="https://simpl.fyi">Screenshots</a></li>
         <li>
-          <a href="https://on.simpl.fyi/?no_cover=true" target="_new"
-            >Newsletter</a
-          >
-        </li>
-        <li>
-          <a href="https://simpl.fyi/support">Support</a> - Report an issue with
-          Simplify
-        </li>
-        <li>
-          <a href="https://simpl.fyi/#team">Team</a> – Who is behind Simplify?
-        </li>
-        <li>
           <a href="https://simpl.fyi/#mission">Mission</a> - The big picture.
         </li>
         <li>
-          <a href="https://simpl.fyi/#purpose">Purpose</a> – What problems does
-          this solve?
+          <a href="https://simpl.fyi/#purpose">Purpose</a> – What's the problem?
         </li>
         <li>
           <a href="https://simpl.fyi/#product">Product</a> - How does it solve
-          them?
+          this problem?
         </li>
         <li>
           <a href="https://simpl.fyi/#customer">Customer</a> - Who is this for?
@@ -78,6 +77,18 @@
         <li>
           <a href="https://simpl.fyi/#pricing">Pricing</a> - Fair, simple, and
           flexible.
+        </li>
+        <li>
+          <a href="https://simpl.fyi/#team">Team</a> – Who is behind Simplify?
+        </li>
+        <li>
+          <a href="https://on.simpl.fyi/?no_cover=true" target="_new"
+            >Newsletter</a
+          >
+        </li>
+        <li>
+          <a href="https://simpl.fyi/support">Support</a> - Report an issue with
+          Simplify
         </li>
       </ul>
     </div>
