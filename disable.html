@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>How to toggle, disable, or remove Simplify Gmail</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="img/favicon_v2-128.png" sizes="128x128" />
+    <style>
+      :root {
+        font-size: 62.5%;
+      }
+
+      body {
+        padding: 0 72px;
+        font-family: "Poppins", sans-serif;
+        font-size: 2.1rem;
+      }
+
+      /* TODO: Invert site for OS dark mode */
+      @media (prefers-color-scheme: dark) {
+      }
+
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      .box {
+        max-width: 1000px;
+      }
+      .box.title {
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      p.tagline {
+        font-size: 2.8rem;
+        line-height: 1.5em;
+        padding-top: 2em;
+      }
+
+      .box:not(.title) img {
+        max-width: 100%;
+        /* box-shadow: 0 5px 10px rgb(0 0 0 / 10%); */
+        border: 2px solid #dee1e5;
+        border-radius: 14px;
+      }
+      .box.left {
+        text-align: left;
+      }
+      .box.warning p {
+        background-color: #f1f1f1;
+        padding: 1em;
+        border-radius: 16px;
+      }
+
+      .button {
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: 400;
+        color: white;
+        padding: 12px 20px;
+        background: #0a6cdd;
+        border-radius: 30px;
+        border: 2px solid #0a6cdd;
+        text-decoration: none;
+        text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
+        box-shadow: inset 0 -1px 0 rgb(100 121 143 / 12%),
+          0 3px 4px -2px rgb(0 0 0 / 30%);
+        margin: 0px 0.75em 0.75em 0;
+        white-space: nowrap;
+        width: fit-content;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      kbd {
+        background-color: #eee;
+        border-radius: 3px;
+        border: 1px solid #b4b4b4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+          0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+        color: #333;
+        display: inline-block;
+        font-size: 1em;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+        line-height: 1;
+        padding: 4px 6px;
+        margin: 0 4px;
+        white-space: nowrap;
+        min-width: 1em;
+        text-align: center;
+      }
+      .video {
+        background-color: #000;
+        color: white;
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 2em;
+      }
+      .video video {
+        max-width: 100%;
+      }
+      .video p {
+        font-weight: bold;
+        padding: 0 0 10px;
+      }
+      body .box:last-of-type {
+        margin-bottom: 50vh;
+      }
+      a[name] {
+        height: 0px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <div class="box title center">
+      <img src="img/logo_v2b.png" width="420" />
+      <p>
+        Below are videos of how to <a href="#toggle">temporarily toggle</a>,
+        <a href="#disable">disable</a>, or <a href="#remove">remove</a> Simplify
+        Gmail
+      </p>
+    </div>
+    <a name="toggle"></a>
+    <div class="box center video">
+      <p>Toggle Simplify off until next reload of Gmail</p>
+      <video controls autoplay loop muted>
+        <source src="img/toggle_simplify.mp4" type="video/mp4" />
+        Sorry, your browser doesn't support embedded videos.
+      </video>
+    </div>
+    <a name="disable"></a>
+    <div class="box center video">
+      <p>Disable Simplify until reenabled</p>
+      <video controls autoplay loop muted>
+        <source src="img/disable_simplify.mp4" type="video/mp4" />
+        Sorry, your browser doesn't support embedded videos.
+      </video>
+    </div>
+    <a name="remove"></a>
+    <div class="box center video">
+      <p>Remove Simplify</p>
+      <video controls autoplay loop muted>
+        <source src="img/remove_simplify.mp4" type="video/mp4" />
+        Sorry, your browser doesn't support embedded videos.
+      </video>
+    </div>
+  </body>
+</html>
