@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<objecttypes>
- <objecttype name="chest" color="#1e2db3"/>
- <objecttype name="door" color="#b86057">
-  <property name="exit" type="object" default="0"/>
- </objecttype>
- <objecttype name="spider" color="#b3000a"/>
- <objecttype name="spiderbig" color="#b39b10"/>
-</objecttypes>
