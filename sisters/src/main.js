@@ -20,7 +20,7 @@ const game = new Phaser.Game({
     antialias: false,
   },
   loader: {
-    baseURL: "../../../assets",
+    baseURL: "../assets",
   },
   scene: [MenuScene, ZeusPrescript, GameScene, WinPrescript, LosePrescript],
 });
